@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Subcategory</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 30px;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Edit Panel */
+        #editSubcategoryPanel {
+            display: none;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #f9f9f9;
+            position: fixed;
+            /* Change from absolute to fixed */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Center the panel */
+            width: 300px;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #editSubcategoryPanel .close-btn {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Page Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Subcategories for Category: <strong>Laptop</strong></h1>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Add New Subcategory Form -->
+        <h3>Add Subcategory </h3>
+        <form id="addSubcategoryForm">
+            <div class="form-group">
+                <label for="subcategoryName">Subcategory Name:</label>
+                <input type="text" class="form-control" id="subcategoryName" placeholder="Enter subcategory name">
+            </div>
+            <button type="button" class="btn btn-success" id="addSubcategoryBtn">Add Subcategory</button>
+        </form>
+
+        <!-- Subcategories Table -->
+        <h3 class="mt-5">Subcategory List</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Subcategory Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="subcategoryTable">
+                <tr>
+                    <td>1</td>
+                    <td>Dell</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-warning btn-sm" onclick="editSubcategory(1, 'Dell')">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteSubcategory(1)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Asus</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-warning btn-sm" onclick="editSubcategory(2, 'Asus')">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteSubcategory(2)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Edit Subcategory Panel -->
+    <div id="editSubcategoryPanel">
+        <span class="close-btn" onclick="closeEditPanel()">×</span>
+        <h4>Edit Subcategory</h4>
+        <form id="editSubcategoryForm">
+            <div class="form-group">
+                <label for="editSubcategoryName">Subcategory Name:</label>
+                <input type="text" class="form-control" id="editSubcategoryName">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <!-- jQuery and Bootstrap Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to handle adding new subcategory
+        document.getElementById('addSubcategoryBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+            const subcategoryName = document.getElementById('subcategoryName').value;
+
+            if (!subcategoryName) {
+                alert('Please enter a subcategory name.');
+                return;
+            }
+
+            const newRow = `<tr>
+                                <td>#</td>
+                                <td>${subcategoryName}</td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-warning btn-sm" onclick="editSubcategory()">Edit</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteSubcategory()">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>`;
+
+            document.getElementById('subcategoryTable').insertAdjacentHTML('beforeend', newRow);
+
+            // Reset form field
+            document.getElementById('subcategoryName').value = '';
+        });
+
+        // Function to show the edit panel with values
+        function editSubcategory(id, name) {
+            document.getElementById('editSubcategoryName').value = name;
+            document.getElementById('editSubcategoryPanel').style.display = 'block';
+        }
+
+        // Function to close the edit panel
+        function closeEditPanel() {
+            document.getElementById('editSubcategoryPanel').style.display = 'none';
+        }
+
+        // Function to handle saving the edit form
+        function saveEdit() {
+            const subcategoryName = document.getElementById('editSubcategoryName').value;
+
+            alert(`Subcategory Updated:\nSubcategory Name: ${subcategoryName}`);
+            closeEditPanel();
+        }
+
+        // Placeholder function to handle deleting a subcategory
+        function deleteSubcategory(id) {
+            alert('Delete functionality not implemented yet for subcategory ID ' + id);
+        }
+    </script>
+</body>
+
+</html>

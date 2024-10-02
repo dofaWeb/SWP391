@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Product Log</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .log-section {
+            margin-top: 30px;
+        }
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        .log-table {
+            width: 100%;
+        }
+        .log-table th, .log-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .filter-label {
+            margin-right: 10px;
+        }
+        .change-reason {
+            font-style: italic;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Product Logs</h1>
+    </header>
+
+    <div class="container log-section">
+        <!-- Filters -->
+        <div class="filter-section">
+            <form class="form-inline">
+                <div class="form-group mb-2">
+                    <label for="filterDate" class="filter-label">Date:</label>
+                    <input type="date" class="form-control" id="filterDate">
+                </div>
+
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="filterAction" class="filter-label">Action:</label>
+                    <select id="filterAction" class="form-control">
+                        <option value="">All</option>
+                        <option value="price">Price Change</option>
+                        <option value="quantity">Quantity Change</option>
+                        <option value="name">Name Change</option>
+                        <option value="discount">Discount Change</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label for="filterUser" class="filter-label">User:</label>
+                    <input type="text" class="form-control" id="filterUser" placeholder="Username">
+                </div>
+
+                <button type="button" class="btn btn-primary mb-2" onclick="filterLogs()">Apply Filter</button>
+            </form>
+        </div>
+
+        <!-- Log Table -->
+        <table class="table table-bordered log-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product ID</th>
+                    <th scope="col">Action Type</th>
+                    <th scope="col">Old Value</th>
+                    <th scope="col">New Value</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Reason</th>
+                </tr>
+            </thead>
+            <tbody id="logBody">
+                <!-- Example rows, you can replace with dynamic data -->
+                <tr>
+                    <td>2024-09-30</td>
+                    <td>12345</td>
+                    <td>Price Change</td>
+                    <td>$1000</td>
+                    <td>$950</td>
+                    <td>Admin</td>
+                    <td class="change-reason">Seasonal Discount</td>
+                </tr>
+                <tr>
+                    <td>2024-09-28</td>
+                    <td>12345</td>
+                    <td>Name Change</td>
+                    <td>Laptop X</td>
+                    <td>Laptop X Pro</td>
+                    <td>Admin</td>
+                    <td class="change-reason">Rebranding</td>
+                </tr>
+                <tr>
+                    <td>2024-09-25</td>
+                    <td>98765</td>
+                    <td>Quantity Change</td>
+                    <td>50</td>
+                    <td>75</td>
+                    <td>Admin</td>
+                    <td class="change-reason">Restocking</td>
+                </tr>
+                <tr>
+                    <td>2024-09-20</td>
+                    <td>87654</td>
+                    <td>Discount Change</td>
+                    <td>10%</td>
+                    <td>15%</td>
+                    <td>Admin</td>
+                    <td class="change-reason">End of Season Sale</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Function to filter logs (for future use)
+        function filterLogs() {
+            const filterDate = document.getElementById('filterDate').value;
+            const filterAction = document.getElementById('filterAction').value;
+            const filterUser = document.getElementById('filterUser').value;
+
+            // Implement the logic to filter the logs based on selected criteria
+            // This could involve fetching filtered data from the backend or filtering in the front-end
+        }
+    </script>
+
+</body>
+</html>

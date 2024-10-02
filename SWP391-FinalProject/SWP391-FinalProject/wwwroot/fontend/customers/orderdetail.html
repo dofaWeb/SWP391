@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Detail</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .order-header {
+            margin-bottom: 20px;
+        }
+        .product-image {
+            max-width: 100px;
+        }
+        .points-summary {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Order Detail</h1>
+    </header>
+
+    <div class="container mt-4">
+        <h3>Order #1001</h3>
+        <p>Date: 2024-09-10</p>
+        <p>Status: Shipped</p>
+        <p>Total Amount: $120.00</p>
+        
+        <h5>Shipping Information</h5>
+        <p>Name: John Doe</p>
+        <p>Address: 123 Main St, City, Province</p>
+        <p>Phone: (123) 456-7890</p>
+
+        <h5>Points Summary</h5>
+        <p>Points Earned: <span class="text-primary">50</span></p>
+        <p>Points Used: <span class="text-danger">20</span></p>
+
+        <h5>Product Details</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Variation</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="https://via.placeholder.com/100" alt="Product Image" class="product-image">
+                        <span>Product Name 1</span>
+                    </td>
+                    <td>
+                        <p>RAM: 16GB</p>
+                        <p>Storage: 512GB</p>
+                    </td>
+                    <td>$100.00</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="https://via.placeholder.com/100" alt="Product Image" class="product-image">
+                        <span>Product Name 2</span>
+                    </td>
+                    <td>
+                        <p>RAM: 8GB</p>
+                        <p>Storage: 256GB</p>
+                    </td>
+                    <td>$20.00</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="points-summary">
+            <h5>Order Summary</h5>
+            <p>Total Amount: $120.00</p>
+            <p>Points Earned: <span class="text-primary">50</span></p>
+            <p>Points Used: <span class="text-danger">20</span></p>
+            <p>Net Amount after Points: $100.00</p>
+        </div>
+
+        <div class="mt-4">
+            <a href="view-orders.html" class="btn btn-primary">Back to Orders</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

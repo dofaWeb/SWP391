@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome for eye icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .profile-header {
+            margin-bottom: 20px;
+        }
+        .profile-info {
+            margin-top: 20px;
+        }
+        .total-points {
+            font-weight: bold;
+            color: green;
+        }
+        .edit-btn {
+            margin-top: 20px;
+        }
+        .password-input {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Your Profile</h1>
+    </header>
+
+    <div class="container mt-4 profile-info">
+        <h3>User Information</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Username</th>
+                    <td>johndoe</td>
+                </tr>
+                <tr>
+                    <th scope="row">Full Name</th>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>johndoe@example.com</td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone Number</th>
+                    <td>(123) 456-7890</td>
+                </tr>
+                <tr>
+                    <th scope="row">Province</th>
+                    <td>Province 1</td> <!-- Province row -->
+                </tr>
+                <tr>
+                    <th scope="row">Address</th>
+                    <td>123 Main St, City</td> <!-- Address row -->
+                </tr>
+                <tr>
+                    <th scope="row">Total Points</th>
+                    <td class="total-points">200</td>
+                </tr>
+                <tr>
+                    <th scope="row">Password</th>
+                    <td>
+                        <div class="password-input">
+                            <input type="password" id="password" class="form-control" value="12345678" readonly>
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye" id="eye-icon"></i> <!-- Eye icon -->
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="edit-btn">
+            <a href="edit-profile.html" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 

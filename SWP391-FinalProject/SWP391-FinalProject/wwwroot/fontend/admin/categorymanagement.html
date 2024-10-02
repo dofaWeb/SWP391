@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 30px;
+        }
+        .table td, .table th {
+            vertical-align: middle;
+        }
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        /* Edit Panel */
+        #editPanel {
+            display: none;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #f9f9f9;
+            position: fixed;
+            /* Change from absolute to fixed */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Center the panel */
+            width: 300px;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #editPanel .close-btn {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Category Management</h1>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Add New Category Form -->
+        <h3>Add New Category</h3>
+        <form id="addCategoryForm">
+            <div class="form-group">
+                <label for="categoryName">Category Name:</label>
+                <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
+            </div>
+            <button type="button" class="btn btn-success" id="addCategoryBtn">Add Category</button>
+        </form>
+
+        <!-- Categories Table -->
+        <h3 class="mt-5">Category List</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Subcategories</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="categoryTable">
+                <tr>
+                    <td>1</td>
+                    <td>Laptop</td>
+                    <td>Dell, Asus, Lenovo</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-warning btn-sm" onclick="editCategory(1, 'Laptop')">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(1)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Phone</td>
+                    <td>Apple, Samsung, Google</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-warning btn-sm" onclick="editCategory(2, 'Phone')">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(2)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Edit Panel -->
+    <div id="editPanel">
+        <span class="close-btn" onclick="closeEditPanel()">×</span>
+        <h4>Edit Category</h4>
+        <form id="editCategoryForm">
+            <div class="form-group">
+                <label for="editCategoryName">Category Name:</label>
+                <input type="text" class="form-control" id="editCategoryName">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <!-- jQuery and Bootstrap Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to handle adding new category
+        document.getElementById('addCategoryBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const categoryName = document.getElementById('categoryName').value;
+
+            if (!categoryName) {
+                alert('Please enter a category name.');
+                return;
+            }
+
+            const newRow = `<tr>
+                                <td>#</td>
+                                <td>${categoryName}</td>
+                                <td></td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-warning btn-sm" onclick="editCategory()">Edit</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteCategory()">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>`;
+            
+            document.getElementById('categoryTable').insertAdjacentHTML('beforeend', newRow);
+
+            // Reset form field
+            document.getElementById('categoryName').value = '';
+        });
+
+        // Function to show the edit panel with values
+        function editCategory(id, name) {
+            document.getElementById('editCategoryName').value = name;
+            document.getElementById('editPanel').style.display = 'block';
+        }
+
+        // Function to close the edit panel
+        function closeEditPanel() {
+            document.getElementById('editPanel').style.display = 'none';
+        }
+
+        // Function to handle saving the edit form
+        function saveEdit() {
+            const categoryName = document.getElementById('editCategoryName').value;
+
+            alert(`Category Updated:\nCategory Name: ${categoryName}`);
+            closeEditPanel();
+        }
+
+        // Placeholder function to handle deleting a category
+        function deleteCategory(id) {
+            alert('Delete functionality not implemented yet for category ID ' + id);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Detail - Purchased Products and Money Usage</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .user-detail-header {
+            margin-bottom: 20px;
+        }
+        .user-info {
+            margin-top: 20px;
+        }
+        .product-list {
+            margin-top: 30px;
+        }
+        .product-list img {
+            width: 50px;
+            height: 50px;
+        }
+        .total-spent {
+            font-weight: bold;
+            color: green;
+        }
+        .chart-section {
+            margin-top: 30px;
+        }
+        .money-summary {
+            margin-top: 20px;
+        }
+        .percentage-change {
+            margin-left: 10px;
+        }
+        .percentage-change.positive {
+            color: blue;
+        }
+        .percentage-change.negative {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>User Detail</h1>
+    </header>
+
+    <!-- User Info Section -->
+    <div class="container user-info">
+        <h3>User Information</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Username</th>
+                    <td>johndoe</td>
+                </tr>
+                <tr>
+                    <th scope="row">Full Name</th>
+                    <td>John Doe</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>johndoe@example.com</td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone Number</th>
+                    <td>(123) 456-7890</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Points</th>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Money Spent</th>
+                    <td class="total-spent">$1,200</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Purchased Products Section -->
+    <div class="container product-list">
+        <h4>Purchased Products</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Product Image</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">RAM</th>
+                    <th scope="col">Storage</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Purchase Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="https://via.placeholder.com/50" alt="Product 1"></td>
+                    <td>Laptop XYZ</td>
+                    <td>16 GB</td>
+                    <td>512 GB</td>
+                    <td>$500</td>
+                    <td>2024-01-15</td>
+                </tr>
+                <tr>
+                    <td><img src="https://via.placeholder.com/50" alt="Product 2"></td>
+                    <td>Smartphone ABC</td>
+                    <td>8 GB</td>
+                    <td>256 GB</td>
+                    <td>$300</td>
+                    <td>2024-03-10</td>
+                </tr>
+                <tr>
+                    <td><img src="https://via.placeholder.com/50" alt="Product 3"></td>
+                    <td>Headphones DEF</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>$100</td>
+                    <td>2024-05-20</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="container chart-section">
+        <h4>Money Usage Over Time</h4>
+        <canvas id="moneyUsageChart"></canvas>
+    </div>
+
+    <!-- Total Summary Section -->
+    <div class="container money-summary">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Total Spent This Year: $1,200 
+                    <span class="percentage-change positive">+10% from last year</span>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>Total Spent Last Year: $1,090 
+                    <span class="percentage-change negative">-5% from the year before</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Chart.js Script -->
+    <script>
+        const ctx = document.getElementById('moneyUsageChart').getContext('2d');
+        const moneyUsageChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September'],
+                datasets: [{
+                    label: 'Money Spent',
+                    data: [150, 200, 250, 100, 300, 150, 200, 250, 400],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            return '$' + tooltipItem.yLabel;
+                        }
+                    }
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Amount in USD'
+                        },
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return '$' + value;
+                            }
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

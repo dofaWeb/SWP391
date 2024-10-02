@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+        }
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .sidebar ul li {
+            padding: 10px;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .sidebar ul li a:hover {
+            color: #ffdd57;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        .totals {
+            margin-top: 20px;
+        }
+        .totals div {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .percentage {
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        .positive {
+            color: blue;
+        }
+        .negative {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+        <ul>
+            <li><a href="#">Product</a></li>
+            <li><a href="#">Category</a></li>
+            <li><a href="#">Order</a></li>
+            <li><a href="#">User</a></li>
+            <li><a href="#">Statistics</a></li>
+            <li><a href="#">Comment</a></li>
+            <li><a href="#">Product's Log</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <h2>Admin Dashboard</h2>
+
+        <!-- Year Dropdown Filter -->
+        <div class="form-group">
+            <label for="yearSelect">Select Year:</label>
+            <select class="form-control" id="yearSelect" style="width: 150px;">
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+            </select>
+        </div>
+
+        <!-- Filter for Chart -->
+        <div class="filters">
+            <label><input type="checkbox" id="sellingPriceCheckbox" checked> Selling Price</label>
+            <label><input type="checkbox" id="importPriceCheckbox" checked> Import Price</label>
+            <label><input type="checkbox" id="profitCheckbox" checked> Profit</label>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container">
+            <canvas id="adminChart"></canvas>
+        </div>
+
+        <!-- Totals for each line with percentage comparison -->
+        <div class="totals">
+            <div id="totalSellingPrice">Total Selling Price: $0 <span class="percentage" id="sellingPricePercentage"></span></div>
+            <div id="totalImportPrice">Total Import Price: $0 <span class="percentage" id="importPricePercentage"></span></div>
+            <div id="totalProfit">Total Profit: $0 <span class="percentage" id="profitPercentage"></span></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Chart.js Script to Render Chart -->
+    <script>
+        // Setup chart context
+        var ctx = document.getElementById('adminChart').getContext('2d');
+
+        // Define datasets for each line (Selling Price, Import Price, Profit)
+        var sellingPriceData = {
+            label: 'Selling Price',
+            data: [500, 700, 900, 800, 950, 1000],
+            backgroundColor: 'rgba(255, 159, 64, 0.2)', // Updated color
+            borderColor: 'rgba(255, 159, 64, 1)',
+            borderWidth: 2,
+            fill: false,
+            pointRadius: 5,
+            pointHoverRadius: 7
+        };
+
+        var importPriceData = {
+            label: 'Import Price',
+            data: [300, 400, 500, 450, 600, 700],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            fill: false,
+            pointRadius: 5,
+            pointHoverRadius: 7
+        };
+
+        var profitData = {
+            label: 'Profit',
+            data: [200, 300, 400, 350, 350, 300],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Updated color
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: false,
+            pointRadius: 5,
+            pointHoverRadius: 7
+        };
+
+        // Initialize chart
+        var adminChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [sellingPriceData, importPriceData, profitData] // multiple datasets for each line
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                tooltips: {
+                    enabled: true, // Tooltips enabled by default
+                    mode: 'nearest',
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var dataset = data.datasets[tooltipItem.datasetIndex];
+                            var value = dataset.data[tooltipItem.index];
+                            return dataset.label + ': $' + value;
+                        }
+                    }
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                }
+            }
+        });
+
+        // Function to calculate total for a dataset
+        function calculateTotal(dataArray) {
+            return dataArray.reduce((total, num) => total + num, 0);
+        }
+
+        // Calculate percentage change
+        function calculatePercentageChange(currentTotal, previousTotal) {
+            if (previousTotal === 0) return 0; // Avoid division by zero
+            return ((currentTotal - previousTotal) / previousTotal) * 100;
+        }
+
+        // Function to update totals and percentage change
+        function updateTotals(previousData) {
+            const totalSellingPrice = calculateTotal(sellingPriceData.data);
+            const totalImportPrice = calculateTotal(importPriceData.data);
+            const totalProfit = calculateTotal(profitData.data);
+
+            const previousSellingPrice = calculateTotal(previousData.sellingPrice);
+            const previousImportPrice = calculateTotal(previousData.importPrice);
+            const previousProfit = calculateTotal(previousData.profit);
+
+            document.getElementById('totalSellingPrice').innerText = 'Total Selling Price: $' + totalSellingPrice;
+            document.getElementById('totalImportPrice').innerText = 'Total Import Price: $' + totalImportPrice;
+            document.getElementById('totalProfit').innerText = 'Total Profit: $' + totalProfit;
+
+            // Update percentage comparisons
+            updatePercentage('sellingPricePercentage', totalSellingPrice, previousSellingPrice);
+            updatePercentage('importPricePercentage', totalImportPrice, previousImportPrice);
+            updatePercentage('profitPercentage', totalProfit, previousProfit);
+        }
+
+        // Helper function to update percentage with styling
+        function updatePercentage(elementId, currentTotal, previousTotal) {
+            const percentageChange = calculatePercentageChange(currentTotal, previousTotal);
+            const percentageElement = document.getElementById(elementId);
+            percentageElement.innerText = '(' + percentageChange.toFixed(2) + '%)';
+            percentageElement.classList.remove('positive', 'negative');
+            if (percentageChange >= 0) {
+                percentageElement.classList.add('positive');
+            } else {
+                percentageElement.classList.add('negative');
+            }
+        }
+
+        // Example of previous year data (for demo purposes)
+        const previousYearData = {
+            sellingPrice: [400, 600, 800, 750, 900, 950],
+            importPrice: [250, 350, 450, 400, 550, 650],
+            profit: [150, 250, 350, 350, 350, 300]
+        };
+
+        // Call updateTotals function to display totals and percentage change initially
+        updateTotals(previousYearData);
+
+        // Filter functionality: toggle visibility of each dataset
+        document.getElementById('sellingPriceCheckbox').addEventListener('change', function() {
+            adminChart.data.datasets[0].hidden = !this.checked;
+            adminChart.update();
+        });
+
+        document.getElementById('importPriceCheckbox').addEventListener('change', function() {
+            adminChart.data.datasets[1].hidden = !this.checked;
+            adminChart.update();
+        });
+
+        document.getElementById('profitCheckbox').addEventListener('change', function() {
+            adminChart.data.datasets[2].hidden = !this.checked;
+            adminChart.update();
+        });
+
+        // Year dropdown change event
+        document.getElementById('yearSelect').addEventListener('change', function() {
+            const selectedYear = this.value;
+            // Update the chart data according to the selected year (this part can be customized)
+            console.log("Selected Year:", selectedYear);
+            // For demonstration, keep the data the same, but you can replace it with actual data for different years.
+        });
+    </script>
+</body>
+</html>

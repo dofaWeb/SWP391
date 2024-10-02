@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .order-details-container {
+            margin-top: 30px;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .order-summary {
+            font-weight: bold;
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Order Details</h1>
+    </header>
+
+    <!-- Order Details Container -->
+    <div class="container order-details-container">
+        <h3>Order #101</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Order ID</th>
+                    <td>101</td>
+                </tr>
+                <tr>
+                    <th scope="row">User ID</th>
+                    <td>5001</td>
+                </tr>
+                <tr>
+                    <th scope="row">Address</th>
+                    <td>123 Elm Street, City</td>
+                </tr>
+                <tr>
+                    <th scope="row">Status</th>
+                    <td><span class="badge badge-info">Pending</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Date</th>
+                    <td>2024-09-25</td>
+                </tr>
+                <tr>
+                    <th scope="row">Staff Shift ID</th>
+                    <td>Shift-3</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Product Details -->
+        <h4>Products</h4>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Picture</th>
+                    <th>Product Name</th>
+                    <th>Variation</th>
+                    <th>Quantity</th>
+                    <th>Price per Unit</th>
+                    <th>Discount</th>
+                    <th>Total Price</th>
+                    <th>Points Used</th>
+                    <th>Points Earned</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="https://via.placeholder.com/50" alt="Product 1" class="product-img"></td>
+                    <td>Product 1</td>
+                    <td>RAM: 8GB, Storage: 256GB</td>
+                    <td>2</td>
+                    <td>$50</td>
+                    <td>10%</td>
+                    <td>$90</td> <!-- (Price * Quantity) - Discount -->
+                    <td>100</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td><img src="https://via.placeholder.com/50" alt="Product 2" class="product-img"></td>
+                    <td>Product 2</td>
+                    <td>RAM: 16GB, Storage: 512GB</td>
+                    <td>1</td>
+                    <td>$100</td>
+                    <td>5%</td>
+                    <td>$95</td>
+                    <td>50</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td><img src="https://via.placeholder.com/50" alt="Product 3" class="product-img"></td>
+                    <td>Product 3</td>
+                    <td>RAM: 4GB, Storage: 128GB</td>
+                    <td>3</td>
+                    <td>$20</td>
+                    <td>15%</td>
+                    <td>$51</td>
+                    <td>30</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <p>Total Points Used: 180</p>
+            <p>Total Points Earned: 18</p>
+            <p>Total Amount: $236</p> <!-- This should calculate (total price - points used) -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

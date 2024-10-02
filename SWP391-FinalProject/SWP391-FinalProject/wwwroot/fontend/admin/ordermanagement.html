@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .order-container {
+            margin-top: 30px;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .status-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Order Management</h1>
+    </header>
+
+    <!-- Order List Container -->
+    <div class="container order-container">
+        <h3>Orders</h3>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Staff Shift ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example Order Row -->
+                <tr>
+                    <td>101</td>
+                    <td>5001</td>
+                    <td>123 Elm Street, City</td>
+                    <td><span class="badge badge-info">Pending</span></td>
+                    <td>2024-09-25</td>
+                    <td>Shift-3</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-primary btn-sm" onclick="viewOrderDetails(101)">View</button>
+                            <button class="btn btn-danger btn-sm" onclick="cancelOrder(101)">Cancel</button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- Additional Orders Can Go Here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Placeholder functions for order actions -->
+    <script>
+        function viewOrderDetails(orderId) {
+            alert('Viewing details for Order ID: ' + orderId);
+            // You can link this to a detailed order page
+        }
+
+        function cancelOrder(orderId) {
+            const confirmCancel = confirm('Are you sure you want to cancel Order ID: ' + orderId + '?');
+            if (confirmCancel) {
+                alert('Order ' + orderId + ' has been canceled.');
+                // Add logic to update the order status to "Canceled" in your database
+            }
+        }
+    </script>
+</body>
+</html>

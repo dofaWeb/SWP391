@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Sales Statistics</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-section {
+            margin-top: 30px;
+        }
+        .summary-table {
+            margin-top: 30px;
+        }
+        .summary-table th, .summary-table td {
+            text-align: center;
+        }
+        .top-product, .top-user {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Sales Statistics Dashboard</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Sales Overview Chart -->
+        <div class="chart-section">
+            <h4>Sales Overview</h4>
+            <canvas id="salesOverviewChart"></canvas>
+        </div>
+
+        <!-- Top Selling Products -->
+        <div class="top-product">
+            <h4>Top Selling Products</h4>
+            <div class="mb-3">
+                <label for="productSortFilter">Sort By:</label>
+                <select id="productSortFilter" class="form-control w-auto d-inline" onchange="filterProducts()">
+                    <option value="unitsSold">Units Sold</option>
+                    <option value="totalRevenue">Total Revenue</option>
+                </select>
+            </div>
+            <table class="table table-bordered summary-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Units Sold</th>
+                        <th>Total Revenue</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable">
+                    <tr>
+                        <td>Laptop XYZ</td>
+                        <td>150</td>
+                        <td>$75,000</td>
+                    </tr>
+                    <tr>
+                        <td>Smartphone ABC</td>
+                        <td>200</td>
+                        <td>$60,000</td>
+                    </tr>
+                    <tr>
+                        <td>Headphones DEF</td>
+                        <td>300</td>
+                        <td>$30,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Top Users Spending -->
+        <div class="top-user">
+            <h4>Top Users Spending</h4>
+            <div class="mb-3">
+                <label for="userSortFilter">Sort By:</label>
+                <select id="userSortFilter" class="form-control w-auto d-inline" onchange="filterUsers()">
+                    <option value="totalSpent">Total Spent</option>
+                    <option value="purchaseCount">Purchase Count</option>
+                </select>
+            </div>
+            <table class="table table-bordered summary-table">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Total Spent</th>
+                        <th>Purchase Count</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    <tr>
+                        <td>John Doe</td>
+                        <td>$1,500</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>$1,200</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>Michael Brown</td>
+                        <td>$900</td>
+                        <td>6</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Chart.js Script -->
+    <script>
+        const ctx = document.getElementById('salesOverviewChart').getContext('2d');
+        const salesOverviewChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [
+                    {
+                        label: 'Total Sales',
+                        data: [12000, 19000, 30000, 50000, 45000, 70000, 90000],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true
+                    },
+                    {
+                        label: 'Total Profit',
+                        data: [3000, 5000, 7000, 15000, 10000, 20000, 25000],
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Amount in USD'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    }]
+                }
+            }
+        });
+
+        // Function to filter products based on selected criteria
+        function filterProducts() {
+            const sortBy = document.getElementById('productSortFilter').value;
+            const productTable = document.getElementById('productTable');
+            const rows = Array.from(productTable.getElementsByTagName('tr'));
+
+            rows.sort((a, b) => {
+                const aValue = parseInt(a.cells[sortBy === 'unitsSold' ? 1 : 2].textContent.replace(/[^0-9.-]+/g,""));
+                const bValue = parseInt(b.cells[sortBy === 'unitsSold' ? 1 : 2].textContent.replace(/[^0-9.-]+/g,""));
+                return bValue - aValue; // Sort in descending order
+            });
+
+            // Clear existing rows and append sorted rows
+            productTable.innerHTML = '';
+            rows.forEach(row => productTable.appendChild(row));
+        }
+
+        // Function to filter users based on selected criteria
+        function filterUsers() {
+            const sortBy = document.getElementById('userSortFilter').value;
+            const userTable = document.getElementById('userTable');
+            const rows = Array.from(userTable.getElementsByTagName('tr'));
+
+            rows.sort((a, b) => {
+                const aValue = parseFloat(a.cells[sortBy === 'totalSpent' ? 1 : 2].textContent.replace(/[^0-9.-]+/g,""));
+                const bValue = parseFloat(b.cells[sortBy === 'totalSpent' ? 1 : 2].textContent.replace(/[^0-9.-]+/g,""));
+                return bValue - aValue; // Sort in descending order
+            });
+
+            // Clear existing rows and append sorted rows
+            userTable.innerHTML = '';
+            rows.forEach(row => userTable.appendChild(row));
+        }
+    </script>
+</body>
+</html>

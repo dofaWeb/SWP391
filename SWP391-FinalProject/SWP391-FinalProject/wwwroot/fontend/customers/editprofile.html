@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .profile-header {
+            margin-bottom: 20px;
+        }
+        .profile-info {
+            margin-top: 20px;
+        }
+        .address-section {
+            margin-top: 20px;
+        }
+        .default-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .action-btns {
+            margin-left: 10px;
+        }
+        .address-form {
+            margin-bottom: 15px;
+        }
+        .set-default {
+            cursor: pointer;
+            color: green;
+        }
+        .remove-address {
+            cursor: pointer;
+            color: red;
+        }
+        .password-input {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Edit Profile</h1>
+    </header>
+
+    <div class="container mt-4 profile-info">
+        <h3>User Information</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Username</th>
+                    <td><input type="text" class="form-control" value="johndoe" readonly></td>
+                </tr>
+                <tr>
+                    <th scope="row">Full Name</th>
+                    <td><input type="text" class="form-control" value="John Doe"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td><input type="email" class="form-control" value="johndoe@example.com"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone Number</th>
+                    <td><input type="tel" class="form-control" value="(123) 456-7890"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Password</th>
+                    <td>
+                        <div class="password-input">
+                            <input type="password" id="password" class="form-control" value="12345678">
+                            <span class="toggle-password" onclick="togglePasswordVisibility()">
+                                <i class="fas fa-eye" id="eye-icon"></i>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="address-section">
+            <h4>Addresses</h4>
+
+            <!-- List of Addresses -->
+            <div id="addressList">
+                <div class="address-item">
+                    <p>123 Main St, Province: Ontario <span class="default-badge">Default</span></p>
+                    <span class="action-btns">
+                        <i class="fas fa-pencil-alt set-default" onclick="setAsDefault()">Set as Default</i>
+                        <i class="fas fa-trash-alt remove-address" onclick="removeAddress()">Remove</i>
+                    </span>
+                </div>
+                <div class="address-item">
+                    <p>456 Oak St, Province: Quebec</p>
+                    <span class="action-btns">
+                        <i class="fas fa-pencil-alt set-default" onclick="setAsDefault()">Set as Default</i>
+                        <i class="fas fa-trash-alt remove-address" onclick="removeAddress()">Remove</i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Add New Address Form -->
+            <div class="address-form">
+                <h5>Add New Address</h5>
+                <form id="addAddressForm">
+                    <div class="form-group">
+                        <label for="newAddress">Address</label>
+                        <input type="text" class="form-control" id="newAddress" placeholder="Enter new address">
+                    </div>
+                    <div class="form-group">
+                        <label for="newProvince">Province</label>
+                        <select class="form-control" id="newProvince">
+                            <option value="" disabled selected>Select a province</option>
+                            <option value="Ontario">Ontario</option>
+                            <option value="Quebec">Quebec</option>
+                            <option value="British Columbia">British Columbia</option>
+                            <option value="Alberta">Alberta</option>
+                            <!-- Add more provinces as needed -->
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addNewAddress()">Add Address</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-success">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Function to add a new address
+        function addNewAddress() {
+            const newAddress = document.getElementById('newAddress').value;
+            const newProvince = document.getElementById('newProvince').value;
+
+            if (newAddress && newProvince) {
+                const addressList = document.getElementById('addressList');
+                const addressItem = document.createElement('div');
+                addressItem.className = 'address-item';
+                addressItem.innerHTML = `<p>${newAddress}, Province: ${newProvince}</p>
+                    <span class="action-btns">
+                        <i class="fas fa-pencil-alt set-default" onclick="setAsDefault()">Set as Default</i>
+                        <i class="fas fa-trash-alt remove-address" onclick="removeAddress()">Remove</i>
+                    </span>`;
+                addressList.appendChild(addressItem);
+
+                // Reset form
+                document.getElementById('addAddressForm').reset();
+            } else {
+                alert("Please fill out all fields.");
+            }
+        }
+
+        // Function to remove an address
+        function removeAddress() {
+            if (confirm("Are you sure you want to remove this address?")) {
+                event.target.closest('.address-item').remove();
+            }
+        }
+
+        // Function to set an address as default
+        function setAsDefault() {
+            const defaultBadges = document.querySelectorAll('.default-badge');
+            defaultBadges.forEach(badge => badge.remove());
+
+            const addressItem = event.target.closest('.address-item');
+            const defaultBadge = document.createElement('span');
+            defaultBadge.className = 'default-badge';
+            defaultBadge.innerText = 'Default';
+            addressItem.querySelector('p').appendChild(defaultBadge);
+        }
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

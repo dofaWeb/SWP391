@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Comment Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .comment-section {
+            margin-top: 30px;
+        }
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        .comment-table {
+            width: 100%;
+        }
+        .comment-table th, .comment-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .filter-label {
+            margin-right: 10px;
+        }
+        .delete-btn {
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Comment Management</h1>
+    </header>
+
+    <div class="container comment-section">
+        <!-- Filters -->
+        <div class="filter-section">
+            <form class="form-inline">
+                <div class="form-group mb-2">
+                    <label for="filterUser" class="filter-label">Filter by User:</label>
+                    <input type="text" class="form-control" id="filterUser" placeholder="Username">
+                </div>
+
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="filterProduct" class="filter-label">Filter by Product:</label>
+                    <input type="text" class="form-control" id="filterProduct" placeholder="Product Name">
+                </div>
+
+                <button type="button" class="btn btn-primary mb-2" onclick="applyFilters()">Apply Filter</button>
+            </form>
+        </div>
+
+        <!-- Comment Table -->
+        <table class="table table-bordered comment-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Comment ID</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="commentBody">
+                <!-- Example rows, replace with dynamic data -->
+                <tr>
+                    <td>501</td>
+                    <td>JohnDoe</td>
+                    <td>Product A</td>
+                    <td>This product is amazing!</td>
+                    <td>2024-09-30</td>
+                    <td><span class="delete-btn" onclick="deleteComment(501)">Delete</span></td>
+                </tr>
+                <tr>
+                    <td>502</td>
+                    <td>JaneSmith</td>
+                    <td>Product B</td>
+                    <td>I wasn't satisfied with the quality.</td>
+                    <td>2024-09-28</td>
+                    <td><span class="delete-btn" onclick="deleteComment(502)">Delete</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Function to apply filters
+        function applyFilters() {
+            const filterUser = document.getElementById('filterUser').value;
+            const filterProduct = document.getElementById('filterProduct').value;
+
+            // Implement the logic to filter the comments based on user and product
+            // This could involve fetching filtered data from the backend or filtering in the front-end
+        }
+
+        // Function to delete a comment
+        function deleteComment(commentId) {
+            const confirmDelete = confirm("Are you sure you want to delete this comment?");
+            if (confirmDelete) {
+                // Implement the logic to delete the comment by ID (typically a backend API call)
+                console.log(`Deleting comment with ID: ${commentId}`);
+            }
+        }
+    </script>
+
+</body>
+</html>

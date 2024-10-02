@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .user-page-container {
+            margin-top: 30px;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .action-buttons button {
+            margin-right: 5px;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>User Management</h1>
+    </header>
+
+    <!-- User Management Container -->
+    <div class="container user-page-container">
+        
+        <!-- Filter by Role -->
+        <div class="filter-container">
+            <label for="roleFilter" class="mr-2">Filter by Role:</label>
+            <select id="roleFilter" class="custom-select w-25" onchange="filterByRole()">
+                <option value="all">All Roles</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+        </div>
+
+        <h3>All Users</h3>
+        <table class="table table-bordered" id="userTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-role="admin">
+                    <td>5001</td>
+                    <td>johndoe</td>
+                    <td>johndoe@example.com</td>
+                    <td>(123) 456-7890</td>
+                    <td>Admin</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td class="action-buttons">
+                        <button class="btn btn-info btn-sm">View</button>
+                    </td>
+                </tr>
+                <tr data-role="user">
+                    <td>5002</td>
+                    <td>janedoe</td>
+                    <td>janedoe@example.com</td>
+                    <td>(987) 654-3210</td>
+                    <td>User</td>
+                    <td><span class="badge badge-danger">Inactive</span></td>
+                    <td class="action-buttons">
+                        <button class="btn btn-info btn-sm">View</button>
+                        <button class="btn btn-danger btn-sm">Ban</button>
+                    </td>
+                </tr>
+                <tr data-role="user">
+                    <td>5003</td>
+                    <td>mikesmith</td>
+                    <td>mikesmith@example.com</td>
+                    <td>(456) 123-7890</td>
+                    <td>User</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td class="action-buttons">
+                        <button class="btn btn-info btn-sm">View</button>
+                        <button class="btn btn-danger btn-sm">Ban</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to filter users by role
+        function filterByRole() {
+            const roleFilter = document.getElementById("roleFilter").value;
+            const userRows = document.querySelectorAll("#userTable tbody tr");
+
+            userRows.forEach(row => {
+                const role = row.getAttribute("data-role");
+                if (roleFilter === "all" || role === roleFilter) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

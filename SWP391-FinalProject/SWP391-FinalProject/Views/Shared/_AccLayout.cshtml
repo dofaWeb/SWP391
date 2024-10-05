@@ -22,32 +22,7 @@
     </header>
     <!-- Content Body -->
     <div class="container-fluid mt-4">
-        <div class="row">
-            <!-- Left Menu (Categories) -->
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Categories</h5>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a href="#" class="text-primary">Laptops</a></li>
-                        <li class="list-group-item"><a href="#" class="text-primary">Smartphones</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Right Side (Best Selling Products) -->
-            <div class="col-md-9">
-                <!-- Search Bar -->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search products..." aria-label="Search products">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Search</button>
-                    </div>
-                </div>
-            @RenderBody()
-            </div>
-        </div>
+                @RenderBody()
     </div>
 
     <footer class="border-top footer text-muted">

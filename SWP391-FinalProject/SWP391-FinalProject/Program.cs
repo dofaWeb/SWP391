@@ -28,7 +28,7 @@ namespace SWP391_FinalProject
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Pro}/{action=Index}/{id?}");
 
             app.Run();
         }

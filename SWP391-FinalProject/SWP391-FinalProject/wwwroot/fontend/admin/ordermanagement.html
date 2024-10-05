@@ -1,39 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Management</title>
+    <title>Confirm Orders</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .order-container {
-            margin-top: 30px;
-        }
-        .table th, .table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-        .action-btns {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .status-label {
-            font-weight: bold;
-        }
-    </style>
 </head>
-<body>
 
-    <!-- Header -->
+<body>
+    <!-- Page Header -->
     <header class="bg-dark text-white text-center py-4">
-        <h1>Order Management</h1>
+        <h1>Order Confirmation</h1>
+        <p>Staff ID: 12345 | Shift Time: 9:00 AM - 5:00 PM</p>
     </header>
 
-    <!-- Order List Container -->
-    <div class="container order-container">
-        <h3>Orders</h3>
-        <table class="table table-bordered">
+    <!-- Main Container -->
+    <div class="container mt-4">
+        <!-- Order List -->
+        <h3>Pending Orders</h3>
+        <table class="table table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
                     <th>Order ID</th>
@@ -41,55 +27,113 @@
                     <th>Address</th>
                     <th>Status</th>
                     <th>Date</th>
-                    <th>Staff Shift ID</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Example Order Row -->
+            <tbody id="orderTable">
+                <!-- Example Orders -->
                 <tr>
-                    <td>101</td>
-                    <td>5001</td>
-                    <td>123 Elm Street, City</td>
-                    <td><span class="badge badge-info">Pending</span></td>
-                    <td>2024-09-25</td>
-                    <td>Shift-3</td>
+                    <td>1001</td>
+                    <td>2001</td>
+                    <td>123 Main St</td>
+                    <td>Pending</td>
+                    <td>2024-10-01</td>
                     <td>
-                        <div class="action-btns">
-                            <button class="btn btn-primary btn-sm" onclick="viewOrderDetails(101)">View</button>
-                            <button class="btn btn-danger btn-sm" onclick="cancelOrder(101)">Cancel</button>
-                        </div>
+                        <button class="btn btn-success" onclick="confirmOrder(1001)">Confirm</button>
+                        <button class="btn btn-info" onclick="viewOrderDetails(1001)">Details</button>
                     </td>
                 </tr>
-                <!-- Additional Orders Can Go Here -->
+                <tr>
+                    <td>1002</td>
+                    <td>2002</td>
+                    <td>456 Oak St</td>
+                    <td>Pending</td>
+                    <td>2024-10-01</td>
+                    <td>
+                        <button class="btn btn-success" onclick="confirmOrder(1002)">Confirm</button>
+                        <button class="btn btn-info" onclick="viewOrderDetails(1002)">Details</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
 
+    <!-- Modal for Viewing Order Details -->
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailsModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Order details will be populated here via JavaScript -->
+                    <p><strong>Order ID:</strong> <span id="orderIdDetail"></span></p>
+                    <p><strong>User ID:</strong> <span id="userIdDetail"></span></p>
+                    <p><strong>Address:</strong> <span id="addressDetail"></span></p>
+                    <p><strong>Status:</strong> <span id="statusDetail"></span></p>
+                    <p><strong>Date:</strong> <span id="dateDetail"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
+    <footer class="bg-dark text-white text-center py-3 mt-4">
         <p>&copy; 2024 Your Company. All Rights Reserved.</p>
     </footer>
 
-    <!-- Bootstrap JS and jQuery -->
+    <!-- jQuery and Bootstrap Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Placeholder functions for order actions -->
     <script>
-        function viewOrderDetails(orderId) {
-            alert('Viewing details for Order ID: ' + orderId);
-            // You can link this to a detailed order page
+        // Confirm the order
+        function confirmOrder(orderId) {
+            if (confirm(`Are you sure you want to confirm Order ID: ${orderId}?`)) {
+                // Logic to mark the order as confirmed in the backend
+                alert(`Order ID: ${orderId} has been confirmed.`);
+            }
         }
 
-        function cancelOrder(orderId) {
-            const confirmCancel = confirm('Are you sure you want to cancel Order ID: ' + orderId + '?');
-            if (confirmCancel) {
-                alert('Order ' + orderId + ' has been canceled.');
-                // Add logic to update the order status to "Canceled" in your database
+        // View order details
+        function viewOrderDetails(orderId) {
+            // Logic to retrieve order details from the backend (this is just a placeholder)
+            const orderDetails = {
+                1001: {
+                    userId: 2001,
+                    address: '123 Main St',
+                    status: 'Pending',
+                    date: '2024-10-01'
+                },
+                1002: {
+                    userId: 2002,
+                    address: '456 Oak St',
+                    status: 'Pending',
+                    date: '2024-10-01'
+                }
+            };
+
+            const details = orderDetails[orderId];
+            if (details) {
+                document.getElementById('orderIdDetail').textContent = orderId;
+                document.getElementById('userIdDetail').textContent = details.userId;
+                document.getElementById('addressDetail').textContent = details.address;
+                document.getElementById('statusDetail').textContent = details.status;
+                document.getElementById('dateDetail').textContent = details.date;
+
+                // Show the modal with details
+                $('#orderDetailsModal').modal('show');
             }
         }
     </script>
 </body>
+
 </html>

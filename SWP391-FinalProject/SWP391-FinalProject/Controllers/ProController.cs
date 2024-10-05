@@ -2,13 +2,11 @@
 
 namespace SWP391_FinalProject.Controllers
 {
-    public class AccController : Controller
+    public class ProController : Controller
     {
-        public IActionResult Login()
+        public IActionResult Index()
         {
             return View();
         }
-
-
     }
 }

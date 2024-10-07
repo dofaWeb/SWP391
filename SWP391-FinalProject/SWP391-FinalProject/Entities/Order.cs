@@ -21,6 +21,8 @@ public partial class Order
 
     public string StaffShiftId { get; set; } = null!;
 
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
     public virtual StaffShift StaffShift { get; set; } = null!;
 
     public virtual OrderState State { get; set; } = null!;

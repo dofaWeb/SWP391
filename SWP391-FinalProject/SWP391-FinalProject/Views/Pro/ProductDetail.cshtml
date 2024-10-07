@@ -1,0 +1,159 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .option-box {
+        border: 2px solid #007bff;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 5px;
+        transition: background-color 0.3s;
+        flex: 1; /* Allow the boxes to grow */
+        min-width: 80px; /* Minimum width for the boxes */
+    }
+
+        .option-box:hover {
+            background-color: #e9ecef;
+        }
+
+    .selected {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .related-product {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .rating {
+        color: gold;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row">
+
+        <!-- Product Image -->
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/500" alt="Product Image" class="img-fluid">
+        </div>
+
+        <!-- Product Information -->
+        <div class="col-md-6">
+            <h2 class="mt-3">Product Name</h2>
+            <h5 class="text-muted">$199.99</h5>
+
+            <label for="ram">Select RAM:</label>
+            <div class="form-group">
+                <div class="d-flex justify-content-between">
+                    <div class="option-box" onclick="selectOption(this)">8 GB</div>
+                    <div class="option-box" onclick="selectOption(this)">16 GB</div>
+                    <div class="option-box" onclick="selectOption(this)">32 GB</div>
+                </div>
+            </div>
+
+            <label for="storage">Select Storage:</label>
+            <div class="form-group">
+                <div class="d-flex justify-content-between">
+                    <div class="option-box" onclick="selectOption(this)">256 GB</div>
+                    <div class="option-box" onclick="selectOption(this)">512 GB</div>
+                    <div class="option-box" onclick="selectOption(this)">1 TB</div>
+                </div>
+            </div>
+
+            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="1"><button class="btn btn-success mt-3">Add to Cart</button></a>
+        </div>
+    </div>
+
+    <!-- Product Description -->
+    <div class="mt-4">
+        <h3>Description</h3>
+        <p>This product is an amazing device that meets all your needs. It offers excellent performance, great design, and the latest features to keep you connected and productive.</p>
+    </div>
+
+    <!-- Product Rating -->
+    <div class="mt-4">
+        <h3>Rating</h3>
+        <span class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</span> <!-- Four filled stars and one empty star -->
+        <span>(4/5)</span>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-4">
+        <h3>Comments</h3>
+        <div class="form-group">
+            <textarea class="form-control" rows="3" placeholder="Leave a comment..."></textarea>
+        </div>
+        <button class="btn btn-primary">Submit Comment</button>
+
+        <div class="mt-3">
+            <h5>Previous Comments:</h5>
+            <p><strong>User1:</strong> Great product! Highly recommend.</p>
+            <p><strong>User2:</strong> It works well, but the battery life could be better.</p>
+        </div>
+    </div>
+
+    <!-- Related Products Section -->
+    <h3 class="mt-5">Related Products</h3>
+    <div class="row">
+        <!-- Related Product 1 -->
+        <div class="col-md-3 mb-4">
+            <div class="related-product">
+                <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="1"><img src="https://via.placeholder.com/150" class="img-fluid" alt="Related Product 1"></a>
+                <h5>Related Product 1</h5>
+                <p>$149.99</p>
+                <button class="btn btn-success btn-sm">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Related Product 2 -->
+        <div class="col-md-3 mb-4">
+            <div class="related-product">
+                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Related Product 2">
+                <h5>Related Product 2</h5>
+                <p>$179.99</p>
+                <button class="btn btn-success btn-sm">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Related Product 3 -->
+        <div class="col-md-3 mb-4">
+            <div class="related-product">
+                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Related Product 3">
+                <h5>Related Product 3</h5>
+                <p>$129.99</p>
+                <button class="btn btn-success btn-sm">Add to Cart</button>
+            </div>
+        </div>
+
+        <!-- Related Product 4 -->
+        <div class="col-md-3 mb-4">
+            <div class="related-product">
+                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Related Product 4">
+                <h5>Related Product 4</h5>
+                <p>$99.99</p>
+                <button class="btn btn-success btn-sm">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectOption(selected) {
+        // Deselect all options in the group
+        const options = selected.parentElement.children;
+        for (let i = 0; i < options.length; i++) {
+            options[i].classList.remove('selected');
+        }
+        // Select the current option
+        selected.classList.add('selected');
+    }
+</script>

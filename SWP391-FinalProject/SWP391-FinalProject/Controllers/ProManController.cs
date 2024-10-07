@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -13,5 +14,13 @@ namespace SWP391_FinalProject.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult AddProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddProduct(object model) => RedirectToAction("Display");
     }
 }

@@ -23,9 +23,13 @@ public partial class ProductItem
 
     public virtual ICollection<NameLog> NameLogs { get; set; } = new List<NameLog>();
 
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
     public virtual ICollection<PriceLog> PriceLogs { get; set; } = new List<PriceLog>();
 
     public virtual Product Product { get; set; } = null!;
+
+    public virtual ICollection<ProductConfiguration> ProductConfigurations { get; set; } = new List<ProductConfiguration>();
 
     public virtual ICollection<QuantityLog> QuantityLogs { get; set; } = new List<QuantityLog>();
 

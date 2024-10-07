@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace SWP391_FinalProject.Entities;
+namespace MySQL.Entities;
 
-public partial class Swp391Se1801Group3Context : DbContext
+public partial class DBContext : DbContext
 {
-    public Swp391Se1801Group3Context()
+    public DBContext()
     {
     }
 
-    public Swp391Se1801Group3Context(DbContextOptions<Swp391Se1801Group3Context> options)
+    public DBContext(DbContextOptions<DBContext> options)
         : base(options)
     {
     }
@@ -30,6 +31,8 @@ public partial class Swp391Se1801Group3Context : DbContext
     public virtual DbSet<NameLog> NameLogs { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
+
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
 
     public virtual DbSet<OrderState> OrderStates { get; set; }
 
@@ -67,37 +70,57 @@ public partial class Swp391Se1801Group3Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=(local);Database=SWP391_SE1801_GROUP3;UID=sa;PWD=123456;TrustServerCertificate=True");
+        => optionsBuilder.UseMySql("server=mysql-35c69a44-swp391-group3.i.aivencloud.com;port=25832;database=SWP391;user=avnadmin;password=AVNS_mzCmZ_1hz1gM4yr03o8;sslmode=Required", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder
+            .UseCollation("utf8mb4_0900_ai_ci")
+            .HasCharSet("utf8mb4");
+
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Account__3213E83F081D0FEA");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Account");
 
-            entity.HasIndex(e => e.Username, "UQ__Account__F3DBC57242CA8829").IsUnique();
+            entity.HasIndex(e => e.RoleId, "FK_Account_Role_Name");
+
+            entity.HasIndex(e => e.Username, "username").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
-                .HasColumnName("email");
-            entity.Property(e => e.IsActive).HasColumnName("is_active");
+                .HasColumnName("email")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.IsActive)
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_active");
             entity.Property(e => e.Password)
                 .HasMaxLength(32)
-                .HasColumnName("password");
+                .HasColumnName("password")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Phone)
                 .HasMaxLength(11)
-                .HasColumnName("phone");
+                .HasColumnName("phone")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.RoleId)
                 .HasMaxLength(8)
-                .HasColumnName("role_id");
+                .HasColumnName("role_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
-                .HasColumnName("username");
+                .HasColumnName("username")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
@@ -107,19 +130,27 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<Address>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Address__3213E83F95349393");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Address");
 
+            entity.HasIndex(e => e.ProvinceId, "FK_Address_Province");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Address1)
                 .HasMaxLength(100)
-                .HasColumnName("address");
+                .HasColumnName("address")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ProvinceId)
                 .HasMaxLength(8)
-                .HasColumnName("province_id");
+                .HasColumnName("province_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.Province).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.ProvinceId)
@@ -128,53 +159,73 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<Brand>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Brand__3213E83F7B8F9ED0");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Brand");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
         });
 
         modelBuilder.Entity<ChangeReason>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Change_R__3213E83F1C5B6DD6");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Change_Reason");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Reason)
                 .HasMaxLength(50)
-                .HasColumnName("reason");
+                .HasColumnName("reason")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
         });
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Comment__3213E83FAC0F8B08");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Comment");
 
+            entity.HasIndex(e => e.ProductItemId, "FK_Comment_Product_Item");
+
+            entity.HasIndex(e => e.UserId, "FK_Comment_User");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Comment1)
                 .HasMaxLength(255)
-                .HasColumnName("comment");
+                .HasColumnName("comment")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id");
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.UserId)
                 .HasMaxLength(8)
-                .HasColumnName("user_id");
+                .HasColumnName("user_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.ProductItem).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.ProductItemId)
@@ -189,25 +240,31 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<DiscountLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Discount__3213E83FDBD0DA00");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Discount_Log");
 
+            entity.HasIndex(e => e.ProductItemId, "FK_Discount_Log_Product_Item");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ChangeTimestamp)
                 .HasColumnType("datetime")
                 .HasColumnName("change_timestamp");
             entity.Property(e => e.NewDiscount)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("new_discount");
             entity.Property(e => e.OldDiscount)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("old_discount");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id");
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.ProductItem).WithMany(p => p.DiscountLogs)
                 .HasForeignKey(d => d.ProductItemId)
@@ -217,25 +274,35 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<NameLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Name_Log__3213E83FD47661A7");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Name_Log");
 
+            entity.HasIndex(e => e.ProductItemId, "FK_Name_Log_Product_Item");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ChangeTimestamp)
                 .HasColumnType("datetime")
                 .HasColumnName("change_timestamp");
             entity.Property(e => e.NewName)
                 .HasMaxLength(50)
-                .HasColumnName("new_name");
+                .HasColumnName("new_name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.OldName)
                 .HasMaxLength(50)
-                .HasColumnName("old_name");
+                .HasColumnName("old_name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id");
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.ProductItem).WithMany(p => p.NameLogs)
                 .HasForeignKey(d => d.ProductItemId)
@@ -245,32 +312,46 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F391F7BAA");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Order");
 
+            entity.HasIndex(e => e.StaffShiftId, "FK_Order_Staff_Shift");
+
+            entity.HasIndex(e => e.StateId, "FK_Order_State");
+
+            entity.HasIndex(e => e.UserId, "FK_Order_User");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Address)
                 .HasMaxLength(100)
-                .HasColumnName("address");
+                .HasColumnName("address")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
             entity.Property(e => e.EarnPoint)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("earn_point");
             entity.Property(e => e.StaffShiftId)
                 .HasMaxLength(8)
-                .HasColumnName("staff_shift_id");
+                .HasColumnName("staff_shift_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.StateId).HasColumnName("state_id");
             entity.Property(e => e.UsePoint)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("use_point");
             entity.Property(e => e.UserId)
                 .HasMaxLength(8)
-                .HasColumnName("user_id");
+                .HasColumnName("user_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.StaffShift).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.StaffShiftId)
@@ -288,39 +369,91 @@ public partial class Swp391Se1801Group3Context : DbContext
                 .HasConstraintName("FK_Order_User");
         });
 
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("Order_Item");
+
+            entity.HasIndex(e => e.OrderId, "FK_Order_Item_Order");
+
+            entity.HasIndex(e => e.ProductItemId, "FK_Order_Item_Product_Item");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(8)
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.Discount)
+                .HasPrecision(5, 2)
+                .HasColumnName("discount");
+            entity.Property(e => e.OrderId)
+                .HasMaxLength(8)
+                .HasColumnName("order_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.Price)
+                .HasPrecision(10, 2)
+                .HasColumnName("price");
+            entity.Property(e => e.ProductItemId)
+                .HasMaxLength(8)
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.OrderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Item_Order");
+
+            entity.HasOne(d => d.ProductItem).WithMany(p => p.OrderItems)
+                .HasForeignKey(d => d.ProductItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Item_Product_Item");
+        });
+
         modelBuilder.Entity<OrderState>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order_St__3213E83FBF296486");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Order_State");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
         });
 
         modelBuilder.Entity<PriceLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Price_Lo__3213E83FB9382986");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Price_Log");
 
+            entity.HasIndex(e => e.ProductItemId, "FK_Price_Log_Product_Item");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ChangeTimestamp)
                 .HasColumnType("datetime")
                 .HasColumnName("change_timestamp");
             entity.Property(e => e.NewPrice)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("new_price");
             entity.Property(e => e.OldPrice)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("old_price");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id");
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.ProductItem).WithMany(p => p.PriceLogs)
                 .HasForeignKey(d => d.ProductItemId)
@@ -330,25 +463,39 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product__3213E83F3168839E");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Product");
 
+            entity.HasIndex(e => e.BrandId, "FK_Product_Brand");
+
+            entity.HasIndex(e => e.StateId, "FK_Product_State");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.BrandId)
                 .HasMaxLength(8)
-                .HasColumnName("brand_id");
+                .HasColumnName("brand_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Description)
                 .HasMaxLength(255)
-                .HasColumnName("description");
+                .HasColumnName("description")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Picture)
                 .HasMaxLength(255)
-                .HasColumnName("picture");
+                .HasColumnName("picture")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.StateId).HasColumnName("state_id");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Products)
@@ -364,23 +511,32 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<ProductConfiguration>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Product_Configuration");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
+            entity.ToTable("Product_Configuration");
+
+            entity.HasIndex(e => e.ProductItemId, "FK_Product_Configuration_Product_Item");
+
+            entity.HasIndex(e => e.VariationOptionId, "FK_Product_Configuration_Variation_Option");
+
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id");
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.VariationOptionId)
                 .HasMaxLength(8)
-                .HasColumnName("variation_option_id");
+                .HasColumnName("variation_option_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
-            entity.HasOne(d => d.ProductItem).WithMany()
+            entity.HasOne(d => d.ProductItem).WithMany(p => p.ProductConfigurations)
                 .HasForeignKey(d => d.ProductItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_Configuration_Product_Item");
 
-            entity.HasOne(d => d.VariationOption).WithMany()
+            entity.HasOne(d => d.VariationOption).WithMany(p => p.ProductConfigurations)
                 .HasForeignKey(d => d.VariationOptionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Product_Configuration_Variation_Option");
@@ -388,25 +544,31 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<ProductItem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product___3213E83F128AB5AB");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Product_Item");
 
+            entity.HasIndex(e => e.ProductId, "FK_Product_Item_Product");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Discount)
-                .HasColumnType("decimal(5, 2)")
+                .HasPrecision(5, 2)
                 .HasColumnName("discount");
             entity.Property(e => e.ImportPrice)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("import_price");
             entity.Property(e => e.ProductId)
                 .HasMaxLength(8)
-                .HasColumnName("product_id");
+                .HasColumnName("product_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.SellingPrice)
-                .HasColumnType("decimal(10, 2)")
+                .HasPrecision(10, 2)
                 .HasColumnName("selling_price");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductItems)
@@ -417,28 +579,50 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<ProductLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product___3213E83FE0ABB2AE");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Product_Log");
 
+            entity.HasIndex(e => e.ChangeReasonId, "FK_Product_Log_Change_Reason");
+
+            entity.HasIndex(e => e.DisocuntLogId, "FK_Product_Log_Discount_Log");
+
+            entity.HasIndex(e => e.NameLogId, "FK_Product_Log_Name_Log");
+
+            entity.HasIndex(e => e.PriceLogId, "FK_Product_Log_Price_Log");
+
+            entity.HasIndex(e => e.QuantityLogId, "FK_Product_Log_Quantity_Log");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ChangeReasonId)
                 .HasMaxLength(8)
-                .HasColumnName("change_reason_id");
+                .HasColumnName("change_reason_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.DisocuntLogId)
                 .HasMaxLength(8)
-                .HasColumnName("disocunt_log_id");
+                .HasColumnName("disocunt_log_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.NameLogId)
                 .HasMaxLength(8)
-                .HasColumnName("name_log_id");
+                .HasColumnName("name_log_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.PriceLogId)
                 .HasMaxLength(8)
-                .HasColumnName("price_log_id");
+                .HasColumnName("price_log_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.QuantityLogId)
                 .HasMaxLength(8)
-                .HasColumnName("quantity_log_id");
+                .HasColumnName("quantity_log_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.ChangeReason).WithMany(p => p.ProductLogs)
                 .HasForeignKey(d => d.ChangeReasonId)
@@ -463,7 +647,7 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<ProductState>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product___3213E83FD354BF97");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Product_State");
 
@@ -475,27 +659,35 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<Province>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Province__3213E83F65CE2506");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Province");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
         });
 
         modelBuilder.Entity<QuantityLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Quantity__3213E83FEE1C1205");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Quantity_Log");
 
+            entity.HasIndex(e => e.ProductItemId, "FK_Quantity_Log_Product_Item");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ChangeTimestamp)
                 .HasColumnType("datetime")
                 .HasColumnName("change_timestamp");
@@ -503,7 +695,9 @@ public partial class Swp391Se1801Group3Context : DbContext
             entity.Property(e => e.OldQuantity).HasColumnName("old_quantity");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id");
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.ProductItem).WithMany(p => p.QuantityLogs)
                 .HasForeignKey(d => d.ProductItemId)
@@ -513,20 +707,30 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<Rating>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Rating__3213E83F2C1FB06E");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Rating");
 
+            entity.HasIndex(e => e.ProductItemId, "FK_Rating_Product_Item");
+
+            entity.HasIndex(e => e.UserId, "FK_Rating_User");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id");
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Rating1).HasColumnName("rating");
             entity.Property(e => e.UserId)
                 .HasMaxLength(8)
-                .HasColumnName("user_id");
+                .HasColumnName("user_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.ProductItem).WithMany(p => p.Ratings)
                 .HasForeignKey(d => d.ProductItemId)
@@ -541,28 +745,36 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<RoleName>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role_Nam__3213E83F972B57C4");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Role_Name");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
         });
 
         modelBuilder.Entity<Staff>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__Staff__46A222CD7E0759EB");
+            entity.HasKey(e => e.AccountId).HasName("PRIMARY");
 
             entity.Property(e => e.AccountId)
                 .HasMaxLength(8)
-                .HasColumnName("account_id");
+                .HasColumnName("account_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Salary).HasColumnName("salary");
 
             entity.HasOne(d => d.Account).WithOne(p => p.Staff)
@@ -573,13 +785,17 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<StaffShift>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Staff_Sh__3213E83FD7C8233B");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Staff_Shift");
 
+            entity.HasIndex(e => e.StaffId, "FK_Staff_Shift_Staff");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.ShiftTimeBegin)
                 .HasColumnType("datetime")
                 .HasColumnName("shift_time_begin");
@@ -588,7 +804,9 @@ public partial class Swp391Se1801Group3Context : DbContext
                 .HasColumnName("shift_time_end");
             entity.Property(e => e.StaffId)
                 .HasMaxLength(8)
-                .HasColumnName("staff_id");
+                .HasColumnName("staff_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.Staff).WithMany(p => p.StaffShifts)
                 .HasForeignKey(d => d.StaffId)
@@ -598,16 +816,20 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__User__46A222CDE0177B65");
+            entity.HasKey(e => e.AccountId).HasName("PRIMARY");
 
             entity.ToTable("User");
 
             entity.Property(e => e.AccountId)
                 .HasMaxLength(8)
-                .HasColumnName("account_id");
+                .HasColumnName("account_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Point).HasColumnName("point");
 
             entity.HasOne(d => d.Account).WithOne(p => p.User)
@@ -618,17 +840,25 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<UserAddress>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__User_Add__B9BE370FFB9A75F0");
+            entity.HasKey(e => e.UserId).HasName("PRIMARY");
 
             entity.ToTable("User_Address");
 
+            entity.HasIndex(e => e.AddressId, "FK_User_Address_Address");
+
             entity.Property(e => e.UserId)
                 .HasMaxLength(8)
-                .HasColumnName("user_id");
+                .HasColumnName("user_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.AddressId)
                 .HasMaxLength(8)
-                .HasColumnName("address_id");
-            entity.Property(e => e.IsDefault).HasColumnName("is_default");
+                .HasColumnName("address_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.IsDefault)
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_default");
 
             entity.HasOne(d => d.Address).WithMany(p => p.UserAddresses)
                 .HasForeignKey(d => d.AddressId)
@@ -642,33 +872,45 @@ public partial class Swp391Se1801Group3Context : DbContext
 
         modelBuilder.Entity<Variation>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Variatio__3213E83F9C2DC31D");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Variation");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name");
+                .HasColumnName("name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
         });
 
         modelBuilder.Entity<VariationOption>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Variatio__3213E83F6CA3C625");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("Variation_Option");
 
+            entity.HasIndex(e => e.VariationId, "FK_Variation_Option_Variation");
+
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Value)
                 .HasMaxLength(50)
-                .HasColumnName("value");
+                .HasColumnName("value")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.VariationId)
                 .HasMaxLength(8)
-                .HasColumnName("variation_id");
+                .HasColumnName("variation_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.Variation).WithMany(p => p.VariationOptions)
                 .HasForeignKey(d => d.VariationId)

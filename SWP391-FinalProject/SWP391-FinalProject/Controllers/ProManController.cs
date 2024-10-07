@@ -8,9 +8,9 @@ namespace SWP391_FinalProject.Controllers
 {
     public class ProManController : Controller
     {
-        private readonly Swp391Se1801Group3Context db;
+        private readonly DBContext db;
 
-        public ProManController(Swp391Se1801Group3Context context)
+        public ProManController(DBContext context)
         {
             db = context;
         }

@@ -15,7 +15,7 @@ public partial class Account
 
     public string Phone { get; set; } = null!;
 
-    public bool IsActive { get; set; }
+    public ulong IsActive { get; set; }
 
     public string RoleId { get; set; } = null!;
 

@@ -5,6 +5,8 @@
     Layout = "_AdminLayout";
 }
 
+@model IEnumerable<SWP391_FinalProject.Models.Product>;
+
 <style>
     body {
         display: flex;
@@ -64,26 +66,29 @@
             <th>ID</th>
             <th>Picture</th>
             <th>Name</th>
-            <th>Category</th>
+            <th>Brand</th>
             <th>Stock</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td><img src="https://via.placeholder.com/50" alt="Product 1" class="product-img"></td>
-            <td>Product 1</td>
-            <td>Category A</td>
-            <td>50</td>
-            <td><span class="badge badge-success">Available</span></td>
-            <td>
-                <a href="edit-product.html?id=1" class="btn btn-warning btn-sm">Edit</a>
-                <button class="btn btn-danger btn-sm" onclick="deleteProduct(1)">Delete</button>
-                <button class="btn btn-secondary btn-gray">Disabled</button>
-            </td>
-        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>1</td>
+                <td><img src="~/pictures/@item.Picture" alt="Product 1" class="product-img"></td>
+                <td>@item.Name</td>
+                <td>@item.Brand</td>
+                <td>@item.Quantity</td>
+                <td><span class="badge badge-success">@item.State</span></td>
+                <td>
+                    <a href="edit-product.html?id=1" class="btn btn-warning btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(1)">Delete</button>
+                    <button class="btn btn-secondary btn-gray">Disabled</button>
+                </td>
+            </tr>
+        }
         <tr>
             <td>2</td>
             <td><img src="https://via.placeholder.com/50" alt="Product 2" class="product-img"></td>

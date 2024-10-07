@@ -9,7 +9,7 @@ public partial class UserAddress
 
     public string? AddressId { get; set; }
 
-    public bool IsDefault { get; set; }
+    public ulong IsDefault { get; set; }
 
     public virtual Address? Address { get; set; }
 

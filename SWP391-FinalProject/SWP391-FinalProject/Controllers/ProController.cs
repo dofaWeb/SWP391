@@ -6,9 +6,9 @@ namespace SWP391_FinalProject.Controllers
 {
     public class ProController : Controller
     {
-        private readonly Swp391Se1801Group3Context db;
+        private readonly DBContext db;
 
-        public ProController(Swp391Se1801Group3Context context)
+        public ProController(DBContext context)
         {
             db = context;
         }

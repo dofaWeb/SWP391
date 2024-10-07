@@ -5,6 +5,8 @@ namespace SWP391_FinalProject.Entities;
 
 public partial class ProductConfiguration
 {
+    public int Id { get; set; }
+
     public string ProductItemId { get; set; } = null!;
 
     public string VariationOptionId { get; set; } = null!;

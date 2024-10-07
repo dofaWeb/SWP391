@@ -12,7 +12,7 @@ namespace SWP391_FinalProject
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<Swp391Se1801Group3Context>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("SWP391")); });
+            builder.Services.AddDbContext<DBContext>(options => { options.UseMySql(builder.Configuration.GetConnectionString("SWP391"),ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SWP391"))); });
 
             var app = builder.Build();
 

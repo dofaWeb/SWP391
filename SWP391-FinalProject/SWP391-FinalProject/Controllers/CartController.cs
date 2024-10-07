@@ -2,9 +2,9 @@
 
 namespace SWP391_FinalProject.Controllers
 {
-    public class Order : Controller
+    public class CartController : Controller
     {
-        public IActionResult Checkout()
+        public IActionResult AddToCart(string id)
         {
             return View();
         }

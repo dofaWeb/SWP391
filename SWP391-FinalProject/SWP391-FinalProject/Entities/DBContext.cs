@@ -333,35 +333,30 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<OrderItem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.HasKey(e => new { e.OrderId, e.ProductItemId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
             entity.ToTable("Order_Item");
 
-            entity.HasIndex(e => e.OrderId, "FK_Order_Item_Order");
-
             entity.HasIndex(e => e.ProductItemId, "FK_Order_Item_Product_Item");
 
-            entity.Property(e => e.Id)
-                .HasMaxLength(8)
-                .HasColumnName("id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.Discount)
-                .HasPrecision(5, 2)
-                .HasColumnName("discount");
             entity.Property(e => e.OrderId)
                 .HasMaxLength(8)
                 .HasColumnName("order_id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
-            entity.Property(e => e.Price)
-                .HasPrecision(10, 2)
-                .HasColumnName("price");
             entity.Property(e => e.ProductItemId)
                 .HasMaxLength(8)
                 .HasColumnName("product_item_id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
+            entity.Property(e => e.Discount)
+                .HasPrecision(5, 2)
+                .HasColumnName("discount");
+            entity.Property(e => e.Price)
+                .HasPrecision(10, 2)
+                .HasColumnName("price");
             entity.Property(e => e.Quantity).HasColumnName("quantity");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)

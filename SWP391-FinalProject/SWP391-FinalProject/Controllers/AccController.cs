@@ -26,7 +26,7 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(Models.Account model)
+        public IActionResult Register(Models.AccountModel model)
         {
             Repository.Account accRepo = new Repository.Account(db); 
             string id = accRepo.GetNewId();

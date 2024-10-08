@@ -15,11 +15,11 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult Index()
         {
             var Products  = db.Products.AsQueryable();
-            var result = Products.Select(p => new Models.Product
+            var result = Products.Select(p => new Models.ProductModel
             {
                 Name = p.Name,
                 Picture = p.Picture,
-                Category = p.CategoryId ,
+                CategoryId = p.CategoryId ,
                 Description = p.Description
             });
             return View(result);

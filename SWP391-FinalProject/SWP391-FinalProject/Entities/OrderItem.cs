@@ -5,8 +5,6 @@ namespace SWP391_FinalProject.Entities;
 
 public partial class OrderItem
 {
-    public string Id { get; set; } = null!;
-
     public string OrderId { get; set; } = null!;
 
     public string ProductItemId { get; set; } = null!;

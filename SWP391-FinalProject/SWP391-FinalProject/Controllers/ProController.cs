@@ -29,5 +29,15 @@ namespace SWP391_FinalProject.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult SearchedProduct(string keyword)
+        {
+            // Use the repository to get products matching the keyword
+            Repository.Product proRepo = new Repository.Product(db);
+            var products = proRepo.GetProductsByKeyword(keyword);
+
+            // Return the view with the list of products
+            return View(products); // Adjust this based on your view's structure
+        }
     }
 }

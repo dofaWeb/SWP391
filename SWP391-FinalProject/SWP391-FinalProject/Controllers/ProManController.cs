@@ -26,13 +26,13 @@ namespace SWP391_FinalProject.Controllers
                         join b in db.Categories on p.CategoryId equals b.Id
                         join ps in db.ProductStates on p.StateId equals ps.Id
                         group pi by new { p.Id, p.Name, p.Picture, p.Description, Category = b.Name, State = ps.Name } into g
-                        select new Models.Product
+                        select new Models.ProductModel
                         {
                             Id = g.Key.Id,
                             Name = g.Key.Name,
                             Picture = g.Key.Picture,
                             Description = g.Key.Description,
-                            Category = g.Key.Category,
+                            CategoryId = g.Key.Category,
                             State = g.Key.State,
                             Quantity = g.Sum(pi => pi.Quantity)
                         };

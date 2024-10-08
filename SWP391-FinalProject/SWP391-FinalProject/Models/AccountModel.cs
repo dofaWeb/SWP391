@@ -1,6 +1,6 @@
 ﻿namespace SWP391_FinalProject.Models
 {
-    public class Account
+    public class AccountModel
     {
         public string Id { get; set; }
         public string Username { get; set; }

@@ -6,7 +6,7 @@
         public String Name { get; set; }
         public String Picture { get; set; }
         public String Description { get; set; }
-        public String Brand { get; set; }
+        public String Category { get; set; }
 
         public String State { get; set; }
 

@@ -21,7 +21,7 @@ public partial class ProductLog
 
     public virtual DiscountLog? DisocuntLog { get; set; }
 
-    public virtual NameLog? NameLog { get; set; }
+    public virtual ProductNameLog? NameLog { get; set; }
 
     public virtual PriceLog? PriceLog { get; set; }
 

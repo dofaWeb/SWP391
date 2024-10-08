@@ -20,15 +20,13 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Address> Addresses { get; set; }
 
-    public virtual DbSet<Brand> Brands { get; set; }
+    public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<ChangeReason> ChangeReasons { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
 
     public virtual DbSet<DiscountLog> DiscountLogs { get; set; }
-
-    public virtual DbSet<NameLog> NameLogs { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
@@ -45,6 +43,8 @@ public partial class DBContext : DbContext
     public virtual DbSet<ProductItem> ProductItems { get; set; }
 
     public virtual DbSet<ProductLog> ProductLogs { get; set; }
+
+    public virtual DbSet<ProductNameLog> ProductNameLogs { get; set; }
 
     public virtual DbSet<ProductState> ProductStates { get; set; }
 
@@ -157,11 +157,11 @@ public partial class DBContext : DbContext
                 .HasConstraintName("FK_Address_Province");
         });
 
-        modelBuilder.Entity<Brand>(entity =>
+        modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("Brand");
+            entity.ToTable("Category");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
@@ -270,44 +270,6 @@ public partial class DBContext : DbContext
                 .HasForeignKey(d => d.ProductItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Discount_Log_Product_Item");
-        });
-
-        modelBuilder.Entity<NameLog>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.ToTable("Name_Log");
-
-            entity.HasIndex(e => e.ProductItemId, "FK_Name_Log_Product_Item");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(8)
-                .HasColumnName("id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.ChangeTimestamp)
-                .HasColumnType("datetime")
-                .HasColumnName("change_timestamp");
-            entity.Property(e => e.NewName)
-                .HasMaxLength(50)
-                .HasColumnName("new_name")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.OldName)
-                .HasMaxLength(50)
-                .HasColumnName("old_name")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.ProductItemId)
-                .HasMaxLength(8)
-                .HasColumnName("product_item_id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-
-            entity.HasOne(d => d.ProductItem).WithMany(p => p.NameLogs)
-                .HasForeignKey(d => d.ProductItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Name_Log_Product_Item");
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -467,7 +429,7 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Product");
 
-            entity.HasIndex(e => e.BrandId, "FK_Product_Brand");
+            entity.HasIndex(e => e.CategoryId, "FK_Product_Category");
 
             entity.HasIndex(e => e.StateId, "FK_Product_State");
 
@@ -476,9 +438,9 @@ public partial class DBContext : DbContext
                 .HasColumnName("id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
-            entity.Property(e => e.BrandId)
+            entity.Property(e => e.CategoryId)
                 .HasMaxLength(8)
-                .HasColumnName("brand_id")
+                .HasColumnName("category_id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.Description)
@@ -498,10 +460,10 @@ public partial class DBContext : DbContext
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.StateId).HasColumnName("state_id");
 
-            entity.HasOne(d => d.Brand).WithMany(p => p.Products)
-                .HasForeignKey(d => d.BrandId)
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Product_Brand");
+                .HasConstraintName("FK_Product_Category");
 
             entity.HasOne(d => d.State).WithMany(p => p.Products)
                 .HasForeignKey(d => d.StateId)
@@ -587,9 +549,9 @@ public partial class DBContext : DbContext
 
             entity.HasIndex(e => e.DisocuntLogId, "FK_Product_Log_Discount_Log");
 
-            entity.HasIndex(e => e.NameLogId, "FK_Product_Log_Name_Log");
-
             entity.HasIndex(e => e.PriceLogId, "FK_Product_Log_Price_Log");
+
+            entity.HasIndex(e => e.NameLogId, "FK_Product_Log_Product_Name_Log");
 
             entity.HasIndex(e => e.QuantityLogId, "FK_Product_Log_Quantity_Log");
 
@@ -634,7 +596,7 @@ public partial class DBContext : DbContext
 
             entity.HasOne(d => d.NameLog).WithMany(p => p.ProductLogs)
                 .HasForeignKey(d => d.NameLogId)
-                .HasConstraintName("FK_Product_Log_Name_Log");
+                .HasConstraintName("FK_Product_Log_Product_Name_Log");
 
             entity.HasOne(d => d.PriceLog).WithMany(p => p.ProductLogs)
                 .HasForeignKey(d => d.PriceLogId)
@@ -643,6 +605,44 @@ public partial class DBContext : DbContext
             entity.HasOne(d => d.QuantityLog).WithMany(p => p.ProductLogs)
                 .HasForeignKey(d => d.QuantityLogId)
                 .HasConstraintName("FK_Product_Log_Quantity_Log");
+        });
+
+        modelBuilder.Entity<ProductNameLog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("Product_Name_Log");
+
+            entity.HasIndex(e => e.ProductItemId, "FK_Name_Log_Product_Item");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(8)
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.ChangeTimestamp)
+                .HasColumnType("datetime")
+                .HasColumnName("change_timestamp");
+            entity.Property(e => e.NewName)
+                .HasMaxLength(50)
+                .HasColumnName("new_name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.OldName)
+                .HasMaxLength(50)
+                .HasColumnName("old_name")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.ProductItemId)
+                .HasMaxLength(8)
+                .HasColumnName("product_item_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+
+            entity.HasOne(d => d.ProductItem).WithMany(p => p.ProductNameLogs)
+                .HasForeignKey(d => d.ProductItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Name_Log_Product_Item");
         });
 
         modelBuilder.Entity<ProductState>(entity =>
@@ -756,9 +756,7 @@ public partial class DBContext : DbContext
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
-                .HasColumnName("name")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<Staff>(entity =>

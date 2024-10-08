@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SWP391_FinalProject.Entities;
 
-public partial class Brand
+public partial class Category
 {
     public string Id { get; set; } = null!;
 

@@ -21,8 +21,6 @@ public partial class ProductItem
 
     public virtual ICollection<DiscountLog> DiscountLogs { get; set; } = new List<DiscountLog>();
 
-    public virtual ICollection<NameLog> NameLogs { get; set; } = new List<NameLog>();
-
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     public virtual ICollection<PriceLog> PriceLogs { get; set; } = new List<PriceLog>();
@@ -30,6 +28,8 @@ public partial class ProductItem
     public virtual Product Product { get; set; } = null!;
 
     public virtual ICollection<ProductConfiguration> ProductConfigurations { get; set; } = new List<ProductConfiguration>();
+
+    public virtual ICollection<ProductNameLog> ProductNameLogs { get; set; } = new List<ProductNameLog>();
 
     public virtual ICollection<QuantityLog> QuantityLogs { get; set; } = new List<QuantityLog>();
 

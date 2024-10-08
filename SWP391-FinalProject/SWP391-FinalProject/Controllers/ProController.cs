@@ -19,7 +19,7 @@ namespace SWP391_FinalProject.Controllers
             {
                 Name = p.Name,
                 Picture = p.Picture,
-                Brand = p.BrandId ,
+                Category = p.CategoryId ,
                 Description = p.Description
             });
             return View(result);

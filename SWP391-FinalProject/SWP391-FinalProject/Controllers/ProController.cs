@@ -14,14 +14,8 @@ namespace SWP391_FinalProject.Controllers
         }
         public IActionResult Index()
         {
-            var Products  = db.Products.AsQueryable();
-            var result = Products.Select(p => new Models.ProductModel
-            {
-                Name = p.Name,
-                Picture = p.Picture,
-                CategoryId = p.CategoryId ,
-                Description = p.Description
-            });
+            Repository.Product proRepo = new Repository.Product(db);
+            var result = proRepo.GetAllProduct();
             return View(result);
         }
 

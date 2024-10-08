@@ -29,10 +29,7 @@
                     <div class="card-header">
                         <h5>Categories</h5>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a href="#" class="text-primary">Laptops</a></li>
-                        <li class="list-group-item"><a href="#" class="text-primary">Smartphones</a></li>
-                    </ul>
+                    @await Component.InvokeAsync("Category");
                 </div>
             </div>
 
@@ -45,7 +42,7 @@
                         <button class="btn btn-primary" type="button">Search</button>
                     </div>
                 </div>
-            @RenderBody()
+                @RenderBody()
             </div>
         </div>
     </div>

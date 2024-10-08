@@ -13,11 +13,11 @@ public partial class Product
 
     public string? Description { get; set; }
 
-    public string BrandId { get; set; } = null!;
+    public string CategoryId { get; set; } = null!;
 
     public int StateId { get; set; }
 
-    public virtual Brand Brand { get; set; } = null!;
+    public virtual Category Category { get; set; } = null!;
 
     public virtual ICollection<ProductItem> ProductItems { get; set; } = new List<ProductItem>();
 

@@ -10,24 +10,24 @@ namespace SWP391_FinalProject.Repository
         {
             db = context;
         }
-        public List<Models.Product> GetProductsByKeyword(string keyword)
+        public List<Models.ProductModel> GetProductsByKeyword(string keyword)
         {
             // Check for null or empty keyword and return an empty list if so
             if (string.IsNullOrWhiteSpace(keyword))
             {
-                return new List<Models.Product>();
+                return new List<Models.ProductModel>();
             }
 
             var products = db.Products.AsQueryable();
 
             // Use 'Contains' for 'like' behavior (e.g., '%keyword%') or 'StartsWith' for 'starts with' behavior
-            List<Models.Product> result = products
+            List<Models.ProductModel> result = products
                 .Where(p => p.Name.Contains(keyword) || p.Name.StartsWith(keyword))
-                .Select(p => new Models.Product
+                .Select(p => new Models.ProductModel
                 {
                     Name = p.Name,
                     Picture = p.Picture,
-                    Category = p.CategoryId,
+                    CategoryId = p.CategoryId,
                     Description = p.Description
                 })
                 .ToList(); // Materialize the query

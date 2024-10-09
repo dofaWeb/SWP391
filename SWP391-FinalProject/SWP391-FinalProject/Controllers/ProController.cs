@@ -14,15 +14,7 @@ namespace SWP391_FinalProject.Controllers
         }
         public IActionResult Index()
         {
-            var Products  = db.Products.AsQueryable();
-            var result = Products.Select(p => new Models.ProductModel
-            {
-                Name = p.Name,
-                Picture = p.Picture,
-                CategoryId = p.CategoryId ,
-                Description = p.Description
-            });
-            return View(result);
+            return View();
         }
 
         public IActionResult ProductDetail(string id)
@@ -33,11 +25,12 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult SearchedProduct(string keyword)
         {
             // Use the repository to get products matching the keyword
-            Repository.Product proRepo = new Repository.Product(db);
-            var products = proRepo.GetProductsByKeyword(keyword);
+            //Repository.Product proRepo = new Repository.Product(db);
+            //var products = proRepo.GetProductsByKeyword(keyword);
 
+            ViewBag.keyword = keyword;
             // Return the view with the list of products
-            return View(products); // Adjust this based on your view's structure
+            return View(); // Adjust this based on your view's structure
         }
     }
 }

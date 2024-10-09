@@ -14,7 +14,9 @@ namespace SWP391_FinalProject.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            Repository.Product proRepo = new Repository.Product(db);
+            var result = proRepo.GetAllProduct();
+            return View(result);
         }
 
         public IActionResult ProductDetail(string id)

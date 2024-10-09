@@ -51,54 +51,47 @@
         <!-- Product ID (Read-Only) -->
         <div class="form-group">
             <label for="productID">Product ID:</label>
-            <input type="text" class="form-control" id="productID" value="12345" readonly>
+            <input type="text" class="form-control" name="Id" id="productID" value="@ViewBag.NewProductId" readonly>
         </div>
 
         <!-- Product Name -->
         <div class="form-group">
             <label for="productName">Product Name:</label>
-            <input type="text" class="form-control" id="productName" required>
+            <input type="text" class="form-control" name="Name" id="productName" required>
         </div>
 
         <!-- Category Selection -->
         <div class="form-group">
             <label for="category">Category:</label>
-            <select class="form-control" id="category" required onchange="updateSubcategory()">
-                <option value="">Select Category</option>
-                <option value="laptop">Laptop</option>
-                <option value="phone">Phone</option>
-                <option value="accessory">Accessory</option>
-            </select>
-        </div>
-
-        <!-- Subcategory Selection -->
-        <div class="form-group">
-            <label for="subcategory">Subcategory:</label>
-            <select class="form-control" id="subcategory" required>
-                <option value="">Select Subcategory</option>
+            <select class="form-control" name="CategoryId" id="category" required onchange="updateSubcategory()">
+                @foreach (var item in ViewBag.Category)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
             </select>
         </div>
 
         <!-- Status -->
         <div class="form-group">
             <label for="status">Status:</label>
-            <select class="form-control" id="status" required>
-                <option value="Available">Available</option>
-                <option value="Out of Stock">Out of Stock</option>
-                <option value="Discontinued">Discontinued</option>
+            <select class="form-control" name="ProductState" id="status" required>
+                @foreach (var item in ViewBag.ProductStates)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
             </select>
         </div>
 
         <!-- Description -->
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea class="form-control" id="description" rows="4" required></textarea>
+            <textarea class="form-control" name="Description" id="description" rows="4" required></textarea>
         </div>
 
         <!-- Product Image -->
         <div class="form-group">
             <label for="productImage">Product Image:</label>
-            <input type="file" class="form-control-file" id="productImage" accept="image/*">
+            <input type="file" class="form-control-file" name="Picture" id="productImage" accept="image/*">
         </div>
 
         <button type="submit" class="btn btn-primary">Add Product</button>

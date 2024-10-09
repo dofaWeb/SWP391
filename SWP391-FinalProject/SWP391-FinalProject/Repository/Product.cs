@@ -1,4 +1,5 @@
 ﻿using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Helpers;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -111,6 +112,26 @@ namespace SWP391_FinalProject.Repository
                 Name = p.Name
             }).ToList();
             return list;
+        }
+
+
+
+        public void AddProduct(Models.ProductModel model, IFormFile pictureUpload)
+        {
+            var newProduct = new Entities.Product
+            {
+                Id = model.Id,
+                Name = model.Name,
+                CategoryId = model.CategoryId,
+                StateId = 3,
+                Description = model.Description,
+            };
+            if (pictureUpload != null)
+            {
+                newProduct.Picture = MyUtil.UpLoadHinh(pictureUpload);
+            }
+            db.Products.Add(newProduct);
+            db.SaveChanges();
         }
     }
 }

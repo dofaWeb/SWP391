@@ -28,6 +28,7 @@ namespace SWP391_FinalProject.Repository
             .Where(c => c.Id.StartsWith("B0"))
                .Select(c => new Models.CategoryModel
                {
+                   Id = c.Id,
                    Name = c.Name                  
                })
                .ToList(); // Materialize the query
@@ -40,6 +41,7 @@ namespace SWP391_FinalProject.Repository
             .Where(c => c.Id.StartsWith("B1"))
                .Select(c => new Models.CategoryModel
                {
+                   Id = c.Id,
                    Name = c.Name
                })
                .ToList(); // Materialize the query

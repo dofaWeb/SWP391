@@ -4,15 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>SearchedProduct</h1>
-@foreach (var item in Model)
-{
-    <div class="col-md-2 mb-4">
-        <div class="card text-center">
-            <a asp-controller="Pro" asp-action="SearchedProduct" asp-route-id="1"><img src="~/pictures/@item.Picture" class="card-img-top" alt="Product 1"></a>
-            <div class="card-body">
-                <h5 class="card-title">@item.Name</h5>
-            </div>
-        </div>
-    </div>
-}
+<h2 class="text-center">Searched Product</h2>
+<div class="row">
+    @await Component.InvokeAsync("ProductCustomer", new
+        {
+            productType = "GetProductsByKeyword",
+            str =
+            ViewBag.keyword
+        })
+</div>

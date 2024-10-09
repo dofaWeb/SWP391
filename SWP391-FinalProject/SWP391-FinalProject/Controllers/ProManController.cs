@@ -21,21 +21,8 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult Display()
         {
-            var query = from p in db.Products
-                        join pi in db.ProductItems on p.Id equals pi.ProductId
-                        join b in db.Categories on p.CategoryId equals b.Id
-                        join ps in db.ProductStates on p.StateId equals ps.Id
-                        group pi by new { p.Id, p.Name, p.Picture, p.Description, Category = b.Name, State = ps.Name } into g
-                        select new Models.ProductModel
-                        {
-                            Id = g.Key.Id,
-                            Name = g.Key.Name,
-                            Picture = g.Key.Picture,
-                            Description = g.Key.Description,
-                            CategoryId = g.Key.Category,
-                            State = g.Key.State,
-                            Quantity = g.Sum(pi => pi.Quantity)
-                        };
+            Repository.Product proRepo = new Repository.Product(db);
+            var query = proRepo.GetAllProduct();
 
             return View(query);
         }

@@ -43,7 +43,7 @@ namespace SWP391_FinalProject.Controllers
             }
             else
             {
-                ViewBag.Error = "Email has been used";
+                ViewBag.Error = "Email has been used!";
                 return View();
             }
         }

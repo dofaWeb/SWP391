@@ -1,0 +1,35 @@
+[33mcommit cf94a97552d8654b8407f73a3dd101c658c2264e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnhat[m[33m)[m
+Author: Meo0432004 <meocho0432004@gmail.com>
+Date:   Wed Oct 9 19:36:28 2024 +0700
+
+    Login With Google
+
+[33mcommit d11ed9a2abdb836660cd32e553c66139c44c214b[m
+Author: Meo0432004 <meocho0432004@gmail.com>
+Date:   Wed Oct 9 19:02:50 2024 +0700
+
+    Remove appsettings.Development.json from tracking
+
+[33mcommit 1d59595e9cab6b7ae71a339f9c81634a81a318ba[m
+Author: Meo0432004 <meocho0432004@gmail.com>
+Date:   Wed Oct 9 18:59:07 2024 +0700
+
+    updated gitignore to exclude appsettings.Development.json
+
+[33mcommit a129e44bdd020e060be9f33dda12092d9d39e37e[m
+Author: Meo0432004 <meocho0432004@gmail.com>
+Date:   Wed Oct 9 18:45:50 2024 +0700
+
+    Login With Google
+
+[33mcommit d3bc92a9d0ac18ef0d5c51ac314aefd040676a56[m[33m ([m[1;31morigin/nhat[m[33m)[m
+Author: Meo0432004 <meocho0432004@gmail.com>
+Date:   Wed Oct 9 17:29:33 2024 +0700
+
+    message
+
+[33mcommit cf22d51078ee1f68f5dd14bb32ae49e2ed600c7e[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Anh Nguyen <gioakim0432004@gmail.com>
+Date:   Wed Oct 2 10:03:12 2024 +0700
+
+    first commit

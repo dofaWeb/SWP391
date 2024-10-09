@@ -9,6 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h3>Create an Account</h3>
+            <h4 style="color:red">@ViewBag.Error</h4>
             <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validatePasswords()">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -36,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <label for="province">Province</label>
-                    <select class="form-control" id="province" name="Province" required>
+                    <select class="form-control" id="province" name="ProvinceId" required>
                         @foreach (var item in ViewBag.Provinces)
                         {
                             <option value="@item.Id">@item.Name</option>

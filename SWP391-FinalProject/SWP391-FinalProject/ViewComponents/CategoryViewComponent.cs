@@ -11,13 +11,24 @@ namespace SWP391_FinalProject.ViewComponents
 
         public CategoryViewComponent(DBContext context) => db = context;
 
-        public IViewComponentResult Invoke()
+        
+        public IViewComponentResult Invoke(string CatType)
         {
-            var data = db.Categories.Select(l => new Category
+            Repository.Category catRepo = new Repository.Category(db);
+            List<Models.CategoryModel> category;
+            if (CatType == "Laptops")
             {
-                Name = l.Name,
-            });
-            return View(data);
+                category=catRepo.GetAllCatLaps();
+            }
+            else if(CatType =="Phones")
+            {
+                category = catRepo.GetAllCatPhone();
+            }
+            else
+            {
+                category = catRepo.GetAllCategory();
+            }
+            return View(category);
         }
     }
 }

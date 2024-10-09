@@ -55,6 +55,16 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
+        public bool CheckEmail(string email)
+        {
+            var check = db.Accounts.Where(p => p.Email == email).FirstOrDefault();
+            if (check != null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void AddAccount(Models.AccountModel model)
         {
             string id = GetNewId();
@@ -70,8 +80,68 @@ namespace SWP391_FinalProject.Repository
                 RoleId = "Role0003",
             };
 
+            var newUser = new SWP391_FinalProject.Entities.User()
+            {
+                AccountId = newAccount.Id,
+                Name = model.Name,
+                Point = 0
+            };
+
+            Repository.Address addrRepo = new Repository.Address(db);
+            id = addrRepo.GetNewId();
+            var newAddress = new SWP391_FinalProject.Entities.Address()
+            {
+                Id = id,
+                ProvinceId = model.ProvinceId,
+                Address1 = model.Address
+            };
+
+            var newUserAddress = new SWP391_FinalProject.Entities.UserAddress()
+            {
+                UserId = newUser.AccountId,
+                AddressId = newAddress.Id,
+                IsDefault = ulong.Parse("1"),
+            };
+
             db.Accounts.Add(newAccount);
+            db.Users.Add(newUser);
+            db.Addresses.Add(newAddress);
+            db.UserAddresses.Add(newUserAddress);
             db.SaveChanges();
         }
+
+        public bool Login(string username, string password)
+        {
+            string mdPassword = GetMd5Hash(password);
+            var check = db.Accounts.Where(p => p.Username == username && p.Password == mdPassword).ToList();
+            if (check.Any())
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public Models.AccountModel GetUserByUsername(string username)
+        {
+            var userVar = (from account in db.Accounts
+                        join role in db.RoleNames on account.RoleId equals role.Id
+                        join u in db.Users on account.Id equals u.AccountId
+                        where account.Username == username
+                        select new Models.AccountModel
+                        {
+                            Id = account.Id,
+                            Username = account.Username,
+                            Password = account.Password,
+                            Email = account.Email,
+                            Phone = account.Phone,
+                            Name = u.Name,
+                            RoleId = account.RoleId,
+                            Status = account.IsActive.ToString(),
+                            RoleName = role.Name // Assuming RoleName is the column you want
+                        }).FirstOrDefault();
+
+            return userVar;
+        }
+
     }
 }

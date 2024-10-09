@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<SWP391_FinalProject.Models.ProductModel>
+@foreach (var item in Model)
+{
+    <div class="col-md-2 mb-4">
+        <div class="card text-center">
+            <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="1"><img src="~/pictures/@item.Picture" class="card-img-top" alt="Product 1"></a>
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+            </div>
+        </div>
+    </div>
+}

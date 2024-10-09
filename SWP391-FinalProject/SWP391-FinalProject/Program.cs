@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using SWP391_FinalProject.Entities;
+
 namespace SWP391_FinalProject
 {
     public class Program
@@ -7,6 +11,15 @@ namespace SWP391_FinalProject
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<DBContext>(options => { options.UseMySql(builder.Configuration.GetConnectionString("SWP391"),ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SWP391"))); });
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Acc/Login";
+                options.LogoutPath = "/Acc/Logout";
+            });
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -28,7 +41,7 @@ namespace SWP391_FinalProject
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Pro}/{action=Index}/{id?}");
 
             app.Run();
         }

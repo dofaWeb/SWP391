@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using SWP391_FinalProject.Models;
+using MySQL.Models;
 using System.Diagnostics;
 
-namespace SWP391_FinalProject.Controllers
+namespace MySQL.Controllers
 {
     public class HomeController : Controller
     {

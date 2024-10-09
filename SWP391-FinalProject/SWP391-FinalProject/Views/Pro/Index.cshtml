@@ -1,0 +1,12 @@
+﻿@model IEnumerable<SWP391_FinalProject.Models.ProductModel>
+
+<h2 class="text-center">Top Selling Products</h2>
+<div class="row">
+
+    @await Component.InvokeAsync("ProductCustomer", new { productType = "TopSelling" })
+
+    <h2 class="text-center">Products</h2>
+    <div class="row">
+        @await Component.InvokeAsync("ProductCustomer", new { productType = "GetAllProduct" })
+    </div>
+</div>

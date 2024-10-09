@@ -1,0 +1,160 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+}
+
+<style>
+    body {
+        display: flex;
+    }
+    /* Sidebar styles */
+    .sidebar {
+        width: 250px;
+        background-color: #343a40;
+        color: white;
+        min-height: 100vh;
+        padding-top: 20px;
+    }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .sidebar ul li {
+                padding: 10px;
+            }
+
+                .sidebar ul li a {
+                    color: white;
+                    text-decoration: none;
+                }
+
+                    .sidebar ul li a:hover {
+                        color: #ffdd57;
+                    }
+
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+    }
+</style>
+
+<!-- Main Content Area -->
+<div class="content">
+    <h2>Add New Product</h2>
+
+    <!-- Add Product Form -->
+    <form asp-controller="ProMan" asp-action="AddProduct" method="post">
+        <!-- Product ID (Read-Only) -->
+        <div class="form-group">
+            <label for="productID">Product ID:</label>
+            <input type="text" class="form-control" name="Id" id="productID" value="@ViewBag.NewProductId" readonly>
+        </div>
+
+        <!-- Product Name -->
+        <div class="form-group">
+            <label for="productName">Product Name:</label>
+            <input type="text" class="form-control" name="Name" id="productName" required>
+        </div>
+
+        <!-- Category Selection -->
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" name="CategoryId" id="category" required onchange="updateSubcategory()">
+                @foreach (var item in ViewBag.Category)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select class="form-control" name="ProductState" id="status" required>
+                @foreach (var item in ViewBag.ProductStates)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" name="Description" id="description" rows="4" required></textarea>
+        </div>
+
+        <!-- Product Image -->
+        <div class="form-group">
+            <label for="productImage">Product Image:</label>
+            <input type="file" class="form-control-file" name="Picture" id="productImage" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Product</button>
+        <a href="admin-product-list.html" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script>
+    // Predefined subcategories for each category
+    const subcategories = {
+        laptop: ['Dell', 'Asus', 'Lenovo'],
+        phone: ['iPhone', 'Samsung', 'OnePlus'],
+        accessory: ['Charger', 'Headphones', 'Mouse']
+    };
+
+    // Function to update subcategory options based on selected category
+    function updateSubcategory() {
+        const category = document.getElementById('category').value;
+        const subcategorySelect = document.getElementById('subcategory');
+
+        // Clear the current subcategory options
+        subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+
+        // Populate new subcategory options based on selected category
+        if (category && subcategories[category]) {
+            subcategories[category].forEach(subcat => {
+                const option = document.createElement('option');
+                option.value = subcat;
+                option.text = subcat;
+                subcategorySelect.appendChild(option);
+            });
+        }
+    }
+
+    // Form submit handler
+    document.getElementById('addProductForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const productID = document.getElementById('productID').value;
+        const productName = document.getElementById('productName').value;
+        const category = document.getElementById('category').value;
+        const subcategory = document.getElementById('subcategory').value;
+        const quantity = document.getElementById('quantity').value;
+        const status = document.getElementById('status').value;
+        const description = document.getElementById('description').value;
+        const productImage = document.getElementById('productImage').files[0];
+
+        if (!productName || !category || !subcategory || !quantity || !status || !description) {
+            alert('Please fill out all fields.');
+            return;
+        }
+
+        console.log({
+            productID,
+            productName,
+            category,
+            subcategory,
+            quantity,
+            status,
+            description,
+            productImage
+        });
+
+        alert('Product added successfully!');
+        window.location.href = 'admin-product-list.html';
+    });
+</script>

@@ -74,7 +74,8 @@ namespace SWP391_FinalProject.Repository
                 if (productToUpdate != null)
                 {
                     productToUpdate.State.Id = 3; // Set state to 3
-                    //db.SaveChanges(); // Save changes to the database
+
+                    db.SaveChanges(); // Save changes to the database
                 }
             }
         }

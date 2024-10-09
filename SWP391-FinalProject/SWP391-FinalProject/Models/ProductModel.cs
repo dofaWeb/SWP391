@@ -15,5 +15,6 @@ namespace SWP391_FinalProject.Models
         public int Quantity { get; set; }
 
         public string ProductState { get; set; }
+        public int StateId { get; set; }
     }
 }

@@ -34,14 +34,18 @@ namespace SWP391_FinalProject.Controllers
             Repository.Category catRepo = new Repository.Category(db);
 
             ViewBag.NewProductId = proRepo.getNewProductID();
-            ViewBag.Category = catRepo.GetAllCategory();
+            //ViewBag.Category = catRepo.GetAllCategory();
             ViewBag.ProductStates = proRepo.getAllProductState();
+            ViewBag.Laptops = catRepo.GetAllCatLaps();
+            ViewBag.Smartphones = catRepo.GetAllCatPhone();
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddProduct(Models.ProductModel model)
+        public IActionResult AddProduct(Models.ProductModel model, IFormFile pictureUpload)
         {
+            Repository.Product proRepo = new Repository.Product(db);
+            proRepo.AddProduct(model, pictureUpload);
             return RedirectToAction("Display");
         }
     }

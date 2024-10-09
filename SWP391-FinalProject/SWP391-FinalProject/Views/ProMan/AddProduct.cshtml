@@ -47,7 +47,7 @@
     <h2>Add New Product</h2>
 
     <!-- Add Product Form -->
-    <form asp-controller="ProMan" asp-action="AddProduct" method="post">
+    <form asp-controller="ProMan" asp-action="AddProduct" method="post" enctype="multipart/form-data">
         <!-- Product ID (Read-Only) -->
         <div class="form-group">
             <label for="productID">Product ID:</label>
@@ -63,22 +63,18 @@
         <!-- Category Selection -->
         <div class="form-group">
             <label for="category">Category:</label>
-            <select class="form-control" name="CategoryId" id="category" required onchange="updateSubcategory()">
-                @foreach (var item in ViewBag.Category)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
+            <select class="form-control" id="category" required onchange="updateSubcategory()">
+                <option value="">Select Category</option>
+                <option value="laptop">Laptop</option>
+                <option value="phone">Smartphone</option>
             </select>
         </div>
 
-        <!-- Status -->
+        <!-- Subcategory Selection -->
         <div class="form-group">
-            <label for="status">Status:</label>
-            <select class="form-control" name="ProductState" id="status" required>
-                @foreach (var item in ViewBag.ProductStates)
-                {
-                    <option value="@item.Id">@item.Name</option>
-                }
+            <label for="subcategory">Subcategory:</label>
+            <select class="form-control" name="CategoryId" id="subcategory" required>
+                <!-- Subcategories will be updated based on the category selection -->
             </select>
         </div>
 
@@ -91,7 +87,7 @@
         <!-- Product Image -->
         <div class="form-group">
             <label for="productImage">Product Image:</label>
-            <input type="file" class="form-control-file" name="Picture" id="productImage" accept="image/*">
+            <input type="file" class="form-control-file" name="pictureUpload" id="productImage" accept="image/*">
         </div>
 
         <button type="submit" class="btn btn-primary">Add Product</button>
@@ -100,61 +96,36 @@
 </div>
 
 <script>
-    // Predefined subcategories for each category
-    const subcategories = {
-        laptop: ['Dell', 'Asus', 'Lenovo'],
-        phone: ['iPhone', 'Samsung', 'OnePlus'],
-        accessory: ['Charger', 'Headphones', 'Mouse']
-    };
-
-    // Function to update subcategory options based on selected category
+    // JavaScript function to update subcategories based on selected category
     function updateSubcategory() {
-        const category = document.getElementById('category').value;
-        const subcategorySelect = document.getElementById('subcategory');
+        // Get selected category value
+        var category = document.getElementById("category").value;
+        var subcategory = document.getElementById("subcategory");
 
-        // Clear the current subcategory options
-        subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+        // Clear previous options
+        subcategory.innerHTML = "";
 
-        // Populate new subcategory options based on selected category
-        if (category && subcategories[category]) {
-            subcategories[category].forEach(subcat => {
-                const option = document.createElement('option');
-                option.value = subcat;
-                option.text = subcat;
-                subcategorySelect.appendChild(option);
-            });
-        }
+        // Check category and update the subcategory options accordingly
+        if (category === "laptop") {
+    @foreach (var laptop in ViewBag.Laptops)
+    {
+        <text>
+                        var option = document.createElement("option");
+                        option.value = "@laptop.Id";
+                        option.text = "@laptop.Name";
+                        subcategory.add(option);
+        </text>
     }
-
-    // Form submit handler
-    document.getElementById('addProductForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const productID = document.getElementById('productID').value;
-        const productName = document.getElementById('productName').value;
-        const category = document.getElementById('category').value;
-        const subcategory = document.getElementById('subcategory').value;
-        const quantity = document.getElementById('quantity').value;
-        const status = document.getElementById('status').value;
-        const description = document.getElementById('description').value;
-        const productImage = document.getElementById('productImage').files[0];
-
-        if (!productName || !category || !subcategory || !quantity || !status || !description) {
-            alert('Please fill out all fields.');
-            return;
-        }
-
-        console.log({
-            productID,
-            productName,
-            category,
-            subcategory,
-            quantity,
-            status,
-            description,
-            productImage
-        });
-
-        alert('Product added successfully!');
-        window.location.href = 'admin-product-list.html';
-    });
+            } else if (category === "phone") {
+    @foreach (var phone in ViewBag.Smartphones)
+    {
+        <text>
+                        var option = document.createElement("option");
+                        option.value = "@phone.Id";
+                        option.text = "@phone.Name";
+                        subcategory.add(option);
+        </text>
+    }
+            }
+    }
 </script>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using SWP391_FinalProject.Repository;
 using System.Net.Http.Headers;
 
 namespace SWP391_FinalProject.Controllers
@@ -29,10 +30,19 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
+            Repository.Product proRepo = new Repository.Product(db);
+            Repository.Category catRepo = new Repository.Category(db);
+
+            ViewBag.NewProductId = proRepo.getNewProductID();
+            ViewBag.Category = catRepo.GetAllCategory();
+            ViewBag.ProductStates = proRepo.getAllProductState();
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddProduct(object model) => RedirectToAction("Display");
+        public IActionResult AddProduct(Models.ProductModel model)
+        {
+            return RedirectToAction("Display");
+        }
     }
 }

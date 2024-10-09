@@ -22,6 +22,9 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            Repository.Province provinceRepo = new Repository.Province(db);
+            var province = provinceRepo.GetAllProvince();
+            ViewBag.Provinces = province;
             return View();
         }
 
@@ -29,20 +32,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult Register(Models.AccountModel model)
         {
             Repository.Account accRepo = new Repository.Account(db); 
-            string id = accRepo.GetNewId();
-            var newAccount = new SWP391_FinalProject.Entities.Account()
-            {
-                Id = id,
-                Username = model.Username,
-                Password = model.Password,
-                Email = model.Email,
-                Phone = model.Phone,
-                IsActive = ulong.Parse("1"),
-                RoleId = "R0000003",
-            };
-
-            db.Accounts.Add(newAccount);
-            db.SaveChanges();
+            accRepo.AddAccount(model);
             return RedirectToAction("Index", "Pro");
         }
     }

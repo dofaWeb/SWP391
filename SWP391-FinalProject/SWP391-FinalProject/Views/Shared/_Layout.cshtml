@@ -26,13 +26,30 @@
         <div class="row">
             <!-- Left Menu (Categories) -->
             <div class="col-md-2">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Categories</h5>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Categories</h5>
                     </div>
-                    @await Component.InvokeAsync("Category")
+                    <div class="card-body p-2">
+                        <!-- Laptops Category -->
+                        <div class="category-section mb-3">
+                            <h6 class="text-secondary font-weight-bold">Laptops</h6>
+                            <ul class="list-group list-group-flush">
+                                @await Component.InvokeAsync("Category", new { CatType = "Laptops" })
+                            </ul>
+                        </div>
+
+                        <!-- Phones Category -->
+                        <div class="category-section mb-3">
+                            <h6 class="text-secondary font-weight-bold">Phones</h6>
+                            <ul class="list-group list-group-flush">
+                                @await Component.InvokeAsync("Category", new { CatType = "Phones" })
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
             <!-- Right Side (Best Selling Products) -->
             <div class="col-md-10">

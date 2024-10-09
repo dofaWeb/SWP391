@@ -12,10 +12,8 @@ namespace SWP391_FinalProject.Models
 
         public string CategoryName { get; set; }
 
-        public string State { get; set; }
-
         public int Quantity { get; set; }
 
-        public ProductState ProductState { get; set; }
+        public string ProductState { get; set; }
     }
 }

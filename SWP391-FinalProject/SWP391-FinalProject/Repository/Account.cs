@@ -121,6 +121,12 @@ namespace SWP391_FinalProject.Repository
             return false;
         }
 
+        public string GetRoleId(string username)
+        {
+            var roleId = db.Accounts.Where(p => p.Username == username).FirstOrDefault();
+            return roleId != null ? roleId.RoleId : string.Empty;
+        }
+
         public Models.AccountModel GetUserByUsername(string username)
         {
             var userVar = (from account in db.Accounts

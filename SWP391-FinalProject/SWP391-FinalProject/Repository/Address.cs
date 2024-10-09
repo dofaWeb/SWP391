@@ -28,7 +28,7 @@ namespace SWP391_FinalProject.Repository
             int newNumber = number + 1;
 
             // Tạo ID mới với số đã tăng, định dạng lại với 7 chữ số
-            string newId = $"{prefix}{newNumber:D7}";
+            string newId = $"{prefix}{newNumber:D5}";
 
             return newId;
         }

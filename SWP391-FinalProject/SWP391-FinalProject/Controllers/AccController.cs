@@ -162,9 +162,12 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public  async Task<IActionResult> Profile(string username)
         {
-            return View();
+            Repository.User userRepo = new Repository.User();
+            UserModel user = new UserModel();
+            user = userRepo.GetUserProfile(username);
+            return View(user);
         }
 
         [Authorize]

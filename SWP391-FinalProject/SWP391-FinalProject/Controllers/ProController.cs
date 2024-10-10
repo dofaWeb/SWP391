@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Filters;
 using SWP391_FinalProject.Models;
+using System.Security.Claims;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -14,6 +16,11 @@ namespace SWP391_FinalProject.Controllers
         }
         public IActionResult Index()
         {
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (userRole == "Role0001" || userRole == "Role0002")
+            {
+                return RedirectToAction("Index", "ProMan");
+            }
             Repository.Product proRepo = new Repository.Product(db);
             var result = proRepo.GetAllProduct();
             return View(result);

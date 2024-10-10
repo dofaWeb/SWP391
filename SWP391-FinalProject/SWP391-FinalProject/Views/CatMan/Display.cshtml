@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Display";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@model IEnumerable<SWP391_FinalProject.Models.CategoryModel>
+<style>
+    body {
+        display: flex;
+    }
+    /* Sidebar styles */
+    .sidebar {
+        width: 250px;
+        background-color: #343a40;
+        color: white;
+        min-height: 100vh;
+        padding-top: 20px;
+    }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .sidebar ul li {
+                padding: 10px;
+            }
+
+                .sidebar ul li a {
+                    color: white;
+                    text-decoration: none;
+                }
+
+                    .sidebar ul li a:hover {
+                        color: #ffdd57;
+                    }
+
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+    }
+
+</style>
+
+<h1>Categories List</h1>
+<div class="mb-3">
+    <a asp-action="AddCategory" asp-controller="CatMan" class="btn btn-success">Add New Category</a>
+</div>
+
+<div class="form-group">
+    <label for="searchInput">Search Category:</label>
+    <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
+</div>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>ID</th>           
+            <th>Name</th>
+            <th>Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>
+                    @{
+                        // Determine display name based on ID prefix
+                        string displayName = item.Id.StartsWith("B0") ? "Laptop" :
+                        item.Id.StartsWith("B1") ? "Phone" :
+                        item.Name; // Fallback to original name if not matched
+                    }
+                    @displayName
+                </td>
+                <td>
+                    <a asp-action="EditCategory" asp-controller="CatMan" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(1)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

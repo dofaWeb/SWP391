@@ -1,0 +1,70 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+}
+
+<style>
+    body {
+        display: flex;
+    }
+    /* Sidebar styles */
+    .sidebar {
+        width: 250px;
+        background-color: #343a40;
+        color: white;
+        min-height: 100vh;
+        padding-top: 20px;
+    }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+            .sidebar ul li {
+                padding: 10px;
+            }
+
+                .sidebar ul li a {
+                    color: white;
+                    text-decoration: none;
+                }
+
+                    .sidebar ul li a:hover {
+                        color: #ffdd57;
+                    }
+
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+    }
+</style>
+
+<!-- Main Content Area -->
+<div class="content">
+    <h2>Add New Category</h2>
+
+    <form asp-controller="CatMan" asp-action="AddCategory" method="post" enctype="multipart/form-data">
+        <!-- Category Name -->
+        <div class="form-group">
+            <label for="categoryName">Category Name:</label>
+            <input type="text" class="form-control" name="Name" id="categoryName" required>
+        </div>
+
+        <!-- Category Selection -->
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" name="CategoryType" id="category" required>
+                <option value="">Select Category</option>
+                <option value="laptop">Laptop</option>
+                <option value="phone">Smartphone</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Category</button>
+        <a href="admin-product-list.html" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+

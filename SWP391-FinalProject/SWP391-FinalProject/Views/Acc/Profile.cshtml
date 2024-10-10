@@ -4,7 +4,7 @@
 @{
     Layout = "_AccLayout";
 }
-
+@model SWP391_FinalProject.Models.UserModel
 <!-- Header -->
 <header class="bg-dark text-white text-center py-4">
     <h1>Your Profile</h1>
@@ -16,31 +16,29 @@
         <tbody>
             <tr>
                 <th scope="row">Username</th>
-                <td>johndoe</td>
+                <td>@Model.Account.Username</td>
             </tr>
             <tr>
                 <th scope="row">Full Name</th>
-                <td> @Context.User.Identity.Name</td>
+                <td> @Model.Name</td>
             </tr>
             <tr>
                 <th scope="row">Email</th>
-                <td>johndoe@example.com</td>
+                <td>@Model.Account.Email</td>
             </tr>
             <tr>
                 <th scope="row">Phone Number</th>
-                <td>(123) 456-7890</td>
+                <td>@Model.Account.Phone</td>
             </tr>
-            <tr>
-                <th scope="row">Province</th>
-                <td>Province 1</td>
-            </tr>
+           
             <tr>
                 <th scope="row">Address</th>
                 <td>
                     <select class="form-control" id="address">
-                        <option value="Address 1">Address 1</option>
-                        <option value="Address 2">Address 2</option>
-                        <option value="Address 3">Address 3</option>
+                        @foreach(var item in Model.Address){
+                        <option value="@item">@item.Address @item.Province</option>
+                        }
+                        
                     </select>
                 </td> <!-- Province as select -->
             </tr>

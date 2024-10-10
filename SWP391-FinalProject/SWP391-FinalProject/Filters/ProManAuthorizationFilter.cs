@@ -13,12 +13,12 @@ namespace SWP391_FinalProject.Filters
             
             // Get the controller name
             var controllerName = context.RouteData.Values["controller"].ToString();
-
+            var userRole = user.FindFirst(ClaimTypes.Role)?.Value;
             // If the controller name starts with "ProMan"
             if (controllerName.StartsWith("ProMan"))
             {
                 // Get the user's role from claims
-                var userRole = user.FindFirst(ClaimTypes.Role)?.Value;
+                
 
                 // Check if the role is not Role0001 or Role0002
                 if (userRole != "Role0001" && userRole != "Role0002")

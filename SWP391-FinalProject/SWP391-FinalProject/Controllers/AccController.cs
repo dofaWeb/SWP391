@@ -120,7 +120,18 @@ namespace SWP391_FinalProject.Controllers
             {
                 var RoleId = accRepo.GetRoleId(model.Username);
                 if (RoleId != "Role0003")
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Role, RoleId)
+                    };
+                    var claimsIdentity = new ClaimsIdentity(claims, "login");
+                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                    await HttpContext.SignInAsync(claimsPrincipal);
                     return RedirectToAction("Index", "ProMan");
+                }
+                   
                 else
                 {
                     var user = accRepo.GetUserByUsernameOrEmail(model.Username);
@@ -136,7 +147,7 @@ namespace SWP391_FinalProject.Controllers
                     await HttpContext.SignInAsync(claimsPrincipal);
                     if (user.Status == "0")
                     {
-                        ViewBag.Error = "Your account has been ban";
+                        ViewBag.Error = "Your account has been banned";
                         return View();
                     }
                     else

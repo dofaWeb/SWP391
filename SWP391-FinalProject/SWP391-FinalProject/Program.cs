@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Filters;
 
 namespace SWP391_FinalProject
 {
@@ -48,6 +50,14 @@ namespace SWP391_FinalProject
             });
 
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<ProManAuthorizationFilter>();
+
+            builder.Services.AddControllersWithViews(option =>
+            {
+                // Apply the filter globally
+                option.Filters.Add<ProManAuthorizationFilter>();
+            });
 
             var app = builder.Build();
 

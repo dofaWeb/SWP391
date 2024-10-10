@@ -18,7 +18,7 @@ namespace SWP391_FinalProject.Controllers
 
         public AccController(DBContext context)
         {
-            db= context;
+            db = context;
         }
         [HttpGet]
         public IActionResult Login()
@@ -95,7 +95,8 @@ namespace SWP391_FinalProject.Controllers
                                 new Claim(ClaimTypes.Email, user.Email),
                                 new Claim(ClaimTypes.Name, user.Name),
                                 new Claim(MySetting.CLAIM_CUSTOMERID, user.Id),
-                                new Claim(ClaimTypes.Role, user.RoleId)
+                                new Claim(ClaimTypes.Role, user.RoleId),
+                                new Claim("Username", user.Username)
                             };
             var claimsIdentity = new ClaimsIdentity(claims, "login");
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -131,7 +132,7 @@ namespace SWP391_FinalProject.Controllers
                     await HttpContext.SignInAsync(claimsPrincipal);
                     return RedirectToAction("Index", "ProMan");
                 }
-                   
+
                 else
                 {
                     var user = accRepo.GetUserByUsernameOrEmail(model.Username);
@@ -139,7 +140,8 @@ namespace SWP391_FinalProject.Controllers
                                 new Claim(ClaimTypes.Email, user.Email),
                                 new Claim(ClaimTypes.Name, user.Name),
                                 new Claim(MySetting.CLAIM_CUSTOMERID, user.Id),
-                                new Claim(ClaimTypes.Role, user.RoleId)
+                                new Claim(ClaimTypes.Role, user.RoleId),
+                                new Claim("Username", user.Username)
                             };
                     var claimsIdentity = new ClaimsIdentity(claims, "login");
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
@@ -155,19 +157,21 @@ namespace SWP391_FinalProject.Controllers
                         return RedirectToAction("Index", "Pro");
                     }
                 }
-                
-                
+
+
             }
             return View();
         }
 
         [Authorize]
-        public  async Task<IActionResult> Profile(string username)
+        public async Task<IActionResult> Profile(string username)
         {
             Repository.User userRepo = new Repository.User();
             UserModel user = new UserModel();
-            user = userRepo.GetUserProfile(username);
+            user = userRepo.GetUserProfileByUsername(username);
+
             return View(user);
+
         }
 
         [Authorize]

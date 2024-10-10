@@ -6,7 +6,7 @@ namespace SWP391_FinalProject.Repository
 {
     public class User
     {
-        public UserModel GetUserProfile(string username)
+        public UserModel GetUserProfileByUsername(string username)
         {
             using (DBContext dbContext = new DBContext())
             {

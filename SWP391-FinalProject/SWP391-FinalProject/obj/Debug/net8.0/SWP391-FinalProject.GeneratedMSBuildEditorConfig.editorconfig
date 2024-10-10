@@ -26,6 +26,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\study\5.FA24\SWP391\Final_Project\SWP391-FinalProject\SWP391-FinalProject
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/EnterOtp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXEVudGVyT3RwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

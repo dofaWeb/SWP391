@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
@@ -20,6 +21,7 @@ namespace SWP391_FinalProject.Controllers
         {
             db = context;
         }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -35,21 +37,45 @@ namespace SWP391_FinalProject.Controllers
             return View();
         }
 
+        public void AddRegisterInfoToCookie(AccountModel model)
+        {
+            CookieOptions Cookie = new CookieOptions();
+            Cookie.Expires = DateTime.Now.AddDays(1);
+            Response.Cookies.Append("RegisterCookie", model.Username+"/"+model.Password+"/"+model.Name+"/"+model.Email+"/"+model.Phone+"/"+model.ProvinceId+"/"+model.Address, Cookie);
+        }
+
         [HttpPost]
         public IActionResult Register(Models.AccountModel model)
         {
             Repository.Account accRepo = new Repository.Account(db);
-            if (accRepo.CheckEmail(model.Email))
+            if (!accRepo.CheckEmail(model.Email))
             {
-                accRepo.AddAccount(model);
-                return RedirectToAction("Index", "Pro");
+                ViewBag.Error = "Email has been used!";
+                return Register();
             }
             else
             {
-                ViewBag.Error = "Email has been used!";
-                return View();
+                AddRegisterInfoToCookie(model);
+                Random random = new Random();
+                Helpers.MailUtil.SendRegisterEmail(model.Email);
+                //return View();
+                return Register();
             }
+            
         }
+
+        public IActionResult ReceiveRegisterEmail()
+        {
+            string cookie = Request.Cookies["RegisterCookie"];
+            string[] model = cookie.Split("/");
+            Repository.Account accRepo = new Repository.Account(db);
+            AccountModel acc = new AccountModel() { Username = model[0], Password = model[1], Name = model[2], Email = model[3], Phone = model[4], ProvinceId = model[5], Address = model[6] };
+            accRepo.AddAccount(acc);
+            Response.Cookies.Delete("RegisterCookie");
+            return RedirectToAction("Login");
+        }
+
+        
 
         public IActionResult LoginWithGoogle()
         {

@@ -30,6 +30,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXEVudGVyT3RwLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/ForgetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXEZvcmdldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -40,6 +44,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFJlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFJlc2V0UGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/SuccessfullySendEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFN1Y2Nlc3NmdWxseVNlbmRFbWFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Cart/AddToCart.cshtml]

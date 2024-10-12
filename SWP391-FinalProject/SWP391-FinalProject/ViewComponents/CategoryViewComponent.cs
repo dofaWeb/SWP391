@@ -14,7 +14,7 @@ namespace SWP391_FinalProject.ViewComponents
         
         public IViewComponentResult Invoke(string CatType)
         {
-            Repository.Category catRepo = new Repository.Category(db);
+            Repository.CategoryRepository catRepo = new Repository.CategoryRepository(db);
             List<Models.CategoryModel> category;
             if (CatType == "Laptops")
             {

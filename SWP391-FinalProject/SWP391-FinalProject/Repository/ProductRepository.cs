@@ -3,11 +3,11 @@ using SWP391_FinalProject.Helpers;
 
 namespace SWP391_FinalProject.Repository
 {
-    public class Product
+    public class ProductRepository
     {
         private readonly DBContext db;
 
-        public Product(DBContext context)
+        public ProductRepository(DBContext context)
         {
             db = context;
         }

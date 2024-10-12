@@ -4,7 +4,7 @@ using SWP391_FinalProject.Models;
 
 namespace SWP391_FinalProject.Repository
 {
-    public class User
+    public class UserRepository
     {
         public UserModel GetUserProfileByUsername(string username)
         {

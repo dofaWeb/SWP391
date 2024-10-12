@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Http.HttpResults;  // Ensure you have this namespace
 
 namespace SWP391_FinalProject.Repository
 {
-    public class Category
+    public class CategoryRepository
     {
         private readonly DBContext db;
 
-        public Category(DBContext context)
+        public CategoryRepository(DBContext context)
         {
             db = context;
         }

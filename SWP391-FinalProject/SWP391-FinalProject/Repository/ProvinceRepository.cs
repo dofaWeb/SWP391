@@ -2,10 +2,10 @@
 
 namespace SWP391_FinalProject.Repository
 {
-    public class Province
+    public class ProvinceRepository
     {
         private readonly DBContext db;
-        public Province(DBContext context)
+        public ProvinceRepository(DBContext context)
         {
             this.db = context;
         }

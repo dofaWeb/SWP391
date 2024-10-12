@@ -12,7 +12,7 @@ namespace SWP391_FinalProject.ViewComponents
 
         public IViewComponentResult Invoke(string productType, string str = null)
         {
-            Repository.Product proRepo = new Repository.Product(db);
+            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
             List<Models.ProductModel> products;
 
             // Decide which method to call based on the passed argument

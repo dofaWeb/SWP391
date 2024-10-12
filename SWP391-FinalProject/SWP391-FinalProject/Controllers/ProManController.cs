@@ -60,7 +60,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            Repository.Product proRepo = new Repository.Product(db);
+            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
             var proInfor = proRepo.GetProductById(id);
             ViewBag.Product = proInfor;
             return View();

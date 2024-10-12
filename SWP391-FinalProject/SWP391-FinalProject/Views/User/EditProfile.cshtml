@@ -1,0 +1,134 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model SWP391_FinalProject.Models.UserModel;
+@{
+    Layout = "_AccLayout";
+}
+<head>
+    <style>
+        .profile-header {
+            margin-bottom: 20px;
+        }
+
+        .profile-info {
+            margin-top: 20px;
+        }
+
+        .address-section {
+            margin-top: 20px;
+        }
+
+        .default-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .action-btns {
+            margin-left: 10px;
+        }
+
+        .address-form {
+            margin-bottom: 15px;
+        }
+
+        .set-default {
+            cursor: pointer;
+            color: green;
+        }
+
+        .remove-address {
+            cursor: pointer;
+            color: red;
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<!-- Header -->
+<header class="bg-dark text-white text-center py-4">
+    <h1>Edit Profile</h1>
+</header>
+<form asp-action="EditProfile" asp-controller="User" method="post">
+    
+
+    <div class="container mt-4 profile-info">
+        <a asp-action="Profile" asp-controller="User" asp-route-username="@Model.Account.Username" class="btn btn-primary">Back To Profile </a>
+        <h3>User Information</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">Username</th>
+                    <td><input type="text" class="form-control" value="@Model.Account.Username" name="Account.Username" readonly></td>
+                </tr>
+                <tr>
+                    <th scope="row">Full Name</th>
+                    <td><input type="text" class="form-control" value="@Model.Name" name="Name"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td><input type="email" class="form-control" value="@Model.Account.Email" name="Account.Email" readonly></td>
+                </tr>
+                <tr>
+                    <th scope="row">Phone Number</th>
+                    <td><input type="tel" class="form-control" value="@Model.Account.Phone" name="Account.Phone"></td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div class="address-section">
+            <h4>Addresses</h4>
+
+            <!-- List of Addresses -->
+            <div id="addressList">
+                @foreach (var add in Model.Address)
+                {
+                    <div class="address-item">
+                        <p>@add.Province @add.Address </p>
+                    </div>
+                }
+
+                <!-- Add New Address Form -->
+                <div class="address-form">
+                    <h5>Add New Address</h5>
+                    <form id="addAddressForm">
+                        <div class="form-group">
+                            <label for="newAddress">Address</label>
+                            <input type="text" class="form-control" id="newAddress" placeholder="Enter new address">
+                        </div>
+                        <div class="form-group">
+                            <label for="newProvince">Province</label>
+                            <select class="form-control" id="newProvince">
+                                <option value="" disabled selected>Select a province</option>
+                                <option value="Ontario">Ontario</option>
+                                <option value="Quebec">Quebec</option>
+                                <option value="British Columbia">British Columbia</option>
+                                <option value="Alberta">Alberta</option>
+                                <!-- Add more provinces as needed -->
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="addNewAddress()">Add Address</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-success">Save Changes</button>
+            </div>
+        </div>
+</form>

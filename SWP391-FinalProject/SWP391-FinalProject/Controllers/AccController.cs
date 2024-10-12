@@ -185,7 +185,11 @@ namespace SWP391_FinalProject.Controllers
 
 
             }
-            return View();
+            else
+            {
+                ViewBag.Error = "Username or Password is invalid!";
+                return View();
+            }
         }
 
         [HttpGet]
@@ -259,16 +263,7 @@ namespace SWP391_FinalProject.Controllers
             return View();
         }
 
-        [Authorize]
-        public async Task<IActionResult> Profile(string username)
-        {
-            Repository.UserRepository userRepo = new Repository.UserRepository();
-            UserModel user = new UserModel();
-            user = userRepo.GetUserProfileByUsername(username);
-
-            return View(user);
-
-        }
+        
 
         [Authorize]
         public async Task<IActionResult> Logout()

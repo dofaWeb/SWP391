@@ -5,14 +5,57 @@
 }
 
 @model IEnumerable<SWP391_FinalProject.Models.ProductModel>
-@foreach (var item in Model)
-{
-    <div class="col-md-2 mb-4">
-        <div class="card text-center">
-            <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="1"><img src="~/pictures/@item.Picture" class="card-img-top" alt="Product 1"></a>
-            <div class="card-body">
-                <h5 class="card-title">@item.Name</h5>
-            </div>
-        </div>
+<style>
+    .image-container {
+        height: 200px; /* Set fixed height for image container */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* Ensure images do not overflow */
+    }
+
+    .image-container img {
+        max-height: 100%; /* Ensure images fit the container height */
+        max-width: 100%; /* Ensure images are responsive */
+        object-fit: cover; /* Crop images to fill the container if necessary */
+    }
+
+    .price {
+        margin-top: 10px;
+    }
+
+    @@media (min-width: 768px) {
+        .col-md-3 {
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            if (item.ProductState == "Available")
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card text-center">
+                        <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="@item.Id">
+                            <div class="image-container">
+                                <img src="~/pictures/@item.Picture" class="card-img-top" alt="@item.Name">
+                            </div>
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <div class="price">
+                                <span class="old-price text-muted text-decoration-line-through">20.000.000 đ</span>
+                                <h4 class="new-price text-danger">18.000.000 đ</h4>
+                                <span class="saving text-success">Saving: 2.000.000 đ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
     </div>
-}
+</div>

@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.Controllers
             return View();
         }
         public IActionResult Display() {
-            Repository.Category catManRepo = new Repository.Category(db);
+            Repository.CategoryRepository catManRepo = new Repository.CategoryRepository(db);
             var querry=catManRepo.GetAllCategory();
             return View(querry);
         }
@@ -24,7 +24,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult AddCategory()
         {
             
-            Repository.Category catRepo = new Repository.Category(db);
+            Repository.CategoryRepository catRepo = new Repository.CategoryRepository(db);
 
           
             //ViewBag.Category = catRepo.GetAllCategory();
@@ -35,7 +35,7 @@ namespace SWP391_FinalProject.Controllers
         }
         [HttpGet]
         public IActionResult EditCategory(string id) {
-            Repository.Category catManRepo = new Repository.Category(db);
+            Repository.CategoryRepository catManRepo = new Repository.CategoryRepository(db);
             var category=catManRepo.GetCatById(id);
             return View(category);
         }
@@ -43,7 +43,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult AddCategory(string Name, string CategoryType)
         {
             string categoryId = "";
-            Repository.Category catManRepo = new Repository.Category(db);
+            Repository.CategoryRepository catManRepo = new Repository.CategoryRepository(db);
 
             // Determine category ID based on selected CategoryType
             if (CategoryType == "laptop")

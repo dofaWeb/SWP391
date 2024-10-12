@@ -1,17 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Models;
 using System.Security.Cryptography;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SWP391_FinalProject.Repository
 {
-    public class Account
+    public class AccountRepository
     {
         private readonly DBContext db;
 
-        public Account(DBContext context)
+        public AccountRepository(DBContext context)
         {
             db = context;
+        }
+
+        public AccountRepository()
+        {
+
         }
         public string GetNewId()
         {
@@ -88,7 +95,7 @@ namespace SWP391_FinalProject.Repository
                 Point = 0
             };
 
-            Repository.Address addrRepo = new Repository.Address(db);
+            Repository.AddressRepository addrRepo = new Repository.AddressRepository(db);
             id = addrRepo.GetNewId();
             var newAddress = new SWP391_FinalProject.Entities.Address()
             {
@@ -148,6 +155,67 @@ namespace SWP391_FinalProject.Repository
                            }).FirstOrDefault();
 
             return userVar;
+        }
+
+        public Models.AccountModel GetUserByUsernameAndEmail(string username, string email)
+        {
+            var userVar = (from account in db.Accounts
+                           join role in db.RoleNames on account.RoleId equals role.Id
+                           join u in db.Users on account.Id equals u.AccountId
+                           where account.Username == username && account.Email == email
+                           select new Models.AccountModel
+                           {
+                               Id = account.Id,
+                               Username = account.Username,
+                               Password = account.Password,
+                               Email = account.Email,
+                               Phone = account.Phone,
+                               Name = u.Name,
+                               RoleId = account.RoleId,
+                               Status = account.IsActive.ToString(),
+                               RoleName = role.Name // Assuming RoleName is the column you want
+                           }).FirstOrDefault();
+
+            return userVar;
+        }
+
+        public void ResetPassword(AccountModel account)
+        {
+            var existingAccount = db.Accounts.FirstOrDefault(a => a.Id == account.Id);
+            if (existingAccount != null)
+            {
+                string mdPassword = GetMd5Hash(account.Password);
+                existingAccount.Password = mdPassword;
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateAccount(Models.AccountModel account)
+        {
+
+            // Tìm bản ghi theo Id từ cơ sở dữ liệu
+            var existingAccount = db.Accounts.FirstOrDefault(a => a.Id == account.Id);
+
+            if (existingAccount != null)
+            {
+                // Cập nhật các thuộc tính của tài khoản
+                existingAccount.Username = account.Username;
+                existingAccount.Password = account.Password;
+                existingAccount.Email = account.Email;
+                existingAccount.Phone = account.Phone;
+                if(account.Status == "Active")
+                {
+                    existingAccount.IsActive = ulong.Parse("1");
+                }
+                else
+                {
+                    existingAccount.IsActive = ulong.Parse("0");
+                }
+                existingAccount.RoleId = account.RoleId;
+                // Lưu thay đổi vào cơ sở dữ liệu
+                db.SaveChanges();
+            }
+
         }
 
     }

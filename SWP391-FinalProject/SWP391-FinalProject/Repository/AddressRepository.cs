@@ -2,11 +2,11 @@
 
 namespace SWP391_FinalProject.Repository
 {
-    public class Address
+    public class AddressRepository
     {
         private readonly DBContext db;
 
-        public Address(DBContext context)
+        public AddressRepository(DBContext context)
         {
             db = context;
         }

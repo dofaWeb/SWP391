@@ -30,7 +30,7 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult Display()
         {
-            Repository.Product proRepo = new Repository.Product(db);
+            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
             var query = proRepo.GetAllProduct();
 
             return View(query);
@@ -38,8 +38,8 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
-            Repository.Product proRepo = new Repository.Product(db);
-            Repository.Category catRepo = new Repository.Category(db);
+            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
+            Repository.CategoryRepository catRepo = new Repository.CategoryRepository(db);
 
             ViewBag.NewProductId = proRepo.getNewProductID();
             //ViewBag.Category = catRepo.GetAllCategory();
@@ -52,7 +52,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddProduct(Models.ProductModel model, IFormFile pictureUpload)
         {
-            Repository.Product proRepo = new Repository.Product(db);
+            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
             proRepo.AddProduct(model, pictureUpload);
             return RedirectToAction("Display");
         }

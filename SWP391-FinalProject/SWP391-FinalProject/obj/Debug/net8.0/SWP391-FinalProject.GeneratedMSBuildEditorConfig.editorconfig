@@ -38,10 +38,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Profile.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFByb2ZpbGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFJlZ2lzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -136,6 +132,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlck1hblxEaXNwbGF5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/User/EditProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxFZGl0UHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/User/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/_ViewImports.cshtml]

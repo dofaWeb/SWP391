@@ -34,7 +34,7 @@
                 </a>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a asp-controller="Acc" asp-action="Profile" asp-route-username="@User.FindFirst("Username")?.Value" title="View profile" class="my-auto">
+                    <a asp-controller="User" asp-action="Profile" asp-route-username="@User.FindFirst("Username")?.Value" title="View profile" class="my-auto">
                         <i class="fas fa-user fa-2x"></i>
                     </a>
                 }

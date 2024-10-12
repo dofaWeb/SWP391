@@ -18,7 +18,7 @@ namespace SWP391_FinalProject.Repository
 
         public AccountRepository()
         {
-
+            db = new DBContext();
         }
         public string GetNewId()
         {
@@ -199,19 +199,23 @@ namespace SWP391_FinalProject.Repository
             if (existingAccount != null)
             {
                 // Cập nhật các thuộc tính của tài khoản
-                existingAccount.Username = account.Username;
-                existingAccount.Password = account.Password;
-                existingAccount.Email = account.Email;
-                existingAccount.Phone = account.Phone;
-                if(account.Status == "Active")
+                if (account.Email != null)
+                    existingAccount.Email = account.Email;
+                if (account.Phone != null)
+                    existingAccount.Phone = account.Phone;
+                if (account.Status != null)
                 {
-                    existingAccount.IsActive = ulong.Parse("1");
+                    if (account.Status == "Active")
+                    {
+                        existingAccount.IsActive = ulong.Parse("1");
+                    }
+                    else
+                    {
+                        existingAccount.IsActive = ulong.Parse("0");
+                    }
                 }
-                else
-                {
-                    existingAccount.IsActive = ulong.Parse("0");
-                }
-                existingAccount.RoleId = account.RoleId;
+                if (account.RoleId != null)
+                    existingAccount.RoleId = account.RoleId;
                 // Lưu thay đổi vào cơ sở dữ liệu
                 db.SaveChanges();
             }

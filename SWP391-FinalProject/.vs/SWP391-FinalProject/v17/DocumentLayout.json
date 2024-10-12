@@ -3,6 +3,62 @@
   "WorkspaceRootPath": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\user\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\user\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\models\\accountmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\models\\accountmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\user\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\user\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\wwwroot\\fontend\\customers\\editprofile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\wwwroot\\fontend\\customers\\editprofile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\controllers\\usermancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\usermancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\acc\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\acc\\enterotp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\enterotp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\acc\\forgetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\forgetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,24 +67,12 @@
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\promancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\helpers\\mailutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\helpers\\mailutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\helpers\\mysetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\helpers\\mysetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\acc\\enterotp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\enterotp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\models\\accountmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\models\\accountmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\wwwroot\\fontend\\customers\\enterotp.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -66,7 +110,163 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\UserRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\UserRepository.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\UserRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\UserRepository.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAuwEcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-12T12:54:42.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EditProfile.cshtml",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\EditProfile.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\User\\EditProfile.cshtml",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\EditProfile.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\User\\EditProfile.cshtml",
+              "ViewState": "AgIAADwAAAAAAAAAAADwv0YAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-12T12:32:44.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\UserController.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\UserController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAkwB4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-12T12:31:04.033Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AccController.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\AccController.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\AccController.cs",
+              "ViewState": "AgIAAAIBAAAAAAAAAAAQwAkBAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T11:23:32.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserModel.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\UserModel.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\UserModel.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\UserModel.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Models\\UserModel.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA5wBAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-12T12:42:24.69Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AccountModel.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\AccountModel.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\AccountModel.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\AccountModel.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Models\\AccountModel.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAYwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-12T06:26:40.357Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\Profile.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\User\\Profile.cshtml",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\Profile.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\User\\Profile.cshtml",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAACkAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-12T12:28:58.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AccountRepository.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAcwMEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-12T13:04:21.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-12T12:17:30.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CartController.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\CartController.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-12T12:33:24.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "editprofile.html",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\wwwroot\\fontend\\customers\\editprofile.html",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\wwwroot\\fontend\\customers\\editprofile.html",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\wwwroot\\fontend\\customers\\editprofile.html",
+              "RelativeToolTip": "SWP391-FinalProject\\wwwroot\\fontend\\customers\\editprofile.html",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAAAI0AAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-10-12T12:35:38.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UserManController.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\UserManController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\UserManController.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\UserManController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\UserManController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-12T12:29:59.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "ProManController.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProManController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ProManController.cs",
@@ -74,37 +274,23 @@
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\ProManController.cs",
               "ViewState": "AgIAADAAAAAAAAAAAAAqwD4AAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-12T07:13:39.538Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-12T07:13:39.538Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 14,
               "Title": "ProController.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ProController.cs",
-              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs*",
-              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\ProController.cs*",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\ProController.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAA7wBYAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-12T07:00:27.001Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-12T07:00:27.001Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AccountModel.cs",
-              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\AccountModel.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\AccountModel.cs",
-              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\AccountModel.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Models\\AccountModel.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAYwBMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-12T06:26:40.357Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 18,
               "Title": "enterOTP.html",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\wwwroot\\fontend\\customers\\enterOTP.html",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\wwwroot\\fontend\\customers\\enterOTP.html",
@@ -116,19 +302,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "EnterOtp.cshtml",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\EnterOtp.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\EnterOtp.cshtml",
               "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\EnterOtp.cshtml",
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\EnterOtp.cshtml",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAABgAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-12T05:53:36.591Z"
+              "WhenOpened": "2024-10-12T05:53:36.591Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 19,
               "Title": "MyUtil.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Helpers\\MyUtil.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Helpers\\MyUtil.cs",
@@ -140,19 +327,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AccController.cs",
-              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\AccController.cs",
-              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\AccController.cs",
-              "ViewState": "AgIAAI0AAAAAAAAAAAAswOoAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T11:23:32.419Z"
+              "DocumentIndex": 13,
+              "Title": "ForgetPassword.cshtml",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\ForgetPassword.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\ForgetPassword.cshtml",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\ForgetPassword.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\ForgetPassword.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-12T09:56:04.918Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 17,
               "Title": "MySetting.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Helpers\\MySetting.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Helpers\\MySetting.cs",
@@ -164,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 16,
               "Title": "MailUtil.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Helpers\\MailUtil.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Helpers\\MailUtil.cs",

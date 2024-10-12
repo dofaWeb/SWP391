@@ -5,6 +5,70 @@
     Layout = "_AdminLayout";
 }
 
+<style>
+    .container {
+        display: flex;
+        margin-top: 20px;
+    }
+
+    .left-side,
+    .right-side {
+        padding: 20px;
+    }
+
+    .left-side {
+        width: 30%;
+        border-right: 1px solid #ddd;
+    }
+
+    .right-side {
+        width: 70%;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-inline .form-control {
+        width: auto;
+    }
+
+    .action-btns {
+        display: flex;
+        gap: 10px;
+    }
+
+    .table td,
+    .table th {
+        vertical-align: middle;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    /* Initially hide the Add and Edit Panels */
+    #addPanel, #editPanel {
+        display: none;
+        border: 1px solid #ddd;
+        padding: 20px;
+        background-color: #f9f9f9;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        z-index: 10;
+    }
+
+    /* Close button styling */
+    .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 20px;
+    }
+</style>
+
 <!-- Page Header -->
 <header class="bg-dark text-white text-center py-4">
     <h1>Edit Product</h1>
@@ -15,14 +79,15 @@
     <!-- Left Side: Product Attributes -->
     <div class="left-side">
         <h3>Product Information</h3>
+        <img src="~/pictures/@ViewBag.Product.Picture" />
         <form id="productForm">
             <div class="form-group">
                 <label for="productID">Product ID:</label>
-                <input type="text" class="form-control" id="productID" value="12345" readonly>
+                <input type="text" class="form-control" id="productID" value="@ViewBag.Product.Picture" readonly>
             </div>
             <div class="form-group">
                 <label for="productName">Product Name:</label>
-                <input type="text" class="form-control" id="productName" value="Laptop X Series">
+                <input type="text" class="form-control" id="productName" value="@ViewBag.Product.Name">
             </div>
             <div class="form-group">
                 <label for="category">Category:</label>
@@ -43,7 +108,7 @@
             <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea class="form-control" id="description"
-                          rows="4">High-performance laptop with premium features.</textarea>
+                          rows="4">@ViewBag.Product.Description.</textarea>
             </div>
 
             <!-- Product Image -->
@@ -60,6 +125,70 @@
     <div class="right-side">
         <h3>Product Items</h3>
 
+        <!-- Add Button -->
+        <button class="btn btn-success" id="addVariationBtn">Add Variation</button>
+
+        <!-- Table for Product Variations (CRUD) -->
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Storage</th>
+                    <th>RAM</th>
+                    <th>Quantity</th>
+                    <th>Import Price</th>
+                    <th>Selling Price</th>
+                    <th>Discount</th>
+                    <th>Price after Discount</th>
+                    <th>Profit</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="variationTable">
+                <tr>
+                    <td>1</td>
+                    <td>512GB</td>
+                    <td>16GB</td>
+                    <td>10</td>
+                    <td>900</td>
+                    <td>1000</td>
+                    <td>5%</td>
+                    <td>950</td>
+                    <td>50</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-warning btn-sm"  id="editVariationBtn">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteVariation(1)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>1TB</td>
+                    <td>32GB</td>
+                    <td>5</td>
+                    <td>1300</td>
+                    <td>1500</td>
+                    <td>0%</td>
+                    <td>1500</td>
+                    <td>200</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-warning btn-sm" onclick="editVariation(2, '1TB', '32GB', 5, 1500)">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteVariation(2)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Panel -->
+<div id="addPanel">
+    <span class="close-btn" onclick="closeAddPanel()">×</span>
+    <h4>Add Variation</h4>
+    <form id="addForm">
         <!-- Storage Field with Listbox -->
         <div class="form-group form-inline">
             <label for="storage">Storage:</label>
@@ -104,63 +233,8 @@
             <input type="number" class="form-control ml-2" id="discount" placeholder="Enter discount" min="0">
         </div>
 
-        <!-- Add Button -->
-        <button class="btn btn-success" id="addVariationBtn">Add Variation</button>
-
-        <!-- Table for Product Variations (CRUD) -->
-        <table class="table table-bordered mt-4">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Storage</th>
-                    <th>RAM</th>
-                    <th>Quantity</th>
-                    <th>Import Price</th>
-                    <th>Selling Price</th>
-                    <th>Discount</th>
-                    <th>Price after Discount</th>
-                    <th>Profit</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="variationTable">
-                <tr>
-                    <td>1</td>
-                    <td>512GB</td>
-                    <td>16GB</td>
-                    <td>10</td>
-                    <td>900</td>
-                    <td>1000</td>
-                    <td>5%</td>
-                    <td>950</td>
-                    <td>50</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn btn-warning btn-sm" onclick="editVariation(1, '512GB', '16GB', 10, 1000)">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteVariation(1)">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>1TB</td>
-                    <td>32GB</td>
-                    <td>5</td>
-                    <td>1300</td>
-                    <td>1500</td>
-                    <td>0%</td>
-                    <td>1500</td>
-                    <td>200</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn btn-warning btn-sm" onclick="editVariation(2, '1TB', '32GB', 5, 1500)">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteVariation(2)">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <button type="button" class="btn btn-success" onclick="addVariation()">Add</button>
+    </form>
 </div>
 
 <!-- Edit Panel -->
@@ -168,38 +242,67 @@
     <span class="close-btn" onclick="closeEditPanel()">×</span>
     <h4>Edit Variation</h4>
     <form id="editForm">
-        <div class="form-group">
-            <label for="editStorage">Storage:</label>
-            <select class="form-control" id="editStorage">
+        <!-- Storage Field with Listbox -->
+        <div class="form-group form-inline">
+            <label for="storage">Storage:</label>
+            <select class="form-control ml-2" id="storage">
                 <option value="256GB">256GB</option>
-                <option value="512GB">512GB</option>
+                <option value="512GB" selected>512GB</option>
                 <option value="1TB">1TB</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="editRam">RAM:</label>
-            <select class="form-control" id="editRam">
+
+        <!-- RAM Field with Listbox -->
+        <div class="form-group form-inline">
+            <label for="ram">RAM:</label>
+            <select class="form-control ml-2" id="ram">
                 <option value="8GB">8GB</option>
-                <option value="16GB">16GB</option>
+                <option value="16GB" selected>16GB</option>
                 <option value="32GB">32GB</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="editQuantity">Quantity:</label>
-            <input type="number" class="form-control" id="editQuantity" min="1">
+
+        <!-- Quantity Input -->
+        <div class="form-group form-inline">
+            <label for="quantity">Quantity:</label>
+            <input type="number" class="form-control ml-2" id="quantity" placeholder="Enter quantity" min="1">
         </div>
-        <div class="form-group">
-            <label for="editImportPrice">Import Price ($):</label>
-            <input type="number" class="form-control" id="editImportPrice" min="0">
+
+        <!-- Import Price Input -->
+        <div class="form-group form-inline">
+            <label for="importPrice">Import Price ($):</label>
+            <input type="number" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="0">
         </div>
-        <div class="form-group">
-            <label for="editSellingPrice">Selling Price ($):</label>
-            <input type="number" class="form-control" id="editSellingPrice" min="0">
+
+        <!-- Selling Price Input -->
+        <div class="form-group form-inline">
+            <label for="sellingPrice">Selling Price ($):</label>
+            <input type="number" class="form-control ml-2" id="sellingPrice" placeholder="Enter price" min="0">
         </div>
-        <div class="form-group">
-            <label for="editDiscount">Discount (%):</label>
-            <input type="number" class="form-control" id="editDiscount" min="0">
+
+        <!-- Discount Input -->
+        <div class="form-group form-inline">
+            <label for="discount">Discount (%):</label>
+            <input type="number" class="form-control ml-2" id="discount" placeholder="Enter discount" min="0">
         </div>
         <button type="button" class="btn btn-primary" onclick="saveChanges()">Save</button>
     </form>
 </div>
+
+<script>
+    document.getElementById("addVariationBtn").onclick = function () {
+        document.getElementById("addPanel").style.display = "block";
+    };
+
+    document.getElementById("editVariationBtn").onclick = function () {
+        document.getElementById("editPanel").style.display = "block";
+    };
+
+    // Function to close the Add Panel
+    function closeAddPanel() {
+        document.getElementById("addPanel").style.display = "none";
+    }
+    function closeEditPanel() {
+        document.getElementById("editPanel").style.display = "none";
+    }
+</script>

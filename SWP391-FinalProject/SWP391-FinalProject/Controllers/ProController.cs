@@ -21,9 +21,7 @@ namespace SWP391_FinalProject.Controllers
             {
                 return RedirectToAction("Index", "ProMan");
             }
-
             return View();
-
         }
 
         public IActionResult ProductDetail(string id)

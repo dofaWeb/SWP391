@@ -56,5 +56,14 @@ namespace SWP391_FinalProject.Controllers
             proRepo.AddProduct(model, pictureUpload);
             return RedirectToAction("Display");
         }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            Repository.Product proRepo = new Repository.Product(db);
+            var proInfor = proRepo.GetProductById(id);
+            ViewBag.Product = proInfor;
+            return View();
+        }
     }
 }

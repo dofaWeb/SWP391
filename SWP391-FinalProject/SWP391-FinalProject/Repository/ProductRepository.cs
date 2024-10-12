@@ -114,8 +114,6 @@ namespace SWP391_FinalProject.Repository
             return list;
         }
 
-
-
         public void AddProduct(Models.ProductModel model, IFormFile pictureUpload)
         {
             var newProduct = new Entities.Product
@@ -132,6 +130,28 @@ namespace SWP391_FinalProject.Repository
             }
             db.Products.Add(newProduct);
             db.SaveChanges();
+        }
+
+        public Models.ProductModel GetProductById(string id)
+        {
+            var query = from p in db.Products
+                        join c in db.Categories on p.CategoryId equals c.Id
+                        join ps in db.ProductStates on p.StateId equals ps.Id
+                        where p.Id == id
+                        select new Models.ProductModel
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Picture = p.Picture,
+                            Quantity = (db.ProductItems
+                                        .Where(pi => pi.ProductId == p.Id)
+                                        .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
+                            CategoryName = c.Name,
+                            ProductState = ps.Name
+                        };
+            var product = query.FirstOrDefault();
+            return product;
         }
     }
 }

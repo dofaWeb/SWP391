@@ -80,43 +80,97 @@
     <div class="left-side">
         <h3>Product Information</h3>
         <img src="~/pictures/@ViewBag.Product.Picture" />
-        <form id="productForm">
+        <form id="productForm" asp-controller="ProMan" asp-action="EditProduct" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="productID">Product ID:</label>
-                <input type="text" class="form-control" id="productID" value="@ViewBag.Product.Picture" readonly>
+                <input type="text" name="Id" class="form-control" id="productID" value="@ViewBag.Product.Id" readonly>
             </div>
             <div class="form-group">
                 <label for="productName">Product Name:</label>
-                <input type="text" class="form-control" id="productName" value="@ViewBag.Product.Name">
+                <input type="text" name="Name" class="form-control" id="productName" value="@ViewBag.Product.Name">
             </div>
+            <!-- Category Selection -->
             <div class="form-group">
                 <label for="category">Category:</label>
-                <select class="form-control" id="category">
-                    <option value="laptop" selected>Laptop</option>
-                    <option value="phone">Phone</option>
-                    <option value="accessory">Accessory</option>
+                <select class="form-control" id="category" required onchange="updateSubcategory()">
+                    @if (ViewBag.Product.CategoryId.StartsWith("B0"))
+                    {
+                        <option value="laptop" selected>Laptop</option>
+                        <option value="phone">Smartphone</option>
+                    }
+                    else
+                    {
+                        <option value="laptop">Laptop</option>
+                        <option value="phone" selected>Smartphone</option>
+
+                    }
+                </select>
+            </div>
+
+            <!-- Subcategory Selection -->
+            <div class="form-group">
+                <label for="subcategory">Subcategory:</label>
+                <select class="form-control" name="CategoryId" id="subcategory" required>
+                    <!-- Subcategories will be updated based on the category selection -->
+                    @if (ViewBag.Product.CategoryId.StartsWith("B0"))
+                    {
+                        @foreach (var item in ViewBag.Laptops)
+                        {
+                            @if (ViewBag.Product.CategoryId == item.Id)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    }else{
+                        @foreach (var item in ViewBag.Smartphones)
+                        {
+                            @if (ViewBag.Product.CategoryId == item.Id)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    }
                 </select>
             </div>
             <div class="form-group">
-                <label for="subcategory">Subcategory:</label>
-                <select class="form-control" id="subcategory">
-                    <option value="Dell">Dell</option>
-                    <option value="Asus" selected>Asus</option>
-                    <option value="Lenovo">Lenovo</option>
+                <label for="state">Product State:</label>
+                <select class="form-control" name="StateId" id="state">
+                    @foreach (var item in ViewBag.ProductState)
+                    {
+                        if (item.Id != 3)
+                        {
+                            if (item.Name == ViewBag.Product.ProductState)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    }
                 </select>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description"
+                <textarea class="form-control" name="Description" id="description"
                           rows="4">@ViewBag.Product.Description.</textarea>
             </div>
 
             <!-- Product Image -->
             <div class="form-group">
                 <label for="productImage">Product Image:</label>
-                <input type="file" class="form-control-file" id="productImage" accept="image/*">
+                <input type="file" name="pictureUpload" class="form-control-file" id="productImage" accept="image/*">
             </div>
-            <button type="submit" class="btn btn-danger">Cancel</button>
+            <a asp-controller="ProMan" asp-action="Display" class="btn btn-danger">Cancel</a>
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
     </div>
@@ -157,7 +211,7 @@
                     <td>50</td>
                     <td>
                         <div class="action-btns">
-                            <button class="btn btn-warning btn-sm"  id="editVariationBtn">Edit</button>
+                            <button class="btn btn-warning btn-sm" id="editVariationBtn">Edit</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteVariation(1)">Delete</button>
                         </div>
                     </td>
@@ -288,6 +342,46 @@
         <button type="button" class="btn btn-primary" onclick="saveChanges()">Save</button>
     </form>
 </div>
+
+@{
+    var laptops = ViewBag.Laptops ?? new List<dynamic>();
+    var phones = ViewBag.Smartphones ?? new List<dynamic>();
+}
+<script>
+    // JavaScript function to update subcategories based on selected category
+    function updateSubcategory() {
+        // Get selected category value
+        var category = document.getElementById("category").value;
+        var subcategory = document.getElementById("subcategory");
+
+        // Clear previous options
+        subcategory.innerHTML = "";
+
+        // Check category and update the subcategory options accordingly
+        if (category === "laptop") {
+    @foreach (var laptop in ViewBag.Laptops)
+    {
+        <text>
+                        var option = document.createElement("option");
+                        option.value = "@laptop.Id";
+                        option.text = "@laptop.Name";
+                        subcategory.add(option);
+        </text>
+    }
+                        } else if (category === "phone") {
+    @foreach (var phone in ViewBag.Smartphones)
+    {
+        <text>
+                        var option = document.createElement("option");
+                        option.value = "@phone.Id";
+                        option.text = "@phone.Name";
+                        subcategory.add(option);
+        </text>
+    }
+                        }
+    }
+</script>
+
 
 <script>
     document.getElementById("addVariationBtn").onclick = function () {

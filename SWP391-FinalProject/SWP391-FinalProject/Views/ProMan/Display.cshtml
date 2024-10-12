@@ -83,7 +83,7 @@
                 <td>@item.Quantity</td>
                 <td><span class="badge badge-success">@item.ProductState</span></td>
                 <td>
-                    <a asp-controller="ProMan" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-controller="ProMan" asp-action="EditProduct" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
                     <button class="btn btn-danger btn-sm" onclick="deleteProduct(1)">Delete</button>
                     <button class="btn btn-secondary btn-gray">Disabled</button>
                 </td>

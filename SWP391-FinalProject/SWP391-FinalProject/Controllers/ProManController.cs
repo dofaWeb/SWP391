@@ -30,7 +30,7 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult Display()
         {
-            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
+            ProductRepository proRepo = new ProductRepository(db);
             var query = proRepo.GetAllProduct();
 
             return View(query);
@@ -38,8 +38,8 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
-            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
-            Repository.CategoryRepository catRepo = new Repository.CategoryRepository(db);
+            ProductRepository proRepo = new ProductRepository(db);
+            CategoryRepository catRepo = new CategoryRepository(db);
 
             ViewBag.NewProductId = proRepo.getNewProductID();
             //ViewBag.Category = catRepo.GetAllCategory();
@@ -52,18 +52,33 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddProduct(Models.ProductModel model, IFormFile pictureUpload)
         {
-            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
+            ProductRepository proRepo = new ProductRepository(db);
             proRepo.AddProduct(model, pictureUpload);
             return RedirectToAction("Display");
         }
 
         [HttpGet]
-        public IActionResult Edit(string id)
+        public IActionResult EditProduct(string id)
         {
-            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
+            ProductRepository proRepo = new ProductRepository(db);
+            CategoryRepository catRepo = new CategoryRepository(db);
             var proInfor = proRepo.GetProductById(id);
+
+            var proState = proRepo.getAllProductState();
+
             ViewBag.Product = proInfor;
+            ViewBag.Laptops = catRepo.GetAllCatLaps();
+            ViewBag.Smartphones = catRepo.GetAllCatPhone();
+            ViewBag.ProductState = proState;
             return View();
+        }
+        [HttpPost]
+        public IActionResult EditProduct(ProductModel model, IFormFile pictureUpload)
+        {
+            ProductRepository proRepo = new ProductRepository(db);
+            proRepo.UpdateProduct(model, pictureUpload);
+
+            return RedirectToAction("Display");
         }
     }
 }

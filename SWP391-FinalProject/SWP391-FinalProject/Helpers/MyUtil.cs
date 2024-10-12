@@ -2,7 +2,7 @@
 {
     public class MyUtil
     {
-        public static string UpLoadHinh(IFormFile picture)
+        public static string UpLoadPicture(IFormFile picture)
         {
             try
             {
@@ -18,5 +18,27 @@
                 return string.Empty;
             }
         }
+
+        public static bool DeletePicture(string fileName)
+        {
+            try
+            {
+                var fullPathFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "pictures", fileName);
+
+                // Check if the file exists before attempting to delete it.
+                if (File.Exists(fullPathFile))
+                {
+                    File.Delete(fullPathFile);
+                    return true;  // File successfully deleted.
+                }
+                return false;  // File not found.
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if needed.
+                return false;  // Deletion failed.
+            }
+        }
+
     }
 }

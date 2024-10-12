@@ -21,13 +21,9 @@ namespace SWP391_FinalProject.Controllers
             {
                 return RedirectToAction("Index", "ProMan");
             }
-<<<<<<< HEAD
-            Repository.ProductRepository proRepo = new Repository.ProductRepository(db);
-            var result = proRepo.GetAllProduct();
-            return View(result);
-=======
+
             return View();
->>>>>>> main
+
         }
 
         public IActionResult ProductDetail(string id)

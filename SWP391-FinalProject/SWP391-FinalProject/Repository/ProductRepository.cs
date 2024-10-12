@@ -1,5 +1,7 @@
-﻿using SWP391_FinalProject.Entities;
+﻿using Microsoft.CodeAnalysis;
+using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Helpers;
+using SWP391_FinalProject.Models;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -126,11 +128,61 @@ namespace SWP391_FinalProject.Repository
             };
             if (pictureUpload != null)
             {
-                newProduct.Picture = MyUtil.UpLoadHinh(pictureUpload);
+                newProduct.Picture = MyUtil.UpLoadPicture(pictureUpload);
             }
             db.Products.Add(newProduct);
             db.SaveChanges();
         }
+
+        public int? GetProductQuantityById(string id)
+        {
+            var totalQuantity = (from p in db.Products
+                                 join pi in db.ProductItems on p.Id equals pi.ProductId
+                                 where p.Id == id
+                                 select pi.Quantity).Sum();
+            return totalQuantity;
+        }
+
+        public void UpdateProduct(ProductModel model, IFormFile pictureUpload)
+        {
+            // Fetch the existing product from the database
+            var existingProduct = db.Products.FirstOrDefault(p => p.Id == model.Id);
+            if (existingProduct == null)
+                throw new Exception("Product not found!");
+
+            // Update the fields that are allowed to change
+            existingProduct.Name = model.Name;
+            existingProduct.CategoryId = model.CategoryId;
+            existingProduct.Description = model.Description;
+            if (GetProductQuantityById(model.Id) > 0)
+            {
+                existingProduct.StateId = model.StateId;
+            }
+            else
+                existingProduct.StateId = 3;//out of stock
+
+            // Handle picture upload
+            if (pictureUpload != null)
+            {
+                MyUtil.DeletePicture(existingProduct.Picture);  // Delete old picture
+                existingProduct.Picture = MyUtil.UpLoadPicture(pictureUpload);  // Upload new one
+            }
+
+            // Save changes to the database
+            using var transaction = db.Database.BeginTransaction();
+            try
+            {
+                db.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
 
         public Models.ProductModel GetProductById(string id)
         {
@@ -148,7 +200,8 @@ namespace SWP391_FinalProject.Repository
                                         .Where(pi => pi.ProductId == p.Id)
                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
                             CategoryName = c.Name,
-                            ProductState = ps.Name
+                            ProductState = ps.Name,
+                            CategoryId = c.Id
                         };
             var product = query.FirstOrDefault();
             return product;

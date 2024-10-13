@@ -1,5 +1,6 @@
 {
   "Version": 1,
+
   "WorkspaceRootPath": "D:\\Group Project\\SWP391-FinalProject\\",
   "Documents": [
     {
@@ -88,6 +89,7 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\proman\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\proman\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
@@ -98,6 +100,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+
           "SelectedChildIndex": 9,
           "Children": [
             {
@@ -123,11 +126,13 @@
               "ViewState": "AgIAADAAAAAAAAAAAAAAADYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-13T08:26:48.711Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+
               "Title": "ProductsByCategory.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductsByCategory.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\ProductsByCategory.cshtml",
@@ -173,12 +178,14 @@
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
               "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
               "ViewState": "AgIAADIAAAAAAAAAAAAAADYAAAAzAAAAAAAAAA==",
+
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-13T07:13:29.101Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 1,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\_Layout.cshtml",
@@ -227,10 +234,12 @@
               "ViewState": "AgIAACYAAAAAAAAAAAAqwDEAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-10T00:53:19.2Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 9,
               "Title": "AddCategory.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\CatMan\\AddCategory.cshtml",
@@ -238,11 +247,13 @@
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\CatMan\\AddCategory.cshtml",
               "RelativeToolTip": "SWP391-FinalProject\\Views\\CatMan\\AddCategory.cshtml",
               "ViewState": "AgIAADMAAAAAAAAAAAAAADoAAABTAAAAAAAAAA==",
+
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-13T06:38:09.23Z"
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 10,
               "Title": "EditProduct.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
@@ -260,18 +271,21 @@
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\UserManController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\UserManController.cs",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\UserManController.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\UserManController.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAkwBIAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-10T03:24:34.919Z"
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 14,
               "Title": "AccController.cs",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\AccController.cs",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\AccController.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAewHYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -279,14 +293,17 @@
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 11,
               "Title": "Display.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\UserMan\\Display.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\UserMan\\Display.cshtml",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\UserMan\\Display.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\UserMan\\Display.cshtml",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAEIAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAEwAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+
               "WhenOpened": "2024-10-10T03:24:55.728Z"
             },
             {
@@ -296,6 +313,7 @@
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Filters\\ProManAuthorizationFilter.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Filters\\ProManAuthorizationFilter.cs",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Filters\\ProManAuthorizationFilter.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Filters\\ProManAuthorizationFilter.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwB0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -303,23 +321,28 @@
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 13,
               "Title": "AccountModel.cs",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\AccountModel.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\AccountModel.cs",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\AccountModel.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Models\\AccountModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T03:51:41.553Z"
+              "WhenOpened": "2024-10-10T03:51:41.553Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 15,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\_ViewImports.cshtml",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\_ViewImports.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\_ViewImports.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -327,11 +350,13 @@
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 17,
               "Title": "_AccLayout.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -339,11 +364,13 @@
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 19,
               "Title": "Display.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
               "ViewState": "AgIAAEUAAAAAAAAAAAAAAFUAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -351,11 +378,13 @@
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 18,
               "Title": "SWP391-FinalProject.csproj",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\SWP391-FinalProject.csproj",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
+
               "RelativeToolTip": "SWP391-FinalProject\\SWP391-FinalProject.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -363,11 +392,13 @@
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 20,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\appsettings.json",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\appsettings.json",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\appsettings.json",
+
               "RelativeToolTip": "SWP391-FinalProject\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -375,11 +406,13 @@
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 21,
               "Title": "AddProduct.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\AddProduct.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\AddProduct.cshtml",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\AddProduct.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\ProMan\\AddProduct.cshtml",
               "ViewState": "AgIAADsAAAAAAAAAAAAmwEsAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",

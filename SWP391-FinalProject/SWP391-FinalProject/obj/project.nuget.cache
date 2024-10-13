@@ -1,5 +1,6 @@
 {
   "version": 2,
+
   "dgSpecHash": "yNDL6oMX7po=",
   "success": true,
   "projectFilePath": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
@@ -136,6 +137,7 @@
     "C:\\Users\\LENOVO\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\system.threading.tasks.dataflow\\7.0.0\\system.threading.tasks.dataflow.7.0.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\system.windows.extensions\\7.0.0\\system.windows.extensions.7.0.0.nupkg.sha512"
+
   ],
   "logs": []
 }

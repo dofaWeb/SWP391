@@ -36,7 +36,7 @@
     <div class="row">
         @foreach (var item in Model)
         {
-            if (item.ProductState != "Available")
+            if (item.ProductState == "Available")
             {
                 <div class="col-md-3 mb-4">
                     <div class="card text-center">

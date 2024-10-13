@@ -70,6 +70,7 @@ namespace SWP391_FinalProject.Controllers
             ViewBag.Laptops = catRepo.GetAllCatLaps();
             ViewBag.Smartphones = catRepo.GetAllCatPhone();
             ViewBag.ProductState = proState;
+            ViewBag.ProductItem = proRepo.GetProductItem(id);
             return View();
         }
         [HttpPost]
@@ -79,6 +80,14 @@ namespace SWP391_FinalProject.Controllers
             proRepo.UpdateProduct(model, pictureUpload);
 
             return RedirectToAction("Display");
+        }
+
+        [HttpPost]
+        public IActionResult AddProItem(ProductItemModel model)
+        {
+            ProductItemRepository proRepo =new ProductItemRepository(db);   
+            proRepo.AddProductItem(model);
+            return RedirectToAction("EditProduct",new {id = model.ProductId });
         }
     }
 }

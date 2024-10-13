@@ -7,22 +7,25 @@
 
 <style>
     .container {
-        display: flex;
         margin-top: 20px;
     }
 
-    .left-side,
-    .right-side {
+    .product-info {
+        display: flex;
+        margin-bottom: 30px;
         padding: 20px;
+        border: 1px solid #ddd;
     }
 
-    .left-side {
-        width: 30%;
-        border-right: 1px solid #ddd;
-    }
+        .product-info img {
+            width: 60%;
+            margin-right: 20px;
+            border-right: 1px solid #ddd;
+            padding-right: 20px;
+        }
 
-    .right-side {
-        width: 70%;
+    .product-details {
+        width: 40%;
     }
 
     .form-group {
@@ -76,106 +79,113 @@
 
 <!-- Main Container -->
 <div class="container">
-    <!-- Left Side: Product Attributes -->
-    <div class="left-side">
-        <h3>Product Information</h3>
-        <img src="~/pictures/@ViewBag.Product.Picture" />
-        <form id="productForm" asp-controller="ProMan" asp-action="EditProduct" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="productID">Product ID:</label>
-                <input type="text" name="Id" class="form-control" id="productID" value="@ViewBag.Product.Id" readonly>
-            </div>
-            <div class="form-group">
-                <label for="productName">Product Name:</label>
-                <input type="text" name="Name" class="form-control" id="productName" value="@ViewBag.Product.Name">
-            </div>
-            <!-- Category Selection -->
-            <div class="form-group">
-                <label for="category">Category:</label>
-                <select class="form-control" id="category" required onchange="updateSubcategory()">
-                    @if (ViewBag.Product.CategoryId.StartsWith("B0"))
-                    {
-                        <option value="laptop" selected>Laptop</option>
-                        <option value="phone">Smartphone</option>
-                    }
-                    else
-                    {
-                        <option value="laptop">Laptop</option>
-                        <option value="phone" selected>Smartphone</option>
+    <!-- Product Information Section -->
+    <div class="product-info">
+        <!-- Left Side: Product Image -->
+        <img src="~/pictures/@ViewBag.Product.Picture" alt="Product Image" class="img-fluid" />
 
-                    }
-                </select>
-            </div>
+        <!-- Right Side: Product Details -->
+        <div class="product-details">
+            <h3>Product Information</h3>
+            <form id="productForm" asp-controller="ProMan" asp-action="EditProduct" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="productID">Product ID:</label>
+                    <input type="text" name="Id" class="form-control" id="productID" value="@ViewBag.Product.Id" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" name="Name" class="form-control" id="productName" value="@ViewBag.Product.Name">
+                </div>
 
-            <!-- Subcategory Selection -->
-            <div class="form-group">
-                <label for="subcategory">Subcategory:</label>
-                <select class="form-control" name="CategoryId" id="subcategory" required>
-                    <!-- Subcategories will be updated based on the category selection -->
-                    @if (ViewBag.Product.CategoryId.StartsWith("B0"))
-                    {
-                        @foreach (var item in ViewBag.Laptops)
+                <!-- Category Selection -->
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select class="form-control" id="category" required onchange="updateSubcategory()">
+                        @if (ViewBag.Product.CategoryId.StartsWith("B0"))
                         {
-                            @if (ViewBag.Product.CategoryId == item.Id)
+                            <option value="laptop" selected>Laptop</option>
+                            <option value="phone">Smartphones</option>
+                        }
+                        else
+                        {
+                            <option value="laptop">Laptop</option>
+                            <option value="phone" selected>Smartphones</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Subcategory Selection -->
+                <div class="form-group">
+                    <label for="subcategory">Subcategory:</label>
+                    <select class="form-control" name="CategoryId" id="subcategory" required>
+                        @if (ViewBag.Product.CategoryId.StartsWith("B0"))
+                        {
+                            @foreach (var item in ViewBag.Laptops)
                             {
-                                <option value="@item.Id" selected>@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id">@item.Name</option>
+                                @if (ViewBag.Product.CategoryId == item.Id)
+                                {
+                                    <option value="@item.Id" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
                             }
                         }
-                    }else{
-                        @foreach (var item in ViewBag.Smartphones)
+                        else
                         {
-                            @if (ViewBag.Product.CategoryId == item.Id)
+                            @foreach (var item in ViewBag.Smartphones)
                             {
-                                <option value="@item.Id" selected>@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id">@item.Name</option>
+                                @if (ViewBag.Product.CategoryId == item.Id)
+                                {
+                                    <option value="@item.Id" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
                             }
                         }
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="state">Product State:</label>
-                <select class="form-control" name="StateId" id="state">
-                    @foreach (var item in ViewBag.ProductState)
-                    {
-                        if (item.Id != 3)
-                        {
-                            if (item.Name == ViewBag.Product.ProductState)
-                            {
-                                <option value="@item.Id" selected>@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        }
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea class="form-control" name="Description" id="description"
-                          rows="4">@ViewBag.Product.Description.</textarea>
-            </div>
+                    </select>
+                </div>
 
-            <!-- Product Image -->
-            <div class="form-group">
-                <label for="productImage">Product Image:</label>
-                <input type="file" name="pictureUpload" class="form-control-file" id="productImage" accept="image/*">
-            </div>
-            <a asp-controller="ProMan" asp-action="Display" class="btn btn-danger">Cancel</a>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
+                <div class="form-group">
+                    <label for="state">Product State:</label>
+                    <select class="form-control" name="StateId" id="state">
+                        @foreach (var item in ViewBag.ProductState)
+                        {
+                            if (item.Id != 3)
+                            {
+                                @if (ViewBag.Product.ProductState == item.Name)
+                                {
+                                    <option value="@item.Id" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" name="Description" id="description" rows="4">@ViewBag.Product.Description</textarea>
+                </div>
+
+                <!-- Product Image Upload -->
+                <div class="form-group">
+                    <label for="productImage">Product Image:</label>
+                    <input type="file" name="pictureUpload" class="form-control-file" id="productImage" accept="image/*">
+                </div>
+
+                <a asp-controller="ProMan" asp-action="Display" class="btn btn-danger">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
     </div>
 
-    <!-- Right Side: Storage, RAM, Quantity, Price Input and Add Button -->
+    <!-- Product Variations Section (below product information) -->
     <div class="right-side">
         <h3>Product Items</h3>
 
@@ -199,56 +209,43 @@
                 </tr>
             </thead>
             <tbody id="variationTable">
-                <tr>
-                    <td>1</td>
-                    <td>512GB</td>
-                    <td>16GB</td>
-                    <td>10</td>
-                    <td>900</td>
-                    <td>1000</td>
-                    <td>5%</td>
-                    <td>950</td>
-                    <td>50</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn btn-warning btn-sm" id="editVariationBtn">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteVariation(1)">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>1TB</td>
-                    <td>32GB</td>
-                    <td>5</td>
-                    <td>1300</td>
-                    <td>1500</td>
-                    <td>0%</td>
-                    <td>1500</td>
-                    <td>200</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn btn-warning btn-sm" onclick="editVariation(2, '1TB', '32GB', 5, 1500)">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteVariation(2)">Delete</button>
-                        </div>
-                    </td>
-                </tr>
+                @foreach (var item in ViewBag.ProductItem)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Storage</td>
+                        <td>@item.Ram</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.ImportPrice</td>
+                        <td>@item.SellingPrice</td>
+                        <td>@item.Discount</td>
+                        <td>@item.PriceAfterDiscount</td>
+                        <td>@item.Profit</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn btn-warning btn-sm" id="editVariationBtn">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteVariation(@item.Id)">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </div>
 
-<!-- Add Panel -->
+<!-- Add and Edit Panels -->
 <div id="addPanel">
     <span class="close-btn" onclick="closeAddPanel()">×</span>
     <h4>Add Variation</h4>
-    <form id="addForm">
+    <form asp-asp-controller="ProMan" asp-action="AddProItem" method="post" id="addForm">
         <!-- Storage Field with Listbox -->
         <div class="form-group form-inline">
             <label for="storage">Storage:</label>
-            <select class="form-control ml-2" id="storage">
+            <select class="form-control ml-2" name="Storage" id="storage">
+                <option value="128GB" selected>128GB</option>
                 <option value="256GB">256GB</option>
-                <option value="512GB" selected>512GB</option>
+                <option value="512GB">512GB</option>
                 <option value="1TB">1TB</option>
             </select>
         </div>
@@ -256,9 +253,10 @@
         <!-- RAM Field with Listbox -->
         <div class="form-group form-inline">
             <label for="ram">RAM:</label>
-            <select class="form-control ml-2" id="ram">
+            <select class="form-control ml-2" name="Ram" id="ram">
+                <option value="4GB" selected>4GB</option>
                 <option value="8GB">8GB</option>
-                <option value="16GB" selected>16GB</option>
+                <option value="16GB">16GB</option>
                 <option value="32GB">32GB</option>
             </select>
         </div>
@@ -266,32 +264,26 @@
         <!-- Quantity Input -->
         <div class="form-group form-inline">
             <label for="quantity">Quantity:</label>
-            <input type="number" class="form-control ml-2" id="quantity" placeholder="Enter quantity" min="1">
+            <input type="number" name="Quantity" class="form-control ml-2" id="quantity" placeholder="Enter quantity" min="1" value="1">
         </div>
 
         <!-- Import Price Input -->
         <div class="form-group form-inline">
-            <label for="importPrice">Import Price ($):</label>
-            <input type="number" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="0">
-        </div>
+            <label for="importPrice">Import Price (VND):</label>
+            <input type="number" name="ImportPrice" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="0" step="100000">
+        </div>  
 
         <!-- Selling Price Input -->
         <div class="form-group form-inline">
-            <label for="sellingPrice">Selling Price ($):</label>
-            <input type="number" class="form-control ml-2" id="sellingPrice" placeholder="Enter price" min="0">
+            <label for="sellingPrice">Selling Price (VND):</label>
+            <input type="number" name="SellingPrice" class="form-control ml-2" id="sellingPrice" placeholder="Enter price" min="0" step="100000">
         </div>
+        <input type="hidden" name="ProductId" value="@ViewBag.Product.Id"/>
 
-        <!-- Discount Input -->
-        <div class="form-group form-inline">
-            <label for="discount">Discount (%):</label>
-            <input type="number" class="form-control ml-2" id="discount" placeholder="Enter discount" min="0">
-        </div>
-
-        <button type="button" class="btn btn-success" onclick="addVariation()">Add</button>
+        <input type="submit" class="btn btn-success" id="addVariation" value="Add"/>
     </form>
 </div>
 
-<!-- Edit Panel -->
 <div id="editPanel">
     <span class="close-btn" onclick="closeEditPanel()">×</span>
     <h4>Edit Variation</h4>
@@ -299,9 +291,10 @@
         <!-- Storage Field with Listbox -->
         <div class="form-group form-inline">
             <label for="storage">Storage:</label>
-            <select class="form-control ml-2" id="storage">
+            <select class="form-control ml-2" name="Ram" id="storage">
+                <option value="128GB" selected>128GB</option>
                 <option value="256GB">256GB</option>
-                <option value="512GB" selected>512GB</option>
+                <option value="512GB">512GB</option>
                 <option value="1TB">1TB</option>
             </select>
         </div>
@@ -309,9 +302,10 @@
         <!-- RAM Field with Listbox -->
         <div class="form-group form-inline">
             <label for="ram">RAM:</label>
-            <select class="form-control ml-2" id="ram">
+            <select class="form-control ml-2" name="Storage" id="ram">
+                <option value="4GB" selected>4GB</option>
                 <option value="8GB">8GB</option>
-                <option value="16GB" selected>16GB</option>
+                <option value="16GB">16GB</option>
                 <option value="32GB">32GB</option>
             </select>
         </div>
@@ -319,84 +313,55 @@
         <!-- Quantity Input -->
         <div class="form-group form-inline">
             <label for="quantity">Quantity:</label>
-            <input type="number" class="form-control ml-2" id="quantity" placeholder="Enter quantity" min="1">
+            <input type="number" name="Quantity" class="form-control ml-2" id="quantity" placeholder="Enter quantity" min="1">
         </div>
 
         <!-- Import Price Input -->
         <div class="form-group form-inline">
-            <label for="importPrice">Import Price ($):</label>
-            <input type="number" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="0">
+            <label for="importPrice">Import Price (VND):</label>
+            <input type="number" name="ImportPrice" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="0">
         </div>
 
         <!-- Selling Price Input -->
         <div class="form-group form-inline">
-            <label for="sellingPrice">Selling Price ($):</label>
-            <input type="number" class="form-control ml-2" id="sellingPrice" placeholder="Enter price" min="0">
+            <label for="sellingPrice">Selling Price (VND):</label>
+            <input type="number" name="SellingPrice" class="form-control ml-2" id="sellingPrice" placeholder="Enter price" min="0">
         </div>
 
         <!-- Discount Input -->
         <div class="form-group form-inline">
             <label for="discount">Discount (%):</label>
-            <input type="number" class="form-control ml-2" id="discount" placeholder="Enter discount" min="0">
+            <input type="number" name="Discount" class="form-control ml-2" id="discount" placeholder="Enter discount" min="0">
         </div>
         <button type="button" class="btn btn-primary" onclick="saveChanges()">Save</button>
     </form>
 </div>
 
-@{
-    var laptops = ViewBag.Laptops ?? new List<dynamic>();
-    var phones = ViewBag.Smartphones ?? new List<dynamic>();
-}
+<!-- JavaScript for Add and Edit Panels -->
 <script>
-    // JavaScript function to update subcategories based on selected category
-    function updateSubcategory() {
-        // Get selected category value
-        var category = document.getElementById("category").value;
-        var subcategory = document.getElementById("subcategory");
-
-        // Clear previous options
-        subcategory.innerHTML = "";
-
-        // Check category and update the subcategory options accordingly
-        if (category === "laptop") {
-    @foreach (var laptop in ViewBag.Laptops)
-    {
-        <text>
-                        var option = document.createElement("option");
-                        option.value = "@laptop.Id";
-                        option.text = "@laptop.Name";
-                        subcategory.add(option);
-        </text>
-    }
-                        } else if (category === "phone") {
-    @foreach (var phone in ViewBag.Smartphones)
-    {
-        <text>
-                        var option = document.createElement("option");
-                        option.value = "@phone.Id";
-                        option.text = "@phone.Name";
-                        subcategory.add(option);
-        </text>
-    }
-                        }
-    }
-</script>
-
-
-<script>
-    document.getElementById("addVariationBtn").onclick = function () {
+    document.getElementById("addVariationBtn").addEventListener("click", function () {
         document.getElementById("addPanel").style.display = "block";
-    };
+    });
 
-    document.getElementById("editVariationBtn").onclick = function () {
+    document.getElementById("editVariationBtn").addEventListener("click", function () {
         document.getElementById("editPanel").style.display = "block";
-    };
+    });
 
-    // Function to close the Add Panel
     function closeAddPanel() {
         document.getElementById("addPanel").style.display = "none";
     }
+
     function closeEditPanel() {
         document.getElementById("editPanel").style.display = "none";
+    }
+
+    function updateSubcategory() {
+        // Code to dynamically update subcategory options based on category selection
+    }
+
+    function deleteVariation(variationId) {
+        if (confirm("Are you sure you want to delete this variation?")) {
+            // Code to delete the variation
+        }
     }
 </script>

@@ -39,5 +39,15 @@ namespace SWP391_FinalProject.Controllers
             // Return the view with the list of products
             return View(); // Adjust this based on your view's structure
         }
+        public IActionResult ProductsByCategory(string type)
+        {
+            ViewBag.type = type;
+            return View();
+        }
+        public IActionResult GetProductByBrand(string brand)
+        {
+            ViewBag.brand=brand;
+            return View();
+        }
     }
 }

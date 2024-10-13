@@ -33,7 +33,7 @@
                     <div class="card-body p-2">
                         <!-- Laptops Category -->
                         <div class="category-section mb-3">
-                            <h6 class="text-secondary font-weight-bold">Laptops</h6>
+                            <h6 class="text-secondary font-weight-bold"><a asp-controller="Pro" asp-action="ProductsByCategory" asp-route-type="laptops">Laptops</a></h6>
                             <ul class="list-group list-group-flush">
                                 @await Component.InvokeAsync("Category", new { CatType = "Laptops" })
                             </ul>
@@ -41,7 +41,7 @@
 
                         <!-- Phones Category -->
                         <div class="category-section mb-3">
-                            <h6 class="text-secondary font-weight-bold">Phones</h6>
+                            <h6 class="text-secondary font-weight-bold"> <a asp-controller="Pro" asp-action="ProductsByCategory" asp-route-type="phones">Phones</a></h6>
                             <ul class="list-group list-group-flush">
                                 @await Component.InvokeAsync("Category", new { CatType = "Phones" })
                             </ul>

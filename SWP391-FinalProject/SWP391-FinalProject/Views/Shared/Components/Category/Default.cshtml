@@ -8,6 +8,6 @@
 <ul class="list-group list-group-flush">
     @foreach (var item in Model)
     {
-        <li class="list-group-item"><a href="#" class="text-primary">@item.Name</a></li>
+        <li class="list-group-item"><a asp-controller="Pro" asp-action="GetProductByBrand" asp-route-brand="@item.Name" >@item.Name</a></li>
     }
 </ul>

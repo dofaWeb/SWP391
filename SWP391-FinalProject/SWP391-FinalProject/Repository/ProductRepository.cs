@@ -21,20 +21,93 @@ namespace SWP391_FinalProject.Repository
                 return new List<Models.ProductModel>();
             }
 
-            var products = db.Products.AsQueryable();
+            var query = from p in db.Products
+                        join c in db.Categories on p.CategoryId equals c.Id
+                        join ps in db.ProductStates on p.StateId equals ps.Id
+                        where p.Name.Contains(keyword) || p.Name.StartsWith(keyword)
+                        select new Models.ProductModel
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Picture = p.Picture,
+                            Quantity = (db.ProductItems
+                                         .Where(pi => pi.ProductId == p.Id)
+                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
+                            CategoryName = c.Name,
+                            ProductState = ps.Name
+                        };
 
-            // Use 'Contains' for 'like' behavior (e.g., '%keyword%') or 'StartsWith' for 'starts with' behavior
-            List<Models.ProductModel> result = products
-                .Where(p => p.Name.Contains(keyword) || p.Name.StartsWith(keyword))
-                .Select(p => new Models.ProductModel
-                {
-                    Name = p.Name,
-                    Picture = p.Picture,
-                    CategoryId = p.CategoryId,
-                    Description = p.Description
-                })
-                .ToList(); // Materialize the query
+            var result = query.ToList(); // Execute the query
+            return result;
+        }
+        public List<Models.ProductModel> GetProductByBrand(string brand)
+        {
+            // Check for null or empty keyword and return an empty list if so
+            if (string.IsNullOrWhiteSpace(brand))
+            {
+                return new List<Models.ProductModel>();
+            }
 
+            var query = from p in db.Products
+                        join c in db.Categories on p.CategoryId equals c.Id
+                        join ps in db.ProductStates on p.StateId equals ps.Id
+                        where c.Name.Contains(brand)
+                        select new Models.ProductModel
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Picture = p.Picture,
+                            Quantity = (db.ProductItems
+                                         .Where(pi => pi.ProductId == p.Id)
+                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
+                            CategoryName = c.Name,
+                            ProductState = ps.Name
+                        };
+
+            var result = query.ToList(); // Execute the query
+            return result;
+        }
+
+        public List<Models.ProductModel> ProductsByCategory(string type)
+        {
+            // Check for null or empty type and return an empty list if so
+            if (string.IsNullOrWhiteSpace(type))
+            {
+                return new List<Models.ProductModel>();
+            }
+
+            string keyword = "";
+            switch (type)
+            {
+                case "laptops":
+                    keyword = "B0";
+                    break;
+                case "phones":
+                    keyword = "B1";
+                    break;
+                    // Add more cases as needed
+            }
+
+            var query = from p in db.Products
+                        join c in db.Categories on p.CategoryId equals c.Id
+                        join ps in db.ProductStates on p.StateId equals ps.Id
+                        where p.CategoryId.StartsWith(keyword)
+                        select new Models.ProductModel
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Picture = p.Picture,
+                            Quantity = (db.ProductItems
+                                         .Where(pi => pi.ProductId == p.Id)
+                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
+                            CategoryName = c.Name,
+                            ProductState = ps.Name
+                        };
+
+            var result = query.ToList(); // Execute the query
             return result;
         }
 

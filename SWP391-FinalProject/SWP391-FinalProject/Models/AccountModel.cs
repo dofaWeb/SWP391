@@ -14,6 +14,8 @@
 
         public string ProvinceId { get; set; }
 
+        public int Point {  get; set; }
+
         public string Address { get; set; }
     }
 }

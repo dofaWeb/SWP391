@@ -1,11 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using System.Security.Principal;
 
 namespace SWP391_FinalProject.Repository
 {
     public class UserRepository
     {
+        DBContext db;
+        public UserRepository()
+        {
+            db = new DBContext();
+        }
         public UserModel GetUserProfileByUsername(string username)
         {
             using (DBContext dbContext = new DBContext())
@@ -56,7 +62,23 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
-
+        public void UpdateUser(UserModel User)
+        {
+            AccountRepository accRepo = new AccountRepository();
+            AccountModel Acc = accRepo.GetUserByUsernameOrEmail(User.Account.Username);
+            User.Account.Id = Acc.Id;
+            User.Account.Status = Acc.Status;
+            User.Account.RoleId = Acc.RoleId;
+            accRepo.UpdateAccount(User.Account);
+            var existingUser = db.Users.FirstOrDefault(u => u.AccountId == User.Account.Id);
+            if (existingUser != null)
+            {
+                // Cập nhật các thuộc tính của tài khoản
+                existingUser.Name = User.Name;
+                
+                db.SaveChanges();
+            }
+        }
 
 
     }

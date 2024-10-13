@@ -2,6 +2,7 @@
 using SWP391_FinalProject.Entities;
 using System.Security.Cryptography;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -34,6 +35,45 @@ namespace SWP391_FinalProject.Repository
             string newId = $"{prefix}{newNumber:D7}";
 
             return newId;
+        }
+
+
+        public List<Models.AccountModel> GetAllAccount() {
+
+            var user = from acc in db.Accounts
+                       join u in db.Users on acc.Id equals u.AccountId
+                       select new Models.AccountModel
+                       {
+                           Id = acc.Id,
+                           Username = acc.Username,
+                           Name = u.Name,
+                           Email = acc.Email,
+                           Phone = acc.Phone,
+                           Point = u.Point,
+                           Status = (acc.IsActive == ulong.Parse("1"))? "Active" : "Inactive",
+                           RoleName = acc.Role.Name
+
+                       };
+            var result = user.ToList();
+            return result;
+        }
+        
+        public Models.AccountModel GetAccountById(string id)
+        {
+            var user = from acc in db.Accounts
+                       join u in db.Users on acc.Id equals u.AccountId
+                       where acc.Id == id
+                       select new Models.AccountModel
+                       {
+                           Id = acc.Id,
+                           Username = acc.Username,
+                           Name = u.Name,
+                           Email = acc.Email,
+                           Phone = acc.Phone,
+                           Point = u.Point
+                       };
+            var result = user.FirstOrDefault();
+            return result;
         }
 
         static string GetMd5Hash(string input)

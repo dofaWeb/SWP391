@@ -10,12 +10,20 @@
 
         public int Quantity { get; set; }
         
-        public double ImportPrice { get; set; }
+        public decimal ImportPrice { get; set; }
 
-        public double SellingPrice { get; set; }
+        public decimal? SellingPrice { get; set; }
 
-        public double Discount { get; set; }
+        public decimal? Discount { get; set; }
 
-        public List<VariationOptionModel> Variations { get; set; }
+        public decimal? PriceAfterDiscount { get; set; }
+
+        public decimal? Profit { get; set; }
+
+        public VariationOptionModel Variations { get; set; }
+
+        public string Ram { get; set; }
+
+        public string Storage { get; set; }
     }
 }

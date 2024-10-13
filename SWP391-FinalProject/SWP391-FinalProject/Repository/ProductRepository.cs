@@ -206,5 +206,49 @@ namespace SWP391_FinalProject.Repository
             var product = query.FirstOrDefault();
             return product;
         }
+
+        public string GetProductVariationOption(string productItemId, string option)
+        {
+            var varianceValue = (from pc in db.ProductConfigurations
+                                 join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
+                                 join va in db.Variations on vo.VariationId equals va.Id
+                                 where pc.ProductItemId == productItemId && va.Name == option
+                                 select vo.Value).FirstOrDefault();
+
+            return varianceValue; // Return empty string if result is null
+        }
+
+
+        public decimal CalculatePriceAfterDiscount(decimal? SellingPrice, decimal? discount)
+        {
+            var d = (discount == null) ? 0 : discount;
+            var s = (SellingPrice == null) ? 0 : SellingPrice;
+            return (decimal)(s - (s * d));
+        }
+
+        public decimal? CalculateProfit(decimal? PriceAfterDiscount, decimal ImportPrice)
+        {
+            return PriceAfterDiscount - ImportPrice;
+        }
+
+        public List<ProductItemModel> GetProductItem(string productId)
+        {
+            var productItems = db.ProductItems.Where(p => p.ProductId == productId).ToList();
+            var result = productItems.Select(p => new ProductItemModel
+            {
+                Id = p.Id,
+                Quantity = p.Quantity,
+                ImportPrice = p.ImportPrice,
+                SellingPrice = p.SellingPrice,
+                Ram = GetProductVariationOption(p.Id,"Ram"),
+                Storage = GetProductVariationOption(p.Id, "Storage"),
+                Discount = p.Discount,
+                PriceAfterDiscount = CalculatePriceAfterDiscount(p.SellingPrice, p.Discount),
+                Profit = CalculateProfit(CalculatePriceAfterDiscount(p.SellingPrice, p.Discount),p.ImportPrice)
+            }).ToList();
+
+            return result;
+        }
+
     }
 }

@@ -43,6 +43,45 @@ namespace SWP391_FinalProject.Repository
             return newId;
         }
 
+
+        public List<Models.AccountModel> GetAllAccount() {
+
+            var user = from acc in db.Accounts
+                       join u in db.Users on acc.Id equals u.AccountId
+                       select new Models.AccountModel
+                       {
+                           Id = acc.Id,
+                           Username = acc.Username,
+                           Name = u.Name,
+                           Email = acc.Email,
+                           Phone = acc.Phone,
+                           Point = u.Point,
+                           Status = (acc.IsActive == ulong.Parse("1"))? "Active" : "Inactive",
+                           RoleName = acc.Role.Name
+
+                       };
+            var result = user.ToList();
+            return result;
+        }
+        
+        public Models.AccountModel GetAccountById(string id)
+        {
+            var user = from acc in db.Accounts
+                       join u in db.Users on acc.Id equals u.AccountId
+                       where acc.Id == id
+                       select new Models.AccountModel
+                       {
+                           Id = acc.Id,
+                           Username = acc.Username,
+                           Name = u.Name,
+                           Email = acc.Email,
+                           Phone = acc.Phone,
+                           Point = u.Point
+                       };
+            var result = user.FirstOrDefault();
+            return result;
+        }
+
         static string GetMd5Hash(string input)
         {
             // Create an MD5 instance
@@ -188,6 +227,41 @@ namespace SWP391_FinalProject.Repository
                 existingAccount.Password = mdPassword;
                 db.SaveChanges();
             }
+        }
+        public Models.AccountModel GetAccountById(string id)
+        {
+            var user = from acc in db.Accounts
+                       join u in db.Users on acc.Id equals u.AccountId
+                       where acc.Id == id
+                       select new Models.AccountModel
+                       {
+                           Id = acc.Id,
+                           Username = acc.Username,
+                           Name = u.Name,
+                           Email = acc.Email,
+                           Phone = acc.Phone,
+                           Point = u.Point
+                       };
+            var result = user.FirstOrDefault();
+            return result;
+        }
+
+        public List<Models.AccountModel> GetAllAccount()
+        {
+
+            var user = from acc in db.Accounts
+                       select new Models.AccountModel
+                       {
+                           Id = acc.Id,
+                           Username = acc.Username,
+                           Email = acc.Email,
+                           Phone = acc.Phone,
+                           Status = (acc.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
+                           RoleName = acc.Role.Name
+
+                       };
+            var result = user.ToList();
+            return result;
         }
 
         public void UpdateAccount(Models.AccountModel account)

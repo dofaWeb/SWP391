@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Repository;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -14,16 +15,26 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult Display()
 
         {
-            var user = db.Accounts.Select(p => new Models.AccountModel
-            {
-                Id = p.Id,
-                Username = p.Username,
-                Email = p.Email,
-                Phone = p.Phone,
-                RoleName = p.Role.Name,
-                Status = (p.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
-            });
+            AccountRepository AccRepo = new AccountRepository(db);
+            var user = AccRepo.GetAllAccount();
+            return View(user);
+        }
+        public IActionResult ViewDetail(string id)
+
+        {
+            AccountRepository AccRepo = new AccountRepository(db);
+            var user = AccRepo.GetAccountById(id);
+            Repository.Account AccRepo = new Repository.Account(db);
+            var user = AccRepo.GetAllAccount();
+            return View(user);
+        }
+        public IActionResult ViewDetail(string id)
+
+        {
+            Repository.Account AccRepo = new Repository.Account(db);
+            var user = AccRepo.GetAccountById(id);
             return View(user);
         }
     }
 }
+

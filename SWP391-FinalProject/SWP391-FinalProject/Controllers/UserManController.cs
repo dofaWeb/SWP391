@@ -20,21 +20,12 @@ namespace SWP391_FinalProject.Controllers
             return View(user);
         }
         public IActionResult ViewDetail(string id)
-
         {
             AccountRepository AccRepo = new AccountRepository(db);
             var user = AccRepo.GetAccountById(id);
-            Repository.Account AccRepo = new Repository.Account(db);
-            var user = AccRepo.GetAllAccount();
             return View(user);
         }
-        public IActionResult ViewDetail(string id)
-
-        {
-            Repository.Account AccRepo = new Repository.Account(db);
-            var user = AccRepo.GetAccountById(id);
-            return View(user);
-        }
+        
     }
 }
 

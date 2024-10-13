@@ -29,6 +29,14 @@ namespace SWP391_FinalProject.ViewComponents
                     if(str == "") products = proRepo.GetAllProduct();
                     else products = proRepo.GetProductsByKeyword(str);
                     break;
+                case "ProductsByCategory":
+                    if (str == "") products = proRepo.GetAllProduct();
+                    else products = proRepo.ProductsByCategory(str);
+                    break;
+                case "GetProductByBrand":
+                    if (str == "") products = proRepo.GetAllProduct();
+                    else products = proRepo.GetProductByBrand(str);
+                    break;
                 default:
                     // Default to "All" if no valid productType is passed
                     products = proRepo.GetAllProduct();

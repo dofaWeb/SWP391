@@ -22,8 +22,8 @@
                 <div class="nav-item dropdown">
                     <a asp-controller="Pro" asp-action="Index" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Category</a>
                     <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                        <a href="cart.html" class="dropdown-item">Laptop</a>
-                        <a href="chackout.html" class="dropdown-item">Iphone</a>
+                        <a a asp-controller="Pro" class="dropdown-item" asp-action="ProductsByCategory" asp-route-type="laptops">Laptop</a>
+                        <a asp-controller="Pro" class="dropdown-item" asp-action="ProductsByCategory" asp-route-type="phones">Phones</a>
                     </div>
                 </div>
             </div>

@@ -188,7 +188,7 @@ namespace SWP391_FinalProject.Repository
                                Phone = account.Phone,
                                Name = u.Name,
                                RoleId = account.RoleId,
-                               Status = account.IsActive.ToString(),
+                               Status = (account.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
                                RoleName = role.Name // Assuming RoleName is the column you want
                            }).FirstOrDefault();
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SWP391_FinalProject.Entities;
+using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 
 namespace SWP391_FinalProject.ViewComponents
@@ -16,18 +18,19 @@ namespace SWP391_FinalProject.ViewComponents
         {
             Repository.CategoryRepository catRepo = new Repository.CategoryRepository(db);
             List<Models.CategoryModel> category;
-            if (CatType == "Laptops")
+            switch (CatType)
             {
-                category=catRepo.GetAllCatLaps();
+                case "Laptops":
+                    category = catRepo.GetAllCatLaps();
+                    break;
+                case "Phones":
+                    category = catRepo.GetAllCatPhone();
+                    break;
+                 default:
+                    category = catRepo.GetAllCategory();
+                    break;
             }
-            else if(CatType =="Phones")
-            {
-                category = catRepo.GetAllCatPhone();
-            }
-            else
-            {
-                category = catRepo.GetAllCategory();
-            }
+            
             return View(category);
         }
     }

@@ -50,8 +50,19 @@
     <form asp-controller="CatMan" asp-action="EditCategory" method="post" enctype="multipart/form-data">
         <!-- Category Name -->
         <div class="form-group">
-            <label for="categoryName">Category Id:</label>
-            <input type="text" class="form-control" name="id" id="id" value="@Model.Id" required>
+            <label for="category">Category:</label>
+            <select class="form-control" name="CategoryType" id="category" disabled>
+                @if (Model.Id.StartsWith("B0"))
+                {
+                    <option value="laptop" selected>Laptop</option>
+                    <option value="phone">Smartphones</option>
+                }
+                else
+                {
+                    <option value="laptop">Laptop</option>
+                    <option value="phone" selected>Smartphones</option>
+                }
+            </select>
         </div>
         <div class="form-group">
             <label for="categoryName">Category Name:</label>

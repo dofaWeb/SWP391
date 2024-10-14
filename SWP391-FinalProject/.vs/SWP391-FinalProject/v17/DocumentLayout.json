@@ -104,7 +104,7 @@
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 0,
+      "Orientation": 1,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
@@ -125,7 +125,7 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
             },
             {
               "$type": "Bookmark",
@@ -336,7 +336,8 @@
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\UserManController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T03:24:34.919Z"
+              "WhenOpened": "2024-10-14T01:10:00.385Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -360,7 +361,8 @@
               "RelativeToolTip": "SWP391-FinalProject\\Filters\\ProManAuthorizationFilter.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwB0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T02:19:52.36Z"
+              "WhenOpened": "2024-10-14T00:52:59.684Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -372,7 +374,8 @@
               "RelativeToolTip": "SWP391-FinalProject\\Models\\AccountModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T03:51:41.553Z"
+              "WhenOpened": "2024-10-14T00:50:15.463Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -384,7 +387,8 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\_ViewImports.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-10T03:44:54.428Z"
+              "WhenOpened": "2024-10-14T01:14:17.689Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

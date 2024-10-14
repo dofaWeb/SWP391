@@ -9,11 +9,6 @@ namespace SWP391_FinalProject.Repository
     {
         private readonly DBContext db;
 
-        public ProductRepository(DBContext context)
-        {
-            db = context;
-        }
-
         public ProductRepository()
         {
             db = new DBContext();

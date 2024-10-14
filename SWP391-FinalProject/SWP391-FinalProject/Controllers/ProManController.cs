@@ -12,12 +12,11 @@ namespace SWP391_FinalProject.Controllers
     [ServiceFilter(typeof(ProManAuthorizationFilter))]
     public class ProManController : Controller
     {
-        private readonly DBContext db;
-
-        public ProManController(DBContext context)
+        public ProManController()
         {
-            db = context;
+            
         }
+
         public IActionResult Index()
         {
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
@@ -30,7 +29,7 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult Display()
         {
-            ProductRepository proRepo = new ProductRepository(db);
+            ProductRepository proRepo = new ProductRepository();
             var query = proRepo.GetAllProduct();
 
             return View(query);
@@ -38,8 +37,8 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
-            ProductRepository proRepo = new ProductRepository(db);
-            CategoryRepository catRepo = new CategoryRepository(db);
+            ProductRepository proRepo = new ProductRepository();
+            CategoryRepository catRepo = new CategoryRepository();
 
             ViewBag.NewProductId = proRepo.getNewProductID();
             //ViewBag.Category = catRepo.GetAllCategory();
@@ -52,7 +51,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddProduct(Models.ProductModel model, IFormFile pictureUpload)
         {
-            ProductRepository proRepo = new ProductRepository(db);
+            ProductRepository proRepo = new ProductRepository();
             proRepo.AddProduct(model, pictureUpload);
             return RedirectToAction("Display");
         }
@@ -60,8 +59,8 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult EditProduct(string id)
         {
-            ProductRepository proRepo = new ProductRepository(db);
-            CategoryRepository catRepo = new CategoryRepository(db);
+            ProductRepository proRepo = new ProductRepository();
+            CategoryRepository catRepo = new CategoryRepository();
             var proInfor = proRepo.GetProductById(id);
 
             var proState = proRepo.getAllProductState();
@@ -76,7 +75,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult EditProduct(ProductModel model, IFormFile pictureUpload)
         {
-            ProductRepository proRepo = new ProductRepository(db);
+            ProductRepository proRepo = new ProductRepository();
             proRepo.UpdateProduct(model, pictureUpload);
 
             return RedirectToAction("Display");
@@ -85,7 +84,9 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddProItem(ProductItemModel model)
         {
-            ProductItemRepository proRepo = new ProductItemRepository(db);
+
+            ProductItemRepository proRepo =new ProductItemRepository();   
+
             proRepo.AddProductItem(model);
             return RedirectToAction("EditProduct", new { id = model.ProductId });
         }
@@ -93,7 +94,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult EditProductItem(ProductItemModel model)
         {
-            ProductItemRepository proRepo = new ProductItemRepository(db);
+            ProductItemRepository proRepo = new ProductItemRepository();
             proRepo.EditProductItem(model);
             return RedirectToAction("EditProduct", new { id = model.ProductId });
         }

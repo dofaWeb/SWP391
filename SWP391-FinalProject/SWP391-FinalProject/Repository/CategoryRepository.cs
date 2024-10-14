@@ -1,7 +1,8 @@
 ﻿using SWP391_FinalProject.Entities;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http.HttpResults;  // Ensure you have this namespace
+using Microsoft.AspNetCore.Http.HttpResults;
+using SWP391_FinalProject.Models;  // Ensure you have this namespace
 
 namespace SWP391_FinalProject.Repository
 {
@@ -9,10 +10,11 @@ namespace SWP391_FinalProject.Repository
     {
         private readonly DBContext db;
 
-        public CategoryRepository(DBContext context)
+        public CategoryRepository()
         {
-            db = context;
+            db = new DBContext();
         }
+
         public List<Models.CategoryModel> GetAllCategory()
         {
             var list = db.Categories.Select(p => new Models.CategoryModel
@@ -83,6 +85,48 @@ namespace SWP391_FinalProject.Repository
             };
             return (result);
             
+        }
+
+        public void AddCategory(string Name, string CategoryType)
+        {
+            string categoryId = "";
+            // Determine category ID based on selected CategoryType
+            if (CategoryType == "laptop")
+            {
+                categoryId = GenerateCategoryId("B0");
+            }
+            else if (CategoryType == "phone")
+            {
+                categoryId = GenerateCategoryId("B1");
+            }
+
+            // Create the new category entity
+            var newCategory = new Category
+            {
+                Id = categoryId,
+                Name = Name
+            };
+
+            // Save the category to the database
+            db.Categories.Add(newCategory);
+            db.SaveChanges();
+        }
+
+        public void EditCategory(CategoryModel category)
+        {
+            var categoryEntity = db.Categories.FirstOrDefault(c => c.Id == category.Id);
+
+            //if (categoryEntity == null)
+            //{
+            //    // Handle case where the category is not found
+            //    return NotFound();
+            //}
+
+            // Update the entity's name
+            categoryEntity.Name = category.Name;
+
+            // Save the updated entity back to the database
+            db.SaveChanges();
         }
     }
 }

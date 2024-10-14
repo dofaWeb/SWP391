@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,11 +11,6 @@ namespace SWP391_FinalProject.Repository
     public class AccountRepository
     {
         private readonly DBContext db;
-
-        public AccountRepository(DBContext context)
-        {
-            db = context;
-        }
 
         public AccountRepository()
         {
@@ -81,25 +77,7 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
-        static string GetMd5Hash(string input)
-        {
-            // Create an MD5 instance
-            using (MD5 md5 = MD5.Create())
-            {
-                // Convert the input string to a byte array and compute the hash
-                byte[] data = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                // Create a StringBuilder to collect the bytes and create a string
-                StringBuilder sb = new StringBuilder();
-                foreach (byte b in data)
-                {
-                    sb.Append(b.ToString("x2")); // Format each byte as a hexadecimal value
-                }
-
-                // Return the hexadecimal string
-                return sb.ToString();
-            }
-        }
+        
 
         public bool CheckEmail(string email)
         {
@@ -114,7 +92,7 @@ namespace SWP391_FinalProject.Repository
         public void AddAccount(Models.AccountModel model)
         {
             string id = GetNewId();
-            string md5Password = GetMd5Hash(model.Password);
+            string md5Password = MySetting.GetMd5Hash(model.Password);
             var newAccount = new SWP391_FinalProject.Entities.Account()
             {
                 Id = id,
@@ -158,7 +136,7 @@ namespace SWP391_FinalProject.Repository
 
         public bool Login(string username, string password)
         {
-            string mdPassword = GetMd5Hash(password);
+            string mdPassword = MySetting.GetMd5Hash(password);
             var check = db.Accounts.Where(p => p.Username == username && p.Password == mdPassword).ToList();
             if (check.Any())
             {
@@ -222,7 +200,7 @@ namespace SWP391_FinalProject.Repository
             var existingAccount = db.Accounts.FirstOrDefault(a => a.Id == account.Id);
             if (existingAccount != null)
             {
-                string mdPassword = GetMd5Hash(account.Password);
+                string mdPassword = MySetting.GetMd5Hash(account.Password);
                 existingAccount.Password = mdPassword;
                 db.SaveChanges();
             }

@@ -80,6 +80,11 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
-
+        public void BanUserById(string id)
+        {
+            var user = db.Accounts.Where(p => p.Id == id).FirstOrDefault();
+            user.IsActive = (user.IsActive == ulong.Parse("1")) ? ulong.Parse("0") : ulong.Parse("1");
+            db.SaveChanges();
+        }
     }
 }

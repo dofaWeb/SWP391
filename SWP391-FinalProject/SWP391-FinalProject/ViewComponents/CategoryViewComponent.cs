@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.ViewComponents
         
         public IViewComponentResult Invoke(string CatType)
         {
-            Repository.CategoryRepository catRepo = new Repository.CategoryRepository(db);
+            Repository.CategoryRepository catRepo = new Repository.CategoryRepository();
             List<Models.CategoryModel> category;
             switch (CatType)
             {

@@ -15,11 +15,10 @@ namespace SWP391_FinalProject.Controllers
 {
     public class AccController : Controller
     {
-        private readonly DBContext db;
 
-        public AccController(DBContext context)
+        public AccController()
         {
-            db = context;
+
         }
 
         [HttpGet]
@@ -31,7 +30,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            Repository.ProvinceRepository provinceRepo = new Repository.ProvinceRepository(db);
+            Repository.ProvinceRepository provinceRepo = new Repository.ProvinceRepository();
             var province = provinceRepo.GetAllProvince();
             ViewBag.Provinces = province;
             return View();
@@ -47,7 +46,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult Register(Models.AccountModel model)
         {
-            Repository.AccountRepository accRepo = new Repository.AccountRepository(db);
+            Repository.AccountRepository accRepo = new Repository.AccountRepository();
             if (!accRepo.CheckEmail(model.Email))
             {
                 ViewBag.Error = "Email has been used!";
@@ -67,7 +66,7 @@ namespace SWP391_FinalProject.Controllers
         {
             string cookie = Request.Cookies["RegisterCookie"];
             string[] model = cookie.Split("/");
-            Repository.AccountRepository accRepo = new Repository.AccountRepository(db);
+            Repository.AccountRepository accRepo = new Repository.AccountRepository();
             AccountModel acc = new AccountModel() { Username = model[0], Password = model[1], Name = model[2], Email = model[3], Phone = model[4], ProvinceId = model[5], Address = model[6] };
             accRepo.AddAccount(acc);
             Response.Cookies.Delete("RegisterCookie");
@@ -94,7 +93,7 @@ namespace SWP391_FinalProject.Controllers
                 // Lấy thông tin người dùng từ claims
                 var email = claimsIdentity.FindFirst(ClaimTypes.Email)?.Value;
                 var name = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
-                Repository.AccountRepository accRepo = new Repository.AccountRepository(db);
+                Repository.AccountRepository accRepo = new Repository.AccountRepository();
                 if (accRepo.CheckEmail(email))
                 {
                     AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", ProvinceId = "Prov0001", Address = "" };
@@ -114,7 +113,7 @@ namespace SWP391_FinalProject.Controllers
 
         public async Task<IActionResult> LoginByGoogle(string email)
         {
-            Repository.AccountRepository accRepo = new Repository.AccountRepository(db);
+            Repository.AccountRepository accRepo = new Repository.AccountRepository();
             var user = accRepo.GetUserByUsernameOrEmail(email);
             
 
@@ -142,7 +141,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Models.AccountModel model)
         {
-            Repository.AccountRepository accRepo = new Repository.AccountRepository(db);
+            Repository.AccountRepository accRepo = new Repository.AccountRepository();
             if (accRepo.Login(model.Username, model.Password))
             {
                 var RoleId = accRepo.GetRoleId(model.Username);
@@ -203,7 +202,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgetPassword(string username, string email)
         {
-            AccountRepository accRepo = new AccountRepository(db);
+            AccountRepository accRepo = new AccountRepository();
             AccountModel AccModel = accRepo.GetUserByUsernameAndEmail(username, email);
             if (AccModel == null)
             {
@@ -237,6 +236,7 @@ namespace SWP391_FinalProject.Controllers
             }
             else
             {
+                MySetting.Otp = -99999;
                 return RedirectToAction(nameof(ResetPassword));
             }
         }
@@ -251,7 +251,7 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(string password)
         {
-            AccountRepository accRepo = new AccountRepository(db);
+            AccountRepository accRepo = new AccountRepository();
             AccountModel AccModel = MySetting.Account;
             AccModel.Password = password;
             accRepo.ResetPassword(AccModel);

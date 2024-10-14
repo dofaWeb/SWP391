@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
 
@@ -31,6 +33,29 @@ namespace SWP391_FinalProject.Controllers
             UserRepo.UpdateUser(user);
 
             return RedirectToAction(nameof(Profile), new {username = user.Account.Username});
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(string username, string password)
+        {
+            AccountRepository accRepo = new AccountRepository();
+            AccountModel accountModel = accRepo.GetUserByUsernameOrEmail(username);
+            password = MySetting.GetMd5Hash(password);
+            if (password != accountModel.Password)
+            {
+                ViewBag.Error = "Invalid password!";
+                return View();
+            }
+            else
+            {
+                MySetting.Account = accountModel;
+                return RedirectToAction(nameof(ResetPassword),"Acc");
+            }
         }
     }
 }

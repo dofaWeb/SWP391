@@ -6,9 +6,9 @@ namespace SWP391_FinalProject.Repository
     public class ProductItemRepository
     {
         private readonly DBContext db;
-        public ProductItemRepository(DBContext _context)
+        public ProductItemRepository()
         {
-            db = _context;
+            db = new DBContext();
         }
 
         public string getNewProductItemID()

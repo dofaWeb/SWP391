@@ -5,9 +5,9 @@ namespace SWP391_FinalProject.Repository
     public class ProvinceRepository
     {
         private readonly DBContext db;
-        public ProvinceRepository(DBContext context)
+        public ProvinceRepository()
         {
-            this.db = context;
+            this.db = new DBContext();
         }
 
         public List<Models.ProvinceModel> GetAllProvince()

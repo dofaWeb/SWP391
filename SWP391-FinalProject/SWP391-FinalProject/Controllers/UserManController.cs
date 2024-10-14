@@ -7,30 +7,28 @@ namespace SWP391_FinalProject.Controllers
 {
     public class UserManController : Controller
     {
-        private readonly DBContext db;
 
-        public UserManController(DBContext context)
+        public UserManController()
         {
-            db = context;
+
         }
         public IActionResult Display()
 
         {
-            AccountRepository AccRepo = new AccountRepository(db);
+            AccountRepository AccRepo = new AccountRepository();
             var user = AccRepo.GetAllAccount();
             return View(user);
         }
         public IActionResult ViewDetail(string id)
         {
-            AccountRepository AccRepo = new AccountRepository(db);
+            AccountRepository AccRepo = new AccountRepository();
             var user = AccRepo.GetAccountById(id);
             return View(user);
         }
         public IActionResult Ban(string id)
         {
-            var user = db.Accounts.Where(p => p.Id == id).FirstOrDefault();
-            user.IsActive = (user.IsActive == ulong.Parse("1")) ? ulong.Parse("0") : ulong.Parse("1");
-            db.SaveChanges();
+            UserRepository userRepo = new UserRepository();
+            userRepo.BanUserById(id);
             return RedirectToAction("Display");
         }
         

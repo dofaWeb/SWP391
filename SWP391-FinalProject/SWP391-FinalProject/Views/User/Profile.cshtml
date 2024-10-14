@@ -64,6 +64,7 @@
 
     <div class="edit-btn">
         <a asp-action="EditProfile" asp-controller="User" asp-route-username="@User.FindFirst("Username")?.Value" class="btn btn-primary">Edit Profile</a>
+        <a asp-action="ChangePassword" asp-controller="User">Change Password</a>
         <a asp-controller="Acc" asp-action="Logout" class="btn btn-danger">Logout</a>
     </div>
 </div>

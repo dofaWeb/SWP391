@@ -8,12 +8,11 @@ namespace SWP391_FinalProject.Controllers
 {
     public class ProController : Controller
     {
-        private readonly DBContext db;
-
-        public ProController(DBContext context)
+        public ProController()
         {
-            db = context;
+            
         }
+
         public IActionResult Index()
         {
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;

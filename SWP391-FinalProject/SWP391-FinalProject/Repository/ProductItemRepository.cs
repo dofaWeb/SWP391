@@ -60,15 +60,23 @@ namespace SWP391_FinalProject.Repository
             return id;
         }
 
-        public Boolean checkExistVariation(string proItemId, string variationOpId1, string variationOpId2)
+        public Boolean checkExistVariation(string productId, string variationOpId1, string variationOpId2)
         {
-            var v1 = db.ProductConfigurations.Where(p => p.ProductItemId == proItemId && p.VariationOptionId == variationOpId1).Any();
-            var v2 = db.ProductConfigurations.Where(p => p.ProductItemId == proItemId && p.VariationOptionId == variationOpId2).Any();
+            var v1 = (from p in db.Products
+                      join pi in db.ProductItems on p.Id equals pi.ProductId
+                      join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+                      where p.Id == productId && pc.VariationOptionId == variationOpId1
+                      select p).Any();
+            var v2 = (from p in db.Products
+                      join pi in db.ProductItems on p.Id equals pi.ProductId
+                      join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+                      where p.Id == productId && pc.VariationOptionId == variationOpId2
+                      select p).Any();
             if (v1 && v2)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public void AddProductConfiguration(ProductItemModel model)
@@ -76,7 +84,7 @@ namespace SWP391_FinalProject.Repository
             var variation_option_id1 = GetVariationOptionId(model.Ram, GetVariationId("Ram"));
             var variation_option_id2 = GetVariationOptionId(model.Storage, GetVariationId("Storage"));
 
-            if (checkExistVariation(model.Id, variation_option_id1, variation_option_id2))
+            if (checkExistVariation(model.ProductId, variation_option_id1, variation_option_id2))
             {
                 // Retrieve the existing ProductItem from the database
                 var existingProductItem = db.ProductItems.FirstOrDefault(p => p.Id == model.Id);

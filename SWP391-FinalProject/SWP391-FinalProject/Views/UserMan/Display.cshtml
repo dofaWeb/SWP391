@@ -68,8 +68,16 @@
                         @if (item.RoleName != "Admin")
                         {
                             <a asp-action="ViewDetail" asp-controller="UserMan" asp-route-id="@item.Id" class="btn btn-info btn-sm">View</a>
-                            <button class="btn btn-danger btn-sm">Ban</button>
-                        }
+                            @if (item.Status == "Active")
+                            {
+                                <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Ban</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">UnBan</a>
+                            }
+
+                    }
                     </td>
                 </tr>
             }

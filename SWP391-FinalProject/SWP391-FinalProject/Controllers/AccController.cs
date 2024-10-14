@@ -172,7 +172,7 @@ namespace SWP391_FinalProject.Controllers
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
                     await HttpContext.SignInAsync(claimsPrincipal);
-                    if (user.Status == "0")
+                    if (user.Status == "Inactive")
                     {
                         ViewBag.Error = "Your account has been banned";
                         return View();

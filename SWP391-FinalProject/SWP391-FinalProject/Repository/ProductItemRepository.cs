@@ -152,5 +152,22 @@ namespace SWP391_FinalProject.Repository
                 db.SaveChanges();
             }
         }
+
+        public void Delete(string id)
+        {
+            var proItem = db.ProductItems.FirstOrDefault(db => db.Id == id);
+            var prc = db.ProductConfigurations.Where(p => p.ProductItemId == id).ToList();
+            if (proItem != null)
+            {
+                db.ProductItems.Remove(proItem);
+                foreach(var pc in prc)
+                {
+                    db.ProductConfigurations.Remove(pc);
+                }
+                db.SaveChanges();
+                ProductRepository proRepo = new ProductRepository(db);
+                proRepo.UpdateProductState(proItem.ProductId);
+            }
+        }
     }
 }

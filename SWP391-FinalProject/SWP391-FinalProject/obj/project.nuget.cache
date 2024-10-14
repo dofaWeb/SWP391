@@ -1,9 +1,12 @@
 {
   "version": 2,
+
   "dgSpecHash": "1CP2ort/0fI=",
+
   "success": true,
   "projectFilePath": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
   "expectedPackageFiles": [
+
     "C:\\Users\\giaoh\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\giaoh\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\giaoh\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",
@@ -136,6 +139,7 @@
     "C:\\Users\\giaoh\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",
     "C:\\Users\\giaoh\\.nuget\\packages\\system.threading.tasks.dataflow\\7.0.0\\system.threading.tasks.dataflow.7.0.0.nupkg.sha512",
     "C:\\Users\\giaoh\\.nuget\\packages\\system.windows.extensions\\7.0.0\\system.windows.extensions.7.0.0.nupkg.sha512"
+
   ],
   "logs": []
 }

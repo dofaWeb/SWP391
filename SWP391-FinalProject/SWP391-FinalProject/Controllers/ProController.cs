@@ -23,10 +23,24 @@ namespace SWP391_FinalProject.Controllers
             }
             return View();
         }
-
-        public IActionResult ProductDetail(string id)
+        public async Task<IActionResult> Profile(string username)
         {
-            return View();
+            Repository.UserRepository userRepo = new Repository.UserRepository();
+            UserModel user = new UserModel();
+            user = userRepo.GetUserProfileByUsername(username);
+
+            return View(user);
+
+        }
+
+        [HttpGet]
+        public async Task <IActionResult> ProductDetail(string id)
+        {
+           Repository.ProductRepository prodp= new Repository.ProductRepository();
+            ProductModel p = prodp.GetProductById(id);
+            ProductItemModel productModel= prodp.GetProductItemById(id);
+           
+            return View(productModel);
         }
         [HttpGet]
         public IActionResult SearchedProduct(string keyword)

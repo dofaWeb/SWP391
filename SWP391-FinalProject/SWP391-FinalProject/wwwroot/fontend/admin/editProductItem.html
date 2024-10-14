@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product Item</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-inline .form-control {
+            width: auto;
+        }
+        .btn-primary {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Product Item</h2>
+
+        <form id="editProductForm">
+            <!-- Storage Field -->
+            <div class="form-group form-inline">
+                <label for="storage">Storage:</label>
+                <select class="form-control ml-2" id="storage">
+                    <option value="128GB">128GB</option>
+                    <option value="256GB">256GB</option>
+                    <option value="512GB">512GB</option>
+                    <option value="1TB">1TB</option>
+                </select>
+            </div>
+
+            <!-- RAM Field -->
+            <div class="form-group form-inline">
+                <label for="ram">RAM:</label>
+                <select class="form-control ml-2" id="ram">
+                    <option value="4GB">4GB</option>
+                    <option value="8GB">8GB</option>
+                    <option value="16GB">16GB</option>
+                    <option value="32GB">32GB</option>
+                </select>
+            </div>
+
+            <!-- Quantity Field -->
+            <div class="form-group form-inline">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" class="form-control ml-2" min="1" placeholder="Enter quantity">
+            </div>
+
+            <!-- Import Price Field -->
+            <div class="form-group form-inline">
+                <label for="importPrice">Import Price (VND):</label>
+                <input type="number" id="importPrice" class="form-control ml-2" min="0" placeholder="Enter import price">
+            </div>
+
+            <!-- Selling Price Field -->
+            <div class="form-group form-inline">
+                <label for="sellingPrice">Selling Price (VND):</label>
+                <input type="number" id="sellingPrice" class="form-control ml-2" min="0" placeholder="Enter selling price">
+            </div>
+
+            <!-- Discount Field -->
+            <div class="form-group form-inline">
+                <label for="discount">Discount (%):</label>
+                <input type="number" id="discount" class="form-control ml-2" min="0" placeholder="Enter discount">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <script>
+        // Example of form submission logic (can be adjusted based on your setup)
+        document.getElementById('editProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent default form submission
+
+            // Get form values (you can send this to your backend using AJAX or POST)
+            const storage = document.getElementById('storage').value;
+            const ram = document.getElementById('ram').value;
+            const quantity = document.getElementById('quantity').value;
+            const importPrice = document.getElementById('importPrice').value;
+            const sellingPrice = document.getElementById('sellingPrice').value;
+            const discount = document.getElementById('discount').value;
+
+            // Example output (for debugging)
+            console.log({
+                storage,
+                ram,
+                quantity,
+                importPrice,
+                sellingPrice,
+                discount
+            });
+
+            // You can handle form data submission to the server here
+            alert('Product updated successfully!');
+        });
+    </script>
+</body>
+</html>

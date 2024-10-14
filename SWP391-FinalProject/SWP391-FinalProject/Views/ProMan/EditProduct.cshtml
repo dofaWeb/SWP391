@@ -216,14 +216,14 @@
                         <td>@item.Storage</td>
                         <td>@item.Ram</td>
                         <td>@item.Quantity</td>
-                        <td>@item.ImportPrice</td>
-                        <td>@item.SellingPrice</td>
-                        <td>@item.Discount</td>
-                        <td>@item.PriceAfterDiscount</td>
-                        <td>@item.Profit</td>
+                        <td>@string.Format("{0:N0}", @item.ImportPrice)</td>
+                        <td>@string.Format("{0:N0}", @item.SellingPrice)</td>
+                        <td>@string.Format("{0:0.##}%", @item.Discount)</td>
+                        <td>@string.Format("{0:N0}", @item.PriceAfterDiscount)</td>
+                        <td>@string.Format("{0:N0}", @item.Profit)</td>
                         <td>
                             <div class="action-btns">
-                                <button class="btn btn-warning btn-sm" id="editVariationBtn">Edit</button>
+                                <button class="btn btn-warning btn-sm editVariationBtn">Edit</button>
                                 <button class="btn btn-danger btn-sm" onclick="deleteVariation(@item.Id)">Delete</button>
                             </div>
                         </td>
@@ -234,7 +234,7 @@
     </div>
 </div>
 
-<!-- Add and Edit Panels -->
+<!-- Add Panels -->
 <div id="addPanel">
     <span class="close-btn" onclick="closeAddPanel()">×</span>
     <h4>Add Variation</h4>
@@ -276,7 +276,7 @@
         <!-- Selling Price Input -->
         <div class="form-group form-inline">
             <label for="sellingPrice">Selling Price (VND):</label>
-            <input type="number" name="SellingPrice" class="form-control ml-2" id="sellingPrice" placeholder="Enter price" min="0" step="100000">
+            <input type="number" name="SellingPrice" class="form-control ml-2" placeholder="Enter price" min="0" step="100000">
         </div>
         <input type="hidden" name="ProductId" value="@ViewBag.Product.Id"/>
 
@@ -284,79 +284,106 @@
     </form>
 </div>
 
-<div id="editPanel">
-    <span class="close-btn" onclick="closeEditPanel()">×</span>
-    <h4>Edit Variation</h4>
-    <form id="editForm">
-        <!-- Storage Field with Listbox -->
-        <div class="form-group form-inline">
-            <label for="storage">Storage:</label>
-            <select class="form-control ml-2" name="Ram" id="storage">
-                <option value="128GB" selected>128GB</option>
-                <option value="256GB">256GB</option>
-                <option value="512GB">512GB</option>
-                <option value="1TB">1TB</option>
-            </select>
-        </div>
+<div id="editPanel" class="container" style="display: none; max-width: 400px; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0">Edit Variation</h4>
+        <span class="close-btn" style="cursor: pointer; font-size: 24px;" onclick="closeEditPanel()">×</span>
+    </div>
 
-        <!-- RAM Field with Listbox -->
-        <div class="form-group form-inline">
-            <label for="ram">RAM:</label>
-            <select class="form-control ml-2" name="Storage" id="ram">
-                <option value="4GB" selected>4GB</option>
-                <option value="8GB">8GB</option>
-                <option value="16GB">16GB</option>
-                <option value="32GB">32GB</option>
-            </select>
-        </div>
-
-        <!-- Quantity Input -->
-        <div class="form-group form-inline">
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="Quantity" class="form-control ml-2" id="quantity" placeholder="Enter quantity" min="1">
-        </div>
-
-        <!-- Import Price Input -->
-        <div class="form-group form-inline">
-            <label for="importPrice">Import Price (VND):</label>
-            <input type="number" name="ImportPrice" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="0">
-        </div>
-
+    <form asp-controller="ProMan" asp-action="EditProductItem" method="post" id="editForm">
         <!-- Selling Price Input -->
-        <div class="form-group form-inline">
-            <label for="sellingPrice">Selling Price (VND):</label>
-            <input type="number" name="SellingPrice" class="form-control ml-2" id="sellingPrice" placeholder="Enter price" min="0">
+        <div class="form-group">
+            <label for="sellingPrice" class="font-weight-bold">Selling Price (VND):</label>
+            <input type="number" name="SellingPrice" class="form-control" id="sellingPrice" placeholder="Enter price" min="0" step="100000">
         </div>
 
         <!-- Discount Input -->
-        <div class="form-group form-inline">
-            <label for="discount">Discount (%):</label>
-            <input type="number" name="Discount" class="form-control ml-2" id="discount" placeholder="Enter discount" min="0">
+        <div class="form-group">
+            <label for="discount" class="font-weight-bold">Discount (%):</label>
+            <input type="number" name="Discount" class="form-control" id="discount" placeholder="Enter discount" min="0" max="100" step="0.5">
         </div>
-        <button type="button" class="btn btn-primary" onclick="saveChanges()">Save</button>
+
+        <input type="hidden" name="Id" id="proItemId" />
+        <input type="hidden" name="ProductId" value="@ViewBag.Product.Id" />
+
+        <!-- Save Button -->
+        <input type="submit" class="btn btn-success btn-block mt-4" value="Saves"/>
     </form>
 </div>
 
-<!-- JavaScript for Add and Edit Panels -->
+
+
+<!-- JavaScript for Add Panels -->
 <script>
     document.getElementById("addVariationBtn").addEventListener("click", function () {
         document.getElementById("addPanel").style.display = "block";
     });
 
-    document.getElementById("editVariationBtn").addEventListener("click", function () {
-        document.getElementById("editPanel").style.display = "block";
-    });
+    // Get all elements with the class "editVariationBtn"
+    var editButtons = document.getElementsByClassName("editVariationBtn");
+
+    // Loop through each button and add a click event listener
+    for (var i = 0; i < editButtons.length; i++) {
+        editButtons[i].addEventListener("click", function () {
+            // Show the edit panel
+            document.getElementById("editPanel").style.display = "block";
+
+            // Get the current row that the clicked button belongs to
+            var currentRow = this.closest('tr');
+
+            var proItemId = currentRow.querySelector('td:nth-child(1)').innerText;
+            // Get the values from the relevant cells
+            var sellingPrice = currentRow.querySelector('td:nth-child(6)').innerText; // Selling price in the 6th column
+            var discount = currentRow.querySelector('td:nth-child(7)').innerText;     // Discount in the 7th column
+
+            // Fill the form with the extracted values
+            document.getElementById("sellingPrice").value = sellingPrice.replace(/,/g, '').trim();
+            document.getElementById("discount").value = discount.replace('%', '').trim();
+            document.getElementById("proItemId").value = proItemId.trim();
+        });
+    }
+
+
+    // Function to hide the edit panel (for closing)
+    function closeEditPanel() {
+        document.getElementById("editPanel").style.display = "none";
+    }
 
     function closeAddPanel() {
         document.getElementById("addPanel").style.display = "none";
     }
 
-    function closeEditPanel() {
-        document.getElementById("editPanel").style.display = "none";
-    }
-
+    // JavaScript function to update subcategories based on selected category
     function updateSubcategory() {
-        // Code to dynamically update subcategory options based on category selection
+        // Get selected category value
+        var category = document.getElementById("category").value;
+        var subcategory = document.getElementById("subcategory");
+
+        // Clear previous options
+        subcategory.innerHTML = "";
+
+        // Check category and update the subcategory options accordingly
+        if (category === "laptop") {
+    @foreach (var laptop in ViewBag.Laptops)
+    {
+        <text>
+                        var option = document.createElement("option");
+                        option.value = "@laptop.Id";
+                        option.text = "@laptop.Name";
+                        subcategory.add(option);
+        </text>
+    }
+                    } else if (category === "phone") {
+    @foreach (var phone in ViewBag.Smartphones)
+    {
+        <text>
+                        var option = document.createElement("option");
+                        option.value = "@phone.Id";
+                        option.text = "@phone.Name";
+                        subcategory.add(option);
+        </text>
+    }
+                    }
     }
 
     function deleteVariation(variationId) {
@@ -364,4 +391,15 @@
             // Code to delete the variation
         }
     }
+
+    
+
+
+
+
+    // Function to format number as x.xxx.xxx (for VND currency)
+    function formatVND(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
 </script>

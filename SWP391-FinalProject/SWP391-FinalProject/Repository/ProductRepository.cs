@@ -262,7 +262,6 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
-
         public Models.ProductModel GetProductById(string id)
         {
             var query = from p in db.Products
@@ -297,7 +296,6 @@ namespace SWP391_FinalProject.Repository
             return varianceValue; // Return empty string if result is null
         }
 
-
         public decimal CalculatePriceAfterDiscount(decimal? SellingPrice, decimal? discount)
         {
             var d = (discount == null) ? 0 : discount;
@@ -322,8 +320,9 @@ namespace SWP391_FinalProject.Repository
                 Ram = GetProductVariationOption(p.Id,"Ram"),
                 Storage = GetProductVariationOption(p.Id, "Storage"),
                 Discount = p.Discount,
-                PriceAfterDiscount = CalculatePriceAfterDiscount(p.SellingPrice, p.Discount),
-                Profit = CalculateProfit(CalculatePriceAfterDiscount(p.SellingPrice, p.Discount),p.ImportPrice)
+                PriceAfterDiscount = CalculatePriceAfterDiscount(p.SellingPrice, p.Discount/100),
+                Profit = CalculateProfit(CalculatePriceAfterDiscount(p.SellingPrice, p.Discount/100),p.ImportPrice),
+                ProductId = productId
             }).ToList();
 
             return result;
@@ -362,6 +361,15 @@ namespace SWP391_FinalProject.Repository
             return productItem;
 
         }
+
+        //public ProductItemModel GetProductItemById(string productItemId)
+        //{
+        //    var productItems = from pi in db.ProductItems 
+        //                       join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+
+
+        //    return productItems;
+        //}
 
     }
 }

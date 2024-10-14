@@ -141,5 +141,16 @@ namespace SWP391_FinalProject.Repository
             db.SaveChanges();
             AddProductConfiguration(model);
         }
+
+        public void EditProductItem(ProductItemModel model)
+        {
+            var proItem = db.ProductItems.FirstOrDefault(db => db.Id == model.Id);
+            if (proItem != null)
+            {
+                proItem.SellingPrice = model.SellingPrice;
+                proItem.Discount = model.Discount;
+                db.SaveChanges();
+            }
+        }
     }
 }

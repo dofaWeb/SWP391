@@ -100,40 +100,41 @@ namespace SWP391_FinalProject.Controllers
                     AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", ProvinceId = "Prov0001", Address = "" };
                     accRepo.AddAccount(acc);
 
-                    await LoginByGoogle(email);
+                    return await LoginByGoogle(email);
                 }
                 else
                 {
-                    await LoginByGoogle(email);
+                    return await LoginByGoogle(email);
 
                 }
             }
-
             return RedirectToAction("Index", "Pro");
+            
         }
 
         public async Task<IActionResult> LoginByGoogle(string email)
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository(db);
             var user = accRepo.GetUserByUsernameOrEmail(email);
-            var claims = new List<Claim> {
-                                new Claim(ClaimTypes.Email, user.Email),
-                                new Claim(ClaimTypes.Name, user.Name),
-                                new Claim(MySetting.CLAIM_CUSTOMERID, user.Id),
-                                new Claim(ClaimTypes.Role, user.RoleId),
-                                new Claim("Username", user.Username)
-                            };
-            var claimsIdentity = new ClaimsIdentity(claims, "login");
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            
 
-            await HttpContext.SignInAsync(claimsPrincipal);
-            if (user.Status == "0")
+            if (user.Status == "Inactive")
             {
                 ViewBag.Error = "Your account has been ban";
                 return View("Login");
             }
             else
             {
+                var claims = new List<Claim> {
+                                new Claim(ClaimTypes.Email, user.Email),
+                                new Claim(ClaimTypes.Name, user.Name),
+                                new Claim(MySetting.CLAIM_CUSTOMERID, user.Id),
+                                new Claim(ClaimTypes.Role, user.RoleId),
+                                new Claim("Username", user.Username)
+                            };
+                var claimsIdentity = new ClaimsIdentity(claims, "login");
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                await HttpContext.SignInAsync(claimsPrincipal);
                 return RedirectToAction("Index", "Pro");
             }
         }
@@ -161,17 +162,8 @@ namespace SWP391_FinalProject.Controllers
                 else
                 {
                     var user = accRepo.GetUserByUsernameOrEmail(model.Username);
-                    var claims = new List<Claim> {
-                                new Claim(ClaimTypes.Email, user.Email),
-                                new Claim(ClaimTypes.Name, user.Name),
-                                new Claim(MySetting.CLAIM_CUSTOMERID, user.Id),
-                                new Claim(ClaimTypes.Role, user.RoleId),
-                                new Claim("Username", user.Username)
-                            };
-                    var claimsIdentity = new ClaimsIdentity(claims, "login");
-                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    
 
-                    await HttpContext.SignInAsync(claimsPrincipal);
                     if (user.Status == "Inactive")
                     {
                         ViewBag.Error = "Your account has been banned";
@@ -179,6 +171,16 @@ namespace SWP391_FinalProject.Controllers
                     }
                     else
                     {
+                        var claims = new List<Claim> {
+                                new Claim(ClaimTypes.Email, user.Email),
+                                new Claim(ClaimTypes.Name, user.Name),
+                                new Claim(MySetting.CLAIM_CUSTOMERID, user.Id),
+                                new Claim(ClaimTypes.Role, user.RoleId),
+                                new Claim("Username", user.Username)
+                            };
+                        var claimsIdentity = new ClaimsIdentity(claims, "login");
+                        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                        await HttpContext.SignInAsync(claimsPrincipal);
                         return RedirectToAction("Index", "Pro");
                     }
                 }

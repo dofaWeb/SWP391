@@ -81,11 +81,32 @@
                 <td>@item.Name</td>
                 <td>@item.CategoryName</td>
                 <td>@item.Quantity</td>
-                <td><span class="badge badge-success">@item.ProductState</span></td>
+                <td>
+                    @{
+                        string badgeClass;
+                        switch (item.ProductState)
+                        {
+                            case "Available":
+                                badgeClass = "badge-success"; // Green for Available
+                                break;
+                            case "Unavailable":
+                                badgeClass = "badge-warning"; // Yellow for Unavailable
+                                break;
+                            case "Out of Stock":
+                                badgeClass = "badge-danger"; // Red for Out of Stock
+                                break;
+                            default:
+                                badgeClass = "badge-secondary"; // Gray for unknown states
+                                break;
+                        }
+                    }
+                    <span class="badge @badgeClass">@item.ProductState</span>
+                </td>
                 <td>
                     <a asp-controller="ProMan" asp-action="EditProduct" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
-                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(1)">Delete</button>
-                    <button class="btn btn-secondary btn-gray">Disabled</button>
+                    <button class="btn btn-danger btn-sm" asp-controller="ProMan" asp-action="DeleteProduct" asp-route-id="@item.Id">Delete</button>
+
+                    <a class="btn btn-secondary btn-gray" asp-controller="ProMan" asp-action="Disable" asp-route-id="@item.Id">@(item.ProductState != "Unavailable" ? "Disable" : "Active")</a>
                 </td>
             </tr>
 

@@ -20,7 +20,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult Index()
         {
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            if(role != "Role0001")
+            if (role != "Role0001")
             {
                 return RedirectToAction("Index", "Pro");
             }
@@ -84,9 +84,11 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddProItem(ProductItemModel model)
         {
+
             ProductItemRepository proRepo =new ProductItemRepository();   
+
             proRepo.AddProductItem(model);
-            return RedirectToAction("EditProduct",new {id = model.ProductId });
+            return RedirectToAction("EditProduct", new { id = model.ProductId });
         }
 
         [HttpPost]
@@ -95,6 +97,20 @@ namespace SWP391_FinalProject.Controllers
             ProductItemRepository proRepo = new ProductItemRepository();
             proRepo.EditProductItem(model);
             return RedirectToAction("EditProduct", new { id = model.ProductId });
+        }
+
+        public IActionResult Disable(string id)
+        {
+            ProductRepository proRepo = new ProductRepository(db);
+            proRepo.Disable(id);
+            return RedirectToAction("Display");
+        }
+
+        public IActionResult DeleteProductItem(string id, string productId)
+        {
+            ProductItemRepository proRepo = new ProductItemRepository(db);
+            proRepo.Delete(id);
+            return RedirectToAction("EditProduct", new { id = productId });
         }
     }
 }

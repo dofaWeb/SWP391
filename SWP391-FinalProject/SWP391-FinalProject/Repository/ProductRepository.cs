@@ -13,6 +13,12 @@ namespace SWP391_FinalProject.Repository
         {
             db = context;
         }
+
+        public ProductRepository()
+        {
+            db  = new DBContext();
+        }
+
         public List<Models.ProductModel> GetProductsByKeyword(string keyword)
         {
             // Check for null or empty keyword and return an empty list if so
@@ -321,6 +327,40 @@ namespace SWP391_FinalProject.Repository
             }).ToList();
 
             return result;
+        }
+        public ProductItemModel GetProductItemById(string productId)
+        {
+            // Truy vấn dữ liệu bằng LINQ
+            var productItem = (from p in db.Products
+                               join pi in db.ProductItems on p.Id equals pi.ProductId
+                              // Nếu có bảng Variations
+                               where p.Id == productId
+                               select new ProductItemModel
+                               {
+                                   Id = pi.Id,
+                                   ProductId = pi.ProductId,
+                                   Product = new ProductModel
+                                   {
+                                       Id = p.Id,
+                                       Name = p.Name,
+                                       Picture = p.Picture,
+                                       Description = p.Description,
+                                       CategoryId = p.CategoryId,
+                                       CategoryName = db.Categories
+                                                   .Where(c => c.Id == p.CategoryId)
+                                                   .Select(c => c.Name).FirstOrDefault(), // Lấy tên danh mục
+
+                                       StateId = p.StateId
+                                   },
+                                   Quantity = pi.Quantity,
+                                   ImportPrice = pi.ImportPrice,
+                                   SellingPrice = pi.SellingPrice,
+                                   Discount = pi.Discount,
+
+                               }).FirstOrDefault();
+
+            return productItem;
+
         }
 
     }

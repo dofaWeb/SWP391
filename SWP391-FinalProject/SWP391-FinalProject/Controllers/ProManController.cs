@@ -97,5 +97,12 @@ namespace SWP391_FinalProject.Controllers
             proRepo.EditProductItem(model);
             return RedirectToAction("EditProduct", new { id = model.ProductId });
         }
+
+        public IActionResult Disable(string id)
+        {
+            ProductRepository proRepo = new ProductRepository(db);
+            proRepo.Disable(id);
+            return RedirectToAction("Display");
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.Repository
 
         public ProductRepository()
         {
-            db  = new DBContext();
+            db = new DBContext();
         }
 
         public List<Models.ProductModel> GetProductsByKeyword(string keyword)
@@ -146,19 +146,23 @@ namespace SWP391_FinalProject.Repository
                 .Where(pi => pi.ProductId == productId)
                 .Sum(pi => (int?)pi.Quantity) ?? 0; // Use nullable int and default to 0
 
-            // Check if the total quantity is 0
-            if (totalQuantity == 0)
+            // Find the product to update
+            var productToUpdate = db.Products.FirstOrDefault(p => p.Id == productId);
+
+            if (productToUpdate != null)
             {
-                // Find the product to update
-                var productToUpdate = db.Products.FirstOrDefault(p => p.Id == productId);
-
-                // Update the state to 3 if the product exists
-                if (productToUpdate != null)
+                // Check if the total quantity is 0
+                if (totalQuantity == 0)
                 {
-                    productToUpdate.State.Id = 3; // Set state to 3
+                    // Update the state to 3 if the product exists
 
-                    db.SaveChanges(); // Save changes to the database
+                    productToUpdate.StateId = 3; // Set state to 
                 }
+                else
+                {
+                    productToUpdate.StateId = 1;
+                }
+                db.SaveChanges(); // Save changes to the database
             }
         }
 
@@ -317,11 +321,11 @@ namespace SWP391_FinalProject.Repository
                 Quantity = p.Quantity,
                 ImportPrice = p.ImportPrice,
                 SellingPrice = p.SellingPrice,
-                Ram = GetProductVariationOption(p.Id,"Ram"),
+                Ram = GetProductVariationOption(p.Id, "Ram"),
                 Storage = GetProductVariationOption(p.Id, "Storage"),
                 Discount = p.Discount,
-                PriceAfterDiscount = CalculatePriceAfterDiscount(p.SellingPrice, p.Discount/100),
-                Profit = CalculateProfit(CalculatePriceAfterDiscount(p.SellingPrice, p.Discount/100),p.ImportPrice),
+                PriceAfterDiscount = CalculatePriceAfterDiscount(p.SellingPrice, p.Discount / 100),
+                Profit = CalculateProfit(CalculatePriceAfterDiscount(p.SellingPrice, p.Discount / 100), p.ImportPrice),
                 ProductId = productId
             }).ToList();
 
@@ -332,7 +336,7 @@ namespace SWP391_FinalProject.Repository
             // Truy vấn dữ liệu bằng LINQ
             var productItem = (from p in db.Products
                                join pi in db.ProductItems on p.Id equals pi.ProductId
-                              // Nếu có bảng Variations
+                               // Nếu có bảng Variations
                                where p.Id == productId
                                select new ProductItemModel
                                {
@@ -362,14 +366,22 @@ namespace SWP391_FinalProject.Repository
 
         }
 
-        //public ProductItemModel GetProductItemById(string productItemId)
-        //{
-        //    var productItems = from pi in db.ProductItems 
-        //                       join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
-
-
-        //    return productItems;
-        //}
+        public void Disable(string productId)
+        {
+            var product = db.Products.FirstOrDefault(p => p.Id == productId);
+            if (product != null)
+            {
+                if (product.StateId != 2)
+                {
+                    product.StateId = 2;
+                }
+                else
+                {
+                    UpdateProductState(productId);
+                }
+                db.SaveChanges();
+            }
+        }
 
     }
 }

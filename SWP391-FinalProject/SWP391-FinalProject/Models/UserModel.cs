@@ -8,9 +8,10 @@
 
         public int Point { get; set; }
 
-        public string AddressDefault { get; set; }
+        public string Province { get; set; }
 
-        public List<AddressModel> Address { get; set; }
+        public string District { get; set; }
 
+        public string Address { get; set; }
     }
 }

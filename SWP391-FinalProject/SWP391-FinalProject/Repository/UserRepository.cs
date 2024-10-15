@@ -19,9 +19,6 @@ namespace SWP391_FinalProject.Repository
                 // Truy vấn dữ liệu bằng LINQ
                 var userProfile = (from a in dbContext.Accounts
                                    join u in dbContext.Users on a.Id equals u.AccountId
-                                   join ua in dbContext.UserAddresses on u.AccountId equals ua.UserId
-                                   join ad in dbContext.Addresses on ua.AddressId equals ad.Id
-                                   join p in dbContext.Provinces on ad.ProvinceId equals p.Id
                                    where a.Username == username
                                    select new UserModel
                                    {
@@ -38,24 +35,12 @@ namespace SWP391_FinalProject.Repository
                                            RoleName = dbContext.RoleNames
                                                           .Where(r => r.Id == a.RoleId)
                                                           .Select(r => r.Name).FirstOrDefault(), // Lấy tên vai trò
-                                           ProvinceId = ad.ProvinceId,
-                                           Address = ad.Address1
                                        },
                                        Name = u.Name,
                                        Point = u.Point,
-                                       AddressDefault = ad.Address1,
-                                       Address = dbContext.UserAddresses
-                                                          .Where(ua => ua.UserId == u.AccountId)
-                                                          .Join(dbContext.Addresses,
-                                                                ua => ua.AddressId,
-                                                                ad => ad.Id,
-                                                                (ua, ad) => new AddressModel
-                                                                {
-                                                                    Id = ad.Id,
-                                                                    ProvinceId = ad.ProvinceId,
-                                                                    Address = ad.Address1,
-                                                                    Province = ad.Province.Name
-                                                                }).ToList()
+                                       Province = u.Province,
+                                       District = u.District,
+                                       Address = u.Address
                                    }).FirstOrDefault();
 
                 return userProfile;
@@ -75,7 +60,9 @@ namespace SWP391_FinalProject.Repository
             {
                 // Cập nhật các thuộc tính của tài khoản
                 existingUser.Name = User.Name;
-                
+                existingUser.Province = User.Province;
+                existingUser.District = User.District;
+                existingUser.Address = User.Address;
                 db.SaveChanges();
             }
         }

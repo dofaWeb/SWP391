@@ -108,29 +108,16 @@ namespace SWP391_FinalProject.Repository
             {
                 AccountId = newAccount.Id,
                 Name = model.Name,
-                Point = 0
+                Point = 0,
+                Province = model.Province,
+                District = model.District,
+                Address = model.Address,
             };
-
-            Repository.AddressRepository addrRepo = new Repository.AddressRepository(db);
-            id = addrRepo.GetNewId();
-            var newAddress = new SWP391_FinalProject.Entities.Address()
-            {
-                Id = id,
-                ProvinceId = model.ProvinceId,
-                Address1 = model.Address
-            };
-
-            var newUserAddress = new SWP391_FinalProject.Entities.UserAddress()
-            {
-                UserId = newUser.AccountId,
-                AddressId = newAddress.Id,
-                IsDefault = ulong.Parse("1"),
-            };
+            
 
             db.Accounts.Add(newAccount);
             db.Users.Add(newUser);
-            db.Addresses.Add(newAddress);
-            db.UserAddresses.Add(newUserAddress);
+
             db.SaveChanges();
         }
 

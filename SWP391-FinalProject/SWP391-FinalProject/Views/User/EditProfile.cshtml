@@ -5,6 +5,46 @@
 @{
     Layout = "_AccLayout";
 }
+<script src="/lib/jquery/dist/jquery.min.js"></script> <!-- Ensure jQuery is loaded first -->
+<script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function fetchDistricts(provinceID) {
+        console.log(provinceID);
+
+        $.ajax({
+            type: "GET",
+            url: "https://esgoo.net/api-tinhthanh/2/" + provinceID + ".htm",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+
+                if (response.error === 0) {
+                    var data = response.data;
+                    var options = '<option value="">Select District</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i].full_name_en + '">' + data[i].full_name_en + '</option>'; // Assuming 'id' is the district ID
+                    }
+                    $('#district').html(options);
+                } else {
+                    console.error("Error from API: " + response.error_text);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data from API: " + error);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#provinces').change(function () {
+            var provinceId = $(this).val();
+            var Province = $("#provinces option:selected").text();
+            $('#Province').val(Province); // Hidden input or for displaying province name
+
+            fetchDistricts(provinceId);
+        });
+    });
+</script>
 <head>
     <style>
         .profile-header {
@@ -64,10 +104,10 @@
     <h1>Edit Profile</h1>
 </header>
 <form asp-action="EditProfile" asp-controller="User" method="post">
-    
+
 
     <div class="container mt-4 profile-info">
-        <a asp-action="Profile" asp-controller="User" asp-route-username="@Model.Account.Username" class="btn btn-primary">Back To Profile </a>
+        <a asp-action="Profile" asp-controller="User" asp-route-username="@Model.Account.Username" class="btn btn-secondary btn-sm">Back</a>
         <h3>User Information</h3>
         <table class="table table-bordered">
             <tbody>
@@ -75,60 +115,63 @@
                     <th scope="row">Username</th>
                     <td><input type="text" class="form-control" value="@Model.Account.Username" name="Account.Username" readonly></td>
                 </tr>
+
                 <tr>
                     <th scope="row">Full Name</th>
                     <td><input type="text" class="form-control" value="@Model.Name" name="Name"></td>
                 </tr>
+
                 <tr>
                     <th scope="row">Email</th>
                     <td><input type="email" class="form-control" value="@Model.Account.Email" name="Account.Email" readonly></td>
                 </tr>
+
                 <tr>
                     <th scope="row">Phone Number</th>
                     <td><input type="tel" class="form-control" value="@Model.Account.Phone" name="Account.Phone"></td>
                 </tr>
 
+                <tr>
+                    <th>Province:</th>
+                    <td>
+                        <select id="provinces" name="provinces" class="form-control" required>
+                            <option value="">Select Province/City</option>
+                            @foreach (var item in ViewBag.Provinces)
+                            {
+                                @if (Model.Province != null && Model.Province == item["full_name_en"].ToString())
+                                {
+                                    <option value="@item["id"]" selected>@item["full_name_en"]</option>
+                                }
+                                <option value="@item["id"]">@item["full_name_en"]</option> <!-- Use 'id' for the value and 'name' for display -->
+                            }
+                        </select>
+                        <input type="hidden" id="Province" name="Province" value="@Model.Province" />
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <th>District:</th>
+                    <td>
+                        <select id="district" name="District" class="form-control" required>
+                            @if (Model.District != null) // Assuming Model.District holds the selected district's name
+                            {
+                                <option value="@Model.District" selected>@Model.District</option>
+                            }
+                            <option value="">Select District</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Address:</th>
+                    <td>
+                        <input type="text" class="form-control" name="Address" value="@Model.Address" />
+                    </td>
+                </tr>>
+                
             </tbody>
         </table>
+        <button type="submit" class="btn btn-success">Submit</button>
 
-        <div class="address-section">
-            <h4>Addresses</h4>
-
-            <!-- List of Addresses -->
-            <div id="addressList">
-                @foreach (var add in Model.Address)
-                {
-                    <div class="address-item">
-                        <p>@add.Province @add.Address </p>
-                    </div>
-                }
-
-                <!-- Add New Address Form -->
-                <div class="address-form">
-                    <h5>Add New Address</h5>
-                    <form id="addAddressForm">
-                        <div class="form-group">
-                            <label for="newAddress">Address</label>
-                            <input type="text" class="form-control" id="newAddress" placeholder="Enter new address">
-                        </div>
-                        <div class="form-group">
-                            <label for="newProvince">Province</label>
-                            <select class="form-control" id="newProvince">
-                                <option value="" disabled selected>Select a province</option>
-                                <option value="Ontario">Ontario</option>
-                                <option value="Quebec">Quebec</option>
-                                <option value="British Columbia">British Columbia</option>
-                                <option value="Alberta">Alberta</option>
-                                <!-- Add more provinces as needed -->
-                            </select>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="addNewAddress()">Add Address</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <button class="btn btn-success">Save Changes</button>
-            </div>
-        </div>
 </form>

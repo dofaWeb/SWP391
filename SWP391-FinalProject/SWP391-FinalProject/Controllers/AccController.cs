@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
@@ -28,34 +29,78 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
-            Repository.ProvinceRepository provinceRepo = new Repository.ProvinceRepository();
-            var province = provinceRepo.GetAllProvince();
-            ViewBag.Provinces = province;
-            return View();
+            HttpClient client = new HttpClient();
+            try
+            {
+                string url = "https://esgoo.net/api-tinhthanh/1/0.htm";
+                HttpResponseMessage response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseJson = await response.Content.ReadAsStringAsync();
+
+                    // Parse the JSON response
+                    dynamic jsonResponse = JsonConvert.DeserializeObject(responseJson);
+                    int error = jsonResponse.error;
+
+                    if (error == 0)
+                    {
+                        // Get the "data" array from the JSON response
+                        var data = jsonResponse.data;
+
+                        // Pass the data to the view using ViewBag
+                        ViewBag.Provinces = data;
+
+                        // Render the Register view
+                        return View("Register");
+                    }
+                    else
+                    {
+                        // Handle the error from the API
+                        ViewBag.Error = jsonResponse.error_text;
+                        return View("Register");
+                    }
+                }
+                else
+                {
+                    // Handle non-success HTTP response
+                    ViewBag.Error = "Error occurred while sending the request to the API: " + (int)response.StatusCode;
+                    return View("Register");
+                }
+            }
+            catch (Exception e)
+            {
+                // Handle any exceptions
+                ViewBag.Error = "An error occurred while processing the request: " + e.Message;
+                return View("Register");
+            }
+            finally
+            {
+                client.Dispose();
+            }
         }
 
         public void AddRegisterInfoToCookie(AccountModel model)
         {
             CookieOptions Cookie = new CookieOptions();
             Cookie.Expires = DateTime.Now.AddDays(1);
-            Response.Cookies.Append("RegisterCookie", model.Username + "/" + model.Password + "/" + model.Name + "/" + model.Email + "/" + model.Phone + "/" + model.ProvinceId + "/" + model.Address, Cookie);
+            Response.Cookies.Append("RegisterCookie", model.Username + "/" + model.Password + "/" + model.Name + "/" + model.Email + "/" + model.Phone + "/" + model.Province +"/" + model.District + "/" + model.Address, Cookie);
         }
 
         [HttpPost]
-        public IActionResult Register(Models.AccountModel model)
+        public async Task<IActionResult> Register(Models.AccountModel model)
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
             if (!accRepo.CheckEmail(model.Email))
             {
                 ViewBag.Error = "Email has been used!";
-                return Register();
+                return await Register();
             }
             else
             {
                 AddRegisterInfoToCookie(model);
-                Random random = new Random();
                 Helpers.MailUtil.SendRegisterEmail(model.Email);
                 return RedirectToAction(nameof(SuccessfullySendEmail), new { email = model.Email });
             }
@@ -67,7 +112,7 @@ namespace SWP391_FinalProject.Controllers
             string cookie = Request.Cookies["RegisterCookie"];
             string[] model = cookie.Split("/");
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
-            AccountModel acc = new AccountModel() { Username = model[0], Password = model[1], Name = model[2], Email = model[3], Phone = model[4], ProvinceId = model[5], Address = model[6] };
+            AccountModel acc = new AccountModel() { Username = model[0], Password = model[1], Name = model[2], Email = model[3], Phone = model[4], Province = model[5], District = model[6], Address = model[7] };
             accRepo.AddAccount(acc);
             Response.Cookies.Delete("RegisterCookie");
             return RedirectToAction("Login");
@@ -96,7 +141,7 @@ namespace SWP391_FinalProject.Controllers
                 Repository.AccountRepository accRepo = new Repository.AccountRepository();
                 if (accRepo.CheckEmail(email))
                 {
-                    AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", ProvinceId = "Prov0001", Address = "" };
+                    AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", Province = "", District="", Address = "" };
                     accRepo.AddAccount(acc);
 
                     return await LoginByGoogle(email);

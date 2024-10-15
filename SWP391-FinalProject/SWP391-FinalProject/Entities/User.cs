@@ -11,6 +11,12 @@ public partial class User
 
     public int Point { get; set; }
 
+    public string? Province { get; set; }
+
+    public string? District { get; set; }
+
+    public string? Address { get; set; }
+
     public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
@@ -18,6 +24,4 @@ public partial class User
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
-
-    public virtual UserAddress? UserAddress { get; set; }
 }

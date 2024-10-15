@@ -28,6 +28,12 @@ namespace SWP391_FinalProject
             // Cấu hình dịch vụ (services)
             var services = builder.Services;
             services.AddControllersWithViews();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian session tồn tại nếu không có hoạt động
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             // Cấu hình Authentication với Google
             services.AddAuthentication(options =>
@@ -89,6 +95,8 @@ namespace SWP391_FinalProject
                     await context.Response.CompleteAsync();
                 }
             });
+
+            app.UseSession();
 
             app.UseAuthentication(); // Đảm bảo Authentication được gọi trước UseAuthorization
             app.UseAuthorization();

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Filters;
 using SWP391_FinalProject.Models;
+using SWP391_FinalProject.Repository;
 using System.Security.Claims;
 
 namespace SWP391_FinalProject.Controllers
@@ -13,8 +15,23 @@ namespace SWP391_FinalProject.Controllers
             
         }
 
-        public IActionResult Index()
+        public bool CheckLoginCookie()
         {
+            string cookie = HttpContext.Request.Cookies["Username"];
+            return cookie != null && cookie.Length > 0;
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+            if (HttpContext.Session.GetString("username") == null)
+            {
+                if (CheckLoginCookie())
+                {
+                    HttpContext.Session.SetString("username", "true");
+                    return RedirectToAction("LoginWithCookie", "Acc", new { username = HttpContext.Request.Cookies["Username"] });
+                }
+            }
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
             if (userRole == "Role0001" || userRole == "Role0002")
             {
@@ -22,6 +39,7 @@ namespace SWP391_FinalProject.Controllers
             }
             return View();
         }
+
         public async Task<IActionResult> Profile(string username)
         {
             Repository.UserRepository userRepo = new Repository.UserRepository();

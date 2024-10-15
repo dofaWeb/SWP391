@@ -378,5 +378,74 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
+        public List<ProductLogModel> GetProductLog()
+        {
+            var result = db.ProductLogs
+                .Select(p => new ProductLogModel
+                {
+                    Id = p.Id,
+                    ProductItemId = p.QuantityLog != null ? p.QuantityLog.ProductItemId :
+                                    p.PriceLog != null ? p.PriceLog.ProductItemId :
+                                    p.DisocuntLog != null ? p.DisocuntLog.ProductItemId : null,
+                    ActionType = p.QuantityLog != null ? "Quantity Change" :
+                                 p.PriceLog != null ? "Price Change" :
+                                 p.DisocuntLog != null ? "Discount Change" : "Unknown",
+                    OldValue = p.QuantityLog != null ? p.QuantityLog.OldQuantity.ToString() :
+                                p.PriceLog != null ? p.PriceLog.OldPrice.ToString() :
+                                p.DisocuntLog != null ? p.DisocuntLog.OldDiscount.ToString(): null,
+                    NewValue = p.QuantityLog != null ? p.QuantityLog.NewQuantity.ToString() :
+                                p.PriceLog != null ? p.PriceLog.NewPrice.ToString():
+                                p.DisocuntLog != null ? p.DisocuntLog.NewDiscount.ToString(): null,
+                    Date = p.QuantityLog != null ? p.QuantityLog.ChangeTimestamp :
+                           p.PriceLog != null ? p.PriceLog.ChangeTimestamp :
+                           p.DisocuntLog != null ? p.DisocuntLog.ChangeTimestamp : DateTime.MinValue
+                }).OrderByDescending(p => p.Date)
+                .ToList();
+
+            return result;
+        }
+
+        public List<ProductLogModel> GetProductLog(string filter)
+        {
+            var logs = db.ProductLogs.AsQueryable();
+            switch (filter)
+            {
+                case "1":
+                    logs = logs.Where(p => p.QuantityLogId != null); // Quantity Change
+                    break;
+                case "2":
+                    logs = logs.Where(p => p.PriceLogId != null); // Price Change
+                    break;
+                case "3":
+                    logs = logs.Where(p => p.DisocuntLogId != null); // Discount Change
+                    break;
+                default:
+                    // If "All" or no filter is selected, return all logs
+                    break;
+            }
+            var result = logs.Select(p => new ProductLogModel
+                {
+                    Id = p.Id,
+                    ProductItemId = p.QuantityLog != null ? p.QuantityLog.ProductItemId :
+                                    p.PriceLog != null ? p.PriceLog.ProductItemId :
+                                    p.DisocuntLog != null ? p.DisocuntLog.ProductItemId : null,
+                    ActionType = p.QuantityLog != null ? "Quantity Change" :
+                                 p.PriceLog != null ? "Price Change" :
+                                 p.DisocuntLog != null ? "Discount Change" : "Unknown",
+                    OldValue = p.QuantityLog != null ? p.QuantityLog.OldQuantity.ToString() :
+                                p.PriceLog != null ? p.PriceLog.OldPrice.ToString() :
+                                p.DisocuntLog != null ? p.DisocuntLog.OldDiscount.ToString() : null,
+                    NewValue = p.QuantityLog != null ? p.QuantityLog.NewQuantity.ToString() :
+                                p.PriceLog != null ? p.PriceLog.NewPrice.ToString() :
+                                p.DisocuntLog != null ? p.DisocuntLog.NewDiscount.ToString() : null,
+                    Date = p.QuantityLog != null ? p.QuantityLog.ChangeTimestamp :
+                           p.PriceLog != null ? p.PriceLog.ChangeTimestamp :
+                           p.DisocuntLog != null ? p.DisocuntLog.ChangeTimestamp : DateTime.MinValue
+                }).OrderByDescending(p => p.Date)
+                .ToList();
+
+            return result;
+        }
+
     }
 }

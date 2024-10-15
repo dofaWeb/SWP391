@@ -101,14 +101,14 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult Disable(string id)
         {
-            ProductRepository proRepo = new ProductRepository(db);
+            ProductRepository proRepo = new ProductRepository();
             proRepo.Disable(id);
             return RedirectToAction("Display");
         }
 
         public IActionResult DeleteProductItem(string id, string productId)
         {
-            ProductItemRepository proRepo = new ProductItemRepository(db);
+            ProductItemRepository proRepo = new ProductItemRepository();
             proRepo.Delete(id);
             return RedirectToAction("EditProduct", new { id = productId });
         }

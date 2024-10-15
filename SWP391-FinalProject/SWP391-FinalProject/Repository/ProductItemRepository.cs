@@ -165,7 +165,7 @@ namespace SWP391_FinalProject.Repository
                     db.ProductConfigurations.Remove(pc);
                 }
                 db.SaveChanges();
-                ProductRepository proRepo = new ProductRepository(db);
+                ProductRepository proRepo = new ProductRepository();
                 proRepo.UpdateProductState(proItem.ProductId);
             }
         }

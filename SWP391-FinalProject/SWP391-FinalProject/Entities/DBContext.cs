@@ -18,8 +18,6 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Account> Accounts { get; set; }
 
-    public virtual DbSet<Address> Addresses { get; set; }
-
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<ChangeReason> ChangeReasons { get; set; }
@@ -48,8 +46,6 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<ProductState> ProductStates { get; set; }
 
-    public virtual DbSet<Province> Provinces { get; set; }
-
     public virtual DbSet<QuantityLog> QuantityLogs { get; set; }
 
     public virtual DbSet<Rating> Ratings { get; set; }
@@ -61,8 +57,6 @@ public partial class DBContext : DbContext
     public virtual DbSet<StaffShift> StaffShifts { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
-    public virtual DbSet<UserAddress> UserAddresses { get; set; }
 
     public virtual DbSet<Variation> Variations { get; set; }
 
@@ -126,35 +120,6 @@ public partial class DBContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Account_Role_Name");
-        });
-
-        modelBuilder.Entity<Address>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.ToTable("Address");
-
-            entity.HasIndex(e => e.ProvinceId, "FK_Address_Province");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(8)
-                .HasColumnName("id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.Address1)
-                .HasMaxLength(100)
-                .HasColumnName("address")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.ProvinceId)
-                .HasMaxLength(8)
-                .HasColumnName("province_id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-
-            entity.HasOne(d => d.Province).WithMany(p => p.Addresses)
-                .HasForeignKey(d => d.ProvinceId)
-                .HasConstraintName("FK_Address_Province");
         });
 
         modelBuilder.Entity<Category>(entity =>
@@ -608,7 +573,7 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Product_Name_Log");
 
-            entity.HasIndex(e => e.ProductItemId, "FK_Name_Log_Product_Item");
+            entity.HasIndex(e => e.ProductId, "FK_Name_Log_Product_Item");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
@@ -628,16 +593,7 @@ public partial class DBContext : DbContext
                 .HasColumnName("old_name")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
-            entity.Property(e => e.ProductItemId)
-                .HasMaxLength(8)
-                .HasColumnName("product_item_id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-
-            entity.HasOne(d => d.ProductItem).WithMany(p => p.ProductNameLogs)
-                .HasForeignKey(d => d.ProductItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Name_Log_Product_Item");
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
         });
 
         modelBuilder.Entity<ProductState>(entity =>
@@ -650,24 +606,6 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");
-        });
-
-        modelBuilder.Entity<Province>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
-
-            entity.ToTable("Province");
-
-            entity.Property(e => e.Id)
-                .HasMaxLength(8)
-                .HasColumnName("id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .HasColumnName("name")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
         });
 
         modelBuilder.Entity<QuantityLog>(entity =>
@@ -818,49 +756,32 @@ public partial class DBContext : DbContext
                 .HasColumnName("account_id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
+            entity.Property(e => e.Address)
+                .HasMaxLength(100)
+                .HasColumnName("address")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.District)
+                .HasMaxLength(50)
+                .HasColumnName("district")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.Point).HasColumnName("point");
+            entity.Property(e => e.Province)
+                .HasMaxLength(50)
+                .HasColumnName("province")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
 
             entity.HasOne(d => d.Account).WithOne(p => p.User)
                 .HasForeignKey<User>(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Account");
-        });
-
-        modelBuilder.Entity<UserAddress>(entity =>
-        {
-            entity.HasKey(e => e.UserId).HasName("PRIMARY");
-
-            entity.ToTable("User_Address");
-
-            entity.HasIndex(e => e.AddressId, "FK_User_Address_Address");
-
-            entity.Property(e => e.UserId)
-                .HasMaxLength(8)
-                .HasColumnName("user_id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.AddressId)
-                .HasMaxLength(8)
-                .HasColumnName("address_id")
-                .UseCollation("utf8mb3_general_ci")
-                .HasCharSet("utf8mb3");
-            entity.Property(e => e.IsDefault)
-                .HasColumnType("bit(1)")
-                .HasColumnName("is_default");
-
-            entity.HasOne(d => d.Address).WithMany(p => p.UserAddresses)
-                .HasForeignKey(d => d.AddressId)
-                .HasConstraintName("FK_User_Address_Address");
-
-            entity.HasOne(d => d.User).WithOne(p => p.UserAddress)
-                .HasForeignKey<UserAddress>(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_User_Address_User");
         });
 
         modelBuilder.Entity<Variation>(entity =>

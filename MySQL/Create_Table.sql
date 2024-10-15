@@ -33,6 +33,15 @@ CREATE TABLE User (
   CONSTRAINT FK_User_Account FOREIGN KEY (account_id) REFERENCES Account(id)
 );
 
+DROP TABLE IF EXISTS User_Address;
+DROP TABLE IF EXISTS Address;
+DROP TABLE IF EXISTS Province;
+
+ALTER TABLE User
+ADD province NVARCHAR(50),
+ADD district NVARCHAR(50),
+ADD address NVARCHAR(100);
+
 
 CREATE TABLE Province (
   id NVARCHAR(8) PRIMARY KEY,

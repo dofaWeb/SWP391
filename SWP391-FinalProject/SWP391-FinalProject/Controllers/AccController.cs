@@ -179,9 +179,12 @@ namespace SWP391_FinalProject.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, "login");
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 await HttpContext.SignInAsync(claimsPrincipal);
+                AddLoginCookie(user.Username);
                 return RedirectToAction("Index", "Pro");
             }
         }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> Login(Models.AccountModel model)
@@ -206,7 +209,7 @@ namespace SWP391_FinalProject.Controllers
                 else
                 {
                     var user = accRepo.GetUserByUsernameOrEmail(model.Username);
-                    
+
 
                     if (user.Status == "Inactive")
                     {
@@ -225,16 +228,41 @@ namespace SWP391_FinalProject.Controllers
                         var claimsIdentity = new ClaimsIdentity(claims, "login");
                         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(claimsPrincipal);
+                        AddLoginCookie(user.Username);
                         return RedirectToAction("Index", "Pro");
                     }
                 }
-
-
             }
             else
             {
                 ViewBag.Error = "Username or Password is invalid!";
                 return View();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LoginWithCookie(string username)
+        {
+            AccountRepository accRepo = new AccountRepository();
+            AccountModel acc = accRepo.GetUserByUsernameOrEmail(username);
+            if (acc.Status == "Inactive")
+            {
+                ViewBag.Error = "Your account has been banned";
+                return View("Login");
+            }
+            else
+            {
+                var claims = new List<Claim> {
+                                new Claim(ClaimTypes.Email, acc.Email),
+                                new Claim(ClaimTypes.Name, acc.Name),
+                                new Claim(MySetting.CLAIM_CUSTOMERID, acc.Id),
+                                new Claim(ClaimTypes.Role, acc.RoleId),
+                                new Claim("Username", acc.Username)
+                            };
+                var claimsIdentity = new ClaimsIdentity(claims, "login");
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                await HttpContext.SignInAsync(claimsPrincipal);
+                return RedirectToAction("Index", "Pro");
             }
         }
 
@@ -311,11 +339,25 @@ namespace SWP391_FinalProject.Controllers
         }
 
         
+        void AddLoginCookie(string username)
+        {
+            CookieOptions Cookie = new CookieOptions();
+            Cookie.Expires = DateTime.Now.AddDays(3);
+            Response.Cookies.Append("Username", username, Cookie);
+
+        }
+
+        void DeleteLoginCookie()
+        {
+            Response.Cookies.Delete("Username");
+            HttpContext.Session.Clear();
+        }
 
         [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
+            DeleteLoginCookie();
             return RedirectToAction("Index", "Pro");
         }
     }

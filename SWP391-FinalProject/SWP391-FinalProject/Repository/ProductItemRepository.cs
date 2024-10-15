@@ -169,5 +169,17 @@ namespace SWP391_FinalProject.Repository
                 proRepo.UpdateProductState(proItem.ProductId);
             }
         }
+
+        public void Import(string id, int quantity)
+        {
+            var proItem = db.ProductItems.FirstOrDefault(db => db.Id == id);
+            if(proItem != null)
+            {
+                proItem.Quantity += quantity;
+                db.SaveChanges();
+            }
+            ProductRepository proRepo = new ProductRepository();
+            proRepo.UpdateProductState(proItem.ProductId);
+        }
     }
 }

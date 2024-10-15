@@ -112,5 +112,12 @@ namespace SWP391_FinalProject.Controllers
             proRepo.Delete(id);
             return RedirectToAction("EditProduct", new { id = productId });
         }
+
+        public IActionResult ImportProductItem(string VariationImport, int Quantity, string productId)
+        {
+            ProductItemRepository proRepo = new ProductItemRepository();
+            proRepo.Import(VariationImport, Quantity);
+            return RedirectToAction("EditProduct", new { id = productId });
+        }
     }
 }

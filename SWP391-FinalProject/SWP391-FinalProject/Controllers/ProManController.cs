@@ -119,5 +119,21 @@ namespace SWP391_FinalProject.Controllers
             proRepo.Import(VariationImport, Quantity);
             return RedirectToAction("EditProduct", new { id = productId });
         }
+
+        [HttpGet]
+        public IActionResult ProductLog()
+        {
+            ProductRepository proRepo = new ProductRepository();
+            var result = proRepo.GetProductLog();
+            return View(result);
+        }
+
+        [HttpPost]
+        public IActionResult ProductLog(string Filter)
+        {
+            ProductRepository proRepo = new ProductRepository();
+            var result = proRepo.GetProductLog(Filter);
+            return View(result);
+        }
     }
 }

@@ -1,0 +1,140 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+}
+
+@model IEnumerable<SWP391_FinalProject.Models.ProductLogModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Product Log</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .log-section {
+            margin-top: 30px;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .log-table {
+            width: 100%;
+        }
+
+            .log-table th, .log-table td {
+                text-align: center;
+                vertical-align: middle;
+            }
+
+        .filter-label {
+            margin-right: 10px;
+        }
+
+        .change-reason {
+            font-style: italic;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1>Product Logs</h1>
+    </header>
+
+    <div class="container log-section">
+        <!-- Filters -->
+        <div class="filter-section">
+            <form asp-controller="ProMan" asp-action="ProductLog" method="post" class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="filterAction" class="filter-label mr-2">Action:</label>
+                    <select id="filterAction" class="form-control" name="Filter" aria-label="Filter by Action" required>
+                        <option value="all">All</option> <!-- Default value should allow for 'All' as the option -->
+                        <option value="2">Price Change</option>
+                        <option value="1">Quantity Change</option>
+                        <option value="3">Discount Change</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-2">Apply Filter</button>
+            </form>
+        </div>
+
+
+        <!-- Log Table -->
+        <table class="table table-bordered log-table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Product Item ID</th>
+                    <th scope="col">Action Type</th>
+                    <th scope="col">Old Value</th>
+                    <th scope="col">New Value</th>
+                </tr>
+            </thead>
+            <tbody id="logBody">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Date</td>
+                        <td>@item.ProductItemId</td>
+                        <td>@item.ActionType</td>
+
+                        @if (item.ActionType == "Discount Change")
+                        {
+                            <td>@string.Format("{0:N2}", decimal.Parse(item.OldValue))%</td>
+                        }
+                        else if (item.ActionType == "Price Change")
+                        {
+                            <td>@string.Format("{0:N0}", decimal.Parse(item.OldValue)) VND</td>
+                        }
+                        else
+                        {
+                            <td>@item.OldValue</td>
+                        }
+
+                        @if (item.ActionType == "Discount Change")
+                        {
+                            <td>@string.Format("{0:N1}", decimal.Parse(item.NewValue))%</td>
+                        }
+                        else if (item.ActionType == "Price Change")
+                        {
+                            <td>@string.Format("{0:N0}", decimal.Parse(item.NewValue)) VND</td>
+                        }
+                        else
+                        {
+                            <td>@item.NewValue</td>
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Function to filter logs (for future use)
+        function filterLogs() {
+            const filterDate = document.getElementById('filterDate').value;
+            const filterAction = document.getElementById('filterAction').value;
+            const filterUser = document.getElementById('filterUser').value;
+
+            // Implement the logic to filter the logs based on selected criteria
+            // This could involve fetching filtered data from the backend or filtering in the front-end
+        }
+    </script>
+
+</body>
+</html>

@@ -19,6 +19,7 @@
         public decimal? PriceAfterDiscount { get; set; }
 
         public decimal? Profit { get; set; }
+        public decimal? Saving { get; set; }
 
         public VariationOptionModel Variations { get; set; }
 

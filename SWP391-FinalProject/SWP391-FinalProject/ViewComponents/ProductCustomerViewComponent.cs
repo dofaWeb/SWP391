@@ -42,7 +42,7 @@ namespace SWP391_FinalProject.ViewComponents
                     products = proRepo.GetAllProduct();
                     break;
             }
-
+              
             return View(products);
         }
     }

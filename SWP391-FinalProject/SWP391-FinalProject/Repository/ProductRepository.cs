@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using K4os.Compression.LZ4.Streams.Adapters;
+using Microsoft.CodeAnalysis;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
@@ -40,6 +41,11 @@ namespace SWP391_FinalProject.Repository
                         };
 
             var result = query.ToList(); // Execute the query
+            foreach (var item in result)
+            {
+                item.ProductItem = GetMinPrice(item.Id);
+
+            }
             return result;
         }
         public List<Models.ProductModel> GetProductByBrand(string brand)
@@ -68,6 +74,11 @@ namespace SWP391_FinalProject.Repository
                         };
 
             var result = query.ToList(); // Execute the query
+            foreach (var item in result)
+            {
+                item.ProductItem = GetMinPrice(item.Id);
+
+            }
             return result;
         }
 
@@ -109,14 +120,39 @@ namespace SWP391_FinalProject.Repository
                         };
 
             var result = query.ToList(); // Execute the query
+            foreach (var item in result)
+            {
+                item.ProductItem = GetMinPrice(item.Id);
+
+            }
             return result;
         }
 
+        public ProductItemModel GetMinPrice(string productId)
+        {
+            var minPriceProductItem = (from p in db.Products
+                                       join pi in db.ProductItems on p.Id equals pi.ProductId
+                                       where pi.SellingPrice.HasValue && p.Id == productId
+                                       select new ProductItemModel
+                                       {
+                                           Discount = pi.Discount,
+                                           Id = pi.Id,
+                                           SellingPrice = pi.SellingPrice,
+                                           PriceAfterDiscount = CalculatePriceAfterDiscount(pi.SellingPrice,pi.Discount/100),
+                                           Saving=pi.SellingPrice - CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100)
+
+                                       })
+                                       .OrderBy(pi => pi.SellingPrice)  // Order by SellingPrice in ascending order
+                                       .FirstOrDefault();               // Take the first item (i.e., the minimum price)
+
+            return minPriceProductItem;
+        }
         public List<Models.ProductModel> GetAllProduct()
         {
             var query = from p in db.Products
                         join c in db.Categories on p.CategoryId equals c.Id
                         join ps in db.ProductStates on p.StateId equals ps.Id
+                        join pi in db.ProductItems on p.Id equals pi.ProductId
                         select new Models.ProductModel
                         {
                             Id = p.Id,
@@ -127,10 +163,17 @@ namespace SWP391_FinalProject.Repository
                                         .Where(pi => pi.ProductId == p.Id)
                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
                             CategoryName = c.Name,
-                            ProductState = ps.Name
+                            ProductState = ps.Name,
+                            
+
                         };
 
             var result = query.ToList(); // Execute the query
+            foreach(var item in result)
+            {
+                item.ProductItem = GetMinPrice(item.Id);
+                
+            }
             return result;
         }
 
@@ -295,7 +338,7 @@ namespace SWP391_FinalProject.Repository
             return varianceValue; // Return empty string if result is null
         }
 
-        public decimal CalculatePriceAfterDiscount(decimal? SellingPrice, decimal? discount)
+        public static decimal CalculatePriceAfterDiscount(decimal? SellingPrice, decimal? discount)
         {
             var d = (discount == null) ? 0 : discount;
             var s = (SellingPrice == null) ? 0 : SellingPrice;
@@ -326,6 +369,7 @@ namespace SWP391_FinalProject.Repository
 
             return result;
         }
+       
         public ProductItemModel GetProductItemById(string productId)
         {
             // Truy vấn dữ liệu bằng LINQ

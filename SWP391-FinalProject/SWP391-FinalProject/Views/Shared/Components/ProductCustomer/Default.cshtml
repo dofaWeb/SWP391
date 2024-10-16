@@ -24,6 +24,10 @@
         margin-top: 10px;
     }
 
+    .empty-span {
+        display: block; /* Make the span behave like a block element */
+        height: 23px; /* Give it some height to make it visible */
+    }
     @@media (min-width: 768px) {
         .col-md-3 {
             flex: 0 0 25%;
@@ -38,7 +42,7 @@
         {
             if (item.ProductState == "Available")
             {
-                <div class="col-md-3 mb-4">
+                <div class="col-md-3 mb-4 h-100">
                     <div class="card text-center">
                         <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="@item.Id">
                             <div class="image-container">
@@ -48,9 +52,16 @@
                         <div class="card-body">
                             <h5 class="card-title">@item.Name</h5>
                             <div class="price">
-                                <span class="old-price text-muted text-decoration-line-through">20.000.000 đ</span>
-                                <h4 class="new-price text-danger">18.000.000 đ</h4>
-                                <span class="saving text-success">Saving: 2.000.000 đ</span>
+                                @if (item.ProductItem.Discount !=0){
+                                    <span class="old-price text-muted text-decoration-line-through">@String.Format("{0:N0}", item.ProductItem.SellingPrice) VND</span>
+                                    <h4 class="new-price text-danger">@String.Format("{0:N0}", item.ProductItem.PriceAfterDiscount) VND</h4>
+                                    <span class="saving text-success">Saving: @String.Format("{0:N0}", item.ProductItem.Saving) VND</span>
+                                }else{
+                                    <span class="empty-span"></span>
+                                    <h4 class="new-price text-danger">@String.Format("{0:N0}", item.ProductItem.SellingPrice) VND</h4>
+                                    <span class="empty-span"></span>
+                                }
+                               
                             </div>
                         </div>
                     </div>

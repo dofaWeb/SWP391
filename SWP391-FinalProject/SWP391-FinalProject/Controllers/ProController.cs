@@ -62,11 +62,13 @@ namespace SWP391_FinalProject.Controllers
             ProductModel p = prodp.GetProductById(id);
             ProductItemModel productModel = prodp.GetProductItemById(id);
 
-        
+
 
             // Combine the product and comments into a ViewModel
-            
 
+            Repository.ComRepository commentRep = new Repository.ComRepository();
+            var comments = commentRep.GetCommentsByProductId(id); // Get comments
+            ViewBag.Comments = comments;
             // Return the view with the combined model
             return View(productModel);
         }

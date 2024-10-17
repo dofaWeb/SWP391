@@ -111,21 +111,21 @@
         {
             <p>Please <a asp-controller="Acc" asp-action="Login">log in</a> to submit a comment.</p>
         }
-        <div class="comments-list mt-3">
-            @if (Model.Product.Comments != null && Model.Product.Comments.Any())
+        <div class="mt-4">
+            @if (ViewBag.Comments != null)
             {
-                foreach (var comment in Model.Product.Comments)
+                foreach (var comment in ViewBag.Comments)
                 {
-                    <div class="comment mb-2">
-                        <strong>@comment.UserName</strong>
-                        <p>@comment.Comment</p>
-                        <small class="text-muted">@comment.Date.ToString("g")</small> <!-- Format date as needed -->
+                    <div class="comment">
+                        <p><strong>@comment.UserName:</strong> @comment.Comment</p>
+                        <p><small>@comment.Date.ToString("g")</small></p> <!-- Format date as needed -->
+                        <hr />
                     </div>
                 }
             }
             else
             {
-                <p>No comments yet. Be the first to leave a comment!</p>
+                <p>Be the first to comment</p>
             }
         </div>
         </div>

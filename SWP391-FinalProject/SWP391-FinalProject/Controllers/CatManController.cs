@@ -42,9 +42,10 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddCategory(string Name, string CategoryType)
         {
-            
 
-            
+            Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
+            catManRepo.AddCategory(Name, CategoryType);
+
 
             // Redirect to the appropriate view or return success message
             return RedirectToAction("Display");

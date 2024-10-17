@@ -28,7 +28,7 @@ namespace SWP391_FinalProject.Controllers
             {
                 if (CheckLoginCookie())
                 {
-                    HttpContext.Session.SetString("username", "true");
+                    HttpContext.Session.SetString("username", HttpContext.Request.Cookies["Username"]);
                     return RedirectToAction("LoginWithCookie", "Acc", new { username = HttpContext.Request.Cookies["Username"] });
                 }
             }

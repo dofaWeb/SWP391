@@ -19,7 +19,11 @@ public partial class Product
 
     public virtual Category Category { get; set; } = null!;
 
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
     public virtual ICollection<ProductItem> ProductItems { get; set; } = new List<ProductItem>();
+
+    public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     public virtual ProductState State { get; set; } = null!;
 }

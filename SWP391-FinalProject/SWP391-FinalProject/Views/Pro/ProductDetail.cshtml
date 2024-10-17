@@ -123,6 +123,62 @@
             <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="1"><img src="https://via.placeholder.com/150" class="img-fluid" alt="Related Product 1"></a>
             <h5>Related Product 1</h5>
             <p>$149.99</p>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <p>Please <a asp-controller="Acc" asp-action="Login">log in</a> to submit a comment.</p>
+        }
+        <div class="mt-4">
+            @if (ViewBag.Comments != null)
+            {
+                foreach (var comment in ViewBag.Comments)
+                {
+
+                    <div class="comment" id="comment-@comment.Id">
+                        <p><strong>@comment.FullName:</strong></p>
+
+                        <!-- Comment text or textarea based on the edit mode -->
+                        <div class="comment-content">
+                            <span class="comment-text" id="comment-text-@comment.Id">@comment.Comment</span>
+                            <textarea class="comment-edit" id="comment-edit-@comment.Id" style="display: none;">@comment.Comment</textarea>
+                        </div>
+
+                        <p><small>@comment.Date.ToString("g")</small></p>
+
+                        <!-- Edit and Delete buttons only for the owner of the comment -->
+                        @if (User.FindFirst("Username")?.Value == comment.UserName)
+                        {
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-warning btn-sm" onclick="editComment('@comment.Id')">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteComment('@comment.Id')">Delete</button>
+                            </div>
+                            <button class="btn btn-success btn-sm" id="save-btn-@comment.Id" style="display: none;" onclick="saveComment('@comment.Id')">Save</button>
+                        }
+                        <hr />
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Be the first to comment</p>
+            }
+        </div>
+        </div>
+    <!-- Related Products Section -->
+    <h3 class="mt-5">Related Products</h3>
+    <div class="row">
+        <!-- Related Product 1 -->
+        <div class="col-md-3 mb-4">
+            <div class="related-product">
+                <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="1"><img src="https://via.placeholder.com/150" class="img-fluid" alt="Related Product 1"></a>
+                <h5>Related Product 1</h5>                                          
+                <p>$149.99</p>
+                <button class="btn btn-success btn-sm">Add to Cart</button>
+            </div>
 
         </div>
     </div>
@@ -160,6 +216,7 @@
 
 
 <script>
+
     var selectedRam = '';
     var selectedStorage = '';
 
@@ -205,4 +262,5 @@
         }
     }
 </script>
+
 

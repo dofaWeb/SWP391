@@ -10,6 +10,33 @@ namespace SWP391_FinalProject.Controllers
         {
             return View();
         }
+        public IActionResult Display()
+        {
+            Repository.ComRepository comRepo = new Repository.ComRepository();
+            var querry = comRepo.GetAllComments();
+            return View(querry);
+        }
+        [HttpGet]
+        public IActionResult DeleteCommentAdmin(string id)
+        {
+            Repository.ComRepository comRepo = new Repository.ComRepository();
+            comRepo.DeleteComment(id);
+            return RedirectToAction("Display");
+        }
+        [HttpPost]
+        public IActionResult DeleteComment(string id)
+        {
+            Repository.ComRepository comRepo = new Repository.ComRepository();
+            comRepo.DeleteComment(id);
+            return Ok();
+        }
+        [HttpPost]
+        public IActionResult UpdateComment(string id, string comment)
+        {
+            Repository.ComRepository comRepo = new Repository.ComRepository();
+            comRepo.UpdateComment(id,comment);
+            return Ok();
+        }
         [HttpPost]
         public IActionResult AddComment(CommentModel model,string Username)
         {

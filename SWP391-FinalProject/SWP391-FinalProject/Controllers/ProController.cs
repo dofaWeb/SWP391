@@ -11,9 +11,11 @@ namespace SWP391_FinalProject.Controllers
 {
     public class ProController : Controller
     {
+        private readonly DBContext db;
+
         public ProController()
         {
-            
+            db = new DBContext();
         }
 
         public bool CheckLoginCookie()
@@ -60,9 +62,20 @@ namespace SWP391_FinalProject.Controllers
 
             // Fetch the product by ID
             ProductModel p = prodp.GetProductById(id);
-            ProductItemModel productModel = prodp.GetProductItemById(id);
 
+            var proItemId = prodp.GetProductItemIdByProductId(id);
 
+            HashSet<string> RamList = new HashSet<string>();
+            HashSet<string> StorageList = new HashSet<string>();
+
+            foreach(var item in proItemId)
+            {
+                RamList.Add(prodp.GetProductVariationOption(item, "Ram"));
+                StorageList.Add(prodp.GetProductVariationOption(item, "Storage"));
+            }
+
+            ViewBag.RamList = RamList;
+            ViewBag.StorageList = StorageList;
 
             // Combine the product and comments into a ViewModel
 
@@ -70,8 +83,27 @@ namespace SWP391_FinalProject.Controllers
             var comments = commentRep.GetCommentsByProductId(id); // Get comments
             ViewBag.Comments = comments;
             // Return the view with the combined model
-            return View(productModel);
+            return View(p);
         }
+        [HttpGet]
+        public JsonResult GetPrice(string ram, string storage, string productId)
+        {
+            ProductRepository proRepo = new ProductRepository();
+            var model = proRepo.GetPrice(ram, storage, productId);
+
+            // Ensure the response is in the right structure
+            if (model != null)
+            {
+                return Json( model );
+            }
+            else
+            {
+                return Json( "Not available");
+            }
+        }
+
+
+
         [HttpGet]
         public IActionResult SearchedProduct(string keyword)
         {

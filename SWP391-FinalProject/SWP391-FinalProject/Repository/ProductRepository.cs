@@ -128,6 +128,56 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
+        public decimal? GetPrice(string ram, string storage, string productId)
+        {
+            var sellingPrice = (from p in db.Products
+                                join pi in db.ProductItems on p.Id equals pi.ProductId
+                                join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+                                join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
+                                join va in db.Variations on vo.VariationId equals va.Id
+                                where vo.Value == ram
+                                      && p.Id == productId
+                                      && pi.Id == (
+                                          // Subquery for '512GB' storage option
+                                          (from p2 in db.Products
+                                           join pi2 in db.ProductItems on p2.Id equals pi2.ProductId
+                                           join pc2 in db.ProductConfigurations on pi2.Id equals pc2.ProductItemId
+                                           join vo2 in db.VariationOptions on pc2.VariationOptionId equals vo2.Id
+                                           join va2 in db.Variations on vo2.VariationId equals va2.Id
+                                           where vo2.Value == storage
+                                                 && p2.Id == productId
+                                           select pi2.Id).FirstOrDefault()
+                                      )
+                                select pi.SellingPrice).FirstOrDefault();
+
+            return sellingPrice;
+        }
+
+        public string GetProItemIdByVariation(string ram, string storage, string productId)
+        {
+            var ProItemId = (from p in db.Products
+                                join pi in db.ProductItems on p.Id equals pi.ProductId
+                                join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+                                join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
+                                join va in db.Variations on vo.VariationId equals va.Id
+                                where vo.Value == ram
+                                      && p.Id == productId
+                                      && pi.Id == (
+                                          // Subquery for '512GB' storage option
+                                          (from p2 in db.Products
+                                           join pi2 in db.ProductItems on p2.Id equals pi2.ProductId
+                                           join pc2 in db.ProductConfigurations on pi2.Id equals pc2.ProductItemId
+                                           join vo2 in db.VariationOptions on pc2.VariationOptionId equals vo2.Id
+                                           join va2 in db.Variations on vo2.VariationId equals va2.Id
+                                           where vo2.Value == storage
+                                                 && p2.Id == productId
+                                           select pi2.Id).FirstOrDefault()
+                                      )
+                                select pi.Id).FirstOrDefault();
+
+            return ProItemId;
+        }
+
         public ProductItemModel GetMinPrice(string productId)
         {
             var minPriceProductItem = (from p in db.Products
@@ -138,8 +188,8 @@ namespace SWP391_FinalProject.Repository
                                            Discount = pi.Discount,
                                            Id = pi.Id,
                                            SellingPrice = pi.SellingPrice,
-                                           PriceAfterDiscount = CalculatePriceAfterDiscount(pi.SellingPrice,pi.Discount/100),
-                                           Saving=pi.SellingPrice - CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100)
+                                           PriceAfterDiscount = CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100),
+                                           Saving = pi.SellingPrice - CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100)
 
                                        })
                                        .OrderBy(pi => pi.SellingPrice)  // Order by SellingPrice in ascending order
@@ -163,15 +213,15 @@ namespace SWP391_FinalProject.Repository
                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
                             CategoryName = c.Name,
                             ProductState = ps.Name,
-                            
+
 
                         };
 
             var result = query.ToList(); // Execute the query
-            foreach(var item in result)
+            foreach (var item in result)
             {
                 item.ProductItem = GetMinPrice(item.Id);
-                
+
             }
             return result;
         }
@@ -303,6 +353,17 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
+        public List<string> GetProductItemIdByProductId(string productId)
+        {
+            var proItemId = from pi in db.ProductItems
+                            where pi.ProductId == productId
+                            select pi.Id;
+            var result = proItemId.ToList();
+
+            return result; // This now matches List<string>
+        }
+
+
         public Models.ProductModel GetProductById(string id)
         {
             var query = from p in db.Products
@@ -368,13 +429,13 @@ namespace SWP391_FinalProject.Repository
 
             return result;
         }
-       
+
         public ProductItemModel GetProductItemById(string productId)
         {
             // Truy vấn dữ liệu bằng LINQ
             var productItem = (from p in db.Products
                                join pi in db.ProductItems on p.Id equals pi.ProductId
-                               
+
                                // Nếu có bảng Variations
                                where p.Id == productId
                                select new ProductItemModel
@@ -393,7 +454,7 @@ namespace SWP391_FinalProject.Repository
                                                    .Select(c => c.Name).FirstOrDefault(), // Lấy tên danh mục
 
                                        StateId = p.StateId,
-                                     // Convert the result to a list
+                                       // Convert the result to a list
 
                                    },
 
@@ -407,6 +468,42 @@ namespace SWP391_FinalProject.Repository
             return productItem;
 
         }
+        public ProductItemModel GetProductDetails(string productId, string selectedRam, string selectedStorage)
+        {
+
+            {
+                var productDetails = (from p in db.Products
+                                      join pi in db.ProductItems on p.Id equals pi.ProductId
+                                      join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+                                      join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
+                                      join va in db.Variations on vo.VariationId equals va.Id
+                                      where p.Id == productId
+                                      && db.ProductConfigurations.Any(pc2 =>
+                                          pc2.ProductItemId == pi.Id &&
+                                          vo.Value == selectedRam &&
+                                          va.Name == "Ram")
+                                      && db.ProductConfigurations.Any(pc3 =>
+                                          pc3.ProductItemId == pi.Id &&
+                                          vo.Value == selectedStorage &&
+                                          va.Name == "Storage")
+                                      select new ProductItemModel
+                                      {
+                                          Id = p.Id,
+                                          ProductId = p.Id,
+                                          Product = new ProductModel
+                                          {
+                                              Id = p.Id,
+                                              Name = p.Name,
+                                              Picture = p.Picture,
+                                              Description = p.Description
+                                          },
+                                          SellingPrice = pi.SellingPrice
+                                      }).FirstOrDefault();
+
+                return productDetails;
+            }
+        }
+
 
         public void Disable(string productId)
         {
@@ -439,10 +536,10 @@ namespace SWP391_FinalProject.Repository
                                  p.DisocuntLog != null ? "Discount Change" : "Unknown",
                     OldValue = p.QuantityLog != null ? p.QuantityLog.OldQuantity.ToString() :
                                 p.PriceLog != null ? p.PriceLog.OldPrice.ToString() :
-                                p.DisocuntLog != null ? p.DisocuntLog.OldDiscount.ToString(): null,
+                                p.DisocuntLog != null ? p.DisocuntLog.OldDiscount.ToString() : null,
                     NewValue = p.QuantityLog != null ? p.QuantityLog.NewQuantity.ToString() :
-                                p.PriceLog != null ? p.PriceLog.NewPrice.ToString():
-                                p.DisocuntLog != null ? p.DisocuntLog.NewDiscount.ToString(): null,
+                                p.PriceLog != null ? p.PriceLog.NewPrice.ToString() :
+                                p.DisocuntLog != null ? p.DisocuntLog.NewDiscount.ToString() : null,
                     Date = p.QuantityLog != null ? p.QuantityLog.ChangeTimestamp :
                            p.PriceLog != null ? p.PriceLog.ChangeTimestamp :
                            p.DisocuntLog != null ? p.DisocuntLog.ChangeTimestamp : DateTime.MinValue
@@ -471,24 +568,24 @@ namespace SWP391_FinalProject.Repository
                     break;
             }
             var result = logs.Select(p => new ProductLogModel
-                {
-                    Id = p.Id,
-                    ProductItemId = p.QuantityLog != null ? p.QuantityLog.ProductItemId :
+            {
+                Id = p.Id,
+                ProductItemId = p.QuantityLog != null ? p.QuantityLog.ProductItemId :
                                     p.PriceLog != null ? p.PriceLog.ProductItemId :
                                     p.DisocuntLog != null ? p.DisocuntLog.ProductItemId : null,
-                    ActionType = p.QuantityLog != null ? "Quantity Change" :
+                ActionType = p.QuantityLog != null ? "Quantity Change" :
                                  p.PriceLog != null ? "Price Change" :
                                  p.DisocuntLog != null ? "Discount Change" : "Unknown",
-                    OldValue = p.QuantityLog != null ? p.QuantityLog.OldQuantity.ToString() :
+                OldValue = p.QuantityLog != null ? p.QuantityLog.OldQuantity.ToString() :
                                 p.PriceLog != null ? p.PriceLog.OldPrice.ToString() :
                                 p.DisocuntLog != null ? p.DisocuntLog.OldDiscount.ToString() : null,
-                    NewValue = p.QuantityLog != null ? p.QuantityLog.NewQuantity.ToString() :
+                NewValue = p.QuantityLog != null ? p.QuantityLog.NewQuantity.ToString() :
                                 p.PriceLog != null ? p.PriceLog.NewPrice.ToString() :
                                 p.DisocuntLog != null ? p.DisocuntLog.NewDiscount.ToString() : null,
-                    Date = p.QuantityLog != null ? p.QuantityLog.ChangeTimestamp :
+                Date = p.QuantityLog != null ? p.QuantityLog.ChangeTimestamp :
                            p.PriceLog != null ? p.PriceLog.ChangeTimestamp :
                            p.DisocuntLog != null ? p.DisocuntLog.ChangeTimestamp : DateTime.MinValue
-                }).OrderByDescending(p => p.Date)
+            }).OrderByDescending(p => p.Date)
                 .ToList();
 
             return result;

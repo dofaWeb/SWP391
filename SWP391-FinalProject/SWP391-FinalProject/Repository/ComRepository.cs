@@ -1,4 +1,7 @@
 ﻿namespace SWP391_FinalProject.Repository;
+using Microsoft.CodeAnalysis;
+
+using Microsoft.EntityFrameworkCore;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
@@ -50,11 +53,37 @@ public class ComRepository
         db.Comments.Add(newComment);
         db.SaveChanges();
     }
+    public void DeleteComment(string id)
+    {
+        using (DBContext dbContext = new DBContext())
+        {
+            // Find the comment by ID
+            var comment = dbContext.Comments.Find(id);
+            if (comment != null)
+            {
+                // Remove the comment from the database
+                dbContext.Comments.Remove(comment);
+                dbContext.SaveChanges(); // Save changes to the database
+            }
+           
+     
+        }
+    }
+    public void UpdateComment(string id, string comment)
+    {
+        var existingComment = db.Comments.FirstOrDefault(c => c.Id == id);
+        if (existingComment != null)
+        {
+            existingComment.Comment1 = comment; // Assuming Comment1 is the property holding the comment text
+            db.SaveChanges();
+        }
+    }
     public List<CommentModel> GetCommentsByProductId(string productId)
     {
         using (DBContext dbContext = new DBContext())
         {
             var comments = (from c in dbContext.Comments
+                            join a in dbContext.Accounts on c.UserId equals a.Id
                             join u in dbContext.Users on c.UserId equals u.AccountId
                             where c.ProductId == productId
                             select new CommentModel
@@ -62,10 +91,40 @@ public class ComRepository
                                 Id = c.Id,
                                 Comment = c.Comment1,
                                 Date = c.Date,
-                                UserName = u.Name // Getting the full name of the user directly from the join
+                                UserName = a.Username,
+                                FullName=u.Name
                             }).ToList();
             return comments;
         }
+    }
+    public List<Models.CommentModel> GetAllComments()
+    {
+        var comments = (from c in db.Comments
+                        join u in db.Users on c.UserId equals u.AccountId
+                       join p in db.Products on c.ProductId equals p.Id
+                        select new CommentModel
+                        {
+                            Id = c.Id,
+                            Product=new ProductModel
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Picture = p.Picture,
+                                Description = p.Description,
+                                CategoryId = p.CategoryId,
+                                CategoryName = db.Categories
+                                                   .Where(c => c.Id == p.CategoryId)
+                                                   .Select(c => c.Name).FirstOrDefault(), // Lấy tên danh mục
+
+                                StateId = p.StateId,
+                            },
+
+                            Comment = c.Comment1,
+                            Date = c.Date,
+                            UserName = u.Name // Getting the full name of the user directly from the join
+                        }).ToList(); // Convert IQueryable to List
+
+        return comments;
     }
 }
 

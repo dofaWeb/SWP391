@@ -54,17 +54,17 @@ public class ComRepository
     {
         using (DBContext dbContext = new DBContext())
         {
-            return dbContext.Comments
-                            .Where(c => c.ProductId == productId)
-                            .Select(c => new CommentModel
+            var comments = (from c in dbContext.Comments
+                            join u in dbContext.Users on c.UserId equals u.AccountId
+                            where c.ProductId == productId
+                            select new CommentModel
                             {
                                 Id = c.Id,
                                 Comment = c.Comment1,
                                 Date = c.Date,
-                                UserName = dbContext.Users
-                                            .Where(u => u.AccountId == c.UserId)
-                                            .Select(u => u.Name).FirstOrDefault()
+                                UserName = u.Name // Getting the full name of the user directly from the join
                             }).ToList();
+            return comments;
         }
     }
 }

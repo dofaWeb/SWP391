@@ -152,7 +152,6 @@ namespace SWP391_FinalProject.Repository
             var query = from p in db.Products
                         join c in db.Categories on p.CategoryId equals c.Id
                         join ps in db.ProductStates on p.StateId equals ps.Id
-                        join pi in db.ProductItems on p.Id equals pi.ProductId
                         select new Models.ProductModel
                         {
                             Id = p.Id,

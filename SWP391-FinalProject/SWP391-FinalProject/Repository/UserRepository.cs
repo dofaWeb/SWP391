@@ -46,7 +46,13 @@ namespace SWP391_FinalProject.Repository
                 return userProfile;
             }
         }
-
+        public string GetUserIdByUserName(string UserName)
+        {
+            var UserId = (from a in db.Accounts
+                          where a.Username == UserName
+                          select a.Id).FirstOrDefault();
+            return UserId;
+        }
         public void UpdateUser(UserModel User)
         {
             AccountRepository accRepo = new AccountRepository();

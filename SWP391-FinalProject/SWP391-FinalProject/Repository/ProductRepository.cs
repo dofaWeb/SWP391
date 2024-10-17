@@ -374,6 +374,7 @@ namespace SWP391_FinalProject.Repository
             // Truy vấn dữ liệu bằng LINQ
             var productItem = (from p in db.Products
                                join pi in db.ProductItems on p.Id equals pi.ProductId
+                               join c in db.Comments on p.Id equals c.ProductId
                                // Nếu có bảng Variations
                                where p.Id == productId
                                select new ProductItemModel
@@ -391,8 +392,24 @@ namespace SWP391_FinalProject.Repository
                                                    .Where(c => c.Id == p.CategoryId)
                                                    .Select(c => c.Name).FirstOrDefault(), // Lấy tên danh mục
 
-                                       StateId = p.StateId
+                                       StateId = p.StateId,
+                                       Comments = db.Comments
+                                              .Where(c => c.ProductId == p.Id)
+                                              .Select(c => new CommentModel
+                                              {
+                                                  Id = c.Id,
+                                                  UserId = c.UserId,
+                                                  ProductId = c.ProductId,
+                                                  Comment = c.Comment1, // Assuming you have a Text field in CommentModel
+                                                  Date = c.Date,
+                                                  UserName = db.Accounts
+                                                              .Where(a => a.Id == c.UserId)
+                                                              .Select(a => a.Username)
+                                                              .FirstOrDefault() // Get the username for the comment
+                                              }).ToList() // Convert the result to a list
+
                                    },
+
                                    Quantity = pi.Quantity,
                                    ImportPrice = pi.ImportPrice,
                                    SellingPrice = pi.SellingPrice,

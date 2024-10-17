@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Filters;
@@ -51,12 +52,22 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> ProductDetail(string id)
+        public async Task<IActionResult> ProductDetail(string id)
         {
-           Repository.ProductRepository prodp= new Repository.ProductRepository();
+            // Initialize repositories
+            Repository.ProductRepository prodp = new Repository.ProductRepository();
+          
+
+            // Fetch the product by ID
             ProductModel p = prodp.GetProductById(id);
-            ProductItemModel productModel= prodp.GetProductItemById(id);
-           
+            ProductItemModel productModel = prodp.GetProductItemById(id);
+
+        
+
+            // Combine the product and comments into a ViewModel
+            
+
+            // Return the view with the combined model
             return View(productModel);
         }
         [HttpGet]

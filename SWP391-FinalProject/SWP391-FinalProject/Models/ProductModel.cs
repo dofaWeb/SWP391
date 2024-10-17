@@ -7,6 +7,8 @@ namespace SWP391_FinalProject.Models
         public ProductModel Products {get;set; }
         public List<ProductItemModel> ProductItems { get; set; }
         public ProductItemModel ProductItem { get; set; }
+      
+        public List<CommentModel> Comments { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
         public string Picture { get; set; }

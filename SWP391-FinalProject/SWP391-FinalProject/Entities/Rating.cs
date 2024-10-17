@@ -9,11 +9,11 @@ public partial class Rating
 
     public string UserId { get; set; } = null!;
 
-    public string ProductItemId { get; set; } = null!;
-
     public int Rating1 { get; set; }
 
-    public virtual ProductItem ProductItem { get; set; } = null!;
+    public string? ProductId { get; set; }
+
+    public virtual Product? Product { get; set; }
 
     public virtual User User { get; set; } = null!;
 }

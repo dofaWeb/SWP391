@@ -164,9 +164,9 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Comment");
 
-            entity.HasIndex(e => e.ProductItemId, "FK_Comment_Product_Item");
-
             entity.HasIndex(e => e.UserId, "FK_Comment_User");
+
+            entity.HasIndex(e => e.ProductId, "product_id");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
@@ -181,9 +181,9 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
-            entity.Property(e => e.ProductItemId)
+            entity.Property(e => e.ProductId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id")
+                .HasColumnName("product_id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.UserId)
@@ -192,10 +192,9 @@ public partial class DBContext : DbContext
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
 
-            entity.HasOne(d => d.ProductItem).WithMany(p => p.Comments)
-                .HasForeignKey(d => d.ProductItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Comment_Product_Item");
+            entity.HasOne(d => d.Product).WithMany(p => p.Comments)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("Comment_ibfk_1");
 
             entity.HasOne(d => d.User).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.UserId)
@@ -644,18 +643,18 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Rating");
 
-            entity.HasIndex(e => e.ProductItemId, "FK_Rating_Product_Item");
-
             entity.HasIndex(e => e.UserId, "FK_Rating_User");
+
+            entity.HasIndex(e => e.ProductId, "product_id");
 
             entity.Property(e => e.Id)
                 .HasMaxLength(8)
                 .HasColumnName("id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
-            entity.Property(e => e.ProductItemId)
+            entity.Property(e => e.ProductId)
                 .HasMaxLength(8)
-                .HasColumnName("product_item_id")
+                .HasColumnName("product_id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
             entity.Property(e => e.Rating1).HasColumnName("rating");
@@ -665,10 +664,9 @@ public partial class DBContext : DbContext
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
 
-            entity.HasOne(d => d.ProductItem).WithMany(p => p.Ratings)
-                .HasForeignKey(d => d.ProductItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Rating_Product_Item");
+            entity.HasOne(d => d.Product).WithMany(p => p.Ratings)
+                .HasForeignKey(d => d.ProductId)
+                .HasConstraintName("Rating_ibfk_1");
 
             entity.HasOne(d => d.User).WithMany(p => p.Ratings)
                 .HasForeignKey(d => d.UserId)

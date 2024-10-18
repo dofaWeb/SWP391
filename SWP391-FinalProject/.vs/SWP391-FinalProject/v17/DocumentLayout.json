@@ -1,50 +1,51 @@
 {
   "Version": 1,
 
-  "WorkspaceRootPath": "D:\\Group Project\\SWP391-FinalProject\\",
+  "WorkspaceRootPath": "D:\\SWP391_Final\\SWP391-FinalProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\shared\\components\\productcustomer\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\shared\\components\\productcustomer\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\shared\\components\\productcustomer\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\shared\\components\\header\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\shared\\components\\header\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\shared\\components\\header\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\pro\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\pro\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\pro\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\cart\\addtocart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\cart\\addtocart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\cart\\addtocart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\proman\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\proman\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\proman\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\models\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\models\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\models\\productmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\models\\productitemmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\models\\productitemmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\models\\productitemmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
 
     }
@@ -64,9 +65,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ProductRepository.cs",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
               "ViewState": "AgIAACkBAAAAAAAAAAAjwDUBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -78,17 +81,32 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "ProductDetail.cshtml",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
               "ViewState": "AgIAABoBAAAAAAAAAAAAAEMAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-17T02:28:16.516Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
+
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
@@ -101,12 +119,30 @@
               "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:16:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Default.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-18T03:49:59.326Z"
+
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-18T03:49:52.171Z"
             },
             {
               "$type": "Document",
@@ -137,9 +173,11 @@
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "EditProduct.cshtml",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
               "ViewState": "AgIAAKUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -149,9 +187,11 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "ProController.cs",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ProController.cs",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\ProController.cs",
               "ViewState": "AgIAAFgAAAAAAAAAAAASwGUAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -161,13 +201,16 @@
               "$type": "Document",
               "DocumentIndex": 7,
               "Title": "AddToCart.cshtml",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Cart\\AddToCart.cshtml",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Cart\\AddToCart.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Cart\\AddToCart.cshtml",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Cart\\AddToCart.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Cart\\AddToCart.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Cart\\AddToCart.cshtml",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-17T08:41:18.898Z"
+
 
             },
             {
@@ -176,9 +219,10 @@
               "DocumentIndex": 0,
               "Title": "CartController.cs",
 
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\CartController.cs",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\CartController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -188,9 +232,11 @@
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "ProductModel.cs",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductModel.cs",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductModel.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\ProductModel.cs",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductModel.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductModel.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Models\\ProductModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -200,9 +246,11 @@
               "$type": "Document",
               "DocumentIndex": 10,
               "Title": "ProductItemModel.cs",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductItemModel.cs",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductItemModel.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\ProductItemModel.cs",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductItemModel.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\ProductItemModel.cs",
+
               "RelativeToolTip": "SWP391-FinalProject\\Models\\ProductItemModel.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAA9wBsAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -212,13 +260,16 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Default.cshtml",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
+
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
               "ViewState": "AgIAACwAAAAAAAAAAAAIwDcAAACaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-16T00:32:36.756Z"
+
 
             }
           ]

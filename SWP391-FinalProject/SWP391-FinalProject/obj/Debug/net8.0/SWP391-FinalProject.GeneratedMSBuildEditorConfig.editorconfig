@@ -17,163 +17,163 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SWP391_FinalProject
 build_property.RootNamespace = SWP391_FinalProject
-build_property.ProjectDir = S:\FPT University\3rd year\5-FA24\SWP391-Software development project\FinalProject\FinalProject\SWP391-FinalProject\SWP391-FinalProject\
+build_property.ProjectDir = D:\study\5.FA24\SWP391\Final_Project\SWP391-FinalProject\SWP391-FinalProject\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = S:\FPT University\3rd year\5-FA24\SWP391-Software development project\FinalProject\FinalProject\SWP391-FinalProject\SWP391-FinalProject
+build_property.MSBuildProjectDirectory = D:\study\5.FA24\SWP391\Final_Project\SWP391-FinalProject\SWP391-FinalProject
 build_property._RazorSourceGeneratorDebug = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/EnterOtp.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/EnterOtp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXEVudGVyT3RwLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/ForgetPassword.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/ForgetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXEZvcmdldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Login.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Register.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFJlZ2lzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/ResetPassword.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFJlc2V0UGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/SuccessfullySendEmail.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/SuccessfullySendEmail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFN1Y2Nlc3NmdWxseVNlbmRFbWFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Cart/AddToCart.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Cart/AddToCart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxBZGRUb0NhcnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/CatMan/AddCategory.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/CatMan/AddCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0TWFuXEFkZENhdGVnb3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/CatMan/Display.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/CatMan/Display.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0TWFuXERpc3BsYXkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/CatMan/EditCategory.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/CatMan/EditCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0TWFuXEVkaXRDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Cat/Index.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Cat/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Com/Display.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Com/Display.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tXERpc3BsYXkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Order/Checkout.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Order/Checkout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcQ2hlY2tvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/AddProduct.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/AddProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvTWFuXEFkZFByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/Display.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/Display.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvTWFuXERpc3BsYXkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/EditProduct.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/EditProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvTWFuXEVkaXRQcm9kdWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/Index.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvTWFuXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/ProductLog.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/ProductLog.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvTWFuXFByb2R1Y3RMb2cuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/GetProductByBrand.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/GetProductByBrand.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvXEdldFByb2R1Y3RCeUJyYW5kLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/Index.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/ProductDetail.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/ProductDetail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvXFByb2R1Y3REZXRhaWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/ProductsByCategory.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/ProductsByCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvXFByb2R1Y3RzQnlDYXRlZ29yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/SearchedProduct.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Pro/SearchedProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvXFNlYXJjaGVkUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Components/Category/Default.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Components/Category/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcnlcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Components/Header/Default.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Components/Header/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcSGVhZGVyXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Components/ProductCustomer/Default.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Components/ProductCustomer/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcUHJvZHVjdEN1c3RvbWVyXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Error.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_AccLayout.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_AccLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BY2NMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_AdminLayout.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_AdminLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlck1hblxEaXNwbGF5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/ViewDetail.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/ViewDetail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlck1hblxWaWV3RGV0YWlsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/User/ChangePassword.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/User/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/User/EditProfile.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/User/EditProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxFZGl0UHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/User/Profile.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/User/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/_ViewImports.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/_ViewStart.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_Layout.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-l7une1bw72

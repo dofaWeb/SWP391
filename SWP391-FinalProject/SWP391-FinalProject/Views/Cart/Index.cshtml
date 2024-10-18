@@ -15,22 +15,39 @@
             {
                 <div class="cart-item d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
-                        <img src="~/pictures/@item.Product.Picture" alt="Product Image" class="img-fluid mr-3">
+                        <img src="~/pictures/@item.Product.Picture" alt="Product Image" class="fixed-img mr-3">
                         <div>
-                            <span>@item.Product.Name</span><br>
-                            <span>Ram: @item.Ram</span><br>
-                            <span>Storage: @item.Storage</span>
+                            <span class="text">@item.Product.Name</span><br>
+                            <span class="text">Ram: @item.Ram</span><br>
+                            <span class="text">Storage: @item.Storage</span>
                             <span class="d-flex align-items-center">
                                 <form asp-action="Quantity" asp-controller="Cart" method="post">
                                     <input type="hidden" value="decrease" name="Action"/>
                                     <input type="hidden" value="@item.Id" name="ProductItemId" />
-                                    <button class="btn btn-secondary btn-sm">-</button>
+                                    @if (item.CartQuantity == 1)
+                                    {
+                                        <button class="btn btn-sm text-primary border-primary  fixed-button" disabled><span class="large-text">-</span></button>
+                                    }else{
+                                        <button class="btn btn-sm text-primary border-primary fixed-button"><span class="large-text">-</span></button>
+                                    }
                                 </form>
-                                <label>@item.CartQuantity</label>
+                                <label class="text mx-2">@item.CartQuantity</label>
                                 <form asp-action="Quantity" asp-controller="Cart" method="post">
                                     <input type="hidden" value="increase" name="Action" />
                                     <input type="hidden" value="@item.Id" name="ProductItemId" />
-                                    <button class="btn btn-secondary btn-sm">+</button>
+                                    @if (item.CartQuantity == 5 || item.CartQuantity==item.Quantity)
+                                    {
+                                        <button class="btn btn-sm text-primary border-primary fixed-button" disabled><span class="large-text">+</span></button>
+                                    }else{
+                                        <button class="btn btn-sm text-primary border-primary fixed-button"><span class="large-text">+</span></button>
+                                    }
+                                </form>
+                            </span>
+                            <span>
+                                <form asp-action="Quantity" asp-controller="Cart" method="post">
+                                    <input type="hidden" value="remove" name="Action" />
+                                    <input type="hidden" value="@item.Id" name="ProductItemId" />
+                                    <button class="btn btn-secondary btn-sm">Remove</button>
                                 </form>
                             </span>
                         </div>
@@ -53,9 +70,39 @@
 </div>
 
 <style>
+    .text{
+        font-size:20px;
+        
+        justify-content:center;
+    }
+    .large-text {
+        font-size: 30px; /* Large font size for + and - */
+        position: relative; /* Allows us to use top property */
+        top: -3px;
+    }
+
+    .fixed-button {
+        width: 30px; /* Adjusted width to fit larger text */
+        height: 30px; /* Adjusted height to fit larger text */
+        padding: 0; /* Remove padding */
+        display: flex; /* Use flexbox for centering */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+    }
+
+    .fixed-button:hover{
+        background-color: lightblue;
+    }
+
     .cart-item {
         border-bottom: 1px solid #ddd;
         padding: 10px 0;
+    }
+
+    .fixed-img {
+        width: 200px; /* Set a fixed width for the image */
+        height: 200px; /* Set a fixed height for the image */
+        object-fit: cover; /* Ensures the image covers the area without distortion */
     }
 
     .total-price {

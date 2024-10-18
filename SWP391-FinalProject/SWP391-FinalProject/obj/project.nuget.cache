@@ -1,5 +1,6 @@
 {
   "version": 2,
+
   "dgSpecHash": "RnrmG91/4Bo=",
   "success": true,
   "projectFilePath": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
@@ -155,5 +156,6 @@
     "C:\\Users\\NHAT\\.nuget\\packages\\system.windows.extensions\\8.0.0\\system.windows.extensions.8.0.0.nupkg.sha512",
     "C:\\Users\\NHAT\\.nuget\\packages\\zstdsharp.port\\0.8.0\\zstdsharp.port.0.8.0.nupkg.sha512"
   ],
+
   "logs": []
 }

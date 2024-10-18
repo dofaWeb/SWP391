@@ -44,7 +44,7 @@
             {
                 <div class="col-md-3 mb-4 h-100">
                     <div class="card text-center">
-                        <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="@item.Id">
+                        <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="@item.Id" asp-route-proItemMinPriceId="@item.ProductItem.Id" asp-route-Price="@item.ProductItem.PriceAfterDiscount">
                             <div class="image-container">
                                 <img src="~/pictures/@item.Picture" class="card-img-top" alt="@item.Name">
                             </div>

@@ -26,5 +26,7 @@
         public string Ram { get; set; }
 
         public string Storage { get; set; }
+
+        public int CartQuantity { get; set; }
     }
 }

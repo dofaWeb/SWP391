@@ -2,19 +2,17 @@
   "format": 1,
   "restore": {
 
-    "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {}
-
+    "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {}
   },
   "projects": {
-    "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {
+    "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
+        "projectUniqueName": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
         "projectName": "SWP391-FinalProject",
-
-        "projectPath": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
-        "packagesPath": "C:\\Users\\gioak\\.nuget\\packages\\",
-        "outputPath": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
+        "projectPath": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
+        "packagesPath": "C:\\Users\\NHAT\\.nuget\\packages\\",
+        "outputPath": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
 
         "projectStyle": "PackageReference",
         "fallbackFolders": [
@@ -22,7 +20,7 @@
         ],
         "configFilePaths": [
 
-          "C:\\Users\\gioak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\NHAT\\AppData\\Roaming\\NuGet\\NuGet.Config",
 
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

@@ -1,4 +1,6 @@
 ﻿namespace SWP391_FinalProject.Repository;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,55 @@ public class ComRepository
     {
         db = new DBContext();
     }
+    public List<CommentModel> SearchedComment(string keyword, DateTime? fromDate, DateTime? toDate)
+    {
+        // Start querying comments
+        var comments = from c in db.Comments
+                       join u in db.Users on c.UserId equals u.AccountId
+                       join p in db.Products on c.ProductId equals p.Id
+                       select new CommentModel
+                       {
+                           Id = c.Id,
+                           Product = new ProductModel
+                           {
+                               Id = p.Id,
+                               Name = p.Name,
+                               Picture = p.Picture,
+                               Description = p.Description,
+                               CategoryId = p.CategoryId,
+                               CategoryName = db.Categories
+                                                  .Where(cat => cat.Id == p.CategoryId)
+                                                  .Select(cat => cat.Name).FirstOrDefault(),
+                               StateId = p.StateId,
+                           },
+                           Comment = c.Comment1,
+                           Date = c.Date,
+                           UserName = u.Name,
+                           UserId=c.UserId,
+                       };
+
+        // Apply keyword filtering only if the keyword is not empty
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            comments = comments.Where(c => c.UserName.Contains(keyword) || c.UserId.Contains(keyword));
+        }
+
+        // Filter by date range if fromDate or toDate are provided
+        if (fromDate.HasValue)
+        {
+            comments = comments.Where(c => c.Date >= fromDate.Value);
+        }
+        if (toDate.HasValue)
+        {
+            // Include all comments from the toDate by using the end of that day
+            comments = comments.Where(c => c.Date <= toDate.Value.Date.AddDays(1).AddTicks(-1));
+        }
+
+        // Convert to a list and return
+        return comments.OrderByDescending(c => c.Date).ToList();
+    }
+
+
     public string getNewCommentId()
     {
         string lastId = db.Comments
@@ -122,7 +173,8 @@ public class ComRepository
                             Comment = c.Comment1,
                             Date = c.Date,
                             UserName = u.Name // Getting the full name of the user directly from the join
-                        }).ToList(); // Convert IQueryable to List
+                        }).OrderByDescending(c => c.Date)
+                        .ToList(); // Convert IQueryable to List
 
         return comments;
     }

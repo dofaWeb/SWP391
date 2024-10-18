@@ -17,6 +17,13 @@ namespace SWP391_FinalProject.Controllers
             return View(querry);
         }
         [HttpGet]
+        public IActionResult SearchedComment(string keyword, DateTime? fromDate, DateTime? toDate)
+        {
+            Repository.ComRepository comRepo = new Repository.ComRepository();
+            var querry = comRepo.SearchedComment(keyword, fromDate,toDate);
+            return View(querry);
+        }
+        [HttpGet]
         public IActionResult DeleteCommentAdmin(string id)
         {
             Repository.ComRepository comRepo = new Repository.ComRepository();

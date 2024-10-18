@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "D:\\Group Project\\SWP391-FinalProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\com\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\com\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\repository\\comrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\comrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\proman\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\proman\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\controllers\\comcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\comcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\com\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\com\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\views\\com\\searchedcomment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\com\\searchedcomment.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group project\\swp391-finalproject\\swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -38,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,46 +66,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SearchedComment.cshtml",
+              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Com\\SearchedComment.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Com\\SearchedComment.cshtml",
+              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Com\\SearchedComment.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Com\\SearchedComment.cshtml",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAjwDMAAACHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-18T06:36:56.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ComController.cs",
+              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ComController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ComController.cs",
+              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ComController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\ComController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA1wBYAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-18T06:31:02.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "ComRepository.cs",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ComRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ComRepository.cs",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ComRepository.cs",
               "RelativeToolTip": "SWP391-FinalProject\\Repository\\ComRepository.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAswIEAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAADwvz8AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-18T06:04:02.342Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Display.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Com\\Display.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Com\\Display.cshtml",
               "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Com\\Display.cshtml",
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Com\\Display.cshtml",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAAAFIAAABBAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADIAAACIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-18T06:00:11.289Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Display.cshtml",
-              "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
-              "ToolTip": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
-              "RelativeToolTip": "SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAAAIkAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-18T05:59:22.152Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Default.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
@@ -113,7 +130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
@@ -125,7 +142,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "EditProduct.cshtml",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
@@ -137,7 +154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ProController.cs",
               "DocumentMoniker": "D:\\Group Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ProController.cs",

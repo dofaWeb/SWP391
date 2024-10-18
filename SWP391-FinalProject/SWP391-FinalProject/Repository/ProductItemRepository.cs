@@ -193,6 +193,17 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
+        public decimal? GetPriceByProductItemId(string productItemId)
+        {
+            var price = db.ProductItems.Where(p => p.Id == productItemId).Select(p => new
+            {
+                SellingPrice = p.SellingPrice,
+                Discount = p.Discount
+            }).FirstOrDefault();
+
+            return ProductRepository.CalculatePriceAfterDiscount(price.SellingPrice, price.Discount);
+        }
+
         public void Import(string id, int quantity)
         {
             var proItem = db.ProductItems.FirstOrDefault(db => db.Id == id);

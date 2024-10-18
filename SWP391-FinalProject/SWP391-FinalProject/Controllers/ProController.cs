@@ -54,7 +54,7 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ProductDetail(string id, string proItemMinPriceId, decimal Price)
+        public async Task<IActionResult> ProductDetail(string id, string productItemId, decimal Price)
         {
             // Initialize repositories
             Repository.ProductRepository prodp = new Repository.ProductRepository();
@@ -62,7 +62,7 @@ namespace SWP391_FinalProject.Controllers
 
             // Fetch the product by ID
             ProductModel p = prodp.GetProductById(id);
-            p.ProductItem = new ProductItemModel { Id = proItemMinPriceId };
+            p.ProductItem = new ProductItemModel { Id = productItemId };
             p.MinPrice = Price;
 
             var proItemId = prodp.GetProductItemIdByProductId(id);

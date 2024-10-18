@@ -130,56 +130,49 @@ namespace SWP391_FinalProject.Repository
 
         public decimal? GetPrice(string ram, string storage, string productId)
         {
+
             var model = (from p in db.Products
-                                join pi in db.ProductItems on p.Id equals pi.ProductId
-                                join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
-                                join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
-                                join va in db.Variations on vo.VariationId equals va.Id
-                                where vo.Value == ram
-                                      && p.Id == productId
-                                      && pi.Id == (
-                                          // Subquery for '512GB' storage option
-                                          (from p2 in db.Products
-                                           join pi2 in db.ProductItems on p2.Id equals pi2.ProductId
-                                           join pc2 in db.ProductConfigurations on pi2.Id equals pc2.ProductItemId
-                                           join vo2 in db.VariationOptions on pc2.VariationOptionId equals vo2.Id
-                                           join va2 in db.Variations on vo2.VariationId equals va2.Id
-                                           where vo2.Value == storage
-                                                 && p2.Id == productId
-                                           select pi2.Id).FirstOrDefault()
-                                      )
-                                select new
-                                {
-                                    SellingPrice = pi.SellingPrice,
-                                    Discount = pi.Discount
-                                }).FirstOrDefault();
+                         join pi in db.ProductItems on p.Id equals pi.ProductId
+                         join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+                         join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
+                         join va in db.Variations on vo.VariationId equals va.Id
+                         where vo.Value == ram
+                               && p.Id == productId
+                               && (from p2 in db.Products
+                                   join pi2 in db.ProductItems on p2.Id equals pi2.ProductId
+                                   join pc2 in db.ProductConfigurations on pi2.Id equals pc2.ProductItemId
+                                   join vo2 in db.VariationOptions on pc2.VariationOptionId equals vo2.Id
+                                   join va2 in db.Variations on vo2.VariationId equals va2.Id
+                                   where vo2.Value == storage && p2.Id == productId
+                                   select pi2.Id).Contains(pi.Id)  // IN equivalent
+                         select new
+                         {
+                             SellingPrice = pi.SellingPrice,
+                             Discount = pi.Discount
+                         }).FirstOrDefault();
 
 
-           
-            return ProductRepository.CalculatePriceAfterDiscount(model.SellingPrice,model.Discount/100);
+
+            return ProductRepository.CalculatePriceAfterDiscount(model.SellingPrice, model.Discount / 100);
         }
 
         public string GetProItemIdByVariation(string ram, string storage, string productId)
         {
             var ProItemId = (from p in db.Products
-                                join pi in db.ProductItems on p.Id equals pi.ProductId
-                                join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
-                                join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
-                                join va in db.Variations on vo.VariationId equals va.Id
-                                where vo.Value == ram
-                                      && p.Id == productId
-                                      && pi.Id == (
-                                          // Subquery for '512GB' storage option
-                                          (from p2 in db.Products
-                                           join pi2 in db.ProductItems on p2.Id equals pi2.ProductId
-                                           join pc2 in db.ProductConfigurations on pi2.Id equals pc2.ProductItemId
-                                           join vo2 in db.VariationOptions on pc2.VariationOptionId equals vo2.Id
-                                           join va2 in db.Variations on vo2.VariationId equals va2.Id
-                                           where vo2.Value == storage
-                                                 && p2.Id == productId
-                                           select pi2.Id).FirstOrDefault()
-                                      )
-                                select pi.Id).FirstOrDefault();
+                         join pi in db.ProductItems on p.Id equals pi.ProductId
+                         join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
+                         join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
+                         join va in db.Variations on vo.VariationId equals va.Id
+                         where vo.Value == ram
+                               && p.Id == productId
+                               && (from p2 in db.Products
+                                   join pi2 in db.ProductItems on p2.Id equals pi2.ProductId
+                                   join pc2 in db.ProductConfigurations on pi2.Id equals pc2.ProductItemId
+                                   join vo2 in db.VariationOptions on pc2.VariationOptionId equals vo2.Id
+                                   join va2 in db.Variations on vo2.VariationId equals va2.Id
+                                   where vo2.Value == storage && p2.Id == productId
+                                   select pi2.Id).Contains(pi.Id)  // IN equivalent
+                         select pi.Id).FirstOrDefault();
 
             return ProItemId;
         }

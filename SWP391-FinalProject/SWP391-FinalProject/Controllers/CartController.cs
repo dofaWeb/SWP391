@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
 
@@ -49,7 +50,7 @@ namespace SWP391_FinalProject.Controllers
             proItem.Storage = storage;
             proItem.PriceAfterDiscount = ProductRepository.CalculatePriceAfterDiscount(proItem.SellingPrice, proItem.Discount);
             AddToCartCookie(proItem);
-            return RedirectToAction("ProductDetail", "Pro", new { id = proItem.Product.Id });
+            return RedirectToAction("ProductDetail", "Pro", new { id = proItem.Product.Id, productItemId = ProductItemId, Price =  proItemRepo.GetPriceByProductItemId(ProductItemId)});
         }
 
         public void AddToCartCookie(ProductItemModel proItem)

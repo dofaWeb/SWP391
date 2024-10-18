@@ -154,6 +154,7 @@ namespace SWP391_FinalProject.Controllers
                             newResultCookie += "=" + each;
                         }
                         newResultCookie = newResultCookie.Substring(1);
+                        break;
                     }
                     else if (Action.Equals("decrease"))
                     {
@@ -168,25 +169,24 @@ namespace SWP391_FinalProject.Controllers
                             }
                             alternativeCookie += eachCookie[eachCookie.Length - 1];
                             tmp[i] = alternativeCookie;
-
-                            foreach (string each in tmp)
+                        }
+                        foreach (string each in tmp)
+                        {
+                            newResultCookie += "=" + each;
+                        }
+                        newResultCookie = newResultCookie.Substring(1);
+                        break;
+                    }
+                    else if (Action.Equals("remove"))
+                    {
+                        foreach (string each in tmp)
+                        {
+                            if (!tmp[i].Equals(each))
                             {
                                 newResultCookie += "=" + each;
                             }
-                            newResultCookie = newResultCookie.Substring(1);
                         }
-                        else
-                        {
-                            
-                            foreach (string each in tmp)
-                            {
-                                if (!each.Equals(tmp[i]))
-                                {
-                                    newResultCookie += "=" + each;
-                                }
-                            }
-                            newResultCookie = newResultCookie.Substring(1);
-                        }
+                        newResultCookie = newResultCookie.Substring(1);
                     }
                     break;
                 }

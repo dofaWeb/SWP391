@@ -54,7 +54,7 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ProductDetail(string id)
+        public async Task<IActionResult> ProductDetail(string id, string proItemMinPriceId, decimal Price)
         {
             // Initialize repositories
             Repository.ProductRepository prodp = new Repository.ProductRepository();
@@ -62,6 +62,8 @@ namespace SWP391_FinalProject.Controllers
 
             // Fetch the product by ID
             ProductModel p = prodp.GetProductById(id);
+            p.ProductItem = new ProductItemModel { Id = proItemMinPriceId };
+            p.MinPrice = Price;
 
             var proItemId = prodp.GetProductItemIdByProductId(id);
 
@@ -76,7 +78,7 @@ namespace SWP391_FinalProject.Controllers
                 string combinedOption = $"RAM: {ramOption} <br/> Storage: {storageOption} ";
 
                 // Add to dictionary with the combined option as both the key and value (just for consistency)
-                option[combinedOption] = combinedOption;
+                option[item] = combinedOption;
             }
 
             ViewBag.Option = option;

@@ -14,7 +14,7 @@ namespace SWP391_FinalProject.Controllers
             string ram = parts[1];
             string storage = parts[2];
             ProductRepository productRepository = new ProductRepository();
-            string ProductItemId= productRepository.GetProItemIdByVariation(ram, storage, ProductId);
+            string ProductItemId = productRepository.GetProItemIdByVariation(ram, storage, ProductId);
             ProductItemRepository proItemRepo = new ProductItemRepository();
             ProductItemModel proItem = proItemRepo.getProductItemByProductItemId(ProductItemId);
             proItem.Ram = ram;

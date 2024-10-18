@@ -45,6 +45,10 @@
 </style>
 
 <h1>List of Comments</h1>
+<div class="form-group">
+    <label for="searchInput">Search Comment:</label>
+    <input type="text" class="form-control" id="searchInput" placeholder="Enter user ID or Name">
+</div>
 
 <table class="table table-bordered">
     <thead class="thead-dark">
@@ -75,3 +79,20 @@
         }
     </tbody>
 </table>
+<script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
+            const userCell = row.cells[3].textContent.toLowerCase();
+            const comCell = row.cells[4].textContent.toLowerCase();
+            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
+            if (nameCell.includes(filter) || userCell.includes(filter || idCell.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

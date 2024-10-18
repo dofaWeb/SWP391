@@ -122,7 +122,8 @@ public class ComRepository
                             Comment = c.Comment1,
                             Date = c.Date,
                             UserName = u.Name // Getting the full name of the user directly from the join
-                        }).ToList(); // Convert IQueryable to List
+                        }).OrderByDescending(c => c.Date)
+                        .ToList(); // Convert IQueryable to List
 
         return comments;
     }

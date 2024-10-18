@@ -58,24 +58,29 @@ namespace SWP391_FinalProject.Controllers
         {
             // Initialize repositories
             Repository.ProductRepository prodp = new Repository.ProductRepository();
-          
+
 
             // Fetch the product by ID
             ProductModel p = prodp.GetProductById(id);
 
             var proItemId = prodp.GetProductItemIdByProductId(id);
 
-            HashSet<string> RamList = new HashSet<string>();
-            HashSet<string> StorageList = new HashSet<string>();
+            Dictionary<string, string> option = new Dictionary<string, string>();
 
-            foreach(var item in proItemId)
+            foreach (var item in proItemId)
             {
-                RamList.Add(prodp.GetProductVariationOption(item, "Ram"));
-                StorageList.Add(prodp.GetProductVariationOption(item, "Storage"));
+                string ramOption = prodp.GetProductVariationOption(item, "Ram");
+                string storageOption = prodp.GetProductVariationOption(item, "Storage");
+
+                // Combine RAM and Storage into a single option string
+                string combinedOption = $"RAM: {ramOption} <br/> Storage: {storageOption} ";
+
+                // Add to dictionary with the combined option as both the key and value (just for consistency)
+                option[combinedOption] = combinedOption;
             }
 
-            ViewBag.RamList = RamList;
-            ViewBag.StorageList = StorageList;
+            ViewBag.Option = option;
+
 
             // Combine the product and comments into a ViewModel
 
@@ -86,19 +91,24 @@ namespace SWP391_FinalProject.Controllers
             return View(p);
         }
         [HttpGet]
-        public JsonResult GetPrice(string ram, string storage, string productId)
+        public JsonResult GetPrice(string combinedOption, string productId)
         {
             ProductRepository proRepo = new ProductRepository();
-            var model = proRepo.GetPrice(ram, storage, productId);
+            var parts = combinedOption.Split(new string[] { "RAM: ", "<br/> Storage: " }, StringSplitOptions.None);
+
+
+            string ram = parts[1];
+            string storage = parts[2];
+            var price = proRepo.GetPrice(ram, storage, productId);
 
             // Ensure the response is in the right structure
-            if (model != null)
+            if (price != null)
             {
-                return Json( model );
+                return Json(price);
             }
             else
             {
-                return Json( "Not available");
+                return Json("Not available");
             }
         }
 
@@ -122,7 +132,7 @@ namespace SWP391_FinalProject.Controllers
         }
         public IActionResult GetProductByBrand(string brand)
         {
-            ViewBag.brand=brand;
+            ViewBag.brand = brand;
             return View();
         }
     }

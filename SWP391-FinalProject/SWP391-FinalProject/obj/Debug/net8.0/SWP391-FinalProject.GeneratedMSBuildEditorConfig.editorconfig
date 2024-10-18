@@ -23,7 +23,9 @@ build_property.EnableGeneratedComInterfaceComImportInterop =
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+
 build_property.MSBuildProjectDirectory = D:\Group Project\SWP391-FinalProject\SWP391-FinalProject
+
 build_property._RazorSourceGeneratorDebug = 
 
 [D:/Group Project/SWP391-FinalProject/SWP391-FinalProject/Views/Acc/EnterOtp.cshtml]
@@ -178,6 +180,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+
 [D:/Group Project/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_Layout.cshtml]
+
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-l7une1bw72

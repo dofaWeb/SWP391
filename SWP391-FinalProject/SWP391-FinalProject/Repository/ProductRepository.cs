@@ -130,7 +130,7 @@ namespace SWP391_FinalProject.Repository
 
         public decimal? GetPrice(string ram, string storage, string productId)
         {
-            var sellingPrice = (from p in db.Products
+            var model = (from p in db.Products
                                 join pi in db.ProductItems on p.Id equals pi.ProductId
                                 join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
                                 join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
@@ -148,9 +148,15 @@ namespace SWP391_FinalProject.Repository
                                                  && p2.Id == productId
                                            select pi2.Id).FirstOrDefault()
                                       )
-                                select pi.SellingPrice).FirstOrDefault();
+                                select new
+                                {
+                                    SellingPrice = pi.SellingPrice,
+                                    Discount = pi.Discount
+                                }).FirstOrDefault();
 
-            return sellingPrice;
+
+           
+            return ProductRepository.CalculatePriceAfterDiscount(model.SellingPrice,model.Discount/100);
         }
 
         public string GetProItemIdByVariation(string ram, string storage, string productId)

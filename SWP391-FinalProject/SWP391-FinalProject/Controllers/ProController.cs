@@ -55,15 +55,32 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpGet]
-
-        public async Task<IActionResult> ProductDetail(string id)
+        public async Task<IActionResult> ProductDetail(string id, string productItemId, decimal Price)
         {
+            // Initialize repositories
             Repository.ProductRepository prodp = new Repository.ProductRepository();
+            // Fetch the product by ID
             ProductModel p = prodp.GetProductById(id);
-            ProductItemModel productModel = prodp.GetProductItemById(id);
-
-            return View(productModel);
-
+            p.ProductItem = new ProductItemModel { Id = productItemId };
+            p.MinPrice = Price;
+            var proItemId = prodp.GetProductItemIdByProductId(id);
+            Dictionary<string, string> option = new Dictionary<string, string>();
+            foreach (var item in proItemId)
+            {
+                string ramOption = prodp.GetProductVariationOption(item, "Ram");
+                string storageOption = prodp.GetProductVariationOption(item, "Storage");
+                // Combine RAM and Storage into a single option string
+                string combinedOption = $"RAM: {ramOption} <br/> Storage: {storageOption} ";
+                // Add to dictionary with the combined option as both the key and value (just for consistency)
+                option[item] = combinedOption;
+            }
+            ViewBag.Option = option;
+            // Combine the product and comments into a ViewModel
+            Repository.ComRepository commentRep = new Repository.ComRepository();
+            var comments = commentRep.GetCommentsByProductId(id); // Get comments
+            ViewBag.Comments = comments;
+            // Return the view with the combined model
+            return View(p);
         }
         [HttpGet]
         public JsonResult GetPrice(string combinedOption, string productId)
@@ -117,7 +134,6 @@ namespace SWP391_FinalProject.Controllers
             {
                 ProductRepository productRepo = new ProductRepository();
                 Rating.ProductId = productRepo.GetProductIdByProductItemId(Rating.ProductItemId);
-                Rating.Rating += 1;
                 RatingRepository ratingRepo = new RatingRepository();
                 ratingRepo.InsertRating(Rating);
             }

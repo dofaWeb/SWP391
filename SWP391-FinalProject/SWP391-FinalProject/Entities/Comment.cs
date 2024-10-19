@@ -17,7 +17,5 @@ public partial class Comment
 
     public virtual Product? Product { get; set; }
 
-    public virtual ICollection<ReplyComment> ReplyComments { get; set; } = new List<ReplyComment>();
-
     public virtual User User { get; set; } = null!;
 }

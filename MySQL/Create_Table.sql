@@ -112,12 +112,29 @@ CREATE TABLE Product_Configuration (
 
 
 
-CREATE TABLE Staff_Shift (
+/*CREATE TABLE Staff_Shift (
   id NVARCHAR(8) PRIMARY KEY,
   staff_id NVARCHAR(8) NOT NULL,
   shift_time_begin DATETIME NOT NULL,
   shift_time_end DATETIME NOT NULL,
   CONSTRAINT FK_Staff_Shift_Staff FOREIGN KEY (staff_id) REFERENCES Staff(account_id)
+);
+
+ALTER TABLE Staff_Shift
+DROP COLUMN shift_time_begin,
+DROP COLUMN shift_time_end;
+
+ALTER TABLE Staff_Shift
+ADD `shift` NVARCHAR(50),
+ADD `day` DATE,
+Add hourly_rate DECIMAL(10,2);*/
+
+CREATE TABLE Staff_Shift(
+	id nvarchar(8) PRIMARY KEY,
+	staff_id nvarchar(8),
+	`shift` nvarchar(50),
+	`date` DATE,
+	hourly_rate decimal(10,2)
 );
 
 CREATE TABLE Order_State (

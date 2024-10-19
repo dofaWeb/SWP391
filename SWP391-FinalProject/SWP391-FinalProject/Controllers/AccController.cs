@@ -350,6 +350,7 @@ namespace SWP391_FinalProject.Controllers
         void DeleteLoginCookie()
         {
             Response.Cookies.Delete("Username");
+            Response.Cookies.Delete("CartCookie");
             HttpContext.Session.Clear();
         }
 

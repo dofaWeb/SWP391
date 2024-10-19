@@ -725,12 +725,15 @@ public partial class DBContext : DbContext
                 .HasColumnName("id")
                 .UseCollation("utf8mb3_general_ci")
                 .HasCharSet("utf8mb3");
-            entity.Property(e => e.ShiftTimeBegin)
-                .HasColumnType("datetime")
-                .HasColumnName("shift_time_begin");
-            entity.Property(e => e.ShiftTimeEnd)
-                .HasColumnType("datetime")
-                .HasColumnName("shift_time_end");
+            entity.Property(e => e.Date).HasColumnName("date");
+            entity.Property(e => e.HourlyRate)
+                .HasPrecision(10, 2)
+                .HasColumnName("hourly_rate");
+            entity.Property(e => e.Shift)
+                .HasMaxLength(50)
+                .HasColumnName("shift")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
             entity.Property(e => e.StaffId)
                 .HasMaxLength(8)
                 .HasColumnName("staff_id")

@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model SWP391_FinalProject.Models.ProductModel
+@model SWP391_FinalProject.Models.ProductModel;
 
 <style>
     .option-box {
@@ -37,6 +37,16 @@
     .rating {
         color: gold;
     }
+
+    .star {
+        font-size: 24px;
+        cursor: pointer;
+        color: lightgray;
+    }
+
+        .star.selected {
+            color: gold;
+        }
 </style>
 
 <div class="container mt-4">
@@ -94,34 +104,24 @@
 
 <!-- Product Rating -->
 <div class="mt-4">
-<h3>Rating</h3>
-<div class="rating-container">
-    <span class="rating">
-        <span class="star" data-value="0.5">&#9733;</span>
-        <span class="star" data-value="1">&#9733;</span>
-        <span class="star" data-value="1.5">&#9733;</span>
-        <span class="star" data-value="2">&#9733;</span>
-        <span class="star" data-value="2.5">&#9733;</span>
-        <span class="star" data-value="3">&#9733;</span>
-        <span class="star" data-value="3.5">&#9733;</span>
-        <span class="star" data-value="4">&#9733;</span>
-        <span class="star" data-value="4.5">&#9733;</span>
-        <span class="star" data-value="5">&#9733;</span>
-    </span>
-    <span id="rating-value">(4/5)</span>
+    <h3>Rating</h3>
+    <div class="rating-container">
+        <span class="rating">
+            <span class="star" data-value="0.5">&#9733;</span>
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="1.5">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="2.5">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="3.5">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="4.5">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </span>
+        <span id="rating-value">(4/5)</span>
+    </div>
 </div>
 
-<style>
-    .star {
-        font-size: 24px;
-        cursor: pointer;
-        color: lightgray;
-    }
-
-        .star.selected {
-            color: gold;
-        }
-</style>
 
 <!-- Comments Section -->
 <div class="mt-4">
@@ -183,6 +183,7 @@
 
 <!-- Related Products Section -->
 <!-- Related Products Section -->
+
     <div class="container">
         <h3 class="mt-5">Related Products</h3>
         <div class="row">
@@ -215,11 +216,12 @@
                     </div>
                 }
             }
+
         </div>
     </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener("DOMContentLoaded", function () {
         const stars = document.querySelectorAll('.star');
         const ratingValue = document.getElementById('rating-value');
         const productId = '@Model.Id'; // Use Razor to inject the correct product item ID dynamically.
@@ -231,7 +233,8 @@
                 setSelectedStars(selectedValue);
                 ratingValue.textContent = `(${selectedValue}/5)`; // Update the rating display
 
-                sendRatingToController(selectedValue, username, productId); // Send to the backend
+                // Call the function to send the rating
+                sendRatingToController(selectedValue, username, productId);
             });
         });
 
@@ -253,102 +256,103 @@
                 },
                 body: JSON.stringify({ Rating: value, Username: username, ProductId: productId })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => console.log('Rating sent successfully:', data))
-            .catch(error => console.error('Error sending rating:', error));
-        }
-
-        var selectedOption = '';
-
-        function selectOption(type, value) {
-            // Remove 'selected' class from the combined options
-            document.querySelectorAll('.option-box[data-type="combined"]').forEach(function (el) {
-                el.classList.remove('selected');
-            });
-
-            // Add 'selected' class to the clicked option
-            document.querySelector(`.option-box[data-type="combined"][data-value="${value}"]`).classList.add('selected');
-
-            // Set the selectedOption to the chosen RAM + Storage combination
-            selectedOption = value;
-
-            // Make an AJAX call to get the price if a valid option is selected
-            if (selectedOption) {
-                document.getElementById('CartOption').value = selectedOption; // Update a hidden input field with the selected option
-                fetch(`/Pro/GetPrice?combinedOption=${encodeURIComponent(selectedOption)}&productId=@Model.Id`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                        if (data == 'Not available') {
-                            document.getElementById('addToCartButton').disabled = true; // Disable the button
-                        } else {
-                            document.getElementById('addToCartButton').disabled = false; // Enable the button
-                        }
-
-                        const formattedPrice = parseFloat(data).toLocaleString('en-US') + ' VND';
-                        document.getElementById('priceDisplay').textContent = formattedPrice;
-                    })
-                    .catch(error => {
-                        console.error('Error fetching price:', error);
-                        document.getElementById('priceDisplay').textContent = 'Error fetching price'; // Handle error
-                        document.getElementById('addToCartButton').disabled = true; // Disable the button
-                    });
-            }
-        }
-
-        // Auto select default option
-        const defaultOption = document.querySelector('.option-box.selected');
-        if (defaultOption) {
-            selectOption('combined', defaultOption.getAttribute('data-value'));
-        }
-
-        // Edit comment
-        function editComment(commentId) {
-            document.getElementById(`comment-text-${commentId}`).style.display = 'none';
-            document.getElementById(`comment-edit-${commentId}`).style.display = 'block';
-            document.getElementById(`save-btn-${commentId}`).style.display = 'inline-block';
-        }
-
-        // Save comment
-        function saveComment(commentId) {
-            const updatedComment = document.getElementById(`comment-edit-${commentId}`).value;
-
-            $.ajax({
-                type: 'POST',
-                url: '/Com/UpdateComment',
-                data: { id: commentId, comment: updatedComment },
-                success: function () {
-                    document.getElementById(`comment-text-${commentId}`).innerText = updatedComment;
-                    document.getElementById(`comment-text-${commentId}`).style.display = 'block';
-                    document.getElementById(`comment-edit-${commentId}`).style.display = 'none';
-                    document.getElementById(`save-btn-${commentId}`).style.display = 'none';
-                },
-                error: function () {
-                    alert('Error updating comment. Please try again.');
-                }
-            });
-        }
-
-        // Delete comment
-        function deleteComment(commentId) {
-            if (confirm('Are you sure you want to delete this comment?')) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/Com/DeleteComment',
-                    data: { id: commentId },
-                    success: function () {
-                        document.getElementById(`comment-${commentId}`).remove();
-                    },
-                    error: function () {
-                        alert('Error deleting comment. Please try again.');
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
-                });
-            }
+                    return response.json();
+                })
+                .then(data => console.log('Rating sent successfully:', data))
+                .catch(error => console.error('Error sending rating:', error));
         }
     });
+
+    function selectOption(type, value) {
+        // Remove 'selected' class from the combined options
+        document.querySelectorAll('.option-box[data-type="combined"]').forEach(function (el) {
+            el.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked option
+        document.querySelector(`.option-box[data-type="combined"][data-value="${value}"]`).classList.add('selected');
+
+        // Set the selectedOption to the chosen RAM + Storage combination
+        selectedOption = value;
+
+        // Make an AJAX call to get the price if a valid option is selected
+        if (selectedOption) {
+            document.getElementById('CartOption').value = selectedOption; // Update a hidden input field with the selected option
+            fetch(`/Pro/GetPrice?combinedOption=${encodeURIComponent(selectedOption)}&productId=@Model.Id`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data === 'Not available') {
+                        document.getElementById('addToCartButton').disabled = true; // Disable the button
+                    } else {
+                        document.getElementById('addToCartButton').disabled = false; // Enable the button
+                    }
+
+                    const formattedPrice = parseFloat(data).toLocaleString('en-US') + ' VND';
+                    document.getElementById('priceDisplay').textContent = formattedPrice;
+                })
+                .catch(error => {
+                    console.error('Error fetching price:', error);
+                    document.getElementById('priceDisplay').textContent = 'Error fetching price'; // Handle error
+                    document.getElementById('addToCartButton').disabled = true; // Disable the button
+                });
+        }
+    }
+
+    function editComment(commentId) {
+        // Hide the text and show the textarea
+        document.getElementById(`comment-text-${commentId}`).style.display = 'none';
+        document.getElementById(`comment-edit-${commentId}`).style.display = 'block';
+        document.getElementById(`save-btn-${commentId}`).style.display = 'inline-block';
+    }
+
+    function saveComment(commentId) {
+        // Get the updated comment text from the textarea
+        const updatedComment = document.getElementById(`comment-edit-${commentId}`).value;
+
+        // Perform an AJAX request to save the updated comment
+        $.ajax({
+            type: 'POST',
+            url: '/Com/UpdateComment', // Replace with your update comment endpoint
+            data: {
+                id: commentId,
+                comment: updatedComment
+            },
+            success: function () {
+                // Update the comment text
+                document.getElementById(`comment-text-${commentId}`).innerText = updatedComment;
+
+                // Hide the textarea and show the updated text
+                document.getElementById(`comment-text-${commentId}`).style.display = 'block';
+                document.getElementById(`comment-edit-${commentId}`).style.display = 'none';
+                document.getElementById(`save-btn-${commentId}`).style.display = 'none';
+            },
+            error: function () {
+                alert('Error updating comment. Please try again.');
+            }
+        });
+    }
+
+    function deleteComment(commentId) {
+        if (confirm('Are you sure you want to delete this comment?')) {
+            // Perform AJAX request to delete the comment
+            $.ajax({
+                type: 'POST',
+                url: '/Com/DeleteComment', // Replace with your delete comment endpoint
+                data: { id: commentId },
+                success: function () {
+                    // Remove the comment element from the DOM
+                    document.getElementById(`comment-${commentId}`).remove();
+                },
+                error: function () {
+                    alert('Error deleting comment. Please try again.');
+                }
+            });
+        }
+    }
+
 </script>

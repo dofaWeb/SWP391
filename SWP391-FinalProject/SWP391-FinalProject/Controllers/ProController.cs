@@ -133,7 +133,6 @@ namespace SWP391_FinalProject.Controllers
             if (Rating != null)
             {
                 ProductRepository productRepo = new ProductRepository();
-                Rating.ProductId = productRepo.GetProductIdByProductItemId(Rating.ProductItemId);
                 RatingRepository ratingRepo = new RatingRepository();
                 ratingRepo.InsertRating(Rating);
             }

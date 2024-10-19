@@ -38,7 +38,21 @@ namespace SWP391_FinalProject.Controllers
             var category=catManRepo.GetCatById(id);
             return View(category);
         }
-
+        [HttpPost]
+        public IActionResult DeleteCategory(string id)
+        {
+            Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
+            bool isDeleted = catManRepo.DeleteCategory(id);
+            if (isDeleted)
+            {
+                TempData["SuccessMessage"] = "Category deleted successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Unable to delete category. It may have related records or does not exist.";
+            }
+            return RedirectToAction("Display");
+        }
         [HttpPost]
         public IActionResult AddCategory(string Name, string CategoryType)
         {

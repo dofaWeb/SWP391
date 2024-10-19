@@ -2,7 +2,8 @@
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
-using SWP391_FinalProject.Models;  // Ensure you have this namespace
+using SWP391_FinalProject.Models;
+using Microsoft.EntityFrameworkCore;  // Ensure you have this namespace
 
 namespace SWP391_FinalProject.Repository
 {
@@ -14,7 +15,27 @@ namespace SWP391_FinalProject.Repository
         {
             db = new DBContext();
         }
+        public bool DeleteCategory(string categoryId)
+        {
+            var category = db.Categories.Find(categoryId);
 
+            if (category == null)
+            {
+                return false; // Return false if category is not found
+            }
+
+            try
+            {
+               db.Categories.Remove(category);
+                db.SaveChanges();
+                return true; // Return true if deletion is successful
+            }
+            catch (DbUpdateException)
+            {
+                // Foreign key constraint violation or other issue
+                return false; // Return false if unable to delete
+            }
+        }
         public List<Models.CategoryModel> GetAllCategory()
         {
             var list = db.Categories.Select(p => new Models.CategoryModel

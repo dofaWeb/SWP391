@@ -12,7 +12,7 @@ namespace SWP391_FinalProject.Controllers
     {
         public ProController()
         {
-            
+
         }
 
         public bool CheckLoginCookie()
@@ -51,12 +51,12 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpGet]
-        public async Task <IActionResult> ProductDetail(string id)
+        public async Task<IActionResult> ProductDetail(string id)
         {
-           Repository.ProductRepository prodp= new Repository.ProductRepository();
+            Repository.ProductRepository prodp = new Repository.ProductRepository();
             ProductModel p = prodp.GetProductById(id);
-            ProductItemModel productModel= prodp.GetProductItemById(id);
-           
+            ProductItemModel productModel = prodp.GetProductItemById(id);
+
             return View(productModel);
         }
         [HttpGet]
@@ -77,8 +77,25 @@ namespace SWP391_FinalProject.Controllers
         }
         public IActionResult GetProductByBrand(string brand)
         {
-            ViewBag.brand=brand;
+            ViewBag.brand = brand;
             return View();
         }
+        [HttpPost]
+        public void Rating([FromBody] RatingModel Rating)
+        {
+            if (Rating != null)
+            {
+                ProductRepository productRepo = new ProductRepository();
+                Rating.ProductId = productRepo.GetProductIdByProductItemId(Rating.ProductItemId);
+                Rating.Rating += 1;
+                RatingRepository ratingRepo = new RatingRepository();
+                ratingRepo.InsertRating(Rating);
+            }
+        }
+        
+
+
     }
+
 }
+

@@ -39,6 +39,7 @@
     }
 </style>
 
+
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-12 mb-3">
@@ -85,10 +86,36 @@
 
     <!-- Product Rating -->
     <div class="mt-4">
-        <h3>Rating</h3>
-        <span class="rating">&#9733;&#9733;&#9733;&#9733;&#9734;</span> <!-- Four filled stars and one empty star -->
-        <span>(4/5)</span>
+    <h3>Rating</h3>
+    <div class="rating-container">
+        <span class="rating">
+            <span class="star" data-value="0.5">&#9733;</span>
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="1.5">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="2.5">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="3.5">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="4.5">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </span>
+        <span id="rating-value">(4/5)</span>
     </div>
+</div>
+
+    <style>
+        .star {
+            font-size: 24px;
+            cursor: pointer;
+            color: lightgray;
+        }
+
+            .star.selected {
+                color: gold;
+            }
+    </style>
+
 
     <!-- Comments Section -->
     <div class="mt-4">
@@ -112,12 +139,12 @@
         <div class="col-md-3 mb-4">
             <div class="related-product">
                 <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="1"><img src="https://via.placeholder.com/150" class="img-fluid" alt="Related Product 1"></a>
-                <h5>Related Product 1</h5>                                          
+                <h5>Related Product 1</h5>
                 <p>$149.99</p>
                 <button class="btn btn-success btn-sm">Add to Cart</button>
             </div>
         </div>
-
+        
         <!-- Related Product 2 -->
         <div class="col-md-3 mb-4">
             <div class="related-product">
@@ -151,7 +178,50 @@
 </div>
 
 <script>
-    function selectOption(selected) {
+    document.addEventListener('DOMContentLoaded', function () {
+    const stars = document.querySelectorAll('.star');
+    const ratingValue = document.getElementById('rating-value');
+    const productItemId = '@Model.Id'; // Use Razor to inject the correct product item ID dynamically.
+    const username = '@User.FindFirst("Username")?.Value'; // Get the logged-in user's username from the Razor view.
+
+    stars.forEach(star => {
+        star.addEventListener('click', function () {
+            const selectedValue = this.getAttribute('data-value');
+            setSelectedStars(selectedValue);
+            ratingValue.textContent = `(${selectedValue}/5)`; // Update the rating display
+            
+            sendRatingToController(selectedValue, username, productItemId); // Send to the backend
+        });
+    });
+
+        function setSelectedStars(value) {
+        stars.forEach(star => {
+            star.classList.remove('selected');
+            if (parseFloat(star.getAttribute('data-value')) <= parseFloat(value)) {
+                star.classList.add('selected');
+            }
+        });
+    }
+
+        function sendRatingToController(value, username, productItemId) {
+        fetch('/Pro/Rating', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            },
+                body: JSON.stringify({ Rating: value, Username: username, ProductItemId: productItemId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => console.log('Rating sent successfully:', data))
+        .catch(error => console.error('Error sending rating:', error));
+    }
+        function selectOption(selected) {
         // Deselect all options in the group
         const options = selected.parentElement.children;
         for (let i = 0; i < options.length; i++) {
@@ -160,4 +230,5 @@
         // Select the current option
         selected.classList.add('selected');
     }
+    });
 </script>

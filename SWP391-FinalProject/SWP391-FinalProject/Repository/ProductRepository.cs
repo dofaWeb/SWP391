@@ -368,7 +368,16 @@ namespace SWP391_FinalProject.Repository
 
             return result;
         }
-       
+        public string  GetProductIdByProductItemId(string productItemId)
+        {
+            var productId = from p in db.Products
+                            join pi in db.ProductItems on p.Id equals pi.ProductId
+                            where pi.Id == productItemId
+                            select p.Id;
+            var result = productId.ToString();
+            return productId.FirstOrDefault();
+        }
+
         public ProductItemModel GetProductItemById(string productId)
         {
             // Truy vấn dữ liệu bằng LINQ
@@ -447,6 +456,7 @@ namespace SWP391_FinalProject.Repository
 
             return result;
         }
+        
 
         public List<ProductLogModel> GetProductLog(string filter)
         {

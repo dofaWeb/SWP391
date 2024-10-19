@@ -435,7 +435,6 @@ namespace SWP391_FinalProject.Repository
                             join pi in db.ProductItems on p.Id equals pi.ProductId
                             where pi.Id == productItemId
                             select p.Id;
-            var result = productId.ToString();
             return productId.FirstOrDefault();
         }
 

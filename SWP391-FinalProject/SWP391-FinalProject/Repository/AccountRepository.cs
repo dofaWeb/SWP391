@@ -39,7 +39,6 @@ namespace SWP391_FinalProject.Repository
             return newId;
         }
 
-
         public List<Models.AccountModel> GetAllAccount() {
 
             var user = from acc in db.Accounts
@@ -87,6 +86,33 @@ namespace SWP391_FinalProject.Repository
                 return false;
             }
             return true;
+        }
+
+        public void AddStaffAccount(AccountModel model)
+        {
+            string id = GetNewId();
+            string md5Password = MySetting.GetMd5Hash(model.Password);
+            var newAccount = new Entities.Account()
+            {
+                Id = id,
+                Username = model.Email,
+                Password = md5Password,
+                Email = model.Email,
+                Phone = "",
+                IsActive = ulong.Parse("1"),
+                RoleId = "Role0002",
+            };
+
+            var newStaff = new Entities.Staff()
+            {
+                AccountId = id,
+                Name = model.Email,
+                Salary = 5000000
+            };
+
+            db.Accounts.Add(newAccount);
+            db.Staff.Add(newStaff);
+            db.SaveChanges();
         }
 
         public void AddAccount(Models.AccountModel model)

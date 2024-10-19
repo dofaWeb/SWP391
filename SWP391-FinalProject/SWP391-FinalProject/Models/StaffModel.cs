@@ -8,6 +8,15 @@
 
         public double Salary { get; set; }
 
+        public int TotalHourWorked { get; set; }
+
+        public decimal TotalPay { get; set; }
+
+        public int TotalOrders { get; set; }
+
+        public double AvgOrder { get; set; }
+
+        public decimal MoneyMade { get; set; }
 
     }
 }

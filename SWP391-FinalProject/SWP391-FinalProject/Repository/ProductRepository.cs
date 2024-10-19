@@ -512,7 +512,54 @@ namespace SWP391_FinalProject.Repository
                 return productDetails;
             }
         }
+        public List<Models.ProductModel> GetProductByBrand4(string brand, string excludeProductId)
+        {
+            // Check for null or empty brand and return an empty list if so
+            if (string.IsNullOrWhiteSpace(brand))
+            {
+                return new List<Models.ProductModel>();
+            }
 
+            // Query to get products by brand, excluding the specified product (with string ID) and limiting the result to 4 items
+            var query = (from p in db.Products
+                         join c in db.Categories on p.CategoryId equals c.Id
+                         join ps in db.ProductStates on p.StateId equals ps.Id
+                         where c.Id.Contains(brand) && p.Id != excludeProductId // Exclude the input product by string ID
+                         select new Models.ProductModel
+                         {
+                             Id = p.Id,
+                             Name = p.Name,
+                             Description = p.Description,
+                             Picture = p.Picture,
+                             Quantity = (db.ProductItems
+                                            .Where(pi => pi.ProductId == p.Id)
+                                            .Sum(pi => (int?)pi.Quantity) ?? 0), // Handle NULL by converting to 0
+                             CategoryName = c.Name,
+                             ProductState = ps.Name
+                         })
+                         .Take(4); // Limit to 4 products
+
+            var result = query.ToList(); // Execute the query
+
+            // Fetch the minimum price for each product
+            foreach (var item in result)
+            {
+                item.ProductItem = GetMinPrice(item.Id);
+            }
+
+            return result;
+        }
+        public string GetBrandId(string proId)
+        {
+            // Find the product by its ID
+            var brandId = db.Products
+                            .Where(p => p.Id == proId)
+                            .Select(p => p.CategoryId) // Assuming CategoryId represents the Brand ID
+                            .FirstOrDefault();
+
+            // Return the brand ID (or null if not found)
+            return brandId;
+        }
 
         public void Disable(string productId)
         {

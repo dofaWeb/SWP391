@@ -78,9 +78,13 @@ namespace SWP391_FinalProject.Controllers
             // Combine the product and comments into a ViewModel
             Repository.ComRepository commentRep = new Repository.ComRepository();
             var comments = commentRep.GetCommentsByProductId(id); // Get comments
+            string branchId = prodp.GetBrandId(id);
+            var RelatedProduct = prodp.GetProductByBrand4(branchId,id);
+            ViewBag.RelatedProduct = RelatedProduct;
             ViewBag.Comments = comments;
             // Return the view with the combined model
             return View(p);
+            
         }
         [HttpGet]
         public JsonResult GetPrice(string combinedOption, string productId)

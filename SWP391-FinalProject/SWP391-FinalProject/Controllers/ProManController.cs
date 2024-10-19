@@ -14,17 +14,23 @@ namespace SWP391_FinalProject.Controllers
     {
         public ProManController()
         {
-            
+
         }
 
         public IActionResult Index()
         {
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (role != "Role0001")
+            switch (role)
             {
-                return RedirectToAction("Index", "Pro");
+                case "Role0001":
+                case "Role0002":
+                    return View();
+                  
+                case "Role0003":
+                default:
+                    return RedirectToAction("Index", "Pro");
+                
             }
-            return View();
         }
 
         public IActionResult Display()
@@ -85,7 +91,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult AddProItem(ProductItemModel model)
         {
 
-            ProductItemRepository proRepo =new ProductItemRepository();   
+            ProductItemRepository proRepo = new ProductItemRepository();
 
             proRepo.AddProductItem(model);
             return RedirectToAction("EditProduct", new { id = model.ProductId });

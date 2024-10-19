@@ -50,6 +50,8 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Rating> Ratings { get; set; }
 
+    public virtual DbSet<ReplyComment> ReplyComments { get; set; }
+
     public virtual DbSet<RoleName> RoleNames { get; set; }
 
     public virtual DbSet<Staff> Staff { get; set; }
@@ -672,6 +674,38 @@ public partial class DBContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Rating_User");
+        });
+
+        modelBuilder.Entity<ReplyComment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("Reply_Comment");
+
+            entity.HasIndex(e => e.CommentId, "FK_Comment_Reply");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(8)
+                .HasColumnName("id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.Comment)
+                .HasMaxLength(255)
+                .HasColumnName("comment")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.CommentId)
+                .HasMaxLength(8)
+                .HasColumnName("comment_id")
+                .UseCollation("utf8mb3_general_ci")
+                .HasCharSet("utf8mb3");
+            entity.Property(e => e.Date)
+                .HasColumnType("datetime")
+                .HasColumnName("date");
+
+            entity.HasOne(d => d.CommentNavigation).WithMany(p => p.ReplyComments)
+                .HasForeignKey(d => d.CommentId)
+                .HasConstraintName("FK_Comment_Reply");
         });
 
         modelBuilder.Entity<RoleName>(entity =>

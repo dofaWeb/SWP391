@@ -8,5 +8,9 @@ namespace SWP391_FinalProject.Controllers
         {
             return View();
         }
+
+        public IActionResult ProcessCheckout() { 
+            return View();
+        }
     }
 }

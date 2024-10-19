@@ -1,0 +1,120 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<SWP391_FinalProject.Models.ProductItemModel>;
+
+<div class="container mt-4">
+    <div class="row">
+
+        <!-- Cart Items -->
+        <div class="col-md-8">
+            <h3>Items in Your Cart</h3>
+            @foreach (var item in Model)
+            {
+                <div class="cart-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="~/pictures/@item.Product.Picture" alt="Product Image" class="fixed-img mr-3">
+                        <div>
+                            <span class="text">@item.Product.Name</span><br>
+                            <span class="text">Ram: @item.Ram</span><br>
+                            <span class="text">Storage: @item.Storage</span>
+                            <span class="d-flex align-items-center">
+                                <form asp-action="Quantity" asp-controller="Cart" method="post">
+                                    <input type="hidden" value="decrease" name="Action"/>
+                                    <input type="hidden" value="@item.Id" name="ProductItemId" />
+                                    @if (item.CartQuantity == 1)
+                                    {
+                                        <button class="btn btn-sm text-primary border-primary  fixed-button" disabled><span class="large-text">-</span></button>
+                                    }else{
+                                        <button class="btn btn-sm text-primary border-primary fixed-button"><span class="large-text">-</span></button>
+                                    }
+                                </form>
+                                <label class="text mx-2">@item.CartQuantity</label>
+                                <form asp-action="Quantity" asp-controller="Cart" method="post">
+                                    <input type="hidden" value="increase" name="Action" />
+                                    <input type="hidden" value="@item.Id" name="ProductItemId" />
+                                    @if (item.CartQuantity == 5 || item.CartQuantity==item.Quantity)
+                                    {
+                                        <button class="btn btn-sm text-primary border-primary fixed-button" disabled><span class="large-text">+</span></button>
+                                    }else{
+                                        <button class="btn btn-sm text-primary border-primary fixed-button"><span class="large-text">+</span></button>
+                                    }
+                                </form>
+                            </span>
+                            <span>
+                                <form asp-action="Quantity" asp-controller="Cart" method="post">
+                                    <input type="hidden" value="remove" name="Action" />
+                                    <input type="hidden" value="@item.Id" name="ProductItemId" />
+                                    <button class="btn btn-secondary btn-sm">Remove</button>
+                                </form>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+
+                        <span>@item.PriceAfterDiscount</span>
+                        <input type="checkbox" class="ml-3" checked>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Cart Actions -->
+        <div class="col-md-4">
+            <h3>Actions</h3>
+            <button class="btn btn-warning btn-block mb-2" onclick="toggleCheckboxes()">Check/Uncheck All</button>
+            <a asp-controller="Order" asp-action="ProcessCheckout"><button class="btn btn-success btn-block">Proceed to Checkout</button></a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text{
+        font-size:20px;
+        
+        justify-content:center;
+    }
+    .large-text {
+        font-size: 30px; /* Large font size for + and - */
+        position: relative; /* Allows us to use top property */
+        top: -3px;
+    }
+
+    .fixed-button {
+        width: 30px; /* Adjusted width to fit larger text */
+        height: 30px; /* Adjusted height to fit larger text */
+        padding: 0; /* Remove padding */
+        display: flex; /* Use flexbox for centering */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+    }
+
+    .fixed-button:hover{
+        background-color: lightblue;
+    }
+
+    .cart-item {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+    .fixed-img {
+        width: 200px; /* Set a fixed width for the image */
+        height: 200px; /* Set a fixed height for the image */
+        object-fit: cover; /* Ensures the image covers the area without distortion */
+    }
+
+    .total-price {
+        font-weight: bold;
+    }
+</style>
+<script>
+    function toggleCheckboxes() {
+        const checkboxes = document.querySelectorAll('.cart-item input[type="checkbox"]');
+        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = !allChecked; // Toggle the checked state
+        });
+    }
+</script>

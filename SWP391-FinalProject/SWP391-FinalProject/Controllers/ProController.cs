@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Filters;
@@ -10,8 +11,11 @@ namespace SWP391_FinalProject.Controllers
 {
     public class ProController : Controller
     {
+        private readonly DBContext db;
+
         public ProController()
         {
+
 
         }
 
@@ -51,6 +55,7 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpGet]
+
         public async Task<IActionResult> ProductDetail(string id)
         {
             Repository.ProductRepository prodp = new Repository.ProductRepository();
@@ -58,7 +63,32 @@ namespace SWP391_FinalProject.Controllers
             ProductItemModel productModel = prodp.GetProductItemById(id);
 
             return View(productModel);
+
         }
+        [HttpGet]
+        public JsonResult GetPrice(string combinedOption, string productId)
+        {
+            ProductRepository proRepo = new ProductRepository();
+            var parts = combinedOption.Split(new string[] { "RAM: ", "<br/> Storage: " }, StringSplitOptions.None);
+
+
+            string ram = parts[1];
+            string storage = parts[2];
+            var price = proRepo.GetPrice(ram, storage, productId);
+
+            // Ensure the response is in the right structure
+            if (price != null)
+            {
+                return Json(price);
+            }
+            else
+            {
+                return Json("Not available");
+            }
+        }
+
+
+
         [HttpGet]
         public IActionResult SearchedProduct(string keyword)
         {

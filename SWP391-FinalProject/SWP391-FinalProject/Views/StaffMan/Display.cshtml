@@ -1,0 +1,322 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+}
+
+<style>
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 10px;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .add-staff {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+        .add-staff input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .add-staff button {
+            width: 15%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .add-staff button:hover {
+                background-color: #45a049;
+            }
+
+    .pay-section {
+        display: flex;
+        align-items: center;
+        /* Center items vertically */
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+        .pay-section label {
+            margin-right: 10px;
+            /* Add space between label and input */
+        }
+
+        .pay-section input {
+            width: 60px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        .pay-section button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .pay-section button:hover {
+                background-color: #45a049;
+            }
+</style>
+
+<script>
+    // Generate a list of future Mondays starting from 1st October 2024
+    function generateMondayOptions() {
+        const select = document.getElementById('monday-select');
+        let startDate = new Date('2024-10-20');
+
+        // Ensure start date is a Monday
+        const dayOfWeek = startDate.getDay(); // 0 = Sunday, 1 = Monday, ...
+        if (dayOfWeek !== 1) {
+            startDate.setDate(startDate.getDate() + (8 - dayOfWeek) % 7); // Move to the next Monday
+        }
+
+        // Populate the select with the next 10 Mondays starting from 1st Oct 2024 or later
+        for (let i = 0; i < 10; i++) {
+            const mondayDate = new Date(startDate);
+            mondayDate.setDate(startDate.getDate() + i * 7);
+
+            const option = document.createElement('option');
+            option.value = mondayDate.toISOString().split('T')[0];
+            option.text = mondayDate.toDateString();
+            select.appendChild(option);
+        }
+    }
+
+    // Update table dates based on the selected Monday
+    function updateTableDates() {
+        const selectedMonday = new Date(document.getElementById('monday-select').value);
+        const tableHeaders = document.querySelectorAll('#schedule-table thead th');
+
+        for (let i = 1; i <= 5; i++) {
+            const currentDate = new Date(selectedMonday);
+            currentDate.setDate(selectedMonday.getDate() + (i - 1));
+            tableHeaders[i].textContent = currentDate.toDateString();
+        }
+        updateTotalWeeklyPay(); // Update total pay when date changes
+    }
+
+    // Calculate Total Weekly Pay
+    function updateTotalWeeklyPay() {
+        const hourlyRate = parseFloat(document.getElementById('hourly-rate').value) || 0;
+        const totalHoursWorked = 40; // Assuming full-time 40 hours a week
+        const totalPay = hourlyRate * totalHoursWorked;
+
+        document.getElementById('total-weekly-pay').textContent = totalPay.toFixed(2);
+    }
+
+    // Add a new staff row
+    function addStaff() {
+        const emailInput = document.getElementById('email-input');
+        const email = emailInput.value.trim();
+
+        if (!email) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        const tableBody = document.querySelector('#staff-table tbody');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+                            <td>${tableBody.children.length + 1}</td>
+                            <td>${email}</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>--</td>
+                            <td>Inactive</td>
+                        `;
+
+        tableBody.appendChild(newRow);
+        emailInput.value = ''; // Clear input after adding
+    }
+
+    // Save function (temporary alert)
+    function saveData() {
+        alert('Data has been saved!');
+    }
+
+    // Initialize the page
+    window.onload = generateMondayOptions;
+</script>
+<!-- Schedule Management Section -->
+<div class="container">
+    <h1>Staff Schedule Management</h1>
+    <label for="monday-select">Select Start Date (Monday):</label>
+    <select id="monday-select" onchange="updateTableDates()"></select>
+
+    <table id="schedule-table">
+        <thead>
+            <tr>
+                <th>Shift / Day</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Morning (7h - 12h)</td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Afternoon (13h - 18h)</td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option>Select Staff</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pay Section -->
+    <div class="pay-section">
+        <div class="input-section">
+            <label for="hourly-rate">Hourly Rate:</label>
+            <input type="number" id="hourly-rate" value="30" oninput="updateTotalWeeklyPay()" />
+            <span>Total Weekly Pay: $<span id="total-weekly-pay">1200.00</span></span>
+        </div>
+
+        <button onclick="saveData()">Save</button>
+    </div>
+</div>
+
+<!-- Staff List Management Section -->
+<div class="container">
+    <h1>Staff List Management</h1>
+    <div class="add-staff">
+        <form asp-controller="StaffMan" asp-action="CreateAccount" method="post">
+            <input type="email"  name="StaffEmail" placeholder="Enter staff email"  />
+            <input type="submit" value="Add Staff" />
+        </form>
+    </div>
+    <table id="staff-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Total Hours Worked</th>
+                <th>Total Pay ($)</th>
+                <th>Total Orders</th>
+                <th>Avg Orders per Shift</th>
+                <th>Total Money Made</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>John Doe</td>
+                <td>40</td>
+                <td>600.00</td>
+                <td>25</td>
+                <td>25</td>
+                <td>25.00</td>
+                <td>Active</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Jane Smith</td>
+                <td>35</td>
+                <td>700.00</td>
+                <td>25</td>
+                <td>30</td>
+                <td>25.00</td>
+                <td>Active</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

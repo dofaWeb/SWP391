@@ -79,6 +79,29 @@ namespace SWP391_FinalProject.Repository
             return false;
         }
 
+        public ProductItemModel getProductItemByProductItemId(string proItemId)
+        {
+            var proItem = from pi in db.ProductItems
+                          join p in db.Products on pi.ProductId equals p.Id
+                          where pi.Id == proItemId
+                          select new ProductItemModel
+                          {
+                              Id = pi.Id,
+                              SellingPrice = pi.SellingPrice,
+                              Quantity = pi.Quantity,
+                              Discount = pi.Discount,
+                              Product = new ProductModel
+                              {
+                                  Name = p.Name,
+                                  Picture = p.Picture,
+                                  Description = p.Description,
+                                  Id = p.Id
+                              }
+                          };
+            var result = proItem.FirstOrDefault();
+            return result;
+        }
+
         public void AddProductConfiguration(ProductItemModel model)
         {
             var variation_option_id1 = GetVariationOptionId(model.Ram, GetVariationId("Ram"));
@@ -168,6 +191,17 @@ namespace SWP391_FinalProject.Repository
                 ProductRepository proRepo = new ProductRepository();
                 proRepo.UpdateProductState(proItem.ProductId);
             }
+        }
+
+        public decimal? GetPriceByProductItemId(string productItemId)
+        {
+            var price = db.ProductItems.Where(p => p.Id == productItemId).Select(p => new
+            {
+                SellingPrice = p.SellingPrice,
+                Discount = p.Discount
+            }).FirstOrDefault();
+
+            return ProductRepository.CalculatePriceAfterDiscount(price.SellingPrice, price.Discount);
         }
 
         public void Import(string id, int quantity)

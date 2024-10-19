@@ -50,8 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjXFN1Y2Nlc3NmdWxseVNlbmRFbWFpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+
 [D:/CodeAtHome/FinalProjectSWP/SWP391-FinalProject/SWP391-FinalProject/Views/Cart/AddToCart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxBZGRUb0NhcnQuY3NodG1s
+
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CodeAtHome/FinalProjectSWP/SWP391-FinalProject/SWP391-FinalProject/Views/CatMan/AddCategory.cshtml]
@@ -70,11 +72,13 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+
 [D:/CodeAtHome/FinalProjectSWP/SWP391-FinalProject/SWP391-FinalProject/Views/Order/Checkout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcQ2hlY2tvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CodeAtHome/FinalProjectSWP/SWP391-FinalProject/SWP391-FinalProject/Views/ProMan/AddProduct.cshtml]
+
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvTWFuXEFkZFByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
@@ -138,11 +142,13 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+
 [D:/CodeAtHome/FinalProjectSWP/SWP391-FinalProject/SWP391-FinalProject/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CodeAtHome/FinalProjectSWP/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
+
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlck1hblxEaXNwbGF5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 

@@ -37,6 +37,40 @@ namespace SWP391_FinalProject.Helpers
 
         }
 
+        public static async Task SendRegisterStaffEmail(string _to, string username, string password)
+        {
+            string _from = "meocho0432004@gmail.com";
+            string _password = "pnrc uxpz dlxw pjqp";
+            string _subject = "Electronic Shop Register Staff Account Email";
+            string _body = "<div style='font-family:Arial,sans-serif;font-size:14px;color:#333;'>"
+                + "<p>This is your username: <b><em>" + username + "</em></b></p>"
+                + "<p>This is your password: <b><em>" + password + "</em></b></p>"
+                + "<p>You can use this to login as a staff</p>"
+                + "</div>";
+            MailMessage message = new MailMessage(_from, _to, _subject, _body);
+            message.BodyEncoding = System.Text.Encoding.UTF8;
+            message.SubjectEncoding = System.Text.Encoding.UTF8;
+            message.IsBodyHtml = true;
+
+            message.ReplyToList.Add(new MailAddress(_from));
+            message.Sender = new MailAddress(_from);
+
+            using var smtpClient = new SmtpClient("smtp.gmail.com");
+            smtpClient.Port = 587;
+            smtpClient.EnableSsl = true;
+            smtpClient.Credentials = new NetworkCredential(_from, _password);
+
+            // Sử dụng bất đồng bộ với await để gửi email
+            try
+            {
+                await smtpClient.SendMailAsync(message);
+            }
+            catch (Exception ex)
+            {
+            }
+
+        }
+
         public static async Task SendForgetPasswordEmail(string _to, int Otp)
         {
             string _from = "meocho0432004@gmail.com";

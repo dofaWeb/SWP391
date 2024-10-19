@@ -118,8 +118,6 @@ namespace SWP391_FinalProject.Controllers
             return RedirectToAction("Login");
         }
 
-
-
         public IActionResult LoginWithGoogle()
         {
             var redirectUrl = Url.Action("GoogleResponse", "Acc");
@@ -160,7 +158,6 @@ namespace SWP391_FinalProject.Controllers
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
             var user = accRepo.GetUserByUsernameOrEmail(email);
-            
 
             if (user.Status == "Inactive")
             {

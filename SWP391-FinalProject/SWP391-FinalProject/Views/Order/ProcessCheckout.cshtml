@@ -3,104 +3,308 @@
 *@
 @{
 }
-<style>
-    .checkout-header {
-        margin-bottom: 20px;
+<script src="/lib/jquery/dist/jquery.min.js"></script> <!-- Ensure jQuery is loaded first -->
+<script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function fetchDistricts(provinceID) {
+        console.log(provinceID);
+
+        $.ajax({
+            type: "GET",
+            url: "https://esgoo.net/api-tinhthanh/2/" + provinceID + ".htm",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+
+                if (response.error === 0) {
+                    var data = response.data;
+                    var options = '<option value="">Select District</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        options += '<option value="' + data[i].full_name_en + '">' + data[i].full_name_en + '</option>'; // Assuming 'id' is the district ID
+                    }
+                    $('#district').html(options);
+                } else {
+                    console.error("Error from API: " + response.error_text);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data from API: " + error);
+            }
+        });
     }
 
-    .product-item {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
+    $(document).ready(function () {
+        $('#provinces').change(function () {
+            var provinceId = $(this).val();
+            var Province = $("#provinces option:selected").text();
+            $('#Province').val(Province); // Hidden input or for displaying province name
+
+            fetchDistricts(provinceId);
+        });
+    });
+
+    function adjustPoints(action, totalPoints) {
+        const pointsInput = document.getElementById('usePoints');
+        let currentPoints = parseInt(pointsInput.value) || 0;
+        if (action === 'increase') {
+            if (currentPoints + 1 <= totalPoints) {
+                pointsInput.value = currentPoints + 1;
+            }
+        } else if (action === 'decrease') {
+            if (currentPoints - 1 >= 0) {
+                pointsInput.value = currentPoints - 1;
+            }
+        }
     }
+</script>
+<head>
+    <style>
+        .profile-header {
+            margin-bottom: 20px;
+        }
 
-    .total-price {
-        font-weight: bold;
-    }
-</style>
-    <!-- Header -->
-    <header class="bg-dark text-white text-center py-4">
-        <h1>Checkout</h1>
-    </header>
+        .profile-info {
+            margin-top: 20px;
+        }
 
-    <div class="container mt-4">
-        <div class="row">
-            <!-- User Information -->
-            <div class="col-md-12">
-                <h3>User Information</h3>
-                <form>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Shipping Address</label>
-                        <textarea class="form-control" id="address" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" required>
-                    </div>
-                </form>
+        .address-section {
+            margin-top: 20px;
+        }
 
-                <h4>Your Points: <span id="userPoints">500</span></h4>
-                <div class="form-group">
-                    <label for="usePoints">Use Points</label>
-                    <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('decrease')">-</button>
-                        <input type="number" class="form-control" id="usePoints" value="500" min="0" max="500">
-                        <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('increase')">+</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        .default-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
 
+        .action-btns {
+            margin-left: 10px;
+        }
+
+        .address-form {
+            margin-bottom: 15px;
+        }
+
+        .set-default {
+            cursor: pointer;
+            color: green;
+        }
+
+        .remove-address {
+            cursor: pointer;
+            color: red;
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .checkout-header {
+            margin-bottom: 20px;
+        }
+
+        .product-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .text {
+            font-size: 20px;
+            justify-content: center;
+        }
+
+        .large-text {
+            font-size: 30px; /* Large font size for + and - */
+            position: relative; /* Allows us to use top property */
+            top: -3px;
+        }
+
+        .fixed-button {
+            width: 30px; /* Adjusted width to fit larger text */
+            height: 30px; /* Adjusted height to fit larger text */
+            padding: 0; /* Remove padding */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+            .fixed-button:hover {
+                background-color: lightblue;
+            }
+
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .fixed-img {
+            width: 200px; /* Set a fixed width for the image */
+            height: 200px; /* Set a fixed height for the image */
+            object-fit: cover; /* Ensures the image covers the area without distortion */
+        }
+
+        .total-price {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<!-- Header -->
+<header class="bg-dark text-white text-center py-4">
+    <h1>Checkout</h1>
+</header>
+
+<div class="container mt-4">
+    <a class="btn btn-secondary btn-sm">Back</a>
+    <section>
         <div class="row">
             <!-- Product Section -->
             <div class="col-md-12">
                 <h3>Products</h3>
-                <div class="product-item d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/100" alt="Product Image" class="img-fluid mr-3">
-                        <div>
-                            <span>Product Name 1</span><br>
-                            <span>RAM: 8 GB</span><br>
-                            <span>Storage: 256 GB</span>
+                @{
+                    List<ProductItemModel> ListProItem = (List<ProductItemModel>)ViewBag.ListProItem;
+                    decimal? TotalPrice = 0;
+                }
+                @if (ListProItem != null)
+                {
+                    @foreach (var item in ListProItem)
+                    {
+                        <div class="cart-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="~/pictures/@item.Product.Picture" alt="Product Image" class="fixed-img mr-3">
+                                <div>
+                                    <span class="text">@item.Product.Name</span><br>
+                                    <span class="text">Ram: @item.Ram</span><br>
+                                    <span class="text">Storage: @item.Storage</span>
+                                    <span class="d-flex align-items-center">
+                                        <label class="text mx-2">@item.CartQuantity</label>
+                                    </span>
+                                    
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span>@item.PriceAfterDiscount</span>
+                                @{
+                                    TotalPrice += item.PriceAfterDiscount;
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <span>$199.99</span>
-                </div>
+                    }
+                    <span class="d-flex align-items-center text">Total Price:</span>
+                    <span class="d-flex align-items-center text">@TotalPrice</span>
+                }
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <!-- User Information -->
+            <div class="col-md-12">
+                @{
+                    UserModel User = (UserModel)ViewBag.User;
+                }
+                <form asp-action="EditProfile" asp-controller="User" method="post">
+                    <div class="container mt-4 profile-info">
+                        
+                        <h3>User Information</h3>
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Username</th>
+                                    <td><input type="text" class="form-control" value="@User.Account.Username" name="Account.Username" readonly></td>
+                                </tr>
 
-                <div class="product-item d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/100" alt="Product Image" class="img-fluid mr-3">
-                        <div>
-                            <span>Product Name 2</span><br>
-                            <span>RAM: 16 GB</span><br>
-                            <span>Storage: 512 GB</span>
-                        </div>
-                    </div>
-                    <span>$299.98</span>
-                </div>
+                                <tr>
+                                    <th scope="row">Full Name</th>
+                                    <td><input type="text" class="form-control" value="@User.Name" name="Name" readonly></td>
+                                </tr>
 
-                <div class="product-item d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/100" alt="Product Image" class="img-fluid mr-3">
-                        <div>
-                            <span>Product Name 3</span><br>
-                            <span>RAM: 8 GB</span><br>
-                            <span>Storage: 256 GB</span>
-                        </div>
-                    </div>
-                    <span>$149.99</span>
-                </div>
+                                <tr>
+                                    <th scope="row">Email</th>
+                                    <td><input type="email" class="form-control" value="@User.Account.Email" name="Account.Email" readonly></td>
+                                </tr>
 
-                <div class="total-price mt-4">
-                    <h4>Total Price: $649.96</h4>
+                                <tr>
+                                    <th scope="row">Phone Number</th>
+                                    <td><input type="tel" class="form-control" value="@User.Account.Phone" name="Account.Phone" readonly></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Province:</th>
+                                    <td>
+                                        <select id="provinces" name="provinces" class="form-control" required>
+                                            <option value="">Select Province/City</option>
+                                            @foreach (var item in ViewBag.Provinces)
+                                            {
+                                                @if (User.Province != null && User.Province == item["full_name_en"].ToString())
+                                                {
+                                                    <option value="@item["id"]" selected>@item["full_name_en"]</option>
+                                                }
+                                                <option value="@item["id"]">@item["full_name_en"]</option> <!-- Use 'id' for the value and 'name' for display -->
+                                            }
+                                        </select>
+                                        <input type="hidden" id="Province" name="Province" value="@User.Province" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <th>District:</th>
+                                    <td>
+                                        <select id="district" name="District" class="form-control" required>
+                                            @if (User.District != null) // Assuming Model.District holds the selected district's name
+                                            {
+                                                <option value="@User.District" selected>@User.District</option>
+                                            }
+                                            <option value="">Select District</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Address:</th>
+                                    <td>
+                                        <input type="text" class="form-control" name="Address" value="@User.Address" />
+                                    </td>
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+                <h4>Your Points: <span id="userPoints">@User.Point</span></h4>
+                <div class="form-group">
+                    <label for="usePoints">Use Points</label>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('decrease', @User.Point)">-</button>
+                        @{
+                            User.Point += 100;
+                        }
+                        <input type="number" class="form-control" id="usePoints" value="0" min="0" max="@User.Point">
+                        <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('increase', @User.Point)">+</button>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="text-center mt-4">
-            <button class="btn btn-primary btn-lg">Complete Checkout</button>
-        </div>
+
+
+    <div class="text-center mt-4">
+        <button class="btn btn-primary btn-lg">Complete Checkout</button>
     </div>
+</div>
+
+<script>
+    
+</script>

@@ -53,13 +53,21 @@ namespace SWP391_FinalProject.Controllers
             try
             {
                 StaffRepository staffRepository = new StaffRepository();
-                staffRepository.SaveShiftData(data);
-                return Json(new { success = true, message = "Data saved successfully!" });
+                var info = staffRepository.SaveShiftData(data);
+                if (info == "Save successfully")
+                {
+                    return Json(new { success = true, message = info });
+                }
+                else
+                {
+                    return Json(new { success = false, message = info });
+                }
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = "An unexpected error occurred: " + ex.Message });
             }
         }
+
     }
 }

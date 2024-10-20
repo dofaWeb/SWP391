@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -105,41 +106,70 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
-        public void SaveShiftData([FromBody] ShiftDataModel data)
+        // Helper function to check if two dates belong to the same week
+        private bool IsSameWeek(DateOnly date1, DateOnly date2)
         {
-            // Step 1: Retrieve the last ID only once
-            string lastId = db.StaffShifts
-                              .OrderByDescending(a => a.Id)
-                              .Select(a => a.Id)
-                              .FirstOrDefault() ?? "S0000000"; // Start from "S0000000" if no record exists
+            var startOfWeek1 = GetMondayOfWeek(date1);
+            var startOfWeek2 = GetMondayOfWeek(date2);
+            return startOfWeek1 == startOfWeek2;
+        }
 
-            // Step 2: Generate new IDs sequentially
+        private DateOnly GetMondayOfWeek(DateOnly date)
+        {
+            int dayOffset = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
+            if (dayOffset < 0) dayOffset += 7;
+            return date.AddDays(-dayOffset);
+        }
+
+        public string SaveShiftData(ShiftDataModel data)
+        {
+            // Log start of save operation
+            
+
+            // Get the earliest shift date (start of the week)
+            var shiftDates = data.Shifts.Select(shift => DateOnly.Parse(shift.Date));
+            var weekStartDate = GetMondayOfWeek(shiftDates.Min());
+
+            // Check if shifts already exist
+            bool shiftsExist = db.StaffShifts
+                .Where(s => shiftDates.Contains(s.Date.Value))
+                .Any();
+
+            if (shiftsExist)
+            {
+                return ("Shifts for this week already exist in the database.");
+            }
+
+            // Generate IDs and create new shift records
+            string lastId = db.StaffShifts
+                .OrderByDescending(a => a.Id)
+                .Select(a => a.Id)
+                .FirstOrDefault() ?? "S0000000";
+
+            int currentNumber = int.Parse(lastId.Substring(1));
             List<Entities.StaffShift> newShiftRecords = new List<Entities.StaffShift>();
-            int currentNumber = int.Parse(lastId.Substring(1)); // Extract the numeric part
 
             foreach (var shift in data.Shifts)
             {
-                currentNumber++; // Increment the number for each new ID
+                currentNumber++;
+                string newId = $"S{currentNumber:D7}";
 
-                // Generate the new ID
-                string newId = $"S{currentNumber:D7}"; // Format with leading zeros
-
-                // Create the new shift record
                 var newShiftRecord = new Entities.StaffShift
                 {
                     Id = newId,
                     StaffId = GetStaffIdByName(shift.StaffId),
                     Shift = shift.Shift,
                     HourlyRate = data.HourlyRate,
-                    Date = DateOnly.Parse(shift.Date) // Assuming you're using DateOnly type
+                    Date = DateOnly.Parse(shift.Date) // Handle DateOnly correctly
                 };
 
-                newShiftRecords.Add(newShiftRecord); // Add to the list
+                newShiftRecords.Add(newShiftRecord);
             }
 
-            // Step 3: Insert all new records into the database
+            // Insert new records and save changes
             db.StaffShifts.AddRange(newShiftRecords);
-            db.SaveChanges(); // Commit the changes
+            db.SaveChanges(); // Uncomment this line to actually save the changes
+            return "Save successfully";
         }
 
     }

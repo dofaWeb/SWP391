@@ -1,16 +1,14 @@
-﻿
-@{
-    ViewData["Title"] = "SearchedComment";
+﻿@{
+    ViewData["Title"] = "Display";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 @model IEnumerable<SWP391_FinalProject.Models.CommentModel>
-
-
 
 <style>
     body {
         display: flex;
     }
+
     /* Sidebar styles */
     .sidebar {
         width: 250px;
@@ -42,10 +40,9 @@
         flex-grow: 1;
         padding: 20px;
     }
-
 </style>
 
-<h1>Comments from User</h1>
+<h1>List of Comments</h1>
 
 <!-- Search Bar -->
 <form asp-controller="Com" asp-action="SearchedComment" method="get" class="input-group mb-3">
@@ -70,6 +67,8 @@
             <th>User</th>
             <th>Comment</th>
             <th>Date</th>
+            <th>Delete</th>
+            <th>Reply</th>
         </tr>
     </thead>
     <tbody>
@@ -78,17 +77,65 @@
             <tr>
                 <td>@item.Id</td>
                 <td>@item.Product.Name</td>
-                <td>
-                   @item.UserName
-                </td>
+                <td>@item.UserName</td>
                 <td>@item.Comment</td>
                 <td>@item.Date</td>
                 <td>
-                    <a asp-action="DeleteCommentAdmin" asp-controller="Com" asp-route-id="@item.Id" class="btn btn-danger btn-sm" 
-                    onclick="return confirm('Are you sure you want to delete this Comment?');">Delete</a>
+                    <a asp-action="DeleteCommentAdmin" asp-controller="Com" asp-route-id="@item.Id" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to delete this Comment?');">Delete</a>
+                </td>
+                <td>
+                    <form asp-controller="Com" asp-action="ReplyToComment" method="post">
+                        <div class="input-group mb-3">
+                            <input type="hidden" name="CommentId" value="@item.Id" />
+                            <textarea class="form-control" name="Comment" rows="2" placeholder="Write a reply..." aria-label="Admin reply"></textarea>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" type="submit">Reply</button>
+                            </div>
+                        </div>
+                    </form>
                 </td>
             </tr>
+            <!-- Admin Replies -->
+            @if (item.Replies != null && item.Replies.Count > 0)
+            {
+                <tr>
+                    <td colspan="6">
+                        <div class="replies">
+                            @foreach (var reply in item.Replies)
+                            {
+                                <div class="reply ml-4" id="reply-@reply.Id">
+                                    <p class="reply-text"><strong>Admin:</strong> <span id="comment-text-@reply.Id">@reply.Comment</span></p>
+                                    <p><small>@reply.Date.ToString("g")</small></p>
+
+                                    <!-- Hidden textarea for editing -->
+                                    <form asp-controller="Com" asp-action="UpdateReply" method="post" id="edit-form-@reply.Id" style="display: none;">
+                                        <textarea class="reply-edit" name="Comment" rows="2">@reply.Comment</textarea>
+                                        <input type="hidden" name="id" value="@reply.Id" />
+                                        <button class="btn btn-success btn-sm" type="submit">Save</button>
+                                    </form>
+
+                                    <button class="btn btn-warning btn-sm edit-btn" onclick="editReply('@reply.Id')">Edit</button>
+                                    <a asp-action="DeleteReply" asp-controller="Com" asp-route-id="@reply.Id" class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Are you sure you want to delete this reply?');">Delete</a>
+                                </div>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
 
+<script>
+    function editReply(replyId) {
+        // Toggle visibility of the edit form
+        var editForm = document.getElementById(`edit-form-${replyId}`);
+        if (editForm.style.display === 'none' || editForm.style.display === '') {
+            editForm.style.display = 'block';
+        } else {
+            editForm.style.display = 'none';
+        }
+    }
+</script>

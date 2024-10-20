@@ -47,6 +47,25 @@
         .star.selected {
             color: gold;
         }
+
+    .reply {
+        display: flex;
+        align-items: flex-start;
+        margin-left: 20px; /* Increase indent for replies */
+    }
+
+    .reply-arrow {
+        margin-right: 10px; /* Space between arrow and reply content */
+        font-size: 18px; /* Make the arrow a bit larger */
+        color: #007bff; /* Optional: change arrow color */
+    }
+
+    .reply-content {
+        background-color: #f9f9f9; /* Optional: background for replies */
+        border-radius: 5px;
+        padding: 10px;
+    }
+
 </style>
 
 <div class="container mt-4">
@@ -171,12 +190,26 @@
                         <button class="btn btn-success btn-sm" id="save-btn-@comment.Id" style="display: none;" onclick="saveComment('@comment.Id')">Save</button>
                     }
                     <hr />
+                     @if (comment.Replies != null && comment.Replies.Count > 0)
+                    {
+                        <div class="replies">
+                            @foreach (var reply in comment.Replies)
+                            {
+                                <div class="reply ml-4">
+                                    <!-- Arrow to indicate reply -->
+                                    <div class="reply-arrow">
+                                        <span>&#x2192;</span> <!-- Unicode arrow symbol -->
+                                    </div>
+                                    <div class="reply-content">
+                                        <p><strong>Admin:</strong> @reply.Comment</p>
+                                        <p><small>@reply.Date.ToString("g")</small></p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }         
                 </div>
             }
-        }
-        else
-        {
-            <p>Be the first to comment</p>
         }
     </div>
 </div>

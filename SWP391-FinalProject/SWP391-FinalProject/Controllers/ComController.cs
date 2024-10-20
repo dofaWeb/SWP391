@@ -27,7 +27,18 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult DeleteCommentAdmin(string id)
         {
             Repository.ComRepository comRepo = new Repository.ComRepository();
+            comRepo.DeleteAllReply(id);
             comRepo.DeleteComment(id);
+
+            return RedirectToAction("Display");
+        }
+        [HttpGet]
+        public IActionResult DeleteReply(string Id)
+        {
+            Repository.ComRepository comRepo = new Repository.ComRepository();
+           
+            comRepo.DeleteReply(Id);
+
             return RedirectToAction("Display");
         }
         [HttpPost]
@@ -45,6 +56,13 @@ namespace SWP391_FinalProject.Controllers
             return Ok();
         }
         [HttpPost]
+        public IActionResult UpdateReply(string id, string comment)
+        {
+            Repository.ComRepository comRepo = new Repository.ComRepository();
+            comRepo.UpdateReply(id, comment);
+            return RedirectToAction("Display");
+        }
+        [HttpPost]
         public IActionResult AddComment(CommentModel model,string Username)
         {
             ComRepository comRep = new ComRepository();
@@ -53,6 +71,13 @@ namespace SWP391_FinalProject.Controllers
             comRep.AddComment(model);
             return RedirectToAction("ProductDetail", "Pro", new { id = model.ProductId });
 
+        }
+        [HttpPost]
+        public IActionResult ReplytoComment(string CommentId, ReplyCommentModel model) {
+            ComRepository comRep = new ComRepository();
+            model.CommentId= CommentId;
+            comRep.AddReply(model);
+            return RedirectToAction("Display");
         }
     }
 }

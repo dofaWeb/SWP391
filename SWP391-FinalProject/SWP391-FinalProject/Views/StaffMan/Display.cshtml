@@ -110,31 +110,30 @@
 
 <script>
     // Generate a list of future Mondays starting from 1st October 2024
-function generateMondayOptions() {
-    const select = document.getElementById('monday-select');
+    function generateMondayOptions() {
+        const select = document.getElementById('monday-select');
 
-    // Set the start date to 20th October 2024
-    let startDate = new Date('2024-10-20');
-    
-    // Calculate the offset to the next Monday (or today if it's already a Monday)
-    const dayOfWeek = startDate.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
-    const mondayOffset = (dayOfWeek === 0) ? 1 : 8 - dayOfWeek; // Days to the next Monday
+        // Set the start date to 20th October 2024
+        let startDate = new Date('2024-10-20');
 
-    // Move the start date to the closest Monday
-    startDate.setDate(startDate.getDate() + mondayOffset);
+        // Calculate the offset to the next Monday (or today if it's already a Monday)
+        const dayOfWeek = startDate.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+        const mondayOffset = (dayOfWeek === 0) ? 1 : 8 - dayOfWeek; // Days to the next Monday
 
-    // Populate the select with the next 20 Mondays
-    for (let i = 0; i < 20; i++) {
-        const mondayDate = new Date(startDate);
-        mondayDate.setDate(startDate.getDate() + i * 7);
+        // Move the start date to the closest Monday
+        startDate.setDate(startDate.getDate() + mondayOffset);
 
-        const option = document.createElement('option');
-        option.value = mondayDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-        option.text = mondayDate.toDateString(); // Format: Day, Month Date, Year
-        select.appendChild(option);
+        // Populate the select with the next 20 Mondays
+        for (let i = 0; i < 20; i++) {
+            const mondayDate = new Date(startDate);
+            mondayDate.setDate(startDate.getDate() + i * 7);
+
+            const option = document.createElement('option');
+            option.value = mondayDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            option.text = mondayDate.toDateString(); // Format: Day, Month Date, Year
+            select.appendChild(option);
+        }
     }
-}
-
 
     // Update table dates based on the selected Monday
     function updateTableDates() {
@@ -217,7 +216,7 @@ function generateMondayOptions() {
 </script>
 <!-- Schedule Management Section -->
 <div class="container">
-    <h1>Add Staff Schedule</h1>
+    <h1>Add Schedule</h1>
 
     <table id="schedule-table">
         <thead>
@@ -301,13 +300,7 @@ function generateMondayOptions() {
                 {
                     <td>
                         <select>
-                            @foreach (var item in Model)
-                            {
-                                @if (item.Account.Status == "Available")
-                                {
-                                    <option>@item.Name</option>
-                                }
-                            }
+                            
                         </select>
                     </td>
                 }
@@ -318,13 +311,7 @@ function generateMondayOptions() {
                 {
                     <td>
                         <select>
-                            @foreach (var item in Model)
-                            {
-                                @if (item.Account.Status == "Available")
-                                {
-                                    <option>@item.Name</option>
-                                }
-                            }
+                            
                         </select>
                     </td>
                 }

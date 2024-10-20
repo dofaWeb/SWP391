@@ -47,6 +47,28 @@ namespace SWP391_FinalProject.Controllers
             return RedirectToAction("Display");
         }
 
+        [HttpGet]
+        public IActionResult GetShiftData(string weekStartDate)
+        {
+            StaffRepository staffRepository = new StaffRepository();
+            try
+            {
+                var shifts = staffRepository.GetShiftData(weekStartDate);
+                return Json(new { success = true, shifts });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        public IActionResult GetAllStaff()
+        {
+            StaffRepository staffRepository = new StaffRepository();
+            var staffList = staffRepository.GetAllStaffUpdate();
+            return Json(new { success = true, staffList });
+        }
+
         [HttpPost]
         public IActionResult SaveShiftData([FromBody] ShiftDataModel data)
         {

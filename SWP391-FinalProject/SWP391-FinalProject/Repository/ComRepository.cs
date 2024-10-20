@@ -22,6 +22,7 @@ public class ComRepository
         var comments = from c in db.Comments
                        join u in db.Users on c.UserId equals u.AccountId
                        join p in db.Products on c.ProductId equals p.Id
+                      
                        select new CommentModel
                        {
                            Id = c.Id,
@@ -37,10 +38,21 @@ public class ComRepository
                                                   .Select(cat => cat.Name).FirstOrDefault(),
                                StateId = p.StateId,
                            },
+                           Replies = db.ReplyComments
+                                    .Where(rc => rc.CommentId == c.Id)
+                                    .Select(rc => new ReplyCommentModel
+                                    {
+                                        Id = rc.Id,
+                                        CommentId = rc.CommentId,
+                                        Comment = rc.Comment,
+                                        Date = rc.Date,
+
+                                    }).ToList(),
                            Comment = c.Comment1,
                            Date = c.Date,
                            UserName = u.Name,
                            UserId=c.UserId,
+                           
                        };
 
         // Apply keyword filtering only if the keyword is not empty
@@ -87,7 +99,28 @@ public class ComRepository
 
         return newId;
     }
+    public string getNewReplytId()
+    {
+        string lastId = db.ReplyComments
+                 .OrderByDescending(a => a.Id)
+                 .Select(a => a.Id)
+                 .FirstOrDefault();
+        if (lastId == null)
+        {
+            return "R0000001";
+        }
+        // Tách phần chữ (A) và phần số (0000001)
+        string prefix = lastId.Substring(0, 1); // Lấy ký tự đầu tiên
+        int number = int.Parse(lastId.Substring(1)); // Lấy phần số và chuyển thành số nguyên
 
+        // Tăng số lên 1
+        int newNumber = number + 1;
+
+        // Tạo ID mới với số đã tăng, định dạng lại với 7 chữ số
+        string newId = $"{prefix}{newNumber:D7}";
+
+        return newId;
+    }
     public void AddComment(CommentModel model)
     {
         model.Id=getNewCommentId();
@@ -102,6 +135,21 @@ public class ComRepository
            
         };
         db.Comments.Add(newComment);
+        db.SaveChanges();
+    }
+    public void AddReply(ReplyCommentModel model)
+    {
+        model.Id = getNewReplytId();
+        model.Date = DateTime.Now;
+        var newReply = new Entities.ReplyComment
+        {
+            Id = model.Id,
+            CommentId=model.CommentId,
+            Date = model.Date,
+            Comment = model.Comment,
+
+        };
+        db.ReplyComments.Add(newReply);
         db.SaveChanges();
     }
     public void DeleteComment(string id)
@@ -120,12 +168,58 @@ public class ComRepository
      
         }
     }
+    public void DeleteReply(string id)
+    {
+        using (DBContext dbContext = new DBContext())
+        {
+            // Find the comment by ID
+            var Reply = dbContext.ReplyComments.Find(id);
+            if (Reply != null)
+            {
+                // Remove the comment from the database
+                dbContext.ReplyComments.Remove(Reply);
+                dbContext.SaveChanges(); // Save changes to the database
+            }
+
+
+        }
+    }
+    public void DeleteAllReply(string CommentId)
+    {
+        using (DBContext dbContext = new DBContext())
+        {
+            // Find all replies related to the comment
+            var replies = dbContext.ReplyComments.Where(r => r.CommentId == CommentId).ToList();
+
+            if (replies != null && replies.Count > 0)
+            {
+                // Remove all replies from the database
+                dbContext.ReplyComments.RemoveRange(replies);
+            }
+
+            // Optionally: You can also delete the comment itself here if needed
+            
+
+            dbContext.SaveChanges(); // Save all changes to the database
+        }
+    }
+
+
     public void UpdateComment(string id, string comment)
     {
         var existingComment = db.Comments.FirstOrDefault(c => c.Id == id);
         if (existingComment != null)
         {
             existingComment.Comment1 = comment; // Assuming Comment1 is the property holding the comment text
+            db.SaveChanges();
+        }
+    }
+    public void UpdateReply(string id, string comment)
+    {
+        var existingReply = db.ReplyComments.FirstOrDefault(c => c.Id == id);
+        if (existingReply != null)
+        {
+            existingReply.Comment = comment; // Assuming Comment1 is the property holding the comment text
             db.SaveChanges();
         }
     }
@@ -143,16 +237,29 @@ public class ComRepository
                                 Comment = c.Comment1,
                                 Date = c.Date,
                                 UserName = a.Username,
-                                FullName=u.Name
-                            }).ToList();
+                                FullName = u.Name,
+                                Replies = dbContext.ReplyComments
+                                    .Where(rc => rc.CommentId == c.Id)
+                                    .Select(rc => new ReplyCommentModel
+                                    {
+                                        Id = rc.Id,
+                                        CommentId = rc.CommentId,
+                                        Comment = rc.Comment,
+                                        Date = rc.Date,
+                                    }).ToList() // Fetch the replies for the current comment
+                            }).OrderByDescending(c => c.Date)
+                            .ToList();
+
             return comments;
         }
     }
+
     public List<Models.CommentModel> GetAllComments()
     {
         var comments = (from c in db.Comments
                         join u in db.Users on c.UserId equals u.AccountId
                        join p in db.Products on c.ProductId equals p.Id
+                     
                         select new CommentModel
                         {
                             Id = c.Id,
@@ -171,8 +278,19 @@ public class ComRepository
                             },
 
                             Comment = c.Comment1,
+                            Replies = db.ReplyComments
+                                    .Where(rc => rc.CommentId == c.Id)
+                                    .Select(rc => new ReplyCommentModel
+                                    {
+                                        Id = rc.Id,
+                                        CommentId = rc.CommentId,
+                                      Comment=rc.Comment,
+                                        Date = rc.Date,
+                                     
+                                    }).ToList() ,// Convert the replies to a list
                             Date = c.Date,
                             UserName = u.Name // Getting the full name of the user directly from the join
+                         
                         }).OrderByDescending(c => c.Date)
                         .ToList(); // Convert IQueryable to List
 

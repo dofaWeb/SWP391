@@ -13,5 +13,6 @@
         public string Comment {  get; set; }
 
         public DateTime Date {  get; set; }
+        public List<ReplyCommentModel> Replies { get; set; }
     }
 }

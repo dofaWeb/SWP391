@@ -110,39 +110,94 @@
 
 <script>
     // Generate a list of future Mondays starting from 1st October 2024
-    function generateMondayOptions() {
-        const select = document.getElementById('monday-select');
-        let startDate = new Date('2024-10-20');
+function generateMondayOptions() {
+    const select = document.getElementById('monday-select');
 
-        // Ensure start date is a Monday
-        const dayOfWeek = startDate.getDay(); // 0 = Sunday, 1 = Monday, ...
-        if (dayOfWeek !== 1) {
-            startDate.setDate(startDate.getDate() + (8 - dayOfWeek) % 7); // Move to the next Monday
-        }
+    // Set the start date to 20th October 2024
+    let startDate = new Date('2024-10-20');
+    
+    // Calculate the offset to the next Monday (or today if it's already a Monday)
+    const dayOfWeek = startDate.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const mondayOffset = (dayOfWeek === 0) ? 1 : 8 - dayOfWeek; // Days to the next Monday
 
-        // Populate the select with the next 10 Mondays starting from 1st Oct 2024 or later
-        for (let i = 0; i < 10; i++) {
-            const mondayDate = new Date(startDate);
-            mondayDate.setDate(startDate.getDate() + i * 7);
+    // Move the start date to the closest Monday
+    startDate.setDate(startDate.getDate() + mondayOffset);
 
-            const option = document.createElement('option');
-            option.value = mondayDate.toISOString().split('T')[0];
-            option.text = mondayDate.toDateString();
-            select.appendChild(option);
-        }
+    // Populate the select with the next 20 Mondays
+    for (let i = 0; i < 20; i++) {
+        const mondayDate = new Date(startDate);
+        mondayDate.setDate(startDate.getDate() + i * 7);
+
+        const option = document.createElement('option');
+        option.value = mondayDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        option.text = mondayDate.toDateString(); // Format: Day, Month Date, Year
+        select.appendChild(option);
     }
+}
+
 
     // Update table dates based on the selected Monday
     function updateTableDates() {
         const selectedMonday = new Date(document.getElementById('monday-select').value);
         const tableHeaders = document.querySelectorAll('#schedule-table thead th');
 
+        // Update table headers to display dates
         for (let i = 1; i <= 5; i++) {
             const currentDate = new Date(selectedMonday);
             currentDate.setDate(selectedMonday.getDate() + (i - 1));
             tableHeaders[i].textContent = currentDate.toDateString();
         }
-        updateTotalWeeklyPay(); // Update total pay when date changes
+
+        // Fetch shift data for the selected week
+        fetch(`/StaffMan/GetShiftData?weekStartDate=${selectedMonday.toISOString().split('T')[0]}`)
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    const shifts = result.shifts; // Array of shift objects from the backend
+                    const shiftCells = document.querySelectorAll('#schedule-table-value tbody select');
+                    console.log('Fetched Shifts:', shifts); // Log fetched shifts for debugging
+
+                    shiftCells.forEach((select, index) => {
+                        const shiftDay = Math.floor(index / 2); // 2 shifts per day
+                        const shiftDate = new Date(selectedMonday);
+                        shiftDate.setDate(selectedMonday.getDate() + shiftDay);
+                        const shiftType = (index % 2 === 0) ? 'Morning' : 'Afternoon';
+
+                        // Clear previous options
+                        select.innerHTML = '';
+
+                        console.log('Shift Date:', shiftDate.toISOString().split('T')[0]);
+
+                        // Corrected: Use `shift.date` instead of `shift.Date`
+                        const matchingShifts = shifts.filter(shift => {
+                            try {
+                                const shiftDateStr = new Date(shift.date).toISOString().split('T')[0];
+                                console.log('Comparing:', shiftDateStr, shiftDate.toISOString().split('T')[0]);
+                                console.log('Comparing Shift Types:', shift.shift, shiftType);
+
+                                return shiftDateStr === shiftDate.toISOString().split('T')[0] &&
+                                    shift.shift === shiftType;
+                            } catch (error) {
+                                console.error('Error comparing shift dates:', error);
+                                return false;
+                            }
+                        });
+
+                        console.log('Matching Shifts:', matchingShifts);
+
+                        // Populate select element with matching shift options
+                        matchingShifts.forEach(shift => {
+                            const option = document.createElement('option');
+                            option.value = shift.shift;
+                            option.textContent = shift.staffName;
+                            select.appendChild(option);
+                        });
+                    });
+                } else {
+                    console.error('Failed to fetch shift data:', result.message);
+                }
+            })
+            .catch(error => console.error('Error fetching shift data:', error));
     }
 
     // Calculate Total Weekly Pay
@@ -155,13 +210,14 @@
     }
 
     // Initialize the page
-    window.onload = generateMondayOptions;
+    window.onload = function () {
+        generateMondayOptions();
+        updateTableDates();  // Automatically populate table on page load
+    };
 </script>
 <!-- Schedule Management Section -->
 <div class="container">
-    <h1>Staff Schedule Management</h1>
-    <label for="monday-select">Select Start Date (Monday):</label>
-    <select id="monday-select" onchange="updateTableDates()"></select>
+    <h1>Add Staff Schedule</h1>
 
     <table id="schedule-table">
         <thead>
@@ -183,7 +239,10 @@
                         <select>
                             @foreach (var item in Model)
                             {
-                                <option>@item.Name</option>
+                                @if (item.Account.Status == "Available")
+                                {
+                                    <option>@item.Name</option>
+                                }
                             }
                         </select>
                     </td>
@@ -197,7 +256,10 @@
                         <select>
                             @foreach (var item in Model)
                             {
-                                <option>@item.Name</option>
+                                @if (item.Account.Status == "Available")
+                                {
+                                    <option>@item.Name</option>
+                                }
                             }
                         </select>
                     </td>
@@ -216,6 +278,59 @@
 
         <button onclick="saveData()">Save</button>
     </div>
+
+    <h1>Staff Schedule Management</h1>
+    <label for="monday-select">Select Start Date (Monday):</label>
+    <select id="monday-select" onchange="updateTableDates()"></select>
+
+    <table id="schedule-table-value">
+        <thead>
+            <tr>
+                <th>Shift / Day</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Morning (7h - 12h)</td>
+                @for (var i = 1; i <= 5; i++)
+                {
+                    <td>
+                        <select>
+                            @foreach (var item in Model)
+                            {
+                                @if (item.Account.Status == "Available")
+                                {
+                                    <option>@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>Afternoon (13h - 18h)</td>
+                @for (var i = 1; i <= 5; i++)
+                {
+                    <td>
+                        <select>
+                            @foreach (var item in Model)
+                            {
+                                @if (item.Account.Status == "Available")
+                                {
+                                    <option>@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>   
 </div>
 
 <!-- Staff List Management Section -->
@@ -249,7 +364,7 @@
                     <td>@item.TotalOrders</td>
                     <td>@item.AvgOrder</td>
                     <td>@item.TotalMoneyMade</td>
-                    <td>Active</td>
+                    <td>@item.Account.Status</td>
                 </tr>
             }
         </tbody>
@@ -258,22 +373,30 @@
 
 <script>
     function saveData() {
-        const hourlyRate = parseFloat(document.getElementById('hourly-rate').value) || 0;
         const selectedMonday = new Date(document.getElementById('monday-select').value);
+        const today = new Date();
 
-        // Collect selected staff members for each shift along with shift dates
+        // Check if the selected week is in the past
+        if (selectedMonday < today) {
+            alert('Cannot edit schedules for past weeks.');
+            return; // Block saving for past weeks
+        }
+
+        const hourlyRate = parseFloat(document.getElementById('hourly-rate').value) || 0;
+
+        // Collect selected staff members for each shift
         const shifts = [];
         const shiftCells = document.querySelectorAll('#schedule-table tbody select');
 
         shiftCells.forEach((select, index) => {
             const selectedStaff = select.value;
 
-            // Calculate the exact shift date based on the index (morning or afternoon shifts)
-            const shiftDay = Math.floor(index / 2); // Each day has 2 shifts (morning + afternoon)
+            // Calculate the exact shift date
+            const shiftDay = Math.floor(index / 2);
             const shiftDate = new Date(selectedMonday);
-            shiftDate.setDate(selectedMonday.getDate() + shiftDay); // Add days to the selected Monday
+            shiftDate.setDate(selectedMonday.getDate() + shiftDay);
 
-            const shiftType = (index % 2 === 0) ? 'Morning' : 'Afternoon'; // Determine shift type
+            const shiftType = (index % 2 === 0) ? 'Morning' : 'Afternoon';
 
             shifts.push({
                 staffId: selectedStaff,
@@ -287,8 +410,6 @@
             shifts: shifts
         };
 
-        console.log('Data to send:', data); // Debugging
-
         // Send the data to the backend using AJAX
         fetch('/StaffMan/SaveShiftData', {
             method: 'POST',
@@ -299,12 +420,15 @@
         })
             .then(response => response.json())
             .then(result => {
-                alert('Data has been saved successfully!');
-                console.log(result); // Debugging
+                if (result.success) {
+                    alert('Data has been saved successfully!');
+                } else {
+                    alert('Failed to save data: ' + result.message);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to save data!');
+                alert('Failed to save data due to a network error or server issue!');
             });
     }
 </script>

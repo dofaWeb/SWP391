@@ -70,6 +70,7 @@
 
 <div class="container mt-4">
     <form asp-controller="Cart" asp-action="AddToCart">
+        @{var defaultOptionValue = "";}
         <div class="row">
             <div class="col-md-12 mb-3">
                 <!-- Top-left position -->
@@ -91,13 +92,23 @@
                     <div class="row">
                         @foreach (var option in ViewBag.Option)
                         {
+                            bool isSelected = option.Key == Model.ProductItem.Id;
                             string selectedClass = option.Key == @Model.ProductItem.Id ? "selected" : "";
+                            string optionValue = Html.Encode(option.Value);
+
+
+
+                            if (isSelected)
+                            {
+                                defaultOptionValue = option.Value;
+                            }
+
 
                             <div class="col-md-4 mb-2">
                                 <div class="option-box text-center @selectedClass"
                                      data-type="combined"
                                      data-value="@option.Value"
-                                     onclick="selectOption('combined', this.getAttribute('data-value'))">
+                                     onclick="selectOption('combined', '@option.Value')">
                                     @Html.Raw(option.Value)
                                 </div>
                             </div>
@@ -105,7 +116,7 @@
                     </div>
                 </div>
 
-                <input id="CartOption" name="Option" value="" type="hidden" />
+                <input id="CartOption" name="Option" value="@defaultOptionValue" type="hidden" />
                 <input type="hidden" value="@Model.Id" name="ProductId" />
                 <input class="btn btn-danger btn-sm" type="submit" value="AddToCart" id="addToCartButton" />
             </div>
@@ -190,7 +201,7 @@
                         <button class="btn btn-success btn-sm" id="save-btn-@comment.Id" style="display: none;" onclick="saveComment('@comment.Id')">Save</button>
                     }
                     <hr />
-                     @if (comment.Replies != null && comment.Replies.Count > 0)
+                    @if (comment.Replies != null && comment.Replies.Count > 0)
                     {
                         <div class="replies">
                             @foreach (var reply in comment.Replies)
@@ -207,7 +218,7 @@
                                 </div>
                             }
                         </div>
-                    }         
+                    }
                 </div>
             }
         }
@@ -217,41 +228,41 @@
 <!-- Related Products Section -->
 <!-- Related Products Section -->
 
-    <div class="container">
-        <h3 class="mt-5">Related Products</h3>
-        <div class="row">
-            @foreach (var item in ViewBag.RelatedProduct)
+<div class="container">
+    <h3 class="mt-5">Related Products</h3>
+    <div class="row">
+        @foreach (var item in ViewBag.RelatedProduct)
+        {
+            if (item.ProductState == "Available")
             {
-                if (item.ProductState == "Available")
-                {
-                    <div class="col-md-3 mb-4 h-100">
-                        <div class="related-product text-center">
-                            <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="@item.Id" asp-route-productItemId="@item.ProductItem.Id" asp-route-Price="@item.ProductItem.PriceAfterDiscount">
-                                <div class="image-container">
-                                    <img src="~/pictures/@item.Picture" class="img-fluid" alt="@item.Name">
-                                </div>
-                            </a>
-                            <h5>@item.Name</h5>
-                            <div class="price">
-                                @if (item.ProductItem.Discount != 0)
-                                {
-                                    <span class="old-price text-muted text-decoration-line-through">@String.Format("{0:N0}", item.ProductItem.SellingPrice) VND</span>
-                                    <h4 class="new-price text-danger">@String.Format("{0:N0}", item.ProductItem.PriceAfterDiscount) VND</h4>
-                                    <span class="saving text-success">Saving: @String.Format("{0:N0}", item.ProductItem.Saving) VND</span>
-                                }
-                                else
-                                {
-                                    <h4 class="new-price text-danger">@String.Format("{0:N0}", item.ProductItem.SellingPrice) VND</h4>
-                                }
+                <div class="col-md-3 mb-4 h-100">
+                    <div class="related-product text-center">
+                        <a asp-controller="Pro" asp-action="ProductDetail" asp-route-id="@item.Id" asp-route-productItemId="@item.ProductItem.Id" asp-route-Price="@item.ProductItem.PriceAfterDiscount">
+                            <div class="image-container">
+                                <img src="~/pictures/@item.Picture" class="img-fluid" alt="@item.Name">
                             </div>
-                            <button class="btn btn-success btn-sm">View</button>
+                        </a>
+                        <h5>@item.Name</h5>
+                        <div class="price">
+                            @if (item.ProductItem.Discount != 0)
+                            {
+                                <span class="old-price text-muted text-decoration-line-through">@String.Format("{0:N0}", item.ProductItem.SellingPrice) VND</span>
+                                <h4 class="new-price text-danger">@String.Format("{0:N0}", item.ProductItem.PriceAfterDiscount) VND</h4>
+                                <span class="saving text-success">Saving: @String.Format("{0:N0}", item.ProductItem.Saving) VND</span>
+                            }
+                            else
+                            {
+                                <h4 class="new-price text-danger">@String.Format("{0:N0}", item.ProductItem.SellingPrice) VND</h4>
+                            }
                         </div>
+                        <button class="btn btn-success btn-sm">View</button>
                     </div>
-                }
+                </div>
             }
+        }
 
-        </div>
     </div>
+</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -305,7 +316,7 @@
         document.querySelectorAll('.option-box[data-type="combined"]').forEach(function (el) {
             el.classList.remove('selected');
         });
-
+        console.log(value);
         // Add 'selected' class to the clicked option
         document.querySelector(`.option-box[data-type="combined"][data-value="${value}"]`).classList.add('selected');
 

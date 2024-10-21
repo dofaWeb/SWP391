@@ -48,7 +48,7 @@ namespace SWP391_FinalProject.Controllers
             ProductItemModel proItem = proItemRepo.getProductItemByProductItemId(ProductItemId);
             proItem.Ram = ram;
             proItem.Storage = storage;
-            proItem.PriceAfterDiscount = ProductRepository.CalculatePriceAfterDiscount(proItem.SellingPrice, proItem.Discount);
+            proItem.PriceAfterDiscount = ProductRepository.CalculatePriceAfterDiscount(proItem.SellingPrice, proItem.Discount/100);
             AddToCartCookie(proItem);
             return RedirectToAction("ProductDetail", "Pro", new { id = proItem.Product.Id, productItemId = ProductItemId, Price =  proItemRepo.GetPriceByProductItemId(ProductItemId)});
         }

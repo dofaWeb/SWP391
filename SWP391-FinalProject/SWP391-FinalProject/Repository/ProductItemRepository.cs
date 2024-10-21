@@ -201,7 +201,7 @@ namespace SWP391_FinalProject.Repository
                 Discount = p.Discount
             }).FirstOrDefault();
 
-            return ProductRepository.CalculatePriceAfterDiscount(price.SellingPrice, price.Discount);
+            return ProductRepository.CalculatePriceAfterDiscount(price.SellingPrice, price.Discount/100);
         }
 
         public void Import(string id, int quantity)

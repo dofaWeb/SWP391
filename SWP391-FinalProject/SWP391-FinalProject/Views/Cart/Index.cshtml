@@ -10,6 +10,7 @@
 
         <!-- Cart Items -->
         <div class="col-md-8">
+            <a asp-action="Index" asp-controller="Pro" class="btn btn-secondary">Back To Home</a>
             <h3>Items in Your Cart</h3>
             @foreach (var item in Model)
             {
@@ -62,7 +63,18 @@
         <!-- Cart Actions -->
         <div class="col-md-4">
             <h3>Actions</h3>
-            <a asp-controller="Order" asp-action="ProcessCheckout"><button class="btn btn-success btn-block">Proceed to Checkout</button></a>
+            @{
+                string CartCookie = Context.Request.Cookies["CartCookie"];
+            }
+            @if (CartCookie == null || CartCookie.Equals(""))
+            {
+                <a class="btn btn-success btn-block disabled"
+                   onclick="event.preventDefault(); alert('Your cart is empty. Please add items to your cart before checking out.');">
+                    Proceed to Checkout
+                </a>
+            }else{
+                <a onclick="DoCheckout(event)" asp-action="ProcessCheckout" asp-controller="Order" class="btn btn-success btn-block">Proceed to Checkout</a>
+            }
         </div>
     </div>
 </div>
@@ -107,3 +119,21 @@
         font-weight: bold;
     }
 </style>
+
+<script>
+    function DoCheckout(event) {
+        event.preventDefault();
+
+        // Lấy giá trị session từ server (thông qua Razor)
+        var isLogin = '@Context.Session.GetString("Username")';
+
+        // Nếu session không có giá trị (null hoặc trống), yêu cầu người dùng đăng nhập
+        if (isLogin === '' || isLogin === 'null') {
+            if (confirm("You need to Login")) {
+                window.location = "/Acc/Login";
+            }
+        } else {
+            window.location = "/Order/ProcessCheckout";
+        }
+    }
+</script>

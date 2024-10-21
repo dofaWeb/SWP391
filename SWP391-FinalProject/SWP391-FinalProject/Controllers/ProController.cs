@@ -28,11 +28,11 @@ namespace SWP391_FinalProject.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("username") == null)
+            if (HttpContext.Session.GetString("Username") == null)
             {
                 if (CheckLoginCookie())
                 {
-                    HttpContext.Session.SetString("username", HttpContext.Request.Cookies["Username"]);
+                    HttpContext.Session.SetString("Username", HttpContext.Request.Cookies["Username"]);
                     return RedirectToAction("LoginWithCookie", "Acc", new { username = HttpContext.Request.Cookies["Username"] });
                 }
             }

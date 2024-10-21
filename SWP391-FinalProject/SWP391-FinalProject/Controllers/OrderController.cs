@@ -7,19 +7,26 @@ namespace SWP391_FinalProject.Controllers
 {
     public class Order : Controller
     {
+
         public IActionResult Checkout()
         {
             return View();
         }
 
         public async Task<IActionResult> ProcessCheckout() {
+            string CartCookies = Request.Cookies["CartCookie"];
+            if(CartCookies==null || CartCookies.Equals(""))
+            {
+                // Ghi log khi không có gì trong giỏ hàng
+                return RedirectToAction("Index", "Cart");
+            }
+
             string username = Request.Cookies["Username"];
             UserRepository userRepo = new UserRepository();
             UserModel user = userRepo.GetUserProfileByUsername(username);
             ViewBag.User = user;
             //-----------------------------------------
 
-            string CartCookies = Request.Cookies["CartCookie"];
             string[] tmp = CartCookies.Split('=');
             int sizeOfCookie = tmp.Length;
             List<ProductItemModel> listProItem = new List<ProductItemModel>();

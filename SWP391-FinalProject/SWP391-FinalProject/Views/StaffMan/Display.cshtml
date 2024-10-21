@@ -138,7 +138,7 @@
     // Update table dates based on the selected Monday
     function updateTableDates() {
         const selectedMonday = new Date(document.getElementById('monday-select').value);
-        const tableHeaders = document.querySelectorAll('#schedule-table thead th');
+        const tableHeaders = document.querySelectorAll('#schedule-table-value thead th');
 
         // Update table headers to display dates
         for (let i = 1; i <= 5; i++) {
@@ -215,10 +215,10 @@
     };
 </script>
 <!-- Schedule Management Section -->
-<div class="container">
+<div style="margin-bottom:20px">
     <h1>Add Schedule</h1>
 
-    <table id="schedule-table">
+    <table id="add-shift">
         <thead>
             <tr>
                 <th>Shift / Day</th>
@@ -277,7 +277,8 @@
 
         <button onclick="saveData()">Save</button>
     </div>
-
+</div>
+<div class="container">
     <h1>Staff Schedule Management</h1>
     <label for="monday-select">Select Start Date (Monday):</label>
     <select id="monday-select" onchange="updateTableDates()"></select>
@@ -371,7 +372,7 @@
 
         // Collect selected staff members for each shift
         const shifts = [];
-        const shiftCells = document.querySelectorAll('#schedule-table tbody select');
+        const shiftCells = document.querySelectorAll('#add-shift tbody select');
 
         shiftCells.forEach((select, index) => {
             const selectedStaff = select.value;
@@ -417,3 +418,4 @@
             });
     }
 </script>
+

@@ -6,7 +6,7 @@
 
 
 
-@model IEnumerable<SWP391_FinalProject.Models.OrderDetailModel>
+@model IEnumerable<SWP391_FinalProject.Models.OrderModel>
 
 <h2>List Order</h2>
 
@@ -31,15 +31,15 @@
             {
                 <tr>
                     <td>@index</td>
-                    <td>@order.OrderId</td>  @* Sử dụng đúng tên thuộc tính *@
-                    <td>@order.UserName</td>
+                    <td>@order.Id</td>  @* Sử dụng đúng tên thuộc tính *@
+                    <td>@order.User.Name</td>
                     <td>@order.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
-                    <td>@order.Address</td>
-                    <td>@order.StateName</td>
+                    <td>@order.Addres</td>
+                    <td>@order.OrderState.Name</td>
                    
                     <td>
-                        <a href="@Url.Action("View", "Order", new { id = order.OrderId })" class="btn btn-warning btn-sm">View</a>
-                        <a href="@Url.Action("Save", "Order", new { id = order.OrderId })" class="btn btn-success btn-sm">Save</a>
+                        <a href="#" class="btn btn-warning btn-sm">View</a>
+                        <a href="#" class="btn btn-success btn-sm">Save</a>
                     </td>
                 </tr>
                 index++;

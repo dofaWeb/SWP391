@@ -12,7 +12,6 @@ namespace SWP391_FinalProject.Controllers
 {
     public class ProController : Controller
     {
-        private readonly DBContext db;
 
         public ProController()
         {

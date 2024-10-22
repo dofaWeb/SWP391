@@ -119,32 +119,30 @@ namespace SWP391_FinalProject.Repository
             db.SaveChanges();
         }
 
-        public List<OrderDetailModel> GetAllOrder()
+        public List<OrderModel> GetAllOrder()
         {
             var query = from o in db.Orders
                         
                         join u in db.Users on o.UserId equals u.Account.Id
                         join ot in db.OrderStates on o.StateId equals ot.Id
                         
-                        select new OrderDetailModel
+                        select new OrderModel
                         {
-                            OrderId = o.Id,
+                            Id = o.Id,
                             UserId = o.UserId,
-                            Address = o.Address,
+                            Addres = o.Address,
                             StateId = o.StateId,
                             Date = o.Date,
                             UsePoint = o.UsePoint,
-                            //EarnPoint = o.EarnPoint,
+                            EarnPoint = o.EarnPoint??0,
                             StaffShiftId = o.StaffShiftId,
-                            //ProductItemId = oi.ProductItemId,
+                            
                             //Quantity = oi.Quantity,
                             //Price = oi.Price,
                             //Discount = oi.Discount,
-                            UserName = u.Name,
-                            UserProvince = u.Province,
-                            UserDistrict = u.District,
-                            UserAddress = u.Address,
-                            StateName = ot.Name
+                            User = new UserModel() { Name=u.Name },
+                            
+                            OrderState = new OrderState() { Name=ot.Name }
 
                         };
             var result = query.ToList();

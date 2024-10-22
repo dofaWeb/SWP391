@@ -192,9 +192,12 @@ namespace SWP391_FinalProject.Controllers
                 var RoleId = accRepo.GetRoleId(model.Username);
                 if (RoleId != "Role0003")
                 {
+                 
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Role, RoleId)
+                        new Claim(ClaimTypes.Role, RoleId),
+                        new Claim(ClaimTypes.Name, model.Username),
+
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, "login");
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

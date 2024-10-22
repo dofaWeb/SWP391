@@ -3,6 +3,7 @@ using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -118,12 +119,63 @@ namespace SWP391_FinalProject.Repository
             var startOfWeek2 = GetMondayOfWeek(date2);
             return startOfWeek1 == startOfWeek2;
         }
+        public StaffModel GetStaffbyUserName(string userName)
+        {
+            var result = (from s in db.Staff
+                          join a in db.Accounts on s.AccountId equals a.Id
+                          where a.Username == userName
+                          select new StaffModel
+                          {
+                              Id = s.AccountId,
+                              Name = s.Name,
+                              Account = new AccountModel
+                              {
+                                  Password = a.Password,
+                              },
+                          }).FirstOrDefault();
 
+            return result;
+        }
         private DateOnly GetMondayOfWeek(DateOnly date)
         {
             int dayOffset = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
             if (dayOffset < 0) dayOffset += 7;
             return date.AddDays(-dayOffset);
+        }
+
+        public string GetShiftIdByDateAndShift(DateOnly Date, string shift)
+        {
+            var id = db.StaffShifts.Where(p => p.Date == Date && p.Shift == shift).Select(p => p.Id).FirstOrDefault();
+            return id;
+        }
+
+        public void EditShiftDate(ShiftDataModel model)
+        {
+
+            DateTime currentDate = DateTime.Today; // Get today's date
+
+            foreach (var item in model.Shifts)
+            {
+                // Parse the date string from the ShiftModel to a DateTime object
+                DateTime shiftDate = DateTime.Parse(item.Date); // Assumes the date is in "YYYY-MM-DD" format
+                if (shiftDate > currentDate)
+                {
+                    string id = GetShiftIdByDateAndShift(DateOnly.Parse(item.Date), item.Shift);
+                    if (id != null && item.StaffId != "Select the staff")
+                    {
+                        var newShiftRecord = new Entities.StaffShift
+                        {
+                            Id = id,
+                            StaffId = GetStaffIdByName(item.StaffId),
+                            Shift = item.Shift,
+                            Date = DateOnly.Parse(item.Date), // Handle DateOnly correctly
+                            HourlyRate = model.HourlyRate
+                        };
+                        db.StaffShifts.Update(newShiftRecord);
+                    }
+                }
+            }
+            db.SaveChanges();
         }
 
         public string SaveShiftData(ShiftDataModel data)
@@ -196,20 +248,40 @@ namespace SWP391_FinalProject.Repository
         public List<ShiftSchdeduleModel> GetShiftData(string weekStartDate)
         {
             var startDate = DateOnly.Parse(weekStartDate);
-            var endDate = startDate.AddDays(4);  // Monday to Friday
+            var endDate = startDate.AddDays(4); // Monday to Friday
 
-            var shifts = db.StaffShifts
+            // Query for morning shifts
+            var shiftsMorning = db.StaffShifts
                 .Where(shift => shift.Date >= startDate && shift.Date <= endDate)
+                .Where(shift => shift.Shift == "Morning")
                 .Select(shift => new ShiftSchdeduleModel
                 {
                     Date = shift.Date.HasValue ? shift.Date.Value.ToString("yyyy-MM-dd") : string.Empty,
                     Shift = shift.Shift,
                     StaffId = shift.StaffId,
                     StaffName = shift.Staff.Name // Assuming Staff relationship exists
-                }).ToList();
+                })
+                .ToList();
+
+            // Query for afternoon shifts
+            var shiftsAfternoon = db.StaffShifts
+                .Where(shift => shift.Date >= startDate && shift.Date <= endDate)
+                .Where(shift => shift.Shift == "Afternoon")
+                .Select(shift => new ShiftSchdeduleModel
+                {
+                    Date = shift.Date.HasValue ? shift.Date.Value.ToString("yyyy-MM-dd") : string.Empty,
+                    Shift = shift.Shift,
+                    StaffId = shift.StaffId,
+                    StaffName = shift.Staff.Name // Assuming Staff relationship exists
+                })
+                .ToList();
+
+            // Merge both lists
+            var shifts = shiftsMorning.Concat(shiftsAfternoon).ToList();
 
             return shifts;
         }
+
 
 
     }

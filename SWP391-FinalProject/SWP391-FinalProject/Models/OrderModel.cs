@@ -18,6 +18,10 @@
 
         public string StaffShiftId { get; set; }
 
+        public UserModel UserName { get; set; }
+
+        public OrderItemModel orderItem { get; set; }
+
 
     }
 }

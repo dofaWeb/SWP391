@@ -13,5 +13,20 @@ namespace SWP391_FinalProject.Controllers
             return View();
         }
 
+        public IActionResult ListOrder()
+        {
+            Repository.OrderRepository orderRepo = new Repository.OrderRepository();
+            var orderDetail = orderRepo.GetAllOrder();
+            return View(orderDetail);
+        }
+
+        public IActionResult History()
+        {
+            Repository.OrderRepository orderRepo = new OrderRepository();
+            var OrderHis = orderRepo.GetAllOrder();
+            return View(OrderHis);
+        }
+       
+
     }
 }

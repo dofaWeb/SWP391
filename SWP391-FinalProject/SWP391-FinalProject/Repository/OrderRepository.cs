@@ -1,3 +1,4 @@
+
 ﻿using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 
@@ -7,10 +8,13 @@ namespace SWP391_FinalProject.Repository
     {
         private readonly DBContext db;
 
+
+
         public OrderRepository()
         {
             db = new DBContext();
         }
+
 
         public string NewOrderId()
         {
@@ -91,5 +95,6 @@ namespace SWP391_FinalProject.Repository
         {
 
         }
+
     }
 }

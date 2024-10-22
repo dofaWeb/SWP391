@@ -13,6 +13,15 @@ namespace SWP391_FinalProject.Repository
         {
             db = new DBContext();
         }
+         public double GetAverageRating(string productId)
+        {
+            var averageRating = db.Ratings
+                              .Where(r => r.ProductId == productId)
+                              .Average(r => r.Rating1);
+
+            return averageRating;
+        }
+
         public void InsertRating(RatingModel rating) 
         { 
             Rating newRating = new Rating();
@@ -47,6 +56,8 @@ namespace SWP391_FinalProject.Repository
 
             return newId;
         }
-        
+
+       
+
     }
 }

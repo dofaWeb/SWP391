@@ -4,6 +4,7 @@ using System;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Repository;
 using SWP391_FinalProject.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -29,7 +30,13 @@ namespace SWP391_FinalProject.Controllers
 
             return result.ToString();
         }
+        public IActionResult StaffSetting(string username)
+        {
 
+            StaffRepository staffRepo= new StaffRepository();
+            var result=staffRepo.GetStaffbyUserName(username);
+            return View(result);    
+        }
 
         public IActionResult CreateAccount(string StaffEmail)
         {
@@ -67,6 +74,21 @@ namespace SWP391_FinalProject.Controllers
             StaffRepository staffRepository = new StaffRepository();
             var staffList = staffRepository.GetAllStaffUpdate();
             return Json(new { success = true, staffList });
+        }
+
+        [HttpPost]
+        public IActionResult EditShiftDate([FromBody] ShiftDataModel date)
+        {
+            StaffRepository staffRepository = new StaffRepository();
+            staffRepository.EditShiftDate(date);
+            try
+            {
+                return Json(new { success = true, message = "Save succefully" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
         }
 
         [HttpPost]

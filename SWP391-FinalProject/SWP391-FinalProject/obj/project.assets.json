@@ -7288,7 +7288,7 @@
   },
   "packageFolders": {
 
-    "C:\\Users\\LENOVO\\.nuget\\packages\\": {},
+    "C:\\Users\\giaoh\\.nuget\\packages\\": {},
 
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
@@ -7296,11 +7296,11 @@
     "version": "1.0.0",
     "restore": {
 
-      "projectUniqueName": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
+      "projectUniqueName": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
       "projectName": "SWP391-FinalProject",
-      "projectPath": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
-      "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
+      "projectPath": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
+      "packagesPath": "C:\\Users\\giaoh\\.nuget\\packages\\",
+      "outputPath": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
 
       "projectStyle": "PackageReference",
       "fallbackFolders": [
@@ -7308,7 +7308,7 @@
       ],
       "configFilePaths": [
 
-        "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\giaoh\\AppData\\Roaming\\NuGet\\NuGet.Config",
 
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

@@ -2,6 +2,7 @@
 using System.Text;
 using System;
 using SWP391_FinalProject.Helpers;
+using SWP391_FinalProject.Repository;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -9,6 +10,7 @@ namespace SWP391_FinalProject.Controllers
     {
         public IActionResult Display()
         {
+
             return View();
         }
 
@@ -29,7 +31,17 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult CreateAccount(string StaffEmail)
         {
-            MailUtil.SendForgetPasswordEmail(StaffEmail, 20);
+            string password = GenerateRandomString(10);
+            MailUtil.SendRegisterStaffEmail(StaffEmail, StaffEmail, password);
+            AccountRepository accRepo = new AccountRepository();
+            accRepo.AddStaffAccount(new Models.AccountModel
+            {
+                Name = StaffEmail,
+                Email = StaffEmail,
+                Password = password,
+            });
+
+
             return View("Display");
         }
     }

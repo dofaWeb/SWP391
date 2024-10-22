@@ -149,8 +149,22 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
+        public List<OrderState> GetAllOrderState()
+        {
+            var query = db.OrderStates.Select(p => new OrderState
+            {
+                Id =p.Id,
+                Name = p.Name,
+            }).ToList();
+            return query;
+        }
 
-
+        public void UpdateOrderState(int orderStateId, string OrderId)
+        {
+            var order = db.Orders.Where(p=>p.Id == OrderId).FirstOrDefault();
+            order.StateId = orderStateId;
+            db.SaveChanges();
+        }
 
     }
 }

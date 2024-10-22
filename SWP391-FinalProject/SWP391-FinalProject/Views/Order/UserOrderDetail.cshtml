@@ -64,7 +64,7 @@
         <p>Total Amount: @string.Format("{0:N0}", order.TotalPrice)</p>
         <p>Points Earned: <span class="text-primary">@string.Format("{0:N0}", order.EarnPoint)</span></p>
         <p>Points Used: <span class="text-danger">@string.Format("{0:N0}", order.UsePoint)</span></p>
-        <p>Net Amount after Points: @string.Format("{0:N0}", (order.TotalPrice - order.UsePoint))</p>
+        <p>Net Amount after Points: @string.Format("{0:N0}", (order.TotalPrice - order.UsePoint)??0)</p>
     </div>
 
     

@@ -165,6 +165,5 @@ namespace SWP391_FinalProject.Repository
             order.StateId = orderStateId;
             db.SaveChanges();
         }
-
     }
 }

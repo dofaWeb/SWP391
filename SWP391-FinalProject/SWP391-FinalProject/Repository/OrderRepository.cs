@@ -149,7 +149,26 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
-
+        public List<OrderModel> GetOrderByUserId(string UserId)
+        {
+            var result = from o in db.Orders
+                         join os in db.OrderStates on o.StateId equals os.Id
+                         where o.UserId == UserId
+                         select new OrderModel()
+                         {
+                             Id = o.Id,
+                             UserId = o.UserId,
+                             Addres = o.Address,
+                             StateId = o.StateId,
+                             OrderState = new OrderState() { Name = os.Name},
+                             UsePoint = o.UsePoint,
+                             EarnPoint = o.EarnPoint??0,
+                             Date = o.Date
+                         };
+            
+            List<OrderModel> listOrder = result.ToList();
+            return listOrder;
+        }
 
 
     }

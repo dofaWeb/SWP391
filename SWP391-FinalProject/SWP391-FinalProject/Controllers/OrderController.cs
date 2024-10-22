@@ -154,7 +154,7 @@ namespace SWP391_FinalProject.Controllers
             OrderModel order = orderRepo.GetOrderByOrderId(OrderId);
             foreach(var item in orderItemList)
             {
-                order.TotalPrice += (item.Price * item.Quantity) ?? 0;
+                order.TotalPrice += (item.Price ?? 0) * item.Quantity;
             }
             ViewBag.UserId = order.UserId;
             ViewBag.Order = order;

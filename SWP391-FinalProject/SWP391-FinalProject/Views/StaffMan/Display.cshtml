@@ -140,7 +140,7 @@
         const selectedMonday = new Date(document.getElementById('monday-select').value);
         const tableHeaders = document.querySelectorAll('#schedule-table-value thead th');
 
-        // Update table headers to display dates
+        // Update table headers to display dates for the week (Monday to Friday)
         for (let i = 1; i <= 5; i++) {
             const currentDate = new Date(selectedMonday);
             currentDate.setDate(selectedMonday.getDate() + (i - 1));
@@ -157,9 +157,12 @@
                     console.log('Fetched Shifts:', shifts); // Log fetched shifts for debugging
 
                     shiftCells.forEach((select, index) => {
-                        const shiftDay = Math.floor(index / 2); // 2 shifts per day
+                        // Calculate day index and ensure the first shift is Morning, second is Afternoon
+                        const dayIndex = Math.floor(index / 2); // Two shifts per day (Morning, Afternoon)
                         const shiftDate = new Date(selectedMonday);
-                        shiftDate.setDate(selectedMonday.getDate() + shiftDay);
+                        shiftDate.setDate(selectedMonday.getDate() + dayIndex);
+
+                        // Determine shift type based on whether it's an even or odd index
                         const shiftType = (index % 2 === 0) ? 'Morning' : 'Afternoon';
 
                         // Clear previous options
@@ -199,6 +202,7 @@
             .catch(error => console.error('Error fetching shift data:', error));
     }
 
+
     // Calculate Total Weekly Pay
     function updateTotalWeeklyPay() {
         const hourlyRate = parseFloat(document.getElementById('hourly-rate').value) || 0;
@@ -236,6 +240,7 @@
                 {
                     <td>
                         <select>
+                            <option default>Select the staff</option>
                             @foreach (var item in Model)
                             {
                                 @if (item.Account.Status == "Available")
@@ -253,6 +258,8 @@
                 {
                     <td>
                         <select>
+                            <option default>Select the staff</option>
+
                             @foreach (var item in Model)
                             {
                                 @if (item.Account.Status == "Available")
@@ -275,6 +282,7 @@
             <span>Total Weekly Pay: $<span id="total-weekly-pay">1200.00</span></span>
         </div>
 
+        <button class="btn btn-success" onclick="editCurrentWeek()">Edit</button>
         <button onclick="saveData()">Save</button>
     </div>
 </div>
@@ -317,6 +325,7 @@
             </tr>
         </tbody>
     </table>
+
 </div>
 
 <!-- Staff List Management Section -->
@@ -358,6 +367,65 @@
 </div>
 
 <script>
+    function editCurrentWeek() {
+        // Get the selected start date from the Monday select element
+        const selectedMonday = new Date(document.getElementById('monday-select').value);
+        const today = new Date();
+
+        // Collect selected staff members for each shift
+        const shifts = [];
+        const shiftRows = document.querySelectorAll('#add-shift tbody tr');
+        const hourlyRate = parseFloat(document.getElementById('hourly-rate').value) || 0;
+
+        // First, collect all morning shifts (7h - 12h)
+        const morningShiftCells = shiftRows[0].querySelectorAll('select');
+        morningShiftCells.forEach((select, dayIndex) => {
+            const selectedStaff = select.value;
+
+            // Calculate the exact shift date based on the selected Monday
+            const shiftDate = new Date(selectedMonday);
+            shiftDate.setDate(selectedMonday.getDate() + dayIndex); // Day index is the offset from Monday
+
+            shifts.push({
+                staffId: selectedStaff,
+                shift: 'Morning',
+                date: shiftDate.toISOString().split('T')[0] // Format date to YYYY-MM-DD
+            });
+        });
+
+        // Then, collect all afternoon shifts (13h - 18h)
+        const afternoonShiftCells = shiftRows[1].querySelectorAll('select');
+        afternoonShiftCells.forEach((select, dayIndex) => {
+            const selectedStaff = select.value;
+
+            // Calculate the exact shift date based on the selected Monday
+            const shiftDate = new Date(selectedMonday);
+            shiftDate.setDate(selectedMonday.getDate() + dayIndex); // Day index is the offset from Monday
+
+            shifts.push({
+                staffId: selectedStaff,
+                shift: 'Afternoon',
+                date: shiftDate.toISOString().split('T')[0] // Format date to YYYY-MM-DD
+            });
+        });
+
+        const data = {
+            shifts: shifts,
+            hourlyRate: hourlyRate
+        };
+
+        // Send the data to the backend using AJAX
+        fetch('/StaffMan/EditShiftDate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+
+
+
     function saveData() {
         const selectedMonday = new Date(document.getElementById('monday-select').value);
         const today = new Date();

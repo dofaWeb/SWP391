@@ -69,6 +69,10 @@ namespace SWP391_FinalProject.Repository
                 existingUser.Province = User.Province;
                 existingUser.District = User.District;
                 existingUser.Address = User.Address;
+                if (User.Point != 0)
+                {
+                    existingUser.Point = User.Point;
+                }
                 db.SaveChanges();
             }
         }

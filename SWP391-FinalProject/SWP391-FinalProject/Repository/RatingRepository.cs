@@ -16,10 +16,13 @@ namespace SWP391_FinalProject.Repository
          public double GetAverageRating(string productId)
         {
             var averageRating = db.Ratings
-                              .Where(r => r.ProductId == productId)
-                              .Average(r => r.Rating1);
+             .Where(r => r.ProductId == productId)
+             .Select(r => (double?)r.Rating1)  // Chuyển Rating1 thành kiểu nullable double
+             .AsEnumerable()                   // Chuyển về phía client để xử lý
+             .DefaultIfEmpty(null)             // Nếu không có giá trị, trả về null
+             .Average();
 
-            return averageRating;
+            return averageRating??5;
         }
 
         public void InsertRating(RatingModel rating) 

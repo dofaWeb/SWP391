@@ -13,6 +13,7 @@
 
 <div class="container mt-4 profile-info">
     <a asp-action="Index" asp-controller="Pro" class="btn btn-secondary">Back To Home</a>
+    <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-UserId="@Model.Account.Id" class="btn btn-success">View Order History</a>
     <h3>User Information</h3>
     <table class="table table-bordered">
         <tbody>

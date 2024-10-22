@@ -149,6 +149,27 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
+        public OrderModel GetOrderByOrderId(string OrderId)
+        {
+            var result = from o in db.Orders
+                         join os in db.OrderStates on o.StateId equals os.Id
+                         where o.Id == OrderId
+                         select new OrderModel()
+                         {
+                             Id = o.Id,
+                             UserId = o.UserId,
+                             Addres = o.Address,
+                             StateId = o.StateId,
+                             OrderState = new OrderState() { Name = os.Name },
+                             UsePoint = o.UsePoint,
+                             EarnPoint = o.EarnPoint ?? 0,
+                             Date = o.Date
+                         };
+
+            OrderModel order = result.FirstOrDefault();
+            return order;
+        }
+
         public List<OrderModel> GetOrderByUserId(string UserId)
         {
             var result = from o in db.Orders
@@ -166,8 +187,18 @@ namespace SWP391_FinalProject.Repository
                              Date = o.Date
                          };
 
-            List<OrderModel> listOrder = result.ToList();
-            return listOrder;
+            List<OrderModel> orderList = result.ToList();
+            OrderItemRepository orderItemRepo = new OrderItemRepository();
+            List<OrderItemModel> orderItemList = new List<OrderItemModel>();
+            foreach (var order in orderList)
+            {
+                orderItemList = orderItemRepo.GetOrderItemByOrderId(order.Id);
+                foreach(var item in orderItemList)
+                {
+                    order.TotalPrice += (item.Price * item.Quantity)??0;
+                }
+            }
+            return orderList;
         }
 
         public List<OrderState> GetAllOrderState()

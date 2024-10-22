@@ -145,5 +145,20 @@ namespace SWP391_FinalProject.Controllers
             List<OrderModel> orderList = orderRepo.GetOrderByUserId(UserId);
             return View(orderList);
         }
+
+        public IActionResult UserOrderDetail(string OrderId)
+        {
+            OrderItemRepository orderItemRepo = new OrderItemRepository();
+            List<OrderItemModel> orderItemList = orderItemRepo.GetOrderItemByOrderId(OrderId);
+            OrderRepository orderRepo = new OrderRepository();
+            OrderModel order = orderRepo.GetOrderByOrderId(OrderId);
+            foreach(var item in orderItemList)
+            {
+                order.TotalPrice += (item.Price * item.Quantity) ?? 0;
+            }
+            ViewBag.UserId = order.UserId;
+            ViewBag.Order = order;
+            return View(orderItemList);
+        }
     }
 }

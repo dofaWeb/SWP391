@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<SWP391_FinalProject.Models.OrderItemModel>;
+<style>
+    .order-header {
+        margin-bottom: 20px;
+    }
+
+    .product-image {
+        max-width: 100px;
+    }
+
+    .points-summary {
+        margin-top: 20px;
+    }
+</style>
+
+
+<!-- Header -->
+<header class="bg-dark text-white text-center py-4">
+    <h1>Order Detail</h1>
+</header>
+
+<div class="container mt-4">
+    <div class="mt-4">
+        <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-UserId="@ViewBag.UserId" class="btn btn-secondary">Back to Orders</a>
+    </div>
+    <h5>Product Details</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Variation</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/pictures/@item.Product.Picture" alt="Product Image" class="product-image">
+                        <span>@item.Product.Name</span>
+                    </td>
+                    <td>
+                        <p>RAM: @item.Ram</p>
+                        <p>Storage: @item.Storage</p>
+                    </td>
+                    <td>@string.Format("{0:N0}", @item.Price)</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @{
+        OrderModel order = (OrderModel)ViewBag.Order;
+    }
+    <div class="points-summary">
+        <h5>Order Summary</h5>
+        <p>Total Amount: @string.Format("{0:N0}", order.TotalPrice)</p>
+        <p>Points Earned: <span class="text-primary">@string.Format("{0:N0}", order.EarnPoint)</span></p>
+        <p>Points Used: <span class="text-danger">@string.Format("{0:N0}", order.UsePoint)</span></p>
+        <p>Net Amount after Points: @string.Format("{0:N0}", (order.TotalPrice - order.UsePoint))</p>
+    </div>
+
+    
+</div>
+

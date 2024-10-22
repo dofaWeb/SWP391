@@ -18,6 +18,8 @@ namespace SWP391_FinalProject.Models
 
         public decimal EarnPoint { get; set; }
 
+        public decimal TotalPrice { get; set; }
+
         public string StaffShiftId { get; set; }
 
         public OrderState OrderState{get; set;}

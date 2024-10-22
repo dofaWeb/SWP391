@@ -12,6 +12,13 @@
 
         public decimal? Discount { get; set; }
 
+        public string Ram {  get; set; }
+
+        public string Storage { get; set; }
+
         public OrderModel Order  { get; set; }
+
+        public ProductModel Product { get; set; }
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿@{
-    
+
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -29,19 +29,41 @@
             int index = 1;
             foreach (var order in Model)
             {
+                <form asp-controller="OrderMan" asp-action="UpdateState">
+
                 <tr>
                     <td>@index</td>
                     <td>@order.Id</td>  @* Sử dụng đúng tên thuộc tính *@
+                    <input type="hidden" name="OrderId" value="@order.Id" /> <!-- Hidden field to pass OrderId -->
                     <td>@order.User.Name</td>
                     <td>@order.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
                     <td>@order.Addres</td>
-                    <td>@order.OrderState.Name</td>
-                   
+                    <td>
+                        <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()">
+                                @foreach (var item in ViewBag.OrderState)
+                                {
+                                    @if (order.OrderState.Name == item.Name)
+                                    {
+                                    <option value="@item.Id" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                    <option value="@item.Id">@item.Name</option>
+
+
+                                    }
+                                }
+                        </select>
+                    </td>
+
                     <td>
                         <a href="#" class="btn btn-warning btn-sm">View</a>
-                        <a href="#" class="btn btn-success btn-sm">Save</a>
+                        <input type="submit" value="Save" class="btn btn-success btn-sm" />
+
                     </td>
                 </tr>
+                </form>
+
                 index++;
             }
         }
@@ -54,3 +76,11 @@
     </tbody>
 </table>
 
+<script>
+    function UpdateState() {
+        var state_id = document.getElementById('OrderStateId').value;
+        var order_id = document.getElementById('')
+        document.getElementById('StateId').value = state_id;
+    }
+
+</script>

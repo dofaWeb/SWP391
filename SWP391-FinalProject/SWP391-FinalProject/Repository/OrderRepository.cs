@@ -149,27 +149,21 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
-        public List<OrderModel> GetOrderByUserId(string UserId)
+        public List<OrderState> GetAllOrderState()
         {
-            var result = from o in db.Orders
-                         join os in db.OrderStates on o.StateId equals os.Id
-                         where o.UserId == UserId
-                         select new OrderModel()
-                         {
-                             Id = o.Id,
-                             UserId = o.UserId,
-                             Addres = o.Address,
-                             StateId = o.StateId,
-                             OrderState = new OrderState() { Name = os.Name},
-                             UsePoint = o.UsePoint,
-                             EarnPoint = o.EarnPoint??0,
-                             Date = o.Date
-                         };
-            
-            List<OrderModel> listOrder = result.ToList();
-            return listOrder;
+            var query = db.OrderStates.Select(p => new OrderState
+            {
+                Id =p.Id,
+                Name = p.Name,
+            }).ToList();
+            return query;
         }
 
-
+        public void UpdateOrderState(int orderStateId, string OrderId)
+        {
+            var order = db.Orders.Where(p=>p.Id == OrderId).FirstOrDefault();
+            order.StateId = orderStateId;
+            db.SaveChanges();
+        }
     }
 }

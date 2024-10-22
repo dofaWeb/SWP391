@@ -7,9 +7,42 @@ namespace SWP391_FinalProject.Controllers
 {
     public class Order : Controller
     {
-
-        public IActionResult Checkout()
+        [HttpPost]
+        public IActionResult Checkout(int Point, string Username)
         {
+            OrderModel order = new OrderModel();
+            OrderRepository orderRepo = new OrderRepository();
+            UserRepository userRepo = new UserRepository();
+            UserModel user = userRepo.GetUserProfileByUsername(Username);
+            order.UserId = user.Account.Id;
+            order.UsePoint = Point;
+            order.Addres = user.Province + " ," + user.District + " ," + user.Address;
+            string Resultcookie = Request.Cookies["CartCookie"] ?? "";
+            string[] tmp = Resultcookie.Split('=');
+            int sizeOfCookie = tmp.Length;
+            decimal? TotalPrice =0;
+            List<ProductItemModel> listProItem = new List<ProductItemModel>();
+            for (int i = 1; i < sizeOfCookie; i++)
+            {
+                string[] eachCookie = tmp[i].Split('/');
+                ProductItemModel item = new ProductItemModel();
+                item.Id = eachCookie[0];
+                item.Product = new ProductModel();
+                item.Product.Id = eachCookie[1];
+                item.Product.Name = eachCookie[2];
+                item.Product.Picture = eachCookie[3];
+                item.Product.Description = eachCookie[4];
+                item.CartQuantity = int.Parse(eachCookie[5]);
+                item.Quantity = int.Parse(eachCookie[6]);
+                item.SellingPrice = Decimal.Parse(eachCookie[7]);
+                item.Discount = Decimal.Parse(eachCookie[8]);
+                item.PriceAfterDiscount = Decimal.Parse(eachCookie[9]);
+                TotalPrice += item.PriceAfterDiscount;
+                item.Ram = eachCookie[10];
+                item.Storage = eachCookie[11];
+                listProItem.Add(item);
+            }
+            orderRepo.InsertOrder(order, TotalPrice, listProItem);
             return View();
         }
 

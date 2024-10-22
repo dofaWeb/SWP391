@@ -17,7 +17,7 @@ public partial class Order
 
     public decimal UsePoint { get; set; }
 
-    public decimal EarnPoint { get; set; }
+    public decimal? EarnPoint { get; set; }
 
     public string StaffShiftId { get; set; } = null!;
 

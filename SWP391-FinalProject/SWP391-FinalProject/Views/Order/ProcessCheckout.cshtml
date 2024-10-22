@@ -165,6 +165,7 @@
 
 <div class="container mt-4">
     <a class="btn btn-secondary btn-sm">Back</a>
+    <form asp-action="Checkout" asp-controller="Order" method="post">
     <section>
         <div class="row">
             <!-- Product Section -->
@@ -212,10 +213,9 @@
                 @{
                     UserModel User = (UserModel)ViewBag.User;
                 }
-                <form asp-action="EditProfile" asp-controller="User" method="post">
                     <div class="container mt-4 profile-info">
-                        
                         <h3>User Information</h3>
+                        <input type="hidden" value="@User.Account.Username" name="Username"/>
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
@@ -280,29 +280,26 @@
                             </tbody>
                         </table>
                     </div>
-                </form>
 
                 <h4>Your Points: <span id="userPoints">@User.Point</span></h4>
                 <div class="form-group">
                     <label for="usePoints">Use Points</label>
                     <div class="input-group mb-3">
                         <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('decrease', @User.Point)">-</button>
-                        @{
-                            User.Point += 100;
-                        }
-                        <input type="number" class="form-control" id="usePoints" value="0" min="0" max="@User.Point">
+                        <input type="number" class="form-control" id="usePoints" value="0" min="0" max="@User.Point" name="Point">
                         <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('increase', @User.Point)">+</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+        <div class="text-center mt-4">
+            <button class="btn btn-primary btn-lg" type="submit">Complete Checkout</button>
+        </div>
+    </form>
 
 
-
-    <div class="text-center mt-4">
-        <button class="btn btn-primary btn-lg">Complete Checkout</button>
-    </div>
+    
 </div>
 
 <script>

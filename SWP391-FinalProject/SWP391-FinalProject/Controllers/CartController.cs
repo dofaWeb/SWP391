@@ -80,6 +80,8 @@ namespace SWP391_FinalProject.Controllers
                             int newQuantity = int.Parse(eachCookie[5]) + 1;
                             eachCookie[5] = newQuantity + "";
                             string alternativeCookie = "";
+                            decimal newPrice = ProductRepository.CalculatePriceAfterDiscount(decimal.Parse(eachCookie[7]), decimal.Parse(eachCookie[8]) / 100) * newQuantity;
+                            eachCookie[9] = newPrice + "";
                             for (int j = 0; j < eachCookie.Length - 1; j++)
                             {
                                 alternativeCookie += eachCookie[j] + "/";
@@ -142,6 +144,8 @@ namespace SWP391_FinalProject.Controllers
                         {
                             int newQuantity = int.Parse(eachCookie[5]) + 1;
                             eachCookie[5] = newQuantity + "";
+                            decimal newPrice = ProductRepository.CalculatePriceAfterDiscount(decimal.Parse(eachCookie[7]), decimal.Parse(eachCookie[8]) / 100) * newQuantity;
+                            eachCookie[9] = newPrice + "";
                             string alternativeCookie = "";
                             for (int j = 0; j < eachCookie.Length - 1; j++)
                             {
@@ -164,6 +168,8 @@ namespace SWP391_FinalProject.Controllers
                             int newQuantity = int.Parse(eachCookie[5]) - 1;
                             eachCookie[5] = newQuantity + "";
                             string alternativeCookie = "";
+                            decimal newPrice = ProductRepository.CalculatePriceAfterDiscount(decimal.Parse(eachCookie[7]), decimal.Parse(eachCookie[8]) / 100) * newQuantity;
+                            eachCookie[9] = newPrice + "";
                             for (int j = 0; j < eachCookie.Length - 1; j++)
                             {
                                 alternativeCookie += eachCookie[j] + "/";

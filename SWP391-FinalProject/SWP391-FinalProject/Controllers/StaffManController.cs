@@ -3,6 +3,7 @@ using System.Text;
 using System;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Repository;
+using SWP391_FinalProject.Models;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -10,8 +11,9 @@ namespace SWP391_FinalProject.Controllers
     {
         public IActionResult Display()
         {
-
-            return View();
+            StaffRepository staffRepository = new StaffRepository();
+            var staff = staffRepository.GetAllStaff();
+            return View(staff);
         }
 
         public static string GenerateRandomString(int length)
@@ -42,7 +44,22 @@ namespace SWP391_FinalProject.Controllers
             });
 
 
-            return View("Display");
+            return RedirectToAction("Display");
+        }
+
+        [HttpPost]
+        public IActionResult SaveShiftData([FromBody] ShiftDataModel data)
+        {
+            try
+            {
+                StaffRepository staffRepository = new StaffRepository();
+                staffRepository.SaveShiftData(data);
+                return Json(new { success = true, message = "Data saved successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

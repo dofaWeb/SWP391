@@ -1,6 +1,7 @@
 
 ﻿using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -117,5 +118,41 @@ namespace SWP391_FinalProject.Repository
             userRepo.UpdateUser(user);
             db.SaveChanges();
         }
+
+        public List<OrderDetailModel> GetAllOrder()
+        {
+            var query = from o in db.Orders
+                        
+                        join u in db.Users on o.UserId equals u.Account.Id
+                        join ot in db.OrderStates on o.StateId equals ot.Id
+                        
+                        select new OrderDetailModel
+                        {
+                            OrderId = o.Id,
+                            UserId = o.UserId,
+                            Address = o.Address,
+                            StateId = o.StateId,
+                            Date = o.Date,
+                            UsePoint = o.UsePoint,
+                            //EarnPoint = o.EarnPoint,
+                            StaffShiftId = o.StaffShiftId,
+                            //ProductItemId = oi.ProductItemId,
+                            //Quantity = oi.Quantity,
+                            //Price = oi.Price,
+                            //Discount = oi.Discount,
+                            UserName = u.Name,
+                            UserProvince = u.Province,
+                            UserDistrict = u.District,
+                            UserAddress = u.Address,
+                            StateName = ot.Name
+
+                        };
+            var result = query.ToList();
+            return result;
+        }
+
+
+
+
     }
 }

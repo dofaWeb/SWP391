@@ -82,6 +82,15 @@ namespace SWP391_FinalProject.Controllers
             }
         }
 
+
+        public async Task<IActionResult> History()
+        {
+
+
+
+            return View();
+        }
+
         public void AddRegisterInfoToCookie(AccountModel model)
         {
             CookieOptions Cookie = new CookieOptions();

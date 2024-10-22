@@ -1,0 +1,56 @@
+﻿@{
+    
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+@model IEnumerable<SWP391_FinalProject.Models.OrderDetailModel>
+
+<h2>List Order</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Order Code</th>
+            <th>UserName</th>
+            <th>Order Date</th>
+            <th>Address</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @* Lặp qua danh sách đơn hàng *@
+        @if (Model != null)
+        {
+            int index = 1;
+            foreach (var order in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@order.OrderId</td>  @* Sử dụng đúng tên thuộc tính *@
+                    <td>@order.UserName</td>
+                    <td>@order.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
+                    <td>@order.Address</td>
+                    <td>@order.StateName</td>
+                   
+                    <td>
+                        <a href="@Url.Action("View", "Order", new { id = order.OrderId })" class="btn btn-warning btn-sm">View</a>
+                        <a href="@Url.Action("Save", "Order", new { id = order.OrderId })" class="btn btn-success btn-sm">Save</a>
+                    </td>
+                </tr>
+                index++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No orders available</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

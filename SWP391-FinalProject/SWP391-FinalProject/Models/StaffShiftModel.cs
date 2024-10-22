@@ -2,7 +2,7 @@
 {
     public class StaffShiftModel
     {
-        string Id { get; set; }
+        public string Id { get; set; }
         public string Staff_Id { get; set; }
 
         public string Shift { get; set; }

@@ -12,9 +12,9 @@
 
         public DateTime Date { get; set; }
 
-        public double UsePoint { get; set; }
+        public decimal UsePoint { get; set; }
         
-        public double EarnPoint { get; set; }
+        public decimal EarnPoint { get; set; }
 
         public string StaffShiftId { get; set; }
 

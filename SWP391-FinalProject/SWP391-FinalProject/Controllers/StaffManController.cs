@@ -77,6 +77,21 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpPost]
+        public IActionResult EditShiftDate([FromBody] ShiftDataModel date)
+        {
+            StaffRepository staffRepository = new StaffRepository();
+            staffRepository.EditShiftDate(date);
+            try
+            {
+                return Json(new { success = true, message = "Save succefully" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
+
+        [HttpPost]
         public IActionResult SaveShiftData([FromBody] ShiftDataModel data)
         {
             try

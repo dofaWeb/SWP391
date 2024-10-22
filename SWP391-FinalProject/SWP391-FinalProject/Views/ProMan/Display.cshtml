@@ -4,6 +4,7 @@
 @{
     Layout = "_AdminLayout";
 }
+@using System.Security.Claims
 
 @model IEnumerable<SWP391_FinalProject.Models.ProductModel>;
 
@@ -50,10 +51,18 @@
 </style>
 
 <h2>Product List</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    var roleClaim = User.FindFirst(ClaimTypes.Role);
+    if (roleClaim.Value == "Role0001")
+    {
+        <div class="mb-3">
+            <a asp-action="AddProduct" asp-controller="ProMan" class="btn btn-success">Add New Product</a>
+        </div>
+    }
+}
 
-<div class="mb-3">
-    <a asp-action="AddProduct" asp-controller="ProMan" class="btn btn-success">Add New Product</a>
-</div>
+
 
 <div class="form-group">
     <label for="searchInput">Search Products:</label>
@@ -103,10 +112,17 @@
                     <span class="badge @badgeClass">@item.ProductState</span>
                 </td>
                 <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var roleClaim = User.FindFirst(ClaimTypes.Role);
+                        if (roleClaim.Value == "Role0001")
+                        {
+                            <button class="btn btn-danger btn-sm" asp-controller="ProMan" asp-action="DeleteProduct" asp-route-id="@item.Id">Delete</button>
+                        }                       
+                    }
                     <a asp-controller="ProMan" asp-action="EditProduct" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
-                    <button class="btn btn-danger btn-sm" asp-controller="ProMan" asp-action="DeleteProduct" asp-route-id="@item.Id">Delete</button>
-
                     <a class="btn btn-secondary btn-gray" asp-controller="ProMan" asp-action="Disable" asp-route-id="@item.Id">@(item.ProductState != "Unavailable" ? "Disable" : "Active")</a>
+                  
                 </td>
             </tr>
 

@@ -39,7 +39,7 @@ namespace SWP391_FinalProject.Repository
             return newId;
         }
 
-        public void InsertOrder(OrderModel Order, decimal? TotalPrice, List<ProductItemModel> listProItem)
+        public void InsertOrder(OrderModel Order, string username, decimal? TotalPrice, List<ProductItemModel> listProItem)
         {
             int currentHour = DateTime.Now.TimeOfDay.Hours;
 
@@ -88,13 +88,34 @@ namespace SWP391_FinalProject.Repository
             db.Orders.Add(newOrder);
             db.SaveChanges();
 
-            InsertOrderItem(listProItem);
+            InsertOrderItem(listProItem, newOrder.Id);
+            UpdateUserPoint(username, newOrder.UsePoint);
         }
 
-        public void InsertOrderItem(List<ProductItemModel> listProItem)
+        public void InsertOrderItem(List<ProductItemModel> listProItem, string orderID)
         {
-
+            foreach (ProductItemModel item in listProItem)
+            {
+                var newItem = new Entities.OrderItem()
+                {
+                    OrderId = orderID,
+                    ProductItemId = item.Id,
+                    Quantity = item.CartQuantity,
+                    Discount = item.Discount,
+                    Price = item.SellingPrice ?? 0
+                };
+                db.OrderItems.Add(newItem);
+                db.SaveChanges();
+            }
         }
-
+        
+        void UpdateUserPoint(string username, decimal? UserPoint)
+        {
+            UserRepository userRepo = new UserRepository();
+            UserModel user = userRepo.GetUserProfileByUsername(username);
+            user.Point -= UserPoint.HasValue ? (int)UserPoint.Value : 0;
+            userRepo.UpdateUser(user);
+            db.SaveChanges();
+        }
     }
 }

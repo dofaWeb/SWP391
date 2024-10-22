@@ -42,8 +42,10 @@ namespace SWP391_FinalProject.Controllers
                 item.Storage = eachCookie[11];
                 listProItem.Add(item);
             }
-            orderRepo.InsertOrder(order, TotalPrice, listProItem);
-            return View();
+            orderRepo.InsertOrder(order, Username, TotalPrice, listProItem);
+            Helpers.MailUtil.SendBillEmail(order, Username, TotalPrice, Point, listProItem);
+            Response.Cookies.Delete("CartCookie");
+            return RedirectToAction("Index", "Pro");
         }
 
         public async Task<IActionResult> ProcessCheckout() {

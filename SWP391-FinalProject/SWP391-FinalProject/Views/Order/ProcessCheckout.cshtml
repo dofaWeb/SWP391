@@ -47,12 +47,12 @@
         const pointsInput = document.getElementById('usePoints');
         let currentPoints = parseInt(pointsInput.value) || 0;
         if (action === 'increase') {
-            if (currentPoints + 1 <= totalPoints) {
-                pointsInput.value = currentPoints + 1;
+            if (currentPoints + 1000 <= totalPoints) {
+                pointsInput.value = currentPoints + 1000;
             }
         } else if (action === 'decrease') {
-            if (currentPoints - 1 >= 0) {
-                pointsInput.value = currentPoints - 1;
+            if (currentPoints - 1000 >= 0) {
+                pointsInput.value = currentPoints - 1000;
             }
         }
     }
@@ -187,13 +187,13 @@
                                     <span class="text">Ram: @item.Ram</span><br>
                                     <span class="text">Storage: @item.Storage</span>
                                     <span class="d-flex align-items-center">
-                                        <label class="text mx-2">@item.CartQuantity</label>
+                                        <label class="text">Quantity: @item.CartQuantity</label>
                                     </span>
                                     
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <span>@item.PriceAfterDiscount</span>
+                                    <span class="text">@string.Format("{0:N0}", @item.PriceAfterDiscount) VND</span>
                                 @{
                                     TotalPrice += item.PriceAfterDiscount;
                                 }
@@ -201,7 +201,7 @@
                         </div>
                     }
                     <span class="d-flex align-items-center text">Total Price:</span>
-                    <span class="d-flex align-items-center text">@TotalPrice</span>
+                        <span class="d-flex align-items-center text">@string.Format("{0:N0}", @TotalPrice) VND</span>
                 }
             </div>
         </div>
@@ -281,12 +281,12 @@
                         </table>
                     </div>
 
-                <h4>Your Points: <span id="userPoints">@User.Point</span></h4>
+                    <h4>Your Points: <span id="userPoints">@string.Format("{0:N0}", @User.Point)</span></h4>
                 <div class="form-group">
                     <label for="usePoints">Use Points</label>
                     <div class="input-group mb-3">
                         <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('decrease', @User.Point)">-</button>
-                        <input type="number" class="form-control" id="usePoints" value="0" min="0" max="@User.Point" name="Point">
+                        <input type="number" class="form-control" id="usePoints" value="0" min="0" max="@User.Point" step="1000" name="Point">
                         <button class="btn btn-outline-secondary" type="button" onclick="adjustPoints('increase', @User.Point)">+</button>
                     </div>
                 </div>

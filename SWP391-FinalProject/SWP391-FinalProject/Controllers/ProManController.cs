@@ -19,6 +19,9 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult Index()
         {
+            StatisticsRepository statisticsRepository = new StatisticsRepository();
+            var stats = statisticsRepository.GetImportPrice();
+            // Filter based on the year
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             switch (role)
             {
@@ -31,6 +34,15 @@ namespace SWP391_FinalProject.Controllers
                     return RedirectToAction("Index", "Pro");
                 
             }
+        }
+
+        // Method to filter the data by the selected year
+        private List<StatisticsModel> GetImportPriceByYear(int year)
+        {
+            StatisticsRepository statisticsRepository = new StatisticsRepository();
+            // Filter based on the year
+            var filteredData = statisticsRepository.GetImportPrice().Where(stat => stat.ChangeDate.Year == year).ToList();
+            return filteredData;
         }
 
         public IActionResult Display()

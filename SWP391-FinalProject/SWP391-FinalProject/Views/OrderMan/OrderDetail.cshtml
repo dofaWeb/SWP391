@@ -1,0 +1,80 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+}
+@model IEnumerable<SWP391_FinalProject.Models.OrderItemModel>
+<style>
+    .order-details-container {
+        margin-top: 30px;
+    }
+
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .order-summary {
+        font-weight: bold;
+    }
+
+    .product-img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+</style>
+
+
+<!-- Header -->
+<header class="bg-dark text-white text-center py-4">
+    <h1>Order Details</h1>
+</header>
+<!-- Product Details -->
+<h4>Products</h4>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Picture</th>
+            <th>Product Name</th>
+            <th>Variation</th>
+            <th>Quantity</th>
+            <th>Price per Unit</th>
+            <th>Discount</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model)
+        {
+            <tr>
+                <td><img src="~/pictures/@item.Product.Picture" alt="Product 1" class="product-img"></td>
+            <td>@item.Product.Name</td>
+            <td>RAM: @item.Ram, Storage: @item.Storage</td>
+            <td>@item.Quantity</td>
+            <td>@string.Format("{0:N0}",@item.Price) VND</td>
+            <td>@item.Discount</td>
+            <td>@string.Format("{0:N0}",@item.TotalPrice) VND</td> <!-- (Price * Quantity) - Discount -->
+        </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Order Summary -->
+<div class="order-summary">
+    <p>Total Points Used: @string.Format("{0:N0}",@ViewBag.OrderDetail.EarnPoint)</p>
+    <p>Total Points Earned: @string.Format("{0:N0}",@ViewBag.OrderDetail.UsePoint)</p>
+    <p>Total Amount: @string.Format("{0:N0}",@ViewBag.TotalPrice) VND</p> <!-- This should calculate (total price - points used) -->
+</div>
+
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+</footer>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

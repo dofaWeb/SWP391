@@ -37,6 +37,15 @@ namespace SWP391_FinalProject.Controllers
             return View(OrderHis);
         }
        
-
+        public IActionResult OrderDetail(string OrderId)
+        {
+            OrderRepository orderRepository = new OrderRepository();
+            var orderItems = orderRepository.GetOrderItemByOrderId(OrderId);
+            var orderDetail = orderRepository.GetOrderDetail(OrderId);
+            var TotalPrice = orderRepository.GetTotalPrice(orderItems, orderDetail);
+            ViewBag.OrderDetail = orderDetail;
+            ViewBag.TotalPrice = TotalPrice;
+            return View(orderItems);
+        }
     }
 }

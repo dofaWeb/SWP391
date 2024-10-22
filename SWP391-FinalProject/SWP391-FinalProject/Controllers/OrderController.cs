@@ -139,7 +139,7 @@ namespace SWP391_FinalProject.Controllers
             return View();
         }
 
-        public IActionResult UserHistoryOrder(string UserId)
+        public IActionResult UserOrderHistory(string UserId)
         {
             OrderRepository orderRepo = new OrderRepository();
             List<OrderModel> orderList = orderRepo.GetOrderByUserId(UserId);

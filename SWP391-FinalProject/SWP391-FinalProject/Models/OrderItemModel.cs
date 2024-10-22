@@ -20,5 +20,6 @@
 
         public string Ram {  get; set; }
         public string Storage { get; set; }
+
     }
 }

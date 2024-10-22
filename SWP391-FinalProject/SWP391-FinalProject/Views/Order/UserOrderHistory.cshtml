@@ -1,0 +1,60 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<SWP391_FinalProject.Models.OrderModel>;
+
+<style>
+    .order-header {
+        margin-bottom: 20px;
+    }
+
+    .points-summary {
+        margin-bottom: 30px;
+    }
+
+    .points-earned {
+        color: blue;
+    }
+
+    .points-used {
+        color: red;
+    }
+</style>
+
+<!-- Header -->
+<header class="bg-dark text-white text-center py-4">
+    <h1>Order History</h1>
+</header>
+
+<div class="container mt-4">
+    <a asp-controller="User" asp-action="Profile" asp-route-username="@User.FindFirst("Username")?.Value" title="View profile" class="btn btn-secondary">Back To Profile</a>
+    <h3>Your Past Orders</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Points Earned</th>
+                <th scope="col">Points Used</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Date</td>
+                    <td>@order.OrderState.Name</td>
+                    <td>@string.Format("{0:N0}", @order.TotalPrice)</td>
+                    <td class="points-earned">@string.Format("{0:N0}", @order.EarnPoint)</td>
+                    <td class="points-used">@string.Format("{0:N0}", @order.UsePoint)</td>
+                    <td><a asp-action="UserOrderDetail" asp-controller="Order" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a></td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+</div>

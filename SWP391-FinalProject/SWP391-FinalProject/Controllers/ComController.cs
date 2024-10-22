@@ -45,6 +45,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult DeleteComment(string id)
         {
             Repository.ComRepository comRepo = new Repository.ComRepository();
+            comRepo.DeleteAllReply(id);
             comRepo.DeleteComment(id);
             return Ok();
         }

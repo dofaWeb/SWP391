@@ -118,7 +118,23 @@ namespace SWP391_FinalProject.Repository
             var startOfWeek2 = GetMondayOfWeek(date2);
             return startOfWeek1 == startOfWeek2;
         }
+        public StaffModel GetStaffbyUserName(string userName)
+        {
+            var result = (from s in db.Staff
+                          join a in db.Accounts on s.AccountId equals a.Id
+                          where a.Username == userName
+                          select new StaffModel
+                          {
+                              Id = s.AccountId,
+                              Name = s.Name,
+                              Account = new AccountModel
+                              {
+                                  Password = a.Password,
+                              },
+                          }).FirstOrDefault();
 
+            return result;
+        }
         private DateOnly GetMondayOfWeek(DateOnly date)
         {
             int dayOffset = (int)date.DayOfWeek - (int)DayOfWeek.Monday;

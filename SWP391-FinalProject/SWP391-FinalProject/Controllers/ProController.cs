@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Filters;
@@ -82,6 +83,17 @@ namespace SWP391_FinalProject.Controllers
             var RelatedProduct = prodp.GetProductByBrand4(branchId,id);
             ViewBag.RelatedProduct = RelatedProduct;
             ViewBag.Comments = comments;
+
+
+
+
+
+            Repository.RatingRepository ratingRepo = new Repository.RatingRepository();
+            double averageRating = ratingRepo.GetAverageRating(id);  // Get the average rating for the product
+            
+            ViewBag.AverageRating = averageRating;
+
+            
             // Return the view with the combined model
             return View(p);
             
@@ -141,7 +153,12 @@ namespace SWP391_FinalProject.Controllers
                 ratingRepo.InsertRating(Rating);
             }
         }
+
+
         
+
+
+
     }
 
 }

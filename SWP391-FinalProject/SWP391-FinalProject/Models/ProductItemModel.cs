@@ -23,6 +23,8 @@
 
         public VariationOptionModel Variations { get; set; }
 
+        public RatingModel Rating { get; set; }
+
         public string Ram { get; set; }
 
         public string Storage { get; set; }

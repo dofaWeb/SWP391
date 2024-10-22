@@ -4,7 +4,7 @@
 @{
 }
 @model SWP391_FinalProject.Models.ProductModel;
-
+@Html.AntiForgeryToken()
 <style>
     .option-box {
         border: 2px solid #007bff;
@@ -136,7 +136,7 @@
 <div class="mt-4">
     <h3>Rating</h3>
     <div class="rating-container">
-        <span class="rating">
+        <span class="rating" >
             <span class="star" data-value="0.5">&#9733;</span>
             <span class="star" data-value="1">&#9733;</span>
             <span class="star" data-value="1.5">&#9733;</span>
@@ -148,8 +148,44 @@
             <span class="star" data-value="4.5">&#9733;</span>
             <span class="star" data-value="5">&#9733;</span>
         </span>
-        <span id="rating-value">(4/5)</span>
+        <span id="rating-value">5/5</span>
     </div>
+</div>
+
+<div class="mt-4">
+    <h3>ShowRatingAVG</h3>
+      <img src="@GetRatingImage(ViewBag.AverageRating)" alt="Rating" />  
+   
+
+    @functions {
+        string GetRatingImage(double averageRating)
+        {
+            if (averageRating >= 5.0)
+                return "/pictures/Rating5.0.jpeg";
+            else if (averageRating >= 4.5)
+                return "/pictures/Rating4.5.jpeg";
+            else if (averageRating >= 4.0)
+                return "/pictures/Rating4.0.jpeg";
+            else if (averageRating >= 3.5)
+                return "/pictures/Rating3.5.jpeg";
+            else if (averageRating >= 3.0)
+                return "/pictures/Rating3.0.jpeg";
+            else if (averageRating >= 2.5)
+                return "/pictures/Rating2.5.jpeg";
+            else if (averageRating >= 2.0)
+                return "/pictures/Rating2.0.jpeg";
+            else if (averageRating >= 1.5)
+                return "/pictures/Rating1.5.jpeg";
+            else if (averageRating >= 1.0)
+                return "/pictures/Rating1.0.jpeg";
+            else if (averageRating >= 0.5)
+                return "/pictures/Rating0.5.jpeg";
+            else
+                return "/pictures/Rating5.0.jpeg"; // Nếu bạn có ảnh cho rating 0, hoặc thay thế bằng ảnh mặc định.
+        }
+    }
+
+
 </div>
 
 
@@ -398,5 +434,7 @@
             });
         }
     }
+    
 
+    
 </script>

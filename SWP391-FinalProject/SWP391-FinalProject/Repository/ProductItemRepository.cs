@@ -1,4 +1,5 @@
-﻿using SWP391_FinalProject.Entities;
+﻿using SWP391_FinalProject.Controllers;
+using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 
 namespace SWP391_FinalProject.Repository
@@ -144,6 +145,39 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
+        public void InsertQuantityToProductLog(int quantity, string proItemId)
+        {
+            var QuanLogid = "";
+            var ProLogid = "";
+            do {
+                QuanLogid = StaffManController.GenerateRandomString(8);
+            } while (db.QuantityLogs.Where(p=>p.Id == QuanLogid).Any());
+
+            do
+            {
+                ProLogid = StaffManController.GenerateRandomString(8);
+            } while (db.ProductLogs.Where(p=>p.Id == ProLogid).Any());
+            var quanLog = new Entities.QuantityLog
+            {
+                Id = QuanLogid,
+                ProductItemId = proItemId,
+                OldQuantity = 0,
+                NewQuantity = quantity,
+                ChangeTimestamp = DateTime.UtcNow
+            };
+
+            db.QuantityLogs.Add(quanLog);
+            db.SaveChanges() ;
+
+            db.ProductLogs.Add(new Entities.ProductLog
+            {
+                Id = ProLogid,
+                QuantityLogId = QuanLogid,
+                ChangeReasonId = "1"
+            });
+            db.SaveChanges() ;
+        }
+
 
         public void AddProductItem(ProductItemModel model)
         {
@@ -163,6 +197,7 @@ namespace SWP391_FinalProject.Repository
             product.StateId = 1;
             db.SaveChanges();
             AddProductConfiguration(model);
+            InsertQuantityToProductLog(model.Quantity, model.Id);
         }
 
         public void EditProductItem(ProductItemModel model)

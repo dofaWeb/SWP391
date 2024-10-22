@@ -16,8 +16,8 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult ListOrder()
         {
             Repository.OrderRepository orderRepo = new Repository.OrderRepository();
-            var orderDetail = orderRepo.GetAllOrder();
-            return View(orderDetail);
+            List<OrderModel> orderList = orderRepo.GetAllOrder();
+            return View(orderList);
         }
 
         public IActionResult History()

@@ -331,11 +331,16 @@
 <!-- Staff List Management Section -->
 <div class="container">
     <h1>Staff List Management</h1>
+
     <form asp-controller="StaffMan" asp-action="CreateAccount" method="post">
         <input type="text" name="StaffEmail" placeholder="Enter Email" />
         <input type="submit" value="Add" class="btn btn-success" />
     </form>
-    <table id="staff-table">
+    <div class="form-group">
+        <label for="searchInput">Search Order</label>
+        <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
+    </div>
+    <table class="StaffList" id="staff-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -485,5 +490,19 @@
                 alert('Failed to save data due to a network error or server issue!');
             });
     }
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#staff-table tbody tr');
+        rows.forEach(row => {
+            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
+            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
+            if (nameCell.includes(filter) || idCell.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
 </script>
 

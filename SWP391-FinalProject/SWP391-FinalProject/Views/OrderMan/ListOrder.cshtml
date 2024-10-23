@@ -9,7 +9,10 @@
 @model IEnumerable<SWP391_FinalProject.Models.OrderModel>
 
 <h2>List Order</h2>
-
+<div class="form-group">
+    <label for="searchInput">Search Order</label>
+    <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -82,5 +85,18 @@
         var order_id = document.getElementById('')
         document.getElementById('StateId').value = state_id;
     }
-
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
+            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
+            if (nameCell.includes(filter) || idCell.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
 </script>

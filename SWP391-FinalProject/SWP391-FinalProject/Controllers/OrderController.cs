@@ -152,10 +152,8 @@ namespace SWP391_FinalProject.Controllers
             List<OrderItemModel> orderItemList = orderItemRepo.GetOrderItemByOrderId(OrderId);
             OrderRepository orderRepo = new OrderRepository();
             OrderModel order = orderRepo.GetOrderByOrderId(OrderId);
-            foreach(var item in orderItemList)
-            {
-                order.TotalPrice += (item.Price ?? 0) * item.Quantity;
-            }
+            order.TotalPrice = 0;
+            order.TotalPrice = orderRepo.GetTotalPrice(orderItemList, order);
             ViewBag.UserId = order.UserId;
             ViewBag.Order = order;
             return View(orderItemList);

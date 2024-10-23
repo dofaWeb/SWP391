@@ -9,10 +9,7 @@ namespace SWP391_FinalProject.Controllers
 {
     public class OrderManController : Controller
     {
-        public IActionResult Display()
-        {
-            return View();
-        }
+        
 
         public IActionResult ListOrder()
         {

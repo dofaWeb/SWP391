@@ -190,13 +190,12 @@ namespace SWP391_FinalProject.Repository
             List<OrderModel> orderList = result.ToList();
             OrderItemRepository orderItemRepo = new OrderItemRepository();
             List<OrderItemModel> orderItemList = new List<OrderItemModel>();
+
             foreach (var order in orderList)
             {
                 orderItemList = orderItemRepo.GetOrderItemByOrderId(order.Id);
-                foreach(var item in orderItemList)
-                {
-                    order.TotalPrice += (item.Price * item.Quantity)??0;
-                }
+                order.TotalPrice = 0;
+                order.TotalPrice = GetTotalPrice(orderItemList, order);
             }
             return orderList;
         }

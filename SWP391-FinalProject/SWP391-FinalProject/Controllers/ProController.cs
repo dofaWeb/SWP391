@@ -147,9 +147,10 @@ namespace SWP391_FinalProject.Controllers
         {
             if (Rating != null)
             {
+                
                 ProductRepository productRepo = new ProductRepository();
                 RatingRepository ratingRepo = new RatingRepository();
-                ratingRepo.InsertRating(Rating);
+                ratingRepo.InsertOrUpdateRating(Rating);
             }
         }
 

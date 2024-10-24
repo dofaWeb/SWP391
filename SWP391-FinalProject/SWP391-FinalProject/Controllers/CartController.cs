@@ -48,9 +48,9 @@ namespace SWP391_FinalProject.Controllers
             ProductItemModel proItem = proItemRepo.getProductItemByProductItemId(ProductItemId);
             proItem.Ram = ram;
             proItem.Storage = storage;
-            proItem.PriceAfterDiscount = ProductRepository.CalculatePriceAfterDiscount(proItem.SellingPrice, proItem.Discount/100);
+            proItem.PriceAfterDiscount = ProductRepository.CalculatePriceAfterDiscount(proItem.SellingPrice, proItem.Discount / 100);
             AddToCartCookie(proItem);
-            return RedirectToAction("ProductDetail", "Pro", new { id = proItem.Product.Id, productItemId = ProductItemId, Price =  proItemRepo.GetPriceByProductItemId(ProductItemId)});
+            return RedirectToAction("ProductDetail", "Pro", new { id = proItem.Product.Id, productItemId = ProductItemId, Price = proItemRepo.GetPriceByProductItemId(ProductItemId) });
         }
 
         public void AddToCartCookie(ProductItemModel proItem)
@@ -75,7 +75,7 @@ namespace SWP391_FinalProject.Controllers
                     string[] eachCookie = tmp[i].Split('/');
                     if (eachCookie[0] == proItem.Id)
                     {
-                        if (int.Parse(eachCookie[5]) + 1 <= int.Parse(eachCookie[6]))
+                        if (int.Parse(eachCookie[5]) + 1 <= int.Parse(eachCookie[6]) || int.Parse(eachCookie[5]) < 5)
                         {
                             int newQuantity = int.Parse(eachCookie[5]) + 1;
                             eachCookie[5] = newQuantity + "";

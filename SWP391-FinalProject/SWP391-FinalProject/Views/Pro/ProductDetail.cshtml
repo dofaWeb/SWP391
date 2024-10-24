@@ -133,24 +133,33 @@
 </div>
 
 <!-- Product Rating -->
-<div class="mt-4">
-    <h3>Rating</h3>
-    <div class="rating-container">
-        <span class="rating" >
-            <span class="star" data-value="0.5">&#9733;</span>
-            <span class="star" data-value="1">&#9733;</span>
-            <span class="star" data-value="1.5">&#9733;</span>
-            <span class="star" data-value="2">&#9733;</span>
-            <span class="star" data-value="2.5">&#9733;</span>
-            <span class="star" data-value="3">&#9733;</span>
-            <span class="star" data-value="3.5">&#9733;</span>
-            <span class="star" data-value="4">&#9733;</span>
-            <span class="star" data-value="4.5">&#9733;</span>
-            <span class="star" data-value="5">&#9733;</span>
-        </span>
-        <span id="rating-value">5/5</span>
+<h3>Rating</h3>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="mt-4">
+       
+        <div class="rating-container">
+            <span class="rating">
+                <span class="star" data-value="0.5">&#9733;</span>
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="1.5">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="2.5">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="3.5">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="4.5">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </span>
+            <span id="rating-value">5/5</span>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <p>Please <a asp-controller="Acc" asp-action="Login">log in</a> to Rating a Product.</p>
+}
+
 
 <div class="mt-4">
     <h3>ShowRatingAVG</h3>

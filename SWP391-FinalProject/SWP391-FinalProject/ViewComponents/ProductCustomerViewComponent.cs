@@ -19,7 +19,7 @@ namespace SWP391_FinalProject.ViewComponents
             switch (productType)
             {
                 case "TopSelling":
-                    products = proRepo.GetAllProduct();
+                    products = proRepo.GetTopSellingProduct();
                     break;
                 case "GetAllProduct":
                     products = proRepo.GetAllProduct();

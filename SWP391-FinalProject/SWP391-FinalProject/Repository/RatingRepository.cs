@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Mysqlx.Crud;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 using System.Security.Cryptography.X509Certificates;
@@ -25,17 +26,46 @@ namespace SWP391_FinalProject.Repository
             return averageRating??5;
         }
 
-        public void InsertRating(RatingModel rating) 
-        { 
-            Rating newRating = new Rating();
-            newRating.ProductId = rating.ProductId;
-            newRating.Rating1 = rating.Rating;
+        public void InsertOrUpdateRating(RatingModel rating)
+        {
             UserRepository UserRepo = new UserRepository();
             UserModel user = UserRepo.GetUserProfileByUsername(rating.Username);
-            newRating.UserId = user.Account.Id;
-            newRating.Id = NewRatingId();
-            db.Ratings.Add(newRating);
-            db.SaveChanges();
+
+            // Tìm rating hiện có của user cho cùng ProductId
+            Rating existingRating = db.Ratings
+                .FirstOrDefault(r => r.ProductId == rating.ProductId && r.UserId == user.Account.Id);
+
+            if (existingRating != null)
+            {
+                // Nếu đã tồn tại, cập nhật Rating1
+                existingRating.Rating1 = rating.Rating;
+                db.SaveChanges();
+            }
+            else
+            {
+                // Nếu không tồn tại, thêm mới
+                Rating newRating = new Rating
+                {
+                    ProductId = rating.ProductId,
+                    Rating1 = rating.Rating,
+                    UserId = user.Account.Id,
+                    Id = NewRatingId()
+                };
+
+                db.Ratings.Add(newRating);
+                db.SaveChanges();
+            }
+        }
+        public void UpdateRating(RatingModel rating)
+        {
+            Rating existingRating = db.Ratings
+                .FirstOrDefault(r => r.Id == rating.Id);
+
+            if (existingRating != null)
+            {
+                existingRating.Rating1 = rating.Rating;
+                db.SaveChanges();
+            }
         }
         public string NewRatingId()
         {

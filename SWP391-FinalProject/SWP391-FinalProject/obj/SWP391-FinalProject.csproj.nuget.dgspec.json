@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {}
+    "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {}
   },
   "projects": {
-    "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {
+    "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
+        "projectUniqueName": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
         "projectName": "SWP391-FinalProject",
-        "projectPath": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
-        "packagesPath": "C:\\Users\\giaoh\\.nuget\\packages\\",
-        "outputPath": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
+        "projectPath": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
+        "packagesPath": "C:\\Users\\msi\\.nuget\\packages\\",
+        "outputPath": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\giaoh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\msi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -106,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,4 +1,6 @@
-﻿namespace SWP391_FinalProject.Models
+﻿using SWP391_FinalProject.Entities;
+
+namespace SWP391_FinalProject.Models
 {
     public class OrderModel
     {
@@ -12,12 +14,19 @@
 
         public DateTime Date { get; set; }
 
-        public decimal UsePoint { get; set; }
-        
-        public decimal EarnPoint { get; set; }
+        public decimal? UsePoint { get; set; }
+
+        public decimal? EarnPoint { get; set; }
 
         public string StaffShiftId { get; set; }
 
+        public OrderState OrderState{get; set;}
+
+        public UserModel User { get; set; }
+
+        public OrderItemModel orderItem { get; set; }
+
+        public decimal? TotalPrice { get; set; }
 
     }
 }

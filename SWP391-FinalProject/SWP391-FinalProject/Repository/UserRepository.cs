@@ -46,6 +46,41 @@ namespace SWP391_FinalProject.Repository
                 return userProfile;
             }
         }
+
+        public UserModel GetUserProfileByUserId(string userId)
+        {
+            using (DBContext dbContext = new DBContext())
+            {
+                // Truy vấn dữ liệu bằng LINQ
+                var userProfile = (from a in dbContext.Accounts
+                                   join u in dbContext.Users on a.Id equals u.AccountId
+                                   where a.Id == userId
+                                   select new UserModel
+                                   {
+                                       Account = new AccountModel
+                                       {
+                                           Id = a.Id,
+                                           Username = a.Username,
+                                           Password = a.Password,
+                                           Name = a.Username,
+                                           Email = a.Email,
+                                           Phone = a.Phone,
+                                           Status = (a.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
+                                           RoleId = a.RoleId,
+                                           RoleName = dbContext.RoleNames
+                                                          .Where(r => r.Id == a.RoleId)
+                                                          .Select(r => r.Name).FirstOrDefault(), // Lấy tên vai trò
+                                       },
+                                       Name = u.Name,
+                                       Point = u.Point,
+                                       Province = u.Province,
+                                       District = u.District,
+                                       Address = u.Address
+                                   }).FirstOrDefault();
+
+                return userProfile;
+            }
+        }
         public string GetUserIdByUserName(string UserName)
         {
             var UserId = (from a in db.Accounts
@@ -75,6 +110,24 @@ namespace SWP391_FinalProject.Repository
                 }
                 db.SaveChanges();
             }
+        }
+
+        public void UpdateUserPoint(string username, int OrderStateId , decimal? UsePoint, decimal? EarnPoint)
+        {
+            UserRepository userRepo = new UserRepository();
+            UserModel user = userRepo.GetUserProfileByUsername(username);
+            if (OrderStateId == 1)
+            {
+                user.Point -= UsePoint.HasValue ? (int)UsePoint.Value : 0;
+            }else if (OrderStateId == 2)
+            {
+                user.Point += EarnPoint.HasValue ? (int)EarnPoint.Value : 0;
+            }else if (OrderStateId == 3)
+            {
+                user.Point += UsePoint.HasValue ? (int)UsePoint.Value : 0;
+            }
+            userRepo.UpdateUser(user);
+            db.SaveChanges();
         }
 
         public void BanUserById(string id)

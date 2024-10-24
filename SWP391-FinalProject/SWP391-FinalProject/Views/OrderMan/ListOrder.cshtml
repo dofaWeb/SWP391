@@ -1,0 +1,102 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+@model IEnumerable<SWP391_FinalProject.Models.OrderModel>
+
+<h2>List Order</h2>
+<div class="form-group">
+    <label for="searchInput">Search Order</label>
+    <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Order Code</th>
+            <th>UserName</th>
+            <th>Order Date</th>
+            <th>Address</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @* Lặp qua danh sách đơn hàng *@
+        @if (Model != null)
+        {
+            int index = 1;
+            foreach (var order in Model)
+            {
+                <form asp-controller="OrderMan" asp-action="UpdateState">
+
+                <tr>
+                    <td>@index</td>
+                    <td>@order.Id</td>  @* Sử dụng đúng tên thuộc tính *@
+                    <input type="hidden" name="OrderId" value="@order.Id" /> <!-- Hidden field to pass OrderId -->
+                    <td>@order.User.Name</td>
+                    <td>@order.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
+                    <td>@order.Addres</td>
+                    <td>
+                        <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()">
+                                @foreach (var item in ViewBag.OrderState)
+                                {
+                                    @if (order.OrderState.Name == item.Name)
+                                    {
+                                    <option value="@item.Id" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                    <option value="@item.Id">@item.Name</option>
+
+
+                                    }
+                                }
+                        </select>
+                    </td>
+
+                    <td>
+                        <a asp-controller="OrderMan" asp-action="OrderDetail" asp-route-OrderId="@order.Id" class="btn btn-warning btn-sm">View</a>
+                        <input type="submit" value="Save" class="btn btn-success btn-sm" />
+
+                    </td>
+                </tr>
+                </form>
+
+                index++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No orders available</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function UpdateState() {
+        var state_id = document.getElementById('OrderStateId').value;
+        var order_id = document.getElementById('')
+        document.getElementById('StateId').value = state_id;
+    }
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
+            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
+            if (nameCell.includes(filter) || idCell.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

@@ -79,8 +79,8 @@
                 {
                     <li><a asp-controller="CatMan" asp-action="Display">Category</a></li>
                 }
-               
-                <li><a href="#">Order</a></li>
+
+                <li><a asp-controller="OrderMan" asp-action="ListOrder">Order</a></li>
                 if (roleClaim.Value == "Role0001")
                 {
                     <li><a asp-controller="StaffMan" asp-action="Display">Staff</a></li>

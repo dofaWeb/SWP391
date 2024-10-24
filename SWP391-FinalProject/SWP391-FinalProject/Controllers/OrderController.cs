@@ -8,7 +8,7 @@ namespace SWP391_FinalProject.Controllers
     public class Order : Controller
     {
         [HttpPost]
-        public IActionResult Checkout(int Point, string Username)
+        public IActionResult Checkout(int Point, string Username, string Province, string District, string Address)
         {
             OrderModel order = new OrderModel();
             OrderRepository orderRepo = new OrderRepository();
@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.Controllers
             UserModel user = userRepo.GetUserProfileByUsername(Username);
             order.UserId = user.Account.Id;
             order.UsePoint = Point;
-            order.Addres = user.Province + " ," + user.District + " ," + user.Address;
+            order.Addres = Province + " ," + District + " ," + Address;
             string Resultcookie = Request.Cookies["CartCookie"] ?? "";
             string[] tmp = Resultcookie.Split('=');
             int sizeOfCookie = tmp.Length;
@@ -137,6 +137,26 @@ namespace SWP391_FinalProject.Controllers
                 client.Dispose();
             }
             return View();
+        }
+
+        public IActionResult UserOrderHistory(string UserId)
+        {
+            OrderRepository orderRepo = new OrderRepository();
+            List<OrderModel> orderList = orderRepo.GetOrderByUserId(UserId);
+            return View(orderList);
+        }
+
+        public IActionResult UserOrderDetail(string OrderId)
+        {
+            OrderItemRepository orderItemRepo = new OrderItemRepository();
+            List<OrderItemModel> orderItemList = orderItemRepo.GetOrderItemByOrderId(OrderId);
+            OrderRepository orderRepo = new OrderRepository();
+            OrderModel order = orderRepo.GetOrderByOrderId(OrderId);
+            order.TotalPrice = 0;
+            order.TotalPrice = orderRepo.GetTotalPrice(orderItemList, order);
+            ViewBag.UserId = order.UserId;
+            ViewBag.Order = order;
+            return View(orderItemList);
         }
     }
 }

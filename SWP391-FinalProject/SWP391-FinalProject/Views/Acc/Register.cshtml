@@ -49,7 +49,7 @@
         <div class="col-md-6">
             <h3>Create an Account</h3>
             <h4 style="color:red">@ViewBag.Error</h4>
-            <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validatePasswords()">
+            <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validatePasswords() && validateEmail() && validatePhone() && validatePasswordStrength()">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" name="Username" id="username" placeholder="Enter your username" required>
@@ -104,14 +104,72 @@
 
 <script>
     function validatePasswords() {
-        var password = document.getElementById("password").value;
-        var confirmPassword = document.getElementById("confirmPassword").value;
+        var passwordField = document.getElementById("password");
+        var confirmPasswordField = document.getElementById("confirmPassword");
+        var password = passwordField.value;
+        var confirmPassword = confirmPasswordField.value;
+        // Kiểm tra độ dài của mật khẩu
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long.");
+            // Reset cả 2 trường mật khẩu
+            passwordField.value = "";
+            confirmPasswordField.value = "";
+            return false; // Dừng form submit
+        }
 
+        // Kiểm tra mật khẩu và mật khẩu xác nhận có trùng nhau không
         if (password !== confirmPassword) {
             alert("Passwords do not match. Please try again.");
+            // Reset cả 2 trường mật khẩu
+            passwordField.value = "";
+            confirmPasswordField.value = "";
+            return false; // Dừng form submit
+        }
+
+
+        return true;
+    }
+    function validateEmail() {
+        var emailField = document.getElementById("email");
+        var email = emailField.value;
+        // Biểu thức chính quy kiểm tra định dạng email
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/;
+
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            emailField.value = "";
             return false;
         }
 
         return true;
     }
+    function validatePhone() {
+        var phoneField = document.getElementById("Phone");
+        var phone = phoneField.value;
+        var phonePattern = /^[0-9]{10}$/; // Giả sử yêu cầu 10 số
+
+        if (!phonePattern.test(phone)) {
+            alert("Please enter a valid 10-digit phone number.");
+            phoneField.value = "";
+            return false;
+        }
+
+        return true;
+    }
+    function validatePasswordStrength() {
+        var passwordField = document.getElementById("password");
+        var password = passwordField.value;
+        var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@@#$%^&+=!]).{6,}$/;
+
+        if (!passwordPattern.test(password)) {
+            alert("Password must be at least 6 characters long and include a number, a lowercase letter, an uppercase letter, and a special character.");
+            passwordField.value = "";
+            return false;
+        }
+
+        return true;
+    }
+
+    document.getElementById("username-error").innerHTML = "Username already exists!";
+
 </script>

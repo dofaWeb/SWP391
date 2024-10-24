@@ -24,7 +24,7 @@ namespace SWP391_FinalProject.Helpers
                             + "<p><strong>Address:</strong> " + user.Address + "</p>"
                             + "<p><strong>State:</strong> Pending</p>"
                             + "<p><strong>Date:</strong> " + DateTime.Now.TimeOfDay + "</p>"
-                            + "<p><strong>Use Point:</strong> " + order.UsePoint.ToString("N0") + "</p>"
+                            + "<p><strong>Use Point:</strong> " + order.UsePoint + "</p>"
                             + "<p><strong>Earn Point:</strong> " + ((totalPrice ?? 0) / 1000).ToString("N0") + "</p>"
                             + "<h4>Product Items</h4>"
                             + "<table border='1' cellpadding='5' cellspacing='0' style='width:100%; border-collapse:collapse;'>"

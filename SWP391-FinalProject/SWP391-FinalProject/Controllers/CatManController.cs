@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Repository;
+using System.Text.RegularExpressions;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -60,6 +61,11 @@ namespace SWP391_FinalProject.Controllers
             Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
             catManRepo.AddCategory(Name, CategoryType);
             TempData["SuccessMessage"] = "Category added successfully.";
+            if(Regex.IsMatch(Name, @"\d"))
+            {
+                TempData["ErrorMessage"] = "Category added fail.";
+                return View("AddCategory");
+            }
 
             // Redirect to the appropriate view or return success message
             return RedirectToAction("Display");

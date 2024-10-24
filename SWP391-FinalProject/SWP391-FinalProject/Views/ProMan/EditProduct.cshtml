@@ -204,6 +204,12 @@
         {
             <button class="btn btn-dark" id="importGoodsBtn">Import Goods</button>
         }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
         <!-- Table for Product Variations (CRUD) -->
         <table class="table table-bordered mt-4">
             <thead>
@@ -257,6 +263,7 @@
 
 <!-- Add Panels -->
 <div id="addPanel">
+
     <span class="close-btn" onclick="closeAddPanel()">×</span>
     <h4>Add Variation</h4>
     <form asp-asp-controller="ProMan" asp-action="AddProItem" method="post" id="addForm">

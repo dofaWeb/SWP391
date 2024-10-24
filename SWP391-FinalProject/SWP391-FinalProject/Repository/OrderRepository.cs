@@ -90,7 +90,8 @@ namespace SWP391_FinalProject.Repository
             db.SaveChanges();
 
             InsertOrderItem(listProItem, newOrder.Id);
-            UpdateUserPoint(username, newOrder.UsePoint);
+            UserRepository userRepo = new UserRepository();
+            userRepo.UpdateUserPoint(username, newOrder.StateId, newOrder.UsePoint, newOrder.EarnPoint);
         }
 
         public void InsertOrderItem(List<ProductItemModel> listProItem, string orderID)
@@ -110,14 +111,7 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
-        void UpdateUserPoint(string username, decimal? UserPoint)
-        {
-            UserRepository userRepo = new UserRepository();
-            UserModel user = userRepo.GetUserProfileByUsername(username);
-            user.Point -= UserPoint.HasValue ? (int)UserPoint.Value : 0;
-            userRepo.UpdateUser(user);
-            db.SaveChanges();
-        }
+        
 
         public List<OrderModel> GetAllOrder()
         {
@@ -215,6 +209,7 @@ namespace SWP391_FinalProject.Repository
             var order = db.Orders.Where(p => p.Id == OrderId).FirstOrDefault();
             order.StateId = orderStateId;
             db.SaveChanges();
+
         }
 
         public List<OrderItemModel> GetOrderItemByOrderId(string OrderId)

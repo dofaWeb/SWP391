@@ -4,6 +4,9 @@ using SWP391_FinalProject.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using SWP391_FinalProject.Helpers;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -131,10 +134,40 @@ namespace SWP391_FinalProject.Repository
                               Account = new AccountModel
                               {
                                   Password = a.Password,
+                                  Email=a.Email,
+                                  RoleId=a.RoleId,
+                                 
                               },
+                              Salary=s.Salary
                           }).FirstOrDefault();
 
             return result;
+        }
+        public void UpdateStaff(Models.StaffModel staff)
+        {
+            var existingStaff= db.Staff.FirstOrDefault(s => s.AccountId == staff.Id);
+            
+            if (existingStaff != null) {
+                if (staff.Name != null)
+                {
+                    existingStaff.Name = staff.Name;
+                }
+                if (staff.Account.Password != null) {
+                    AccountRepository accRepo = new AccountRepository();
+                    AccountModel Acc = accRepo.GetStaffByUsernameOrEmail("tek83522@gmail.com");
+                  
+
+
+               
+                    Acc.Password = staff.Account.Password;
+                    accRepo.ResetPassword(Acc);
+
+
+                }
+                db.SaveChanges();
+            }
+
+            
         }
         private DateOnly GetMondayOfWeek(DateOnly date)
         {

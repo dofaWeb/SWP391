@@ -204,7 +204,7 @@ namespace SWP391_FinalProject.Repository
                                join pi in db.ProductItems on p.Id equals pi.ProductId
                                join oi in db.OrderItems on pi.Id equals oi.ProductItemId
                                join o in db.Orders on oi.OrderId equals o.Id
-                               where o.StateId == 2
+                               where o.StateId == 2 && p.StateId  == 1
                                group p by new { p.Id, p.Name } into g
                                select new
                                {

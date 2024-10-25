@@ -11,7 +11,7 @@ namespace SWP391_FinalProject.Controllers
 {
     public class StaffManController : Controller
     {
-        public IActionResult Display()
+        public IActionResult Index()
         {
             StaffRepository staffRepository = new StaffRepository();
             var staff = staffRepository.GetAllStaff();

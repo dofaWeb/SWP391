@@ -333,12 +333,13 @@
     <h1>Staff List Management</h1>
 
     <form asp-controller="StaffMan" asp-action="CreateAccount" method="post">
+        <h4 style="color:red">@TempData["Error"]</h4>
         <input type="text" name="StaffEmail" placeholder="Enter Email" />
         <input type="submit" value="Add" class="btn btn-success" />
     </form>
     <div class="form-group">
         <label for="searchInput">Search Order</label>
-        <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
+        <input type="text" class="form-control" id="searchInput" placeholder="Enter name">
     </div>
     <table class="StaffList" id="staff-table">
         <thead>

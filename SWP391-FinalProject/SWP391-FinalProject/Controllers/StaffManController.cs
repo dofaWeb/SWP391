@@ -42,18 +42,27 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult CreateAccount(string StaffEmail)
         {
             string password = GenerateRandomString(10);
-            MailUtil.SendRegisterStaffEmail(StaffEmail, StaffEmail, password);
+            
             AccountRepository accRepo = new AccountRepository();
-            accRepo.AddStaffAccount(new Models.AccountModel
+            AccountModel acc = accRepo.GetUserByUsernameOrEmail(StaffEmail);
+            if (acc == null)
             {
-                Name = StaffEmail,
-                Email = StaffEmail,
-                Password = password,
-            });
-
-
-            return RedirectToAction("Display");
+                accRepo.AddStaffAccount(new Models.AccountModel
+                {
+                    Name = StaffEmail,
+                    Email = StaffEmail,
+                    Password = password,
+                });
+                MailUtil.SendRegisterStaffEmail(StaffEmail, StaffEmail, password);
+                return RedirectToAction("Display");
+            }
+            else
+            {
+                TempData["Error"] = "This email already exists!";
+                return RedirectToAction("Display");
+            }
         }
+
         [HttpPost]
         public IActionResult EditStaffProfile(StaffModel staff)
         {

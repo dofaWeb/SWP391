@@ -172,15 +172,36 @@ namespace SWP391_FinalProject.Repository
                            where account.Username == key || account.Email == key
                            select new Models.AccountModel
                            {
+                               Id = account.Id ??"",
+                               Username = account.Username ?? "",
+                               Password = account.Password ?? "",
+                               Email = account.Email ?? "",
+                               Phone = account.Phone ?? "",
+                               Name = u.Name ?? "",
+                               RoleId = account.RoleId ?? "",
+                               Status = (account.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
+                               RoleName = role.Name ?? "" // Assuming RoleName is the column you want
+                           }).FirstOrDefault();
+
+            return userVar;
+        }
+        public Models.AccountModel GetStaffByUsernameOrEmail(string key)
+        {
+            var userVar = (from account in db.Accounts
+                           join role in db.RoleNames on account.RoleId equals role.Id
+                          
+                           where account.Username == key || account.Email == key
+                           select new Models.AccountModel
+                           {
                                Id = account.Id,
                                Username = account.Username,
-                               Password = account.Password,
+                               Password = account.Password ,
                                Email = account.Email,
-                               Phone = account.Phone,
-                               Name = u.Name,
+                               Phone = "",
+                               
                                RoleId = account.RoleId,
                                Status = (account.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
-                               RoleName = role.Name // Assuming RoleName is the column you want
+                               RoleName = role.Name  // Assuming RoleName is the column you want
                            }).FirstOrDefault();
 
             return userVar;

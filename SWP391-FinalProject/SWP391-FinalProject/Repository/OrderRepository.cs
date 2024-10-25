@@ -219,6 +219,7 @@ namespace SWP391_FinalProject.Repository
                         join pi in db.ProductItems on oi.ProductItemId equals pi.Id
                         join p in db.Products on pi.ProductId equals p.Id
                         join o in db.Orders on oi.OrderId equals o.Id
+                        where o.Id == OrderId
                         select new OrderItemModel
                         {
                             Product = new ProductModel

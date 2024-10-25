@@ -44,6 +44,12 @@
 
 <!-- Main Content Area -->
 <div class="content">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
     <h2>Add New Category</h2>
 
     <form asp-controller="CatMan" asp-action="AddCategory" method="post" enctype="multipart/form-data">
@@ -57,7 +63,7 @@
         <div class="form-group">
             <label for="category">Category:</label>
             <select class="form-control" name="CategoryType" id="category" required>
-                <option value="">Select Category</option>
+                <option value="" disabled selected>Select Category</option>
                 <option value="laptop">Laptop</option>
                 <option value="phone">Smartphone</option>
             </select>
@@ -66,5 +72,7 @@
         <button type="submit" class="btn btn-primary">Add Category</button>
         <a asp-controller="CatMan" asp-action="Display" class="btn btn-danger">Cancel</a>
     </form>
+
+
 </div>
 

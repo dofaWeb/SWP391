@@ -8,7 +8,7 @@ namespace SWP391_FinalProject.Controllers
     public class Order : Controller
     {
         [HttpPost]
-        public IActionResult Checkout(int Point, string Username)
+        public IActionResult Checkout(int Point, string Username, string Province, string District, string Address)
         {
             OrderModel order = new OrderModel();
             OrderRepository orderRepo = new OrderRepository();
@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.Controllers
             UserModel user = userRepo.GetUserProfileByUsername(Username);
             order.UserId = user.Account.Id;
             order.UsePoint = Point;
-            order.Addres = user.Province + " ," + user.District + " ," + user.Address;
+            order.Addres = Province + " ," + District + " ," + Address;
             string Resultcookie = Request.Cookies["CartCookie"] ?? "";
             string[] tmp = Resultcookie.Split('=');
             int sizeOfCookie = tmp.Length;

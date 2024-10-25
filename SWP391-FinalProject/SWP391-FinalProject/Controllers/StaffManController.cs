@@ -5,6 +5,7 @@ using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Repository;
 using SWP391_FinalProject.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SWP391_FinalProject.Controllers
 {
@@ -52,6 +53,15 @@ namespace SWP391_FinalProject.Controllers
 
 
             return RedirectToAction("Display");
+        }
+        [HttpPost]
+        public IActionResult EditStaffProfile(StaffModel staff)
+        {
+            StaffRepository staffRepo = new StaffRepository();
+            staffRepo.UpdateStaff(staff);
+
+
+            return RedirectToAction("StaffSetting", new { username = staff.Account.Email });
         }
 
         [HttpGet]

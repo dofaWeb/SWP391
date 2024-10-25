@@ -196,6 +196,56 @@ namespace SWP391_FinalProject.Repository
 
             return minPriceProductItem;
         }
+
+        public List<Models.ProductModel> GetTopSellingProduct()
+        {
+            // Get top 4 best-selling products where the order state is approved (state_id = 2)
+            var topProducts = (from p in db.Products
+                               join pi in db.ProductItems on p.Id equals pi.ProductId
+                               join oi in db.OrderItems on pi.Id equals oi.ProductItemId
+                               join o in db.Orders on oi.OrderId equals o.Id
+                               where o.StateId == 2
+                               group p by new { p.Id, p.Name } into g
+                               select new
+                               {
+                                   ProductId = g.Key.Id,
+                                   ProductName = g.Key.Name,
+                                   TotalPurchases = g.Count()
+                               })
+                              .OrderByDescending(x => x.TotalPurchases)
+                              .Take(4)
+                              .ToList();
+
+            // Query to get all products and related data (category, state, quantity)
+            var query = from p in db.Products
+                        join c in db.Categories on p.CategoryId equals c.Id
+                        join ps in db.ProductStates on p.StateId equals ps.Id
+                        where topProducts.Select(tp => tp.ProductId).Contains(p.Id) // Only include top products
+                        select new Models.ProductModel
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Picture = p.Picture,
+                            Quantity = (db.ProductItems
+                                        .Where(pi => pi.ProductId == p.Id)
+                                        .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
+                            CategoryName = c.Name,
+                            ProductState = ps.Name
+                        };
+
+            // Execute the query
+            var result = query.ToList();
+
+            // Get minimum price for each product
+            foreach (var item in result)
+            {
+                item.ProductItem = GetMinPrice(item.Id); // Assuming this method gets the minimum price
+            }
+
+            return result;
+        }
+
         public List<Models.ProductModel> GetAllProduct()
         {
             var query = from p in db.Products

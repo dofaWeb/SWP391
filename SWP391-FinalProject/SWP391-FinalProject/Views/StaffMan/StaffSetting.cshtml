@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "StaffSetting";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@model SWP391_FinalProject.Models.StaffModel;
+
+<head>
+    <style>
+        .profile-header {
+            margin-bottom: 20px;
+        }
+
+        .profile-info {
+            margin-top: 20px;
+        }
+
+        .address-section {
+            margin-top: 20px;
+        }
+
+        .default-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .action-btns {
+            margin-left: 10px;
+        }
+
+        .address-form {
+            margin-bottom: 15px;
+        }
+
+        .set-default {
+            cursor: pointer;
+            color: green;
+        }
+
+        .remove-address {
+            cursor: pointer;
+            color: red;
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<!-- Header -->
+
+<form asp-action="EditStaffProfile" asp-controller="StaffMan" method="post">
+
+
+    <div class="container mt-4 profile-info">
+       
+        <h3>Staff Information</h3>
+        <table class="table table-bordered">
+            <tbody>
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="Account.RoleId" value="@Model.Account.RoleId" />
+                <tr>
+                    <th scope="row">Email</th>
+                    <td><input type="email" class="form-control" value="@Model.Account.Email" name="Account.Email" readonly></td>
+                </tr>
+                <tr>
+                    <th scope="row">Name</th>
+                    <td><input type="text" class="form-control" value="@Model.Name" name="Name"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Salary</th>
+                    <td><input type="text" class="form-control" value="@String.Format("{0:N0}", @Model.Salary) VND" name="Salary" readonly></td>
+                </tr>
+
+
+                <tr>
+                    <th scope="row">Password</th>
+                    <td><input type="text" class="form-control"  name="Account.Password" ></td>
+                </tr>
+
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+</form>
+

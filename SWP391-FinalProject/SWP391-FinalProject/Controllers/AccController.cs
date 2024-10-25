@@ -192,6 +192,25 @@ namespace SWP391_FinalProject.Controllers
             }
         }
 
+        public bool CheckLoginCookie()
+        {
+            string cookie = HttpContext.Request.Cookies["Username"];
+            return cookie != null && cookie.Length > 0;
+        }
+
+        public async Task<IActionResult> CheckIsLogin()
+        {
+            if (HttpContext.Session.GetString("Username") == null)
+            {
+                if (CheckLoginCookie())
+                {
+                    HttpContext.Session.SetString("Username", HttpContext.Request.Cookies["Username"]);
+                    return RedirectToAction("LoginWithCookie", "Acc", new { username = HttpContext.Request.Cookies["Username"] });
+                }
+            }
+            return RedirectToAction("Index", "Pro");
+        }
+
         
 
         [HttpPost]

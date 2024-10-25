@@ -7287,39 +7287,23 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
     "C:\\Users\\NHAT\\.nuget\\packages\\": {},
-=======
-    "C:\\Users\\msi\\.nuget\\packages\\": {},
->>>>>>> 0fe8f1fe83edb79f3f9ed01f176ccd78d545ee93
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
       "projectName": "SWP391-FinalProject",
       "projectPath": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
       "packagesPath": "C:\\Users\\NHAT\\.nuget\\packages\\",
       "outputPath": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
-=======
-      "projectUniqueName": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
-      "projectName": "SWP391-FinalProject",
-      "projectPath": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\SWP391-FinalProject.csproj",
-      "packagesPath": "C:\\Users\\msi\\.nuget\\packages\\",
-      "outputPath": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\",
->>>>>>> 0fe8f1fe83edb79f3f9ed01f176ccd78d545ee93
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-<<<<<<< HEAD
         "C:\\Users\\NHAT\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
-        "C:\\Users\\msi\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> 0fe8f1fe83edb79f3f9ed01f176ccd78d545ee93
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -7408,8 +7392,16 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

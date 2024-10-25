@@ -103,7 +103,7 @@ namespace SWP391_FinalProject
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Pro}/{action=Index}/{id?}");
+                pattern: "{controller=Acc}/{action=CheckIsLogin}/{id?}");
 
             app.Run();
         }

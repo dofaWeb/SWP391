@@ -71,6 +71,7 @@ namespace SWP391_FinalProject.Controllers
         {
             ProductRepository proRepo = new ProductRepository();
             proRepo.AddProduct(model, pictureUpload);
+            TempData["SuccessMessage"] = "Category added successfully.";
             return RedirectToAction("Display");
         }
 
@@ -104,7 +105,7 @@ namespace SWP391_FinalProject.Controllers
         {
 
             ProductItemRepository proRepo = new ProductItemRepository();
-
+            TempData["SuccessMessage"] = "Product item added successfully.";
             proRepo.AddProductItem(model);
             return RedirectToAction("EditProduct", new { id = model.ProductId });
         }

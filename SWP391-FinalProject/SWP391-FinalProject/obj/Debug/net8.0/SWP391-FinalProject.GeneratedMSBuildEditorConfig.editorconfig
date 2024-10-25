@@ -190,7 +190,17 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZNYW5cU3RhZmZTZXR0aW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Statistics/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGlzdGljc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Statistics/OrderStat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGlzdGljc1xPcmRlclN0YXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
+
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlck1hblxEaXNwbGF5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 

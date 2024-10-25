@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PagedList.Core;
 using System.Text;
 using System;
 using SWP391_FinalProject.Helpers;
@@ -6,16 +7,35 @@ using SWP391_FinalProject.Repository;
 using SWP391_FinalProject.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SWP391_FinalProject.Controllers
 {
     public class StaffManController : Controller
     {
-        public IActionResult Index()
+        public IActionResult StaffList(string date = "21/10/2024", int? page = 1)
         {
-            StaffRepository staffRepository = new StaffRepository();
-            var staff = staffRepository.GetAllStaff();
-            return View(staff);
+            StaffRepository staffrepo = new StaffRepository();
+
+            var staff = staffrepo.GetAllStaff();
+
+            var shifts = staffrepo.GetShiftData(date); // Get shift data
+
+            int pageSize = 5; // Number of items per page
+            int pageNumber = page ?? 1; // Current page number
+
+            // Paginate the shift data
+            var pagedShifts = shifts.AsQueryable().ToPagedList(pageNumber, pageSize);
+
+            // Store pagination information in ViewBag
+            ViewBag.PageCount = pagedShifts.PageCount;
+            ViewBag.PageNumber = pagedShifts.PageNumber;
+            ViewBag.HasPreviousPage = pagedShifts.HasPreviousPage;
+            ViewBag.HasNextPage = pagedShifts.HasNextPage;
+
+            ViewBag.Shift = pagedShifts; // Pass the paginated list to the view
+
+            return View(staff); // Render the view
         }
 
         public static string GenerateRandomString(int length)

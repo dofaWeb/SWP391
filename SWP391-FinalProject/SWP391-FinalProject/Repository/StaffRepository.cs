@@ -134,31 +134,33 @@ namespace SWP391_FinalProject.Repository
                               Account = new AccountModel
                               {
                                   Password = a.Password,
-                                  Email=a.Email,
-                                  RoleId=a.RoleId,
-                                 
+                                  Email = a.Email,
+                                  RoleId = a.RoleId,
+
                               },
-                              Salary=s.Salary
+                              Salary = s.Salary
                           }).FirstOrDefault();
 
             return result;
         }
         public void UpdateStaff(Models.StaffModel staff)
         {
-            var existingStaff= db.Staff.FirstOrDefault(s => s.AccountId == staff.Id);
-            
-            if (existingStaff != null) {
+            var existingStaff = db.Staff.FirstOrDefault(s => s.AccountId == staff.Id);
+
+            if (existingStaff != null)
+            {
                 if (staff.Name != null)
                 {
                     existingStaff.Name = staff.Name;
                 }
-                if (staff.Account.Password != null) {
+                if (staff.Account.Password != null)
+                {
                     AccountRepository accRepo = new AccountRepository();
                     AccountModel Acc = accRepo.GetStaffByUsernameOrEmail("tek83522@gmail.com");
-                  
 
 
-               
+
+
                     Acc.Password = staff.Account.Password;
                     accRepo.ResetPassword(Acc);
 
@@ -167,7 +169,7 @@ namespace SWP391_FinalProject.Repository
                 db.SaveChanges();
             }
 
-            
+
         }
         private DateOnly GetMondayOfWeek(DateOnly date)
         {
@@ -280,37 +282,20 @@ namespace SWP391_FinalProject.Repository
 
         public List<ShiftSchdeduleModel> GetShiftData(string weekStartDate)
         {
-            var startDate = DateOnly.Parse(weekStartDate);
-            var endDate = startDate.AddDays(4); // Monday to Friday
-
-            // Query for morning shifts
-            var shiftsMorning = db.StaffShifts
-                .Where(shift => shift.Date >= startDate && shift.Date <= endDate)
-                .Where(shift => shift.Shift == "Morning")
+            var shifts = db.StaffShifts
+                .OrderBy(shift => shift.Date) // First order by Date
+                .ThenBy(shift => shift.Shift == "morning" ? 0 : 1) // Sort morning shifts before afternoon
+                .Include(shift => shift.Staff) // Include the Staff relation
                 .Select(shift => new ShiftSchdeduleModel
                 {
                     Date = shift.Date.HasValue ? shift.Date.Value.ToString("yyyy-MM-dd") : string.Empty,
                     Shift = shift.Shift,
                     StaffId = shift.StaffId,
-                    StaffName = shift.Staff.Name // Assuming Staff relationship exists
+                    StaffName = shift.Staff.Name
                 })
                 .ToList();
 
-            // Query for afternoon shifts
-            var shiftsAfternoon = db.StaffShifts
-                .Where(shift => shift.Date >= startDate && shift.Date <= endDate)
-                .Where(shift => shift.Shift == "Afternoon")
-                .Select(shift => new ShiftSchdeduleModel
-                {
-                    Date = shift.Date.HasValue ? shift.Date.Value.ToString("yyyy-MM-dd") : string.Empty,
-                    Shift = shift.Shift,
-                    StaffId = shift.StaffId,
-                    StaffName = shift.Staff.Name // Assuming Staff relationship exists
-                })
-                .ToList();
 
-            // Merge both lists
-            var shifts = shiftsMorning.Concat(shiftsAfternoon).ToList();
 
             return shifts;
         }

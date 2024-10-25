@@ -81,7 +81,7 @@ namespace SWP391_FinalProject.Repository
                 UserId = Order.UserId,
                 Address = Order.Addres,
                 StateId = 1,
-                Date = DateTime.Today,
+                Date = DateTime.Now,
                 UsePoint = (decimal)(Order.UsePoint ?? Order.UsePoint),
                 EarnPoint = TotalPrice / 1000,
                 StaffShiftId = Order.StaffShiftId

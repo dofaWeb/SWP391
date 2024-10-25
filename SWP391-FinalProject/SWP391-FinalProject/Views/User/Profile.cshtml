@@ -60,7 +60,10 @@
 
     <div class="edit-btn">
         <a asp-action="EditProfile" asp-controller="User" asp-route-username="@User.FindFirst("Username")?.Value" class="btn btn-primary">Edit Profile</a>
-        <a asp-action="ChangePassword" asp-controller="User" class="btn btn-warning">Change Password</a>
+        @if (ViewBag.IsLoginWithGoogle == false)
+        {
+            <a asp-action="ChangePassword" asp-controller="User" class="btn btn-warning">Change Password</a>
+        }
         <a asp-controller="Acc" asp-action="Logout" class="btn btn-danger">Logout</a>
     </div>
 </div>

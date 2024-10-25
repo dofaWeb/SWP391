@@ -16,7 +16,11 @@ namespace SWP391_FinalProject.Controllers
             Repository.UserRepository userRepo = new Repository.UserRepository();
             UserModel user = new UserModel();
             user = userRepo.GetUserProfileByUsername(username);
-
+            bool IsLoginWithGoogle = false;
+            if (user.Account.Password.Equals(Helpers.MySetting.GetMd5Hash(""))){
+                IsLoginWithGoogle = true;
+            }
+            ViewBag.IsLoginWithGoogle = IsLoginWithGoogle;
             return View(user);
 
         }

@@ -21,7 +21,7 @@ namespace SWP391_FinalProject.Helpers
             // Cấu trúc email body với bảng HTML
             string _body = "<h3>Order Information</h3>"
                             + "<p><strong>Name:</strong> " + user.Name + "</p>"
-                            + "<p><strong>Address:</strong> " + user.Address + "</p>"
+                            + "<p><strong>Address:</strong> " + order.Addres+ "</p>"
                             + "<p><strong>State:</strong> Pending</p>"
                             + "<p><strong>Date:</strong> " + DateTime.Now.TimeOfDay + "</p>"
                             + "<p><strong>Use Point:</strong> " + order.UsePoint + "</p>"

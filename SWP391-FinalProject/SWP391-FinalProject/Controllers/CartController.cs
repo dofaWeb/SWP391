@@ -75,7 +75,7 @@ namespace SWP391_FinalProject.Controllers
                     string[] eachCookie = tmp[i].Split('/');
                     if (eachCookie[0] == proItem.Id)
                     {
-                        if (int.Parse(eachCookie[5]) + 1 <= int.Parse(eachCookie[6]) || int.Parse(eachCookie[5]) < 5)
+                        if (int.Parse(eachCookie[5]) + 1 <= int.Parse(eachCookie[6]) && int.Parse(eachCookie[5]) < 5)
                         {
                             int newQuantity = int.Parse(eachCookie[5]) + 1;
                             eachCookie[5] = newQuantity + "";

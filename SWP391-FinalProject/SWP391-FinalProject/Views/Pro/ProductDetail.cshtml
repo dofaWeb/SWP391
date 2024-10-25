@@ -67,10 +67,10 @@
     }
 
 </style>
-
+@{var defaultOptionValue = "";}
 <div class="container mt-4">
     <form asp-controller="Cart" asp-action="AddToCart">
-        @{var defaultOptionValue = "";}
+        
         <div class="row">
             <div class="col-md-12 mb-3">
                 <!-- Top-left position -->
@@ -315,7 +315,6 @@ else
         const ratingValue = document.getElementById('rating-value');
         const productId = '@Model.Id'; // Use Razor to inject the correct product item ID dynamically.
         const username = '@User.FindFirst("Username")?.Value'; // Get the logged-in user's username from the Razor view.
-
         stars.forEach(star => {
             star.addEventListener('click', function () {
                 const selectedValue = this.getAttribute('data-value');

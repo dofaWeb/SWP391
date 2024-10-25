@@ -128,23 +128,18 @@ namespace SWP391_FinalProject.Controllers
             ViewBag.brand = brand;
             return View();
         }
+
         [HttpPost]
         public void Rating([FromBody] RatingModel Rating)
         {
             if (Rating != null)
             {
-                
+
                 ProductRepository productRepo = new ProductRepository();
                 RatingRepository ratingRepo = new RatingRepository();
                 ratingRepo.InsertOrUpdateRating(Rating);
             }
         }
-
-
-        
-
-
-
     }
 
 }

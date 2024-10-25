@@ -90,6 +90,7 @@ namespace SWP391_FinalProject.Repository
 
         public void AddStaffAccount(AccountModel model)
         {
+            AccountRepository AccRepo = new AccountRepository();
             string id = GetNewId();
             string md5Password = MySetting.GetMd5Hash(model.Password);
             var newAccount = new Entities.Account()

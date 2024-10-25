@@ -98,7 +98,7 @@ namespace SWP391_FinalProject.Repository
                     Status = (p.Account.IsActive == ulong.Parse("1")) ? "Available" : "Unavailable"
                 },
                 TotalHourWorked = totalHoursWorked.ContainsKey(p.AccountId) ? totalHoursWorked[p.AccountId] : 0,
-                TotalPay = (totalHoursWorked.ContainsKey(p.AccountId) ? totalHoursWorked[p.AccountId] : 0) * p.Salary,
+                
                 TotalOrders = totalOrders.ContainsKey(p.AccountId) ? totalOrders[p.AccountId] : 0,
                 AvgOrder = totalOrders.ContainsKey(p.AccountId) && totalHoursWorked.ContainsKey(p.AccountId)
                            ? (double)totalOrders[p.AccountId] / (totalHoursWorked[p.AccountId] / 5)
@@ -115,13 +115,14 @@ namespace SWP391_FinalProject.Repository
             return result;
         }
 
-        // Helper function to check if two dates belong to the same week
-        private bool IsSameWeek(DateOnly date1, DateOnly date2)
+        public void UpdateShift(string shiftId, string staffId)
         {
-            var startOfWeek1 = GetMondayOfWeek(date1);
-            var startOfWeek2 = GetMondayOfWeek(date2);
-            return startOfWeek1 == startOfWeek2;
+            var shift = db.StaffShifts.Where(p => p.Id == shiftId).FirstOrDefault();
+            shift.StaffId = staffId;
+            db.SaveChanges();
         }
+
+        
         public StaffModel GetStaffbyUserName(string userName)
         {
             var result = (from s in db.Staff
@@ -184,111 +185,16 @@ namespace SWP391_FinalProject.Repository
             return id;
         }
 
-        public void EditShiftDate(ShiftDataModel model)
-        {
-
-            DateTime currentDate = DateTime.Today; // Get today's date
-
-            foreach (var item in model.Shifts)
-            {
-                // Parse the date string from the ShiftModel to a DateTime object
-                DateTime shiftDate = DateTime.Parse(item.Date); // Assumes the date is in "YYYY-MM-DD" format
-                if (shiftDate > currentDate)
-                {
-                    string id = GetShiftIdByDateAndShift(DateOnly.Parse(item.Date), item.Shift);
-                    if (id != null && item.StaffId != "Select the staff")
-                    {
-                        var newShiftRecord = new Entities.StaffShift
-                        {
-                            Id = id,
-                            StaffId = GetStaffIdByName(item.StaffId),
-                            Shift = item.Shift,
-                            Date = DateOnly.Parse(item.Date), // Handle DateOnly correctly
-                            HourlyRate = model.HourlyRate
-                        };
-                        db.StaffShifts.Update(newShiftRecord);
-                    }
-                }
-            }
-            db.SaveChanges();
-        }
-
-        public string SaveShiftData(ShiftDataModel data)
-        {
-            // Log start of save operation
-
-
-            // Get the earliest shift date (start of the week)
-            var shiftDates = data.Shifts.Select(shift => DateOnly.Parse(shift.Date));
-            var weekStartDate = GetMondayOfWeek(shiftDates.Min());
-
-            // Check if shifts already exist
-            bool shiftsExist = db.StaffShifts
-                .Where(s => shiftDates.Contains(s.Date.Value))
-                .Any();
-
-            if (shiftsExist)
-            {
-                return ("Shifts for this week already exist in the database.");
-            }
-
-            // Generate IDs and create new shift records
-            string lastId = db.StaffShifts
-                .OrderByDescending(a => a.Id)
-                .Select(a => a.Id)
-                .FirstOrDefault() ?? "S0000000";
-
-            int currentNumber = int.Parse(lastId.Substring(1));
-            List<Entities.StaffShift> newShiftRecords = new List<Entities.StaffShift>();
-
-            foreach (var shift in data.Shifts)
-            {
-                currentNumber++;
-                string newId = $"S{currentNumber:D7}";
-
-                var newShiftRecord = new Entities.StaffShift
-                {
-                    Id = newId,
-                    StaffId = GetStaffIdByName(shift.StaffId),
-                    Shift = shift.Shift,
-                    HourlyRate = data.HourlyRate,
-                    Date = DateOnly.Parse(shift.Date) // Handle DateOnly correctly
-                };
-
-                newShiftRecords.Add(newShiftRecord);
-            }
-
-            // Insert new records and save changes
-            db.StaffShifts.AddRange(newShiftRecords);
-            db.SaveChanges(); // Uncomment this line to actually save the changes
-            return "Save successfully";
-        }
-
-        public string GetStaffNameById(string id)
-        {
-            var name = db.Staff.Where(p => p.AccountId == id).Select(p => p.Name).FirstOrDefault();
-            return name;
-        }
-
-        public dynamic GetAllStaffUpdate()
-        {
-            var staffList = db.Staff.Select(s => new
-            {
-                Id = s.AccountId,
-                Name = s.Name
-            }).ToList();
-            return staffList;
-        }
-
         public List<ShiftSchdeduleModel> GetShiftData(string weekStartDate)
         {
             var shifts = db.StaffShifts
-                .OrderBy(shift => shift.Date) // First order by Date
+                .OrderByDescending(shift => shift.Date) // First order by Date
                 .ThenBy(shift => shift.Shift == "morning" ? 0 : 1) // Sort morning shifts before afternoon
                 .Include(shift => shift.Staff) // Include the Staff relation
                 .Select(shift => new ShiftSchdeduleModel
                 {
-                    Date = shift.Date.HasValue ? shift.Date.Value.ToString("yyyy-MM-dd") : string.Empty,
+                    Id = shift.Id,
+                    Date = shift.Date,
                     Shift = shift.Shift,
                     StaffId = shift.StaffId,
                     StaffName = shift.Staff.Name
@@ -300,7 +206,27 @@ namespace SWP391_FinalProject.Repository
             return shifts;
         }
 
+        public void AddShift(DateOnly date, string staffIdMoring, string staffIdAfternoon)
+        {
+            db.StaffShifts.Add(new StaffShift
+            {
+                Id = GetNewId(),
+                Date = date,
+                Shift = "Morning",
+                StaffId = staffIdMoring
+            });
 
+            db.SaveChanges();
+
+            db.StaffShifts.Add(new StaffShift
+            {
+                Id = GetNewId(),
+                Date = date,
+                Shift = "Afternoon",
+                StaffId = staffIdAfternoon
+            });
+            db.SaveChanges();
+        }
 
     }
 }

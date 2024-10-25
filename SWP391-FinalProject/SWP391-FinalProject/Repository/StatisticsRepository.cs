@@ -1,4 +1,5 @@
-﻿using SWP391_FinalProject.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 
 namespace SWP391_FinalProject.Repository
@@ -28,6 +29,24 @@ namespace SWP391_FinalProject.Repository
 
 
             return query.ToList();
+        }
+
+        public dynamic GetOrderStat()
+        {
+            var result = db.Orders
+                        .Where(o => o.StateId == 2) // Optional: Filter approved orders
+                        .GroupBy(o => new { Year = o.Date.Year, Month = o.Date.Month })
+                        .Select(g => new
+                        {
+                            Year = g.Key.Year,
+                            Month = g.Key.Month,
+                            TotalOrder = g.Sum(o => o.OrderItems.Sum(oi => oi.Quantity))
+                        })
+                        .OrderBy(r => r.Year)
+                        .ThenBy(r => r.Month)
+                        .ToList();
+
+            return result;
         }
 
     }

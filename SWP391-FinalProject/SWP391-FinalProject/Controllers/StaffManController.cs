@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PagedList.Core;
 using System.Text;
 using System;
 using SWP391_FinalProject.Helpers;
@@ -6,16 +7,39 @@ using SWP391_FinalProject.Repository;
 using SWP391_FinalProject.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SWP391_FinalProject.Controllers
 {
     public class StaffManController : Controller
     {
-        public IActionResult Display()
+        public IActionResult StaffList(string date = "21/10/2024", int? page = 1)
         {
-            StaffRepository staffRepository = new StaffRepository();
-            var staff = staffRepository.GetAllStaff();
-            return View(staff);
+            StaffRepository staffrepo = new StaffRepository();
+
+            var staff = staffrepo.GetAllStaff();
+
+            var shifts = staffrepo.GetShiftData(date); // Get shift data
+
+            int pageSize = 5; // Number of items per page
+            int pageNumber = page ?? 1; // Current page number
+
+            // Paginate the shift data
+            var pagedShifts = shifts.AsQueryable().ToPagedList(pageNumber, pageSize);
+
+            // Store pagination information in ViewBag
+            ViewBag.PageCount = pagedShifts.PageCount;
+            ViewBag.PageNumber = pagedShifts.PageNumber;
+            ViewBag.HasPreviousPage = pagedShifts.HasPreviousPage;
+            ViewBag.HasNextPage = pagedShifts.HasNextPage;
+
+            ViewBag.StaffList = staff.Where(p=>p.Account.Status== "Available").Select(s => new { s.Id, s.Name }).ToList();
+
+            ViewBag.Shift = pagedShifts; // Pass the paginated list to the view
+
+            ViewBag.shifts = shifts;
+
+            return View(staff); // Render the view
         }
 
         public static string GenerateRandomString(int length)
@@ -54,12 +78,12 @@ namespace SWP391_FinalProject.Controllers
                     Password = password,
                 });
                 MailUtil.SendRegisterStaffEmail(StaffEmail, StaffEmail, password);
-                return RedirectToAction("Display");
+                return RedirectToAction("StaffList");
             }
             else
             {
                 TempData["Error"] = "This email already exists!";
-                return RedirectToAction("Display");
+                return RedirectToAction("StaffList");
             }
         }
 
@@ -73,63 +97,20 @@ namespace SWP391_FinalProject.Controllers
             return RedirectToAction("StaffSetting", new { username = staff.Account.Email });
         }
 
-        [HttpGet]
-        public IActionResult GetShiftData(string weekStartDate)
+        [HttpPost]
+        public IActionResult EditShift(string shiftId, string staffId)
         {
             StaffRepository staffRepository = new StaffRepository();
-            try
-            {
-                var shifts = staffRepository.GetShiftData(weekStartDate);
-                return Json(new { success = true, shifts });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message });
-            }
-        }
-
-        public IActionResult GetAllStaff()
-        {
-            StaffRepository staffRepository = new StaffRepository();
-            var staffList = staffRepository.GetAllStaffUpdate();
-            return Json(new { success = true, staffList });
+            staffRepository.UpdateShift(shiftId, staffId);
+            return RedirectToAction("StaffList");
         }
 
         [HttpPost]
-        public IActionResult EditShiftDate([FromBody] ShiftDataModel date)
+        public IActionResult AddShift(DateOnly date, string staffIdMorning, string staffIdAfternoon)
         {
             StaffRepository staffRepository = new StaffRepository();
-            staffRepository.EditShiftDate(date);
-            try
-            {
-                return Json(new { success = true, message = "Save succefully" });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, error = ex.Message });
-            }
-        }
-
-        [HttpPost]
-        public IActionResult SaveShiftData([FromBody] ShiftDataModel data)
-        {
-            try
-            {
-                StaffRepository staffRepository = new StaffRepository();
-                var info = staffRepository.SaveShiftData(data);
-                if (info == "Save successfully")
-                {
-                    return Json(new { success = true, message = info });
-                }
-                else
-                {
-                    return Json(new { success = false, message = info });
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = "An unexpected error occurred: " + ex.Message });
-            }
+            staffRepository.AddShift(date, staffIdMorning, staffIdAfternoon);
+            return RedirectToAction("StaffList");
         }
 
     }

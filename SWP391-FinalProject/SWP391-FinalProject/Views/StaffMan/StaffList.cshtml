@@ -1,0 +1,278 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_AdminLayout";
+    var shifts = ViewBag.shifts as List<ShiftSchdeduleModel>; // Cast to the appropriate type
+    DateOnly? lastShiftDate = shifts?.Max(s => s.Date); // Use safe navigation operator
+    DateOnly? nextShiftDate = (lastShiftDate.HasValue ? lastShiftDate.Value.AddDays(1) : DateOnly.FromDateTime(DateTime.Now)); // Add 1 day
+}
+<style>
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 10px;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .pagination {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+        .pagination a, .pagination span {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .pagination .active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+</style>
+@using PagedList.Core.Mvc;
+@using PagedList.Core;
+@model IEnumerable<SWP391_FinalProject.Models.StaffModel>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+<div class="container mt-5">
+    <h1 class="text-center">Shift Schedule</h1>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
+    <table class="table table-bordered mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Staff Name</th>
+                <th>Date</th>
+                <th>Shift</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Shift)
+            {
+                var isPast = item.Date.ToDateTime(TimeOnly.MinValue) < DateTime.Now.Date;
+
+
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.StaffName</td>
+                    <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@item.Shift</td>
+                    <td>
+                        <button class="btn btn-primary edit-btn"
+                                data-id="@item.Id"
+                                data-toggle="modal"
+                                data-target="#editModal"
+                        @(isPast ? "disabled" : "")>
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            <li class="page-item @(ViewBag.Shift.HasPreviousPage ? "" : "disabled")">
+                <a class="page-link" href="@Url.Action("StaffList", new { page = ViewBag.Shift.PageNumber - 1 })">
+                    Previous
+                </a>
+            </li>
+            @for (int i = 1; i <= ViewBag.Shift.PageCount; i++)
+            {
+                <li class="page-item @(i == ViewBag.Shift.PageNumber ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("StaffList", new { page = i })">@i</a>
+                </li>
+            }
+            <li class="page-item @(ViewBag.Shift.HasNextPage ? "" : "disabled")">
+                <a class="page-link" href="@Url.Action("StaffList", new { page = ViewBag.Shift.PageNumber + 1 })">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Bootstrap Modal for Add -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="addShiftForm" asp-controller="StaffMan" asp-action="AddShift">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add Shift</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="form-group mt-3">
+                        <label for="dateInput">Date</label>
+                        <input type="date" class="form-control" id="dateInput" name="date" value="@nextShiftDate.Value.ToString("yyyy-MM-dd")" readonly />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="staffSelect">Select Staff for Morning shift</label>
+                        <select class="form-control" id="staffSelect" name="staffIdMorning">
+                            @foreach (var staff in ViewBag.StaffList)
+                            {
+                                <option value="@staff.Id">@staff.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="staffSelect">Select Staff for Afternoon shift</label>
+                        <select class="form-control" id="staffSelect" name="staffIdAfternoon">
+                            @foreach (var staff in ViewBag.StaffList)
+                            {
+                                <option value="@staff.Id">@staff.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary mt-3" value="Add Shift" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Modal for Edit -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Shift</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editShiftForm" asp-controller="StaffMan" asp-action="EditShift">
+                    <input type="hidden" id="shiftId" name="shiftId" />
+                    <div class="form-group">
+                        <label for="staffSelect">Select Staff</label>
+                        <select class="form-control" id="staffSelect" name="staffId">
+                            @foreach (var staff in ViewBag.StaffList)
+                            {
+                                <option value="@staff.Id">@staff.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <form asp-controller="StaffMan" asp-action="CreateAccount" method="post">
+        <h4 style="color:red">@TempData["Error"]</h4>
+        <input type="text" name="StaffEmail" placeholder="Enter Email" />
+        <input type="submit" value="Add" class="btn btn-success" />
+    </form>
+    <div class="form-group">
+        <label for="searchInput">Search Name</label>
+        <input type="text" class="form-control" id="searchInput" placeholder="Enter name">
+    </div>
+    Staff List
+    <table class="StaffList" id="staff-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Total Hours Worked</th>
+                <th>Total Orders</th>
+                <th>Avg Orders per Shift</th>
+                <th>Total Money Made</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.TotalHourWorked</td>
+                    <td>@item.TotalOrders</td>
+                    <td>@item.AvgOrder</td>
+                    <td>@item.TotalMoneyMade</td>
+                    <td>@item.Account.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    // When the edit button is clicked, populate the hidden input with the shift ID
+    document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const shiftId = this.getAttribute('data-id');
+            document.getElementById('shiftId').value = shiftId;
+        });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#staff-table tbody tr');
+        rows.forEach(row => {
+            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
+            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
+            if (nameCell.includes(filter) || idCell.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

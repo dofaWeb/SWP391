@@ -7,6 +7,8 @@ namespace SWP391_FinalProject.Helpers
     public class MySetting
     {
         public static string CLAIM_CUSTOMERID = "CustomerID";
+        public static string CLAIM_STAFFID = "StaffID";
+
 
         public static int Otp;
 

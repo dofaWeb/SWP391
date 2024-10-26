@@ -4,6 +4,7 @@
 @{
     Layout = "_AdminLayout";
 }
+@using System.Security.Claims
 @model IEnumerable<SWP391_FinalProject.Models.AccountModel>
 <style>
     .user-page-container {
@@ -34,7 +35,7 @@
     <h3>All Users</h3>
     <div class="form-group">
         <label for="searchInput">Search Users</label>
-        <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
+        <input type="text" class="form-control" id="searchInput" placeholder="Enter User by Username">
     </div>
     <table class="table table-bordered" id="userTable">
         <thead class="thead-dark">
@@ -59,19 +60,41 @@
                     <td>@item.RoleName</td>
                     <td><span class="badge badge-success">@item.Status</span></td>
                     <td class="action-buttons">
-                        @if (item.RoleName != "Admin")
+                        @if (item.RoleName == "User")
                         {
                             <a asp-action="ViewDetail" asp-controller="UserMan" asp-route-id="@item.Id" class="btn btn-info btn-sm">View</a>
-                            @if (item.Status == "Active")
+                        }
+                        @{
+                            var roleClaim = User.FindFirst(ClaimTypes.Role);
+                        }
+                        @if (@item.RoleName != "Admin")
+                        {
+                            @if (roleClaim.Value == "Role0002") //staff
                             {
-                                <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Ban</a>
+                                if (item.RoleName != "Staff")
+                                {
+                                    @if (item.Status == "Active")
+                                    {
+                                        <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Ban</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">UnBan</a>
+                                    }
+                                }
                             }
-                            else
+                            else if (roleClaim.Value == "Role0001") // admin
                             {
-                                <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">UnBan</a>
+                                @if (item.Status == "Active")
+                                {
+                                    <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Ban</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">UnBan</a>
+                                }
                             }
-
-                    }
+                        }
                     </td>
                 </tr>
             }

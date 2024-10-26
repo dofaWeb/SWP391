@@ -2,6 +2,9 @@
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 using System.Security.Cryptography.X509Certificates;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Xml.Linq;
+using Microsoft.Extensions.Primitives;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -111,8 +114,37 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
-        
 
+        public List<OrderModel> GetAllStaffOrder(string staffId)
+        {
+            var query = from o in db.Orders
+
+                        join u in db.Users on o.UserId equals u.Account.Id
+                        join ot in db.OrderStates on o.StateId equals ot.Id
+                        join ss in db.StaffShifts on o.StaffShiftId equals ss.Id
+                        where ss.StaffId == staffId
+                        select new OrderModel
+                        {
+                            Id = o.Id,
+                            UserId = o.UserId,
+                            Addres = o.Address,
+                            StateId = o.StateId,
+                            Date = o.Date,
+                            UsePoint = o.UsePoint,
+                            EarnPoint = o.EarnPoint ?? 0,
+                            StaffShiftId = o.StaffShiftId,
+
+                            //Quantity = oi.Quantity,
+                            //Price = oi.Price,
+                            //Discount = oi.Discount,
+                            User = new UserModel() { Name = u.Name },
+
+                            OrderState = new OrderState() { Name = ot.Name }
+
+                        };
+            var result = query.ToList();
+            return result;
+        }
         public List<OrderModel> GetAllOrder()
         {
             var query = from o in db.Orders

@@ -1,8 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-
+﻿@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -16,3 +12,7 @@
         <a href="#" class="nav-item nav-link text-white" style="background-color: transparent">Profit</a>
     </div>
 </nav>
+
+<div class="container mt-4">
+    @RenderBody() <!-- Placeholder for child page content -->
+</div>

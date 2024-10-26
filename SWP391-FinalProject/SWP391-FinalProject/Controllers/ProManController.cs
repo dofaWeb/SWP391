@@ -34,12 +34,13 @@ namespace SWP391_FinalProject.Controllers
             switch (role)
             {
                 case "Role0001":
-                case "Role0002":
                     ViewBag.SellingPrices = sellingStat;
                     ViewBag.ImportPrices = importStat;
                     ViewBag.ProfitStats = profitStat;
-
                     return View();
+                case "Role0002":
+                    var Username = User.FindFirst(ClaimTypes.Name)?.Value;
+                    return RedirectToAction("Schedule", "StaffMan", new { Username = Username});
                   
                 case "Role0003":
                 default:

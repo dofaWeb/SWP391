@@ -41,6 +41,17 @@ namespace SWP391_FinalProject.Repository
 
             return newId;
         }
+
+        public dynamic GetStaffSchedule(string staffId)
+        {
+            var schedule = db.StaffShifts.Where(p=>p.StaffId == staffId).Select(p=>new ShiftSchdeduleModel
+            {
+                Date = p.Date,
+                Shift = p.Shift
+            }).ToList();
+
+            return schedule;
+        }
         public int GetTotalHourWorked(string staffId)
         {
             var today = DateOnly.FromDateTime(DateTime.Today);

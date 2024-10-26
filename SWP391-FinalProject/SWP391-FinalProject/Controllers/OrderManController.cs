@@ -11,10 +11,20 @@ namespace SWP391_FinalProject.Controllers
     {
         
 
-        public IActionResult ListOrder()
+        public IActionResult ListOrder(string Username)
         {
+            AccountRepository accountRepository = new AccountRepository();
+            var Id = accountRepository.GetIdByUsername(Username);
             Repository.OrderRepository orderRepo = new Repository.OrderRepository();
-            List<OrderModel> orderList = orderRepo.GetAllOrder();
+            List<OrderModel> orderList;
+            if (Id == "A0000001")
+            {
+                orderList = orderRepo.GetAllOrder();
+            }
+            else
+            {
+                orderList = orderRepo.GetAllStaffOrder(Id);
+            }
             List<OrderState> orderStates = orderRepo.GetAllOrderState();
             ViewBag.OrderState = orderStates;
             return View(orderList);

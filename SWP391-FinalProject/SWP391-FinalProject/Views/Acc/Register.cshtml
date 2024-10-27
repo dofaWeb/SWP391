@@ -43,57 +43,185 @@
             fetchDistricts(provinceId);
         });
     });
+    //----------------------------------------------------
+    function validatePasswords() {
+        console.log('Validate Password');
+        var passwordField = document.getElementById("password");
+        var confirmPasswordField = document.getElementById("confirmPassword");
+        var ViewBagErrorField = document.getElementById("ViewBagError");
+        var password = passwordField.value;
+        var confirmPassword = confirmPasswordField.value;
+        var passwordErrorLabel = document.getElementById("passwordErrorLabel");
+
+
+        // Kiểm tra mật khẩu và mật khẩu xác nhận có trùng nhau không
+        if (password !== confirmPassword) {
+            console.log('Validate Password if');
+            passwordErrorLabel.textContent = "Confirm password doest not match the password.";
+            passwordErrorLabel.style.display = "block";
+            ViewBagErrorField.style.display = "none";
+            // Reset cả 2 trường mật khẩu
+            confirmPasswordField.value = "";
+            return false; // Dừng form submit
+        } else {
+            console.log('Validate Password else');
+            passwordErrorLabel.style.display = "none";
+            ViewBagErrorField.style.display = "none";
+        }
+
+
+        return true;
+    }
+    function validateEmail() {
+        console.log('Validate Email');
+        var emailField = document.getElementById("email");
+        var email = emailField.value;
+        var EmailErrorLabel = document.getElementById("emailErrorLabel");
+        var ViewBagErrorField = document.getElementById("ViewBagError");
+        // Biểu thức chính quy kiểm tra định dạng email
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/;
+
+        if (!emailPattern.test(email)) {
+            console.log('Validate Email if');
+            EmailErrorLabel.textContent = "Invalid email format.";
+            EmailErrorLabel.style.display = "block";
+            ViewBagErrorField.style.display = "none";
+            return false;
+        } else {
+            console.log('Validate Email else');
+            EmailErrorLabel.style.display = "none";
+            ViewBagErrorField.style.display = "none";
+            return true;
+        }
+    }
+
+    function validatePhone() {
+        console.log('Validate Phone');
+        var phoneField = document.getElementById("phone");
+        var phone = phoneField.value;
+        var phonePattern = /^[0-9]{7,11}$/; // Giả sử yêu cầu 10 số
+        var PhoneErrorLabel = document.getElementById("phoneErrorLabel");
+        var ViewBagErrorField = document.getElementById("ViewBagError");
+        if (!phonePattern.test(phone)) {
+            console.log('Validate Phone if');
+            PhoneErrorLabel.textContent = "Invalid phone format.";
+            PhoneErrorLabel.style.display = "block";
+            ViewBagErrorField.style.display = "none";
+            return false;
+        } else {
+            console.log('Validate Phone else');
+            PhoneErrorLabel.style.display = "none";
+            ViewBagErrorField.style.display = "none";
+            return true;
+        }
+    }
+    function validatePasswordStrength() {
+        console.log('Validate Password Strenth');
+        var passwordField = document.getElementById("password");
+        var passwordErrorLabel = document.getElementById("passwordErrorLabel");
+        var ViewBagErrorField = document.getElementById("ViewBagError");
+        var password = passwordField.value;
+        var passwordPattern = /^.{6,}$/;
+
+        if (!passwordPattern.test(password)) {
+            console.log('Validate Password Strenth if');
+            passwordErrorLabel.textContent = "Password must be at least 6 characters long.";
+            passwordErrorLabel.style.display = "block";
+            ViewBagErrorField.style.display = "none";
+            return false;
+        } else {
+            console.log('Validate Password Strenth else');
+            passwordErrorLabel.style.display = "none";
+            ViewBagErrorField.style.display = "none";
+        }
+
+        return true;
+    }
+
+    function validate() {
+
+        console.log('1.');
+        var pass = validatePasswordStrength();
+        console.log('2.');
+        if (pass) {
+            var confirmPass = validatePasswords();
+        }
+        console.log('3.');
+        var email = validateEmail();
+        console.log('4.');
+        var phone = validatePhone();
+        console.log('5.');
+        var result = pass && confirmPass && email && phone;
+        console.log('AAAAAAAAAAAA');
+        console.log(result);
+        if (!result) {
+            console.log('FALSE');
+            return false;
+        } else {
+            console.log('TRUE');
+            return true;
+        }
+    }
 </script>
 <div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h3>Create an Account</h3>
-            <h4 style="color:red">@ViewBag.Error</h4>
-            <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validatePasswords() && validateEmail() && validatePhone() && validatePasswordStrength()">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" name="Username" id="username" placeholder="Enter your username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="Password" id="password" placeholder="Create a password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" name="ConfirmPassword" id="confirmPassword" placeholder="Confirm your password" required>
-                </div>
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" class="form-control" id="name" name="Name" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control" name="Email" id="email" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="Enter your phone number" required>
-                </div>
-                <div class="form-group">
-                    <label for="province">Province:</label>
-                    <select id="provinces" name="provinces" class="form-control" required>
-                        <option value="">Select Province/City</option>
-                        @foreach (var item in ViewBag.Provinces)
-                        {
-                            <option value="@item["id"]">@item["full_name_en"]</option> <!-- Use 'id' for the value and 'name' for display -->
-                        }
-                    </select>
-                    <input type="hidden" id="Province" name="Province" />
-                </div>
-                <div class="form-group">
-                    <label for="district">District:</label>
-                    <select id="district" name="District" class="form-control" required>
-                        <option value="">Select District</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="address">Address:</label>
-                    <input type="text" name="Address" placeholder="Enter Your Address"/>
+            <h4 style="color:red" id="ViewBagError">@ViewBag.Error</h4>
+            <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validate();">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" name="Username" id="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="Password" id="password" placeholder="Create a password" required>
+                            <label id="passwordErrorLabel" style="color: red; display: none;"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input type="password" class="form-control" name="ConfirmPassword" id="confirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Your Name</label>
+                            <input type="text" class="form-control" id="name" name="Name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" name="Email" id="email" placeholder="Enter your email" required>
+                            <label id="emailErrorLabel" style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" name="Phone" placeholder="Enter your phone number" required>
+                            <label id="phoneErrorLabel" style="color: red; display: none;"></label>
+                        </div>
+                        <div class="form-group">
+                            <label for="province">Province:</label>
+                            <select id="provinces" name="provinces" class="form-control" required>
+                                <option value="">Select Province/City</option>
+                                @foreach (var item in ViewBag.Provinces)
+                                {
+                                    <option value="@item["id"]">@item["full_name_en"]</option> <!-- Use 'id' for the value and 'name' for display -->
+                                }
+                            </select>
+                            <input type="hidden" id="Province" name="Province" />
+                        </div>
+                        <div class="form-group">
+                            <label for="district">District:</label>
+                            <select id="district" name="District" class="form-control" required>
+                                <option value="">Select District</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address:</label>
+                            <input type="text" name="Address" class="form-control" placeholder="Enter Your Address" />
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Register</button>
             </form>
@@ -101,75 +229,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function validatePasswords() {
-        var passwordField = document.getElementById("password");
-        var confirmPasswordField = document.getElementById("confirmPassword");
-        var password = passwordField.value;
-        var confirmPassword = confirmPasswordField.value;
-        // Kiểm tra độ dài của mật khẩu
-        if (password.length < 6) {
-            alert("Password must be at least 6 characters long.");
-            // Reset cả 2 trường mật khẩu
-            passwordField.value = "";
-            confirmPasswordField.value = "";
-            return false; // Dừng form submit
-        }
-
-        // Kiểm tra mật khẩu và mật khẩu xác nhận có trùng nhau không
-        if (password !== confirmPassword) {
-            alert("Passwords do not match. Please try again.");
-            // Reset cả 2 trường mật khẩu
-            passwordField.value = "";
-            confirmPasswordField.value = "";
-            return false; // Dừng form submit
-        }
-
-
-        return true;
-    }
-    function validateEmail() {
-        var emailField = document.getElementById("email");
-        var email = emailField.value;
-        // Biểu thức chính quy kiểm tra định dạng email
-        var emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/;
-
-        if (!emailPattern.test(email)) {
-            alert("Please enter a valid email address.");
-            emailField.value = "";
-            return false;
-        }
-
-        return true;
-    }
-    function validatePhone() {
-        var phoneField = document.getElementById("Phone");
-        var phone = phoneField.value;
-        var phonePattern = /^[0-9]{10}$/; // Giả sử yêu cầu 10 số
-
-        if (!phonePattern.test(phone)) {
-            alert("Please enter a valid 10-digit phone number.");
-            phoneField.value = "";
-            return false;
-        }
-
-        return true;
-    }
-    function validatePasswordStrength() {
-        var passwordField = document.getElementById("password");
-        var password = passwordField.value;
-        var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@@#$%^&+=!]).{6,}$/;
-
-        if (!passwordPattern.test(password)) {
-            alert("Password must be at least 6 characters long and include a number, a lowercase letter, an uppercase letter, and a special character.");
-            passwordField.value = "";
-            return false;
-        }
-
-        return true;
-    }
-
-    document.getElementById("username-error").innerHTML = "Username already exists!";
-
-</script>

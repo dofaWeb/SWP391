@@ -54,7 +54,21 @@ namespace SWP391_FinalProject.Repository
                                                      Id = s.Id,
                                                      Staff_Id = s.StaffId,
                                                  }).ToList();
-
+            if (staffShifts == null || staffShifts.Count==0)
+            {
+                int preDay = 1;
+                do
+                {
+                    staffShifts = (from s in db.StaffShifts
+                                   where s.Date == DateOnly.FromDateTime(DateTime.Today.AddDays(preDay))
+                                   select new StaffShiftModel()
+                                   {
+                                       Id = s.Id,
+                                       Staff_Id = s.StaffId,
+                                   }).ToList();
+                    preDay--;
+                } while (staffShifts == null);
+            }
             if (currentHour >= 0 && currentHour <= 12)
             {
                 Order.StaffShiftId = staffShifts[0].Id;

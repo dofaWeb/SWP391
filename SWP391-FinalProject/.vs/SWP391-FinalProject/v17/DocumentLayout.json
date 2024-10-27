@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\",
+  "WorkspaceRootPath": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\",
   "Documents": [
     {
+
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -37,22 +38,25 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\acc\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\views\\proman\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\proman\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\repository\\productitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\views\\userman\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\userman\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\study\\5.fa24\\swp391\\final_project\\swp391-finalproject\\swp391-finalproject\\wwwroot\\fontend\\admin\\statisticsmanagement.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\wwwroot\\fontend\\admin\\statisticsmanagement.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+
     }
   ],
   "DocumentGroupContainers": [
@@ -62,7 +66,9 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+
           "SelectedChildIndex": 13,
+
           "Children": [
             {
               "$type": "Bookmark",
@@ -93,6 +99,7 @@
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
+
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "CatController.cs",
@@ -168,11 +175,13 @@
               "ViewState": "AgIAAHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-27T02:21:32.201Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+
               "Title": "CartController.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\CartController.cs",
@@ -181,10 +190,12 @@
               "ViewState": "AgIAAA0AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-26T11:25:04.45Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 9,
               "Title": "AccountRepository.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
@@ -204,11 +215,14 @@
               "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\Index.cshtml",
               "RelativeToolTip": "SWP391-FinalProject\\Views\\ProMan\\Index.cshtml",
               "ViewState": "AgIAAK0AAAAAAAAAAAAAALsAAAAAAAAAAAAAAA==",
+
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-26T07:23:24.788Z"
+              "WhenOpened": "2024-10-27T02:54:20.092Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 8,
               "Title": "Register.cshtml",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
@@ -218,10 +232,12 @@
               "ViewState": "AgIAAJcAAAAAAAAAAAAswGoAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-26T06:56:19.538Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 11,
               "Title": "ProductItemRepository.cs",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
@@ -243,10 +259,12 @@
               "ViewState": "AgIAAPQAAAAAAAAAAAAWwH8BAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-25T15:12:27.359Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 12,
               "Title": "statisticsmanagement.html",
               "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\wwwroot\\fontend\\admin\\statisticsmanagement.html",
@@ -256,6 +274,7 @@
               "ViewState": "AgIAABQAAAAAAAAAAAAAABoAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2024-10-25T09:37:39.109Z"
+
             }
           ]
         }

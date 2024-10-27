@@ -164,7 +164,6 @@
 </header>
 
 <div class="container mt-4">
-    <a class="btn btn-secondary btn-sm">Back</a>
     <form asp-action="Checkout" asp-controller="Order" method="post">
     <section>
         <div class="row">
@@ -295,6 +294,7 @@
     </section>
         <div class="text-center mt-4">
             <button class="btn btn-primary btn-lg" type="submit">Complete Checkout</button>
+            <a asp-action="Index" asp-controller="Pro" class="btn btn-secondary btn-lg">Canel</a>
         </div>
     </form>
 

@@ -42,6 +42,14 @@ namespace SWP391_FinalProject.Controllers
             return View(staff); // Render the view
         }
 
+        public IActionResult Schedule(string Username)
+        {
+            StaffRepository staffRepository = new StaffRepository();
+            AccountRepository accountRepository = new AccountRepository();
+            var schedule = staffRepository.GetStaffSchedule(accountRepository.GetIdByUsername(Username));
+            return View(schedule);
+        }
+
         public static string GenerateRandomString(int length)
         {
             Random random = new Random();

@@ -11,24 +11,41 @@ namespace SWP391_FinalProject.Repository
         {
             db = new DBContext();
         }
-        public List<StatisticsModel> GetImportPrice()
+        public dynamic GetSellingPrice(int year)
         {
-            var query = from ql in db.QuantityLogs
-                        join pi in db.ProductItems
-                        on ql.ProductItemId equals pi.Id
-                        where ql.NewQuantity > ql.OldQuantity
-                        group new { ql, pi.ImportPrice } by new { ql.ChangeTimestamp.Year, ql.ChangeTimestamp.Month, ql.ProductItemId } into g
-                        orderby g.Key.Year, g.Key.Month
-                        select new StatisticsModel
-                        {
-                            ChangeDate = new DateTime(g.Key.Year, g.Key.Month, 1),
-                            ProductItemId = g.Key.ProductItemId,
-                            TotalQuantityAdded = g.Sum(x => x.ql.NewQuantity - x.ql.OldQuantity),
-                            TotalImportPrice = g.Sum(x => (x.ql.NewQuantity - x.ql.OldQuantity) * x.ImportPrice)
-                        };
+            var query = db.Orders
+    .Where(o => o.StateId == 2 && o.Date.Year == year)
+    .Join(db.OrderItems,
+          o => o.Id,
+          oi => oi.OrderId,
+          (o, oi) => new { o, oi })
+    .GroupBy(x => x.o.Date.Month)
+    .Select(g => new
+    {
+        Month = g.Key,
+        TotalSellingPrice = g.Sum(x => x.oi.Quantity * x.oi.Price * (1 - x.oi.Discount / 100))
+    })
+    .OrderBy(result => result.Month)
+    .ToList();
 
 
-            return query.ToList();
+            return query;
+        }
+
+        public dynamic GetImportPrice(int year)
+        {
+            var result = db.QuantityLogs
+    .Where(ql => ql.NewQuantity > ql.OldQuantity && ql.ChangeTimestamp.Year == 2024)
+    .GroupBy(ql => ql.ChangeTimestamp.Month)
+    .Select(g => new
+    {
+        ChangeMonth = g.Key,
+        TotalImportPrice = g.Sum(ql => (ql.NewQuantity - ql.OldQuantity) * ql.ProductItem.ImportPrice)
+    })
+    .OrderBy(x => x.ChangeMonth)
+    .ToList();
+
+            return result;
         }
 
         public dynamic GetOrderStat()

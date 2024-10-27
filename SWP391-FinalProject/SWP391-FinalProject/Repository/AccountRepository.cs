@@ -251,6 +251,14 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
+        public string GetIdByUsername(string username)
+        {
+            var id = from account in db.Accounts
+                     where account.Username == username
+                     select account.Id;
+            return id.FirstOrDefault();
+        }
+
         public void UpdateAccount(Models.AccountModel account)
         {
 

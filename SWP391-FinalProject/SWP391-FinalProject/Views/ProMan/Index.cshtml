@@ -5,17 +5,21 @@
     Layout = "_AdminLayout";
 }
 @model IEnumerable<SWP391_FinalProject.Models.StatisticsModel>
+
 <h2>Admin Dashboard</h2>
 
 <!-- Year Dropdown Filter -->
 <div class="form-group">
     <label for="yearSelect">Select Year:</label>
-    <select class="form-control" id="yearSelect" style="width: 150px;">
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-        <option value="2021">2021</option>
-    </select>
+    <form asp-controller="ProMan" asp-action="Index" method="get">
+        <select class="form-control" id="yearSelect" name="year" style="width: 150px;">
+            <option value="2024">2026</option>
+            <option value="2023">2025</option>
+            <option value="2022">2024</option>
+            <option value="2021">2023</option>
+        </select>
+        <input type="submit" value="Filter" class="btn btn-danger"/>
+    </form>
 </div>
 
 <!-- Filter for Chart -->
@@ -32,9 +36,9 @@
 
 <!-- Totals for each line with percentage comparison -->
 <div class="totals">
-    <div id="totalSellingPrice">Total Selling Price: $0 <span class="percentage" id="sellingPricePercentage"></span></div>
-    <div id="totalImportPrice">Total Import Price: $0 <span class="percentage" id="importPricePercentage"></span></div>
-    <div id="totalProfit">Total Profit: $0 <span class="percentage" id="profitPercentage"></span></div>
+    <div id="totalSellingPrice">Total Selling Price: VND 0 <span class="percentage" id="sellingPricePercentage"></span></div>
+    <div id="totalImportPrice">Total Import Price: VND 0 <span class="percentage" id="importPricePercentage"></span></div>
+    <div id="totalProfit">Total Profit: VND 0 <span class="percentage" id="profitPercentage"></span></div>
 </div>
 
 <!-- Chart.js Script to Render Chart -->
@@ -45,8 +49,8 @@
     // Define datasets for each line (Selling Price, Import Price, Profit)
     var sellingPriceData = {
         label: 'Selling Price',
-        data: [500, 700, 900, 800, 950, 1000],
-        backgroundColor: 'rgba(255, 159, 64, 0.2)', // Updated color
+        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.SellingPrices).Select(p => (decimal)p.TotalSellingPrice))),
+        backgroundColor: 'rgba(255, 159, 64, 0.2)',
         borderColor: 'rgba(255, 159, 64, 1)',
         borderWidth: 2,
         fill: false,
@@ -56,7 +60,7 @@
 
     var importPriceData = {
         label: 'Import Price',
-        data: [300, 400, 500, 450, 600, 700],
+        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.ImportPrices).Select(p => (decimal)p.TotalImportPrice))),
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 2,
@@ -67,8 +71,8 @@
 
     var profitData = {
         label: 'Profit',
-        data: [200, 300, 400, 350, 350, 300],
-        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Updated color
+        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.ProfitStats).Select(p => (decimal)p.Profit))),
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
         fill: false,
@@ -76,12 +80,15 @@
         pointHoverRadius: 7
     };
 
+    // Set up chart labels to match the month order in the imported data
+    var labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.SellingPrices).Select(p => $"Month {p.Month}")));
+
     // Initialize chart
     var adminChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-            datasets: [sellingPriceData, importPriceData, profitData] // multiple datasets for each line
+            labels: labels,
+            datasets: [sellingPriceData, importPriceData, profitData]
         },
         options: {
             scales: {
@@ -89,14 +96,17 @@
                     beginAtZero: true
                 }
             },
-            tooltips: {
-                enabled: true, // Tooltips enabled by default
-                mode: 'nearest',
-                callbacks: {
-                    label: function(tooltipItem, data) {
-                        var dataset = data.datasets[tooltipItem.datasetIndex];
-                        var value = dataset.data[tooltipItem.index];
-                        return dataset.label + ': $' + value;
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += formatCurrency(context.raw);
+                            return label;
+                        }
                     }
                 }
             },
@@ -107,6 +117,11 @@
         }
     });
 
+    // Function to format numbers with commas and "VND"
+    function formatCurrency(value) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+    }
+
     // Function to calculate total for a dataset
     function calculateTotal(dataArray) {
         return dataArray.reduce((total, num) => total + num, 0);
@@ -114,7 +129,7 @@
 
     // Calculate percentage change
     function calculatePercentageChange(currentTotal, previousTotal) {
-        if (previousTotal === 0) return 0; // Avoid division by zero
+        if (previousTotal === 0) return 0;
         return ((currentTotal - previousTotal) / previousTotal) * 100;
     }
 
@@ -128,9 +143,9 @@
         const previousImportPrice = calculateTotal(previousData.importPrice);
         const previousProfit = calculateTotal(previousData.profit);
 
-        document.getElementById('totalSellingPrice').innerText = 'Total Selling Price: $' + totalSellingPrice;
-        document.getElementById('totalImportPrice').innerText = 'Total Import Price: $' + totalImportPrice;
-        document.getElementById('totalProfit').innerText = 'Total Profit: $' + totalProfit;
+        document.getElementById('totalSellingPrice').innerText = 'Total Selling Price: ' + formatCurrency(totalSellingPrice);
+        document.getElementById('totalImportPrice').innerText = 'Total Import Price: ' + formatCurrency(totalImportPrice);
+        document.getElementById('totalProfit').innerText = 'Total Profit: ' + formatCurrency(totalProfit);
 
         // Update percentage comparisons
         updatePercentage('sellingPricePercentage', totalSellingPrice, previousSellingPrice);
@@ -162,28 +177,28 @@
     updateTotals(previousYearData);
 
     // Filter functionality: toggle visibility of each dataset
-    document.getElementById('sellingPriceCheckbox').addEventListener('change', function() {
+    document.getElementById('sellingPriceCheckbox').addEventListener('change', function () {
         adminChart.data.datasets[0].hidden = !this.checked;
         adminChart.update();
     });
 
-    document.getElementById('importPriceCheckbox').addEventListener('change', function() {
+    document.getElementById('importPriceCheckbox').addEventListener('change', function () {
         adminChart.data.datasets[1].hidden = !this.checked;
         adminChart.update();
     });
 
-    document.getElementById('profitCheckbox').addEventListener('change', function() {
+    document.getElementById('profitCheckbox').addEventListener('change', function () {
         adminChart.data.datasets[2].hidden = !this.checked;
         adminChart.update();
     });
 
     // Year dropdown change event
-    document.getElementById('yearSelect').addEventListener('change', function() {
+    document.getElementById('yearSelect').addEventListener('change', function () {
         const selectedYear = this.value;
-        // Update the chart data according to the selected year (this part can be customized)
         console.log("Selected Year:", selectedYear);
-        // For demonstration, keep the data the same, but you can replace it with actual data for different years.
     });
 
 
+
 </script>
+

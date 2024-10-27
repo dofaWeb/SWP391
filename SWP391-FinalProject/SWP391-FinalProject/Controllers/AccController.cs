@@ -84,7 +84,9 @@ namespace SWP391_FinalProject.Controllers
 
 
         public async Task<IActionResult> History()
+
         {
+
             return View();
         }
 

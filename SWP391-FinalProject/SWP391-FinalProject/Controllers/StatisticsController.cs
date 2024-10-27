@@ -7,7 +7,7 @@ namespace SWP391_FinalProject.Controllers
     {
         public IActionResult Index()
         {
-            return View("Index");
+            return RedirectToAction("OrderStat");
         }
 
         public IActionResult OrderStat()

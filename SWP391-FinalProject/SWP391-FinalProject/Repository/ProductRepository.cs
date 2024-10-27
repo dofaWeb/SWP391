@@ -15,18 +15,12 @@ namespace SWP391_FinalProject.Repository
             db = new DBContext();
         }
 
-        public List<Models.ProductModel> GetProductsByKeyword(string keyword)
+        public List<Models.ProductModel> GetProductsByKeyword(string keyword, string price, string category)
         {
-            // Check for null or empty keyword and return an empty list if so
-            if (string.IsNullOrWhiteSpace(keyword))
-            {
-                return new List<Models.ProductModel>();
-            }
-
+            // Start querying products without keyword filtering
             var query = from p in db.Products
                         join c in db.Categories on p.CategoryId equals c.Id
                         join ps in db.ProductStates on p.StateId equals ps.Id
-                        where p.Name.Contains(keyword) || p.Name.StartsWith(keyword)
                         select new Models.ProductModel
                         {
                             Id = p.Id,
@@ -37,17 +31,67 @@ namespace SWP391_FinalProject.Repository
                                          .Where(pi => pi.ProductId == p.Id)
                                          .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
                             CategoryName = c.Name,
+                            CategoryId = c.Id,
                             ProductState = ps.Name
                         };
 
+            // Check for null or empty keyword and apply filtering only if it's present
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(p => p.Name.Contains(keyword) || p.Name.StartsWith(keyword));
+            }
+
+            // Apply category filtering if provided
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                if (category.Equals("Laptop", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query.Where(p => p.CategoryId.StartsWith("B0"));
+                }
+                else if (category.Equals("Phone", StringComparison.OrdinalIgnoreCase))
+                {
+                    query = query.Where(p => p.CategoryId.StartsWith("B1"));
+                }
+            }
+
+            // Execute the query and retrieve the results
             var result = query.ToList(); // Execute the query
+
+            // Calculate minimum price for each product item
             foreach (var item in result)
             {
-                item.ProductItem = GetMinPrice(item.Id);
+                var minPriceProductItem = db.ProductItems
+                    .Where(pi => pi.ProductId == item.Id && pi.SellingPrice.HasValue)
+                    .Select(pi => new ProductItemModel
+                    {
+                        Discount = pi.Discount,
+                        Id = pi.Id,
+                        SellingPrice = pi.SellingPrice,
+                        PriceAfterDiscount = CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100),
+                        Saving = pi.SellingPrice - CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100)
+                    })
+                    .OrderBy(pi => pi.SellingPrice)
+                    .FirstOrDefault(); // Take the minimum priced product item
 
+                item.ProductItem = minPriceProductItem; // Set the minimum price item to ProductModel
             }
-            return result;
+
+            // Apply price sorting if provided
+            if (!string.IsNullOrWhiteSpace(price))
+            {
+                if (price.Equals("Asc", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = result.OrderBy(p => p.ProductItem.PriceAfterDiscount).ToList(); // Sort by minimum price ascending
+                }
+                else if (price.Equals("Desc", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = result.OrderByDescending(p => p.ProductItem.PriceAfterDiscount).ToList(); // Sort by minimum price descending
+                }
+            }
+
+            return result; // Return the final list of products
         }
+
         public List<Models.ProductModel> GetProductByBrand(string brand)
         {
             // Check for null or empty keyword and return an empty list if so

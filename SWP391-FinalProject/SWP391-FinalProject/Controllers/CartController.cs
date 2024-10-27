@@ -13,6 +13,7 @@ namespace SWP391_FinalProject.Controllers
             string[] tmp = Resultcookie.Split('=');
             int sizeOfCookie = tmp.Length;
             List<ProductItemModel> listProItem = new List<ProductItemModel>();
+            decimal? TotalPrice = 0;
             for (int i = 1; i < sizeOfCookie; i++)
             {
                 string[] eachCookie = tmp[i].Split('/');
@@ -28,10 +29,12 @@ namespace SWP391_FinalProject.Controllers
                 item.SellingPrice = Decimal.Parse(eachCookie[7]);
                 item.Discount = Decimal.Parse(eachCookie[8]);
                 item.PriceAfterDiscount = Decimal.Parse(eachCookie[9]);
+                TotalPrice += item.PriceAfterDiscount;
                 item.Ram = eachCookie[10];
                 item.Storage = eachCookie[11];
                 listProItem.Add(item);
             }
+            ViewBag.TotalPrice = TotalPrice;
             return View(listProItem);
         }
 

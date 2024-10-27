@@ -88,6 +88,16 @@ namespace SWP391_FinalProject.Repository
             return true;
         }
 
+        public bool CheckUsername(string username)
+        {
+            var check = db.Accounts.Where(p => p.Username == username).FirstOrDefault();
+            if (check != null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public void AddStaffAccount(AccountModel model)
         {
             AccountRepository AccRepo = new AccountRepository();

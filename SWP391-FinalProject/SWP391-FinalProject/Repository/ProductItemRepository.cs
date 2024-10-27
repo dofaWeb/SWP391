@@ -142,6 +142,7 @@ namespace SWP391_FinalProject.Repository
                     VariationOptionId = variation_option_id2,
                 });
                 db.SaveChanges();
+                InsertQuantityToProductLog(model.Quantity, model.Id);
             }
         }
 
@@ -197,7 +198,7 @@ namespace SWP391_FinalProject.Repository
             product.StateId = 1;
             db.SaveChanges();
             AddProductConfiguration(model);
-            InsertQuantityToProductLog(model.Quantity, model.Id);
+            
         }
 
         public void EditProductItem(ProductItemModel model)

@@ -108,13 +108,15 @@ namespace SWP391_FinalProject.Controllers
 
 
         [HttpGet]
-        public IActionResult SearchedProduct(string keyword)
+        public IActionResult SearchedProduct(string keyword, string sortByPrice, string sortByCat)
         {
             // Use the repository to get products matching the keyword
             //Repository.Product proRepo = new Repository.Product(db);
             //var products = proRepo.GetProductsByKeyword(keyword);
 
             ViewBag.keyword = keyword;
+            ViewBag.sortByPrice = sortByPrice;
+            ViewBag.sortByCat = sortByCat;
             // Return the view with the list of products
             return View(); // Adjust this based on your view's structure
         }

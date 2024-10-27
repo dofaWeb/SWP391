@@ -75,7 +75,7 @@ namespace SWP391_FinalProject.Controllers
         {
             ProductRepository proRepo = new ProductRepository();
             proRepo.AddProduct(model, pictureUpload);
-            TempData["SuccessMessage"] = "Category added successfully.";
+            TempData["SuccessMessage"] = "Product added successfully.";
             return RedirectToAction("Display");
         }
 

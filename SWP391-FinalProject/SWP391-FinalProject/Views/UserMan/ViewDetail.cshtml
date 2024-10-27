@@ -5,6 +5,35 @@
     Layout = "_AdminLayout";
 }
 @model SWP391_FinalProject.Models.AccountModel
+<style>
+    .order-header {
+        margin-bottom: 20px;
+    }
+
+    .points-summary {
+        margin-bottom: 30px;
+    }
+
+    .points-earned {
+        color: blue;
+    }
+
+    .approved-state{
+        color: blue;
+    }
+
+    .pending-state {
+        color: green;
+    }
+
+    .rejected-state {
+        color: red;
+    }
+
+    .points-used {
+        color: red;
+    }
+</style>
 <!-- Header -->
 <header class="bg-dark text-white text-center py-4">
     <h1>User Detail</h1>
@@ -49,118 +78,42 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Product Image</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">RAM</th>
-                <th scope="col">Storage</th>
-                <th scope="col">Price</th>
-                <th scope="col">Purchase Date</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Points Earned</th>
+                <th scope="col">Points Used</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><img src="https://via.placeholder.com/50" alt="Product 1"></td>
-                <td>Laptop XYZ</td>
-                <td>16 GB</td>
-                <td>512 GB</td>
-                <td>$500</td>
-                <td>2024-01-15</td>
-            </tr>
-            <tr>
-                <td><img src="https://via.placeholder.com/50" alt="Product 2"></td>
-                <td>Smartphone ABC</td>
-                <td>8 GB</td>
-                <td>256 GB</td>
-                <td>$300</td>
-                <td>2024-03-10</td>
-            </tr>
-            <tr>
-                <td><img src="https://via.placeholder.com/50" alt="Product 3"></td>
-                <td>Headphones DEF</td>
-                <td>N/A</td>
-                <td>N/A</td>
-                <td>$100</td>
-                <td>2024-05-20</td>
-            </tr>
+            @foreach (var order in ViewBag.Order)
+            {
+
+                var order_state = "";
+                switch (order.OrderState.Name)
+                {
+                    case "Approve":
+                        order_state = "approved-state";
+                        break;
+                    case "Pending":
+                        order_state = "pending-state";
+                        break;
+                    case "Reject":
+                        order_state = "rejected-state";
+                        break;
+                }
+
+                <tr>
+                    <td>@order.Date</td>
+                    <td class="@order_state">@order.OrderState.Name</td>
+                    <td>@string.Format("{0:N0}", @order.TotalPrice)</td>
+                    <td class="points-earned">@string.Format("{0:N0}", @order.EarnPoint)</td>
+                    <td class="points-used">@string.Format("{0:N0}", @order.UsePoint)</td>
+                    <td><a asp-action="UserOrderDetail" asp-controller="UserMan" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a></td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
 
-<!-- Chart Section -->
-<div class="container chart-section">
-    <h4>Money Usage Over Time</h4>
-    <canvas id="moneyUsageChart"></canvas>
-</div>
-
-<!-- Total Summary Section -->
-<div class="container money-summary">
-    <div class="row">
-        <div class="col-md-6">
-            <p>
-                Total Spent This Year: $1,200
-                <span class="percentage-change positive">+10% from last year</span>
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p>
-                Total Spent Last Year: $1,090
-                <span class="percentage-change negative">-5% from the year before</span>
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- Chart.js Script -->
-<script>
-    const ctx = document.getElementById('moneyUsageChart').getContext('2d');
-    const moneyUsageChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September'],
-            datasets: [{
-                label: 'Money Spent',
-                data: [150, 200, 250, 100, 300, 150, 200, 250, 400],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-                callbacks: {
-                    label: function (tooltipItem, data) {
-                        return '$' + tooltipItem.yLabel;
-                    }
-                }
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Amount in USD'
-                    },
-                    ticks: {
-                        callback: function (value, index, values) {
-                            return '$' + value;
-                        }
-                    }
-                }]
-            }
-        }
-    });
-</script>

@@ -15,9 +15,9 @@
             <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Password</label>
             <input type="password" id="password" name="Password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
         </div>
-            <input type="submit" value="Login" style="width: 100%; padding: 10px; background-color: #28a745; border: none; border-radius: 4px; color: white; font-size: 16px; cursor: pointer;" />
+            <input id="submit" type="submit" value="Login" style="width: 100%; padding: 10px; background-color: #28a745; border: none; border-radius: 4px; color: white; font-size: 16px; cursor: pointer;" />
             <p style="text-align: center; margin-top: 10px; font-size: 14px;">Forget Your password?<a asp-controller="Acc" asp-action="ForgetPassword" style="color: #007bff; text-decoration: none;">Click here</a></p>
-        <p style="text-align: center; margin-top: 10px; font-size: 14px;">Don't have an account? <a asp-controller="Acc" asp-action="Register" style="color: #007bff; text-decoration: none;">Sign up</a></p>
+        <p style="text-align: center; margin-top: 10px; font-size: 14px;">Don't have an account? <a id="signup" asp-controller="Acc" asp-action="Register" style="color: #007bff; text-decoration: none;">Sign up</a></p>
    
     </form>
         <a asp-action="LoginWithGoogle" asp-controller="Acc">Sign In With Google</a>

@@ -56,9 +56,9 @@
 
                 <!-- Search Bar -->
                 <form asp-asp-controller="Pro" asp-action="SearchedProduct" method="get" class="input-group mb-3">
-                    <input type="text" name="keyword" class="form-control" placeholder="Search products..." aria-label="Search products" required>
+                    <input id="SearchProduct" type="text" name="keyword" class="form-control" placeholder="Search products..." aria-label="Search products" required>
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button id="SearchButton" class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </form>
                 @RenderBody()

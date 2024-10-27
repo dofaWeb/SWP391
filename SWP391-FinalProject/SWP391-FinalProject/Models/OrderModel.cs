@@ -20,6 +20,8 @@ namespace SWP391_FinalProject.Models
 
         public string StaffShiftId { get; set; }
 
+        public string StaffName { get; set; }
+
         public OrderState OrderState{get; set;}
 
         public UserModel User { get; set; }

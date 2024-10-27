@@ -74,7 +74,6 @@
         <div class="row">
             <div class="col-md-12 mb-3">
                 <!-- Top-left position -->
-                <a asp-action="Index" asp-controller="Pro" class="btn btn-secondary btn-sm">Back</a>
             </div>
 
             <!-- Product Image -->
@@ -119,6 +118,7 @@
                 <input id="CartOption" name="Option" value="@defaultOptionValue" type="hidden" />
                 <input type="hidden" value="@Model.Id" name="ProductId" />
                 <input class="btn btn-danger btn-sm" type="submit" value="AddToCart" id="addToCartButton" />
+                <a asp-action="Index" asp-controller="Pro" class="btn btn-secondary btn-sm">Cancel</a>
             </div>
         </div>
     </form>

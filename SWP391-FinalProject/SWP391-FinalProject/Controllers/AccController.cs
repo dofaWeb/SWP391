@@ -176,7 +176,11 @@ namespace SWP391_FinalProject.Controllers
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
             var user = accRepo.GetUserByUsernameOrEmail(email);
-
+            if(user == null)
+            {
+                ViewBag.Error = "This email has been used for register the staff";
+                return RedirectToAction("Login");
+            }
             if (user.Status == "Inactive")
             {
                 ViewBag.Error = "Your account has been ban";

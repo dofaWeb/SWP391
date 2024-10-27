@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
+using System.Security.Claims;
 
 
 namespace SWP391_FinalProject.Controllers
@@ -34,7 +35,8 @@ namespace SWP391_FinalProject.Controllers
         {
             OrderRepository orderRepository = new OrderRepository();
             orderRepository.UpdateOrderState(OrderStateId, OrderId);
-            return RedirectToAction("ListOrder");
+            var username = User.FindFirst(ClaimTypes.Name);
+            return RedirectToAction("ListOrder", new {Username = username});
         }
 
         public IActionResult History()

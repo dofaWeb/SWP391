@@ -178,11 +178,13 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/StaffMan/Schedule.cshtml]
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/StaffMan/Schedule.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZNYW5cU2NoZWR1bGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/StaffMan/StaffList.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/StaffMan/StaffList.cshtml]
+
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZNYW5cU3RhZmZMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
@@ -190,15 +192,19 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZNYW5cU3RhZmZTZXR0aW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Statistics/Index.cshtml]
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Statistics/Index.cshtml]
+
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGlzdGljc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/Statistics/OrderStat.cshtml]
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/Statistics/OrderStat.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhdGlzdGljc1xPcmRlclN0YXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[S:/FPT University/3rd year/5-FA24/SWP391-Software development project/FinalProject/FinalProject/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
+
+[D:/study/5.FA24/SWP391/Final_Project/SWP391-FinalProject/SWP391-FinalProject/Views/UserMan/Display.cshtml]
+
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlck1hblxEaXNwbGF5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 

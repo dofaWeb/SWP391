@@ -266,7 +266,7 @@ namespace SWP391_FinalProject.Controllers
                         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(claimsPrincipal);
                         AddLoginCookie(user.Username);
-                        HttpContext.Session.SetString("Username", HttpContext.Request.Cookies["Username"]);
+                        HttpContext.Session.SetString("Username", user.Username);
                         return RedirectToAction("Index", "Pro");
                     }
                 }

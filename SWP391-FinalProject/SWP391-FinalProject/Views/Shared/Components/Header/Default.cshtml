@@ -10,7 +10,7 @@
         <a asp-action="Index" asp-controller="Pro" class="navbar-brand">
             <h1 class="text-primary display-6">Electronic Shop</h1>
         </a>
-        <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+        <button id="collapse" class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarCollapse">
             <span class="fa fa-bars text-primary"></span>
         </button>
@@ -57,13 +57,13 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <a asp-controller="User" asp-action="Profile" asp-route-username="@User.FindFirst("Username")?.Value" title="View profile" class="my-auto">
-                        <i class="fas fa-user fa-2x"></i>
+                        <i id="info" class="fas fa-user fa-2x"></i>
                     </a>
                 }
                 else
                 {
                     <a asp-controller="Acc" asp-action="Login" title="Login" class="my-auto">
-                        <i class="fas fa-user fa-2x"></i>
+                        <i id="info" class="fas fa-user fa-2x"></i>
                     </a>
                 }
 

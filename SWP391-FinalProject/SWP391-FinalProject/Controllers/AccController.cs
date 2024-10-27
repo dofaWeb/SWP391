@@ -85,9 +85,6 @@ namespace SWP391_FinalProject.Controllers
 
         public async Task<IActionResult> History()
         {
-
-
-
             return View();
         }
 
@@ -102,9 +99,15 @@ namespace SWP391_FinalProject.Controllers
         public async Task<IActionResult> Register(Models.AccountModel model)
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
+            ViewBag.Error = null;
             if (!accRepo.CheckEmail(model.Email))
             {
                 ViewBag.Error = "Email has been used!";
+                return await Register();
+            }
+            else if (!accRepo.CheckUsername(model.Username))
+            {
+                ViewBag.Error = "Username has been used!";
                 return await Register();
             }
             else
@@ -115,6 +118,8 @@ namespace SWP391_FinalProject.Controllers
             }
 
         }
+
+
 
         public IActionResult ReceiveRegisterEmail()
         {
@@ -259,6 +264,7 @@ namespace SWP391_FinalProject.Controllers
                         var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(claimsPrincipal);
                         AddLoginCookie(user.Username);
+                        HttpContext.Session.SetString("Username", HttpContext.Request.Cookies["Username"]);
                         return RedirectToAction("Index", "Pro");
                     }
                 }

@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "_AccLayout";
 }
 @model List<SWP391_FinalProject.Models.OrderModel>;
 
@@ -16,6 +17,18 @@
 
     .points-earned {
         color: blue;
+    }
+
+    .approved-state{
+        color: blue;
+    }
+
+    .pending-state {
+        color: green;
+    }
+
+    .rejected-state {
+        color: red;
     }
 
     .points-used {
@@ -45,16 +58,30 @@
         <tbody>
             @foreach (var order in Model)
             {
+                
+                    var order_state = "";
+                    switch (order.OrderState.Name)
+                    {
+                        case "Approve":
+                            order_state = "approved-state";
+                            break;
+                        case "Pending":
+                            order_state = "pending-state";
+                            break;
+                        case "Reject":
+                            order_state = "rejected-state";
+                            break;
+                    }
+                
                 <tr>
                     <td>@order.Date</td>
-                    <td>@order.OrderState.Name</td>
+                    <td class="@order_state">@order.OrderState.Name</td>
                     <td>@string.Format("{0:N0}", @order.TotalPrice)</td>
                     <td class="points-earned">@string.Format("{0:N0}", @order.EarnPoint)</td>
                     <td class="points-used">@string.Format("{0:N0}", @order.UsePoint)</td>
                     <td><a asp-action="UserOrderDetail" asp-controller="Order" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a></td>
                 </tr>
             }
-            
         </tbody>
     </table>
 </div>

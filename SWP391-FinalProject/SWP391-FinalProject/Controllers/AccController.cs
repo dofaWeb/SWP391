@@ -94,22 +94,24 @@ namespace SWP391_FinalProject.Controllers
         {
             CookieOptions Cookie = new CookieOptions();
             Cookie.Expires = DateTime.Now.AddDays(1);
-            Response.Cookies.Append("RegisterCookie", model.Username + "/" + model.Password + "/" + model.Name + "/" + model.Email + "/" + model.Phone + "/" + model.Province +"/" + model.District + "/" + model.Address, Cookie);
+            Response.Cookies.Append("RegisterCookie", model.Username + "/" + model.Password + "/" + model.Name + "/" + model.Email + "/" + model.Phone + "/" + model.Province + "/" + model.District + "/" + model.Address, Cookie);
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(Models.AccountModel model)
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
-            ViewBag.Error = null;
-            if (!accRepo.CheckEmail(model.Email))
+            ViewBag.Error = "";
+            if (!accRepo.CheckEmail(model.Email) || !accRepo.CheckUsername(model.Username))
             {
-                ViewBag.Error = "Email has been used!";
-                return await Register();
-            }
-            else if (!accRepo.CheckUsername(model.Username))
-            {
-                ViewBag.Error = "Username has been used!";
+                if (!accRepo.CheckEmail(model.Email))
+                {
+                    ViewBag.Error = "Email has been used.";
+                }
+                if (!accRepo.CheckUsername(model.Username))
+                {
+                    ViewBag.Error += "<br>Username has been used.";
+                }
                 return await Register();
             }
             else
@@ -155,7 +157,7 @@ namespace SWP391_FinalProject.Controllers
                 Repository.AccountRepository accRepo = new Repository.AccountRepository();
                 if (accRepo.CheckEmail(email))
                 {
-                    AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", Province = "", District="", Address = "" };
+                    AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", Province = "", District = "", Address = "" };
                     accRepo.AddAccount(acc);
 
                     return await LoginByGoogle(email);
@@ -167,7 +169,7 @@ namespace SWP391_FinalProject.Controllers
                 }
             }
             return RedirectToAction("Index", "Pro");
-            
+
         }
 
 
@@ -176,7 +178,7 @@ namespace SWP391_FinalProject.Controllers
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
             var user = accRepo.GetUserByUsernameOrEmail(email);
-            if(user == null)
+            if (user == null)
             {
                 ViewBag.Error = "This email has been used for register the staff";
                 return View("Login");
@@ -223,7 +225,7 @@ namespace SWP391_FinalProject.Controllers
             return RedirectToAction("Index", "Pro");
         }
 
-        
+
 
         [HttpPost]
         public async Task<IActionResult> Login(Models.AccountModel model)
@@ -234,7 +236,7 @@ namespace SWP391_FinalProject.Controllers
                 var RoleId = accRepo.GetRoleId(model.Username);
                 if (RoleId != "Role0003")
                 {
-                 
+
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Role, RoleId),
@@ -345,7 +347,7 @@ namespace SWP391_FinalProject.Controllers
         public async Task<IActionResult> EnterOtp(string OtpCode)
         {
             int Otp = int.Parse(OtpCode);
-            if(MySetting.Otp != Otp)
+            if (MySetting.Otp != Otp)
             {
                 ViewBag.Error = "Invalid Otp";
                 return View();
@@ -381,7 +383,7 @@ namespace SWP391_FinalProject.Controllers
             return View();
         }
 
-        
+
         void AddLoginCookie(string username)
         {
             CookieOptions Cookie = new CookieOptions();

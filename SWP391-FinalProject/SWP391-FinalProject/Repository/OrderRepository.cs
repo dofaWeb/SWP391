@@ -125,6 +125,8 @@ namespace SWP391_FinalProject.Repository
                 };
                 db.OrderItems.Add(newItem);
                 db.SaveChanges();
+                ProductItemRepository proItemRepo = new ProductItemRepository();
+                proItemRepo.UpdateProductItemQuantityByOrderStateId(newItem.ProductItemId, newItem.Quantity, 1);
             }
         }
 

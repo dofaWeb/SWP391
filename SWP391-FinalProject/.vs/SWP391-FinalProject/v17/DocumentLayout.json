@@ -40,7 +40,9 @@
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\CatMan\\AddCategory.cshtml",
               "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\CatMan\\AddCategory.cshtml",
               "RelativeToolTip": "SWP391-FinalProject\\Views\\CatMan\\AddCategory.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAcwE4AAAAAAAAAAAAAAA==",
+
+              "ViewState": "AgIAAC0AAAAAAAAAAAAcwDoAAABRAAAAAAAAAA==",
+
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-28T06:04:10.656Z"
             },
@@ -52,7 +54,9 @@
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\CatManController.cs",
               "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CatManController.cs",
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\CatManController.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAswD4AAABaAAAAAAAAAA==",
+
+              "ViewState": "AgIAADYAAAAAAAAAAAAtwEEAAAAfAAAAAAAAAA==",
+
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-28T06:04:01.794Z",
               "EditorCaption": ""

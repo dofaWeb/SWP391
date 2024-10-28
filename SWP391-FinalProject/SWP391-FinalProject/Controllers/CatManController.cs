@@ -58,19 +58,19 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult AddCategory(string Name, string CategoryType)
         {
             TempData["ErrorMessage"] = "";
-            if (Regex.IsMatch(Name, @"\d"))
+            if (Name != null && Regex.IsMatch(Name, @"\d"))
             {
                 TempData["ErrorMessage"] += "Category name cannot contain numbers.<br />";
                 
             }
-            if(Name.Length >= 50)
+            if(Name != null && Name.Length >= 50)
             {
                 TempData["ErrorMessage"] += "Category name must be less than 50 characters.<br />";
                 
             }
-            if(CategoryType == "empty")
+            if(CategoryType == "empty" || Name == null)
             {
-                TempData["ErrorMessage"] += "Category Type cannot be empty.<br />";
+                TempData["ErrorMessage"] += "Input field cannot be empty.<br />";
             }
 
             // Check if there are any errors

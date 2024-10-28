@@ -45,7 +45,6 @@
     });
     //----------------------------------------------------
     function validatePasswords() {
-        console.log('Validate Password');
         var passwordField = document.getElementById("password");
         var confirmPasswordField = document.getElementById("confirmPassword");
         var ViewBagErrorField = document.getElementById("ViewBagError");
@@ -54,41 +53,50 @@
         var passwordErrorLabel = document.getElementById("passwordErrorLabel");
 
 
-        // Kiểm tra mật khẩu và mật khẩu xác nhận có trùng nhau không
         if (password !== confirmPassword) {
-            console.log('Validate Password if');
             passwordErrorLabel.textContent = "Confirm password doest not match the password.";
             passwordErrorLabel.style.display = "block";
             ViewBagErrorField.style.display = "none";
-            // Reset cả 2 trường mật khẩu
-            confirmPasswordField.value = "";
-            return false; // Dừng form submit
+            return false; // stop form submit
         } else {
-            console.log('Validate Password else');
             passwordErrorLabel.style.display = "none";
             ViewBagErrorField.style.display = "none";
         }
-
-
         return true;
     }
+
+    function validateName(){
+        var nameField = document.getElementById("name");
+        var name = nameField.value;
+        var NameErrorLabel = document.getElementById("nameErrorLabel");
+        var namePattern = /^[A-Za-z\s]+$/;
+        var ViewBagErrorField = document.getElementById("ViewBagError");
+        if (!namePattern.test(name)) {
+            NameErrorLabel.textContent = "Name must not contain numbers or special characters.";
+            NameErrorLabel.style.display = "block";
+            ViewBagErrorField.style.display = "none";
+            return false;
+        }else{
+            NameErrorLabel.style.display = "none";
+            ViewBagErrorField.style.display = "none";
+            return true;
+        }
+    }
+
     function validateEmail() {
-        console.log('Validate Email');
         var emailField = document.getElementById("email");
         var email = emailField.value;
         var EmailErrorLabel = document.getElementById("emailErrorLabel");
         var ViewBagErrorField = document.getElementById("ViewBagError");
-        // Biểu thức chính quy kiểm tra định dạng email
+        // validate email form
         var emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/;
 
         if (!emailPattern.test(email)) {
-            console.log('Validate Email if');
             EmailErrorLabel.textContent = "Invalid email format.";
             EmailErrorLabel.style.display = "block";
             ViewBagErrorField.style.display = "none";
             return false;
         } else {
-            console.log('Validate Email else');
             EmailErrorLabel.style.display = "none";
             ViewBagErrorField.style.display = "none";
             return true;
@@ -96,27 +104,24 @@
     }
 
     function validatePhone() {
-        console.log('Validate Phone');
         var phoneField = document.getElementById("phone");
         var phone = phoneField.value;
-        var phonePattern = /^[0-9]{7,11}$/; // Giả sử yêu cầu 10 số
+        var phonePattern = /^[0-9]{7,11}$/; // validate phone format
         var PhoneErrorLabel = document.getElementById("phoneErrorLabel");
         var ViewBagErrorField = document.getElementById("ViewBagError");
         if (!phonePattern.test(phone)) {
             console.log('Validate Phone if');
-            PhoneErrorLabel.textContent = "Invalid phone format.";
+            PhoneErrorLabel.textContent = "Phone number must be numeric and 7 - 11 characters long.";
             PhoneErrorLabel.style.display = "block";
             ViewBagErrorField.style.display = "none";
             return false;
         } else {
-            console.log('Validate Phone else');
             PhoneErrorLabel.style.display = "none";
             ViewBagErrorField.style.display = "none";
             return true;
         }
     }
     function validatePasswordStrength() {
-        console.log('Validate Password Strenth');
         var passwordField = document.getElementById("password");
         var passwordErrorLabel = document.getElementById("passwordErrorLabel");
         var ViewBagErrorField = document.getElementById("ViewBagError");
@@ -124,13 +129,11 @@
         var passwordPattern = /^.{6,}$/;
 
         if (!passwordPattern.test(password)) {
-            console.log('Validate Password Strenth if');
             passwordErrorLabel.textContent = "Password must be at least 6 characters long.";
             passwordErrorLabel.style.display = "block";
             ViewBagErrorField.style.display = "none";
             return false;
         } else {
-            console.log('Validate Password Strenth else');
             passwordErrorLabel.style.display = "none";
             ViewBagErrorField.style.display = "none";
         }
@@ -140,25 +143,17 @@
 
     function validate() {
 
-        console.log('1.');
         var pass = validatePasswordStrength();
-        console.log('2.');
         if (pass) {
             var confirmPass = validatePasswords();
         }
-        console.log('3.');
+        var name = validateName();
         var email = validateEmail();
-        console.log('4.');
         var phone = validatePhone();
-        console.log('5.');
-        var result = pass && confirmPass && email && phone;
-        console.log('AAAAAAAAAAAA');
-        console.log(result);
+        var result = pass && confirmPass && email && phone && name;
         if (!result) {
-            console.log('FALSE');
             return false;
         } else {
-            console.log('TRUE');
             return true;
         }
     }
@@ -167,7 +162,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <h3>Create an Account</h3>
-            <h4 style="color:red" id="ViewBagError">@ViewBag.Error</h4>
+            @if (ViewBag.Error != "")
+            {
+                <h4 style="color:red" id="ViewBagError">@Html.Raw(ViewBag.Error)</h4>
+            }
             <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validate();">
                 <div class="row">
                     <div class="col-md-6">
@@ -187,6 +185,7 @@
                         <div class="form-group">
                             <label for="name">Your Name</label>
                             <input id="name" type="text" class="form-control" name="Name" placeholder="Enter your name" required>
+                            <label id="nameErrorLabel" style="color: red; display: none;"></label>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -219,7 +218,7 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Address:</label>
-                            <input id="address" type="text" name="Address" class="form-control" placeholder="Enter Your Address" />
+                            <input id="address" type="text" name="Address" class="form-control" placeholder="Enter Your Address" required/>
                         </div>
                     </div>
                 </div>

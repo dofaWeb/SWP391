@@ -51,13 +51,13 @@ namespace SWP391_FinalProject.Repository
 
         public string GetVariationId(string name)
         {
-            var id = db.Variations.Where(p=>p.Name == name).Select(p => p.Id).FirstOrDefault();
+            var id = db.Variations.Where(p => p.Name == name).Select(p => p.Id).FirstOrDefault();
             return id;
         }
 
         public string GetVariationOptionId(string value, string varationId)
         {
-            var id = db.VariationOptions.Where(p=>p.Value == value && p.VariationId==varationId).Select(p => p.Id).FirstOrDefault();
+            var id = db.VariationOptions.Where(p => p.Value == value && p.VariationId == varationId).Select(p => p.Id).FirstOrDefault();
             return id;
         }
 
@@ -150,14 +150,15 @@ namespace SWP391_FinalProject.Repository
         {
             var QuanLogid = "";
             var ProLogid = "";
-            do {
+            do
+            {
                 QuanLogid = StaffManController.GenerateRandomString(8);
-            } while (db.QuantityLogs.Where(p=>p.Id == QuanLogid).Any());
+            } while (db.QuantityLogs.Where(p => p.Id == QuanLogid).Any());
 
             do
             {
                 ProLogid = StaffManController.GenerateRandomString(8);
-            } while (db.ProductLogs.Where(p=>p.Id == ProLogid).Any());
+            } while (db.ProductLogs.Where(p => p.Id == ProLogid).Any());
             var quanLog = new Entities.QuantityLog
             {
                 Id = QuanLogid,
@@ -168,7 +169,7 @@ namespace SWP391_FinalProject.Repository
             };
 
             db.QuantityLogs.Add(quanLog);
-            db.SaveChanges() ;
+            db.SaveChanges();
 
             db.ProductLogs.Add(new Entities.ProductLog
             {
@@ -176,7 +177,7 @@ namespace SWP391_FinalProject.Repository
                 QuantityLogId = QuanLogid,
                 ChangeReasonId = "1"
             });
-            db.SaveChanges() ;
+            db.SaveChanges();
         }
 
 
@@ -198,7 +199,24 @@ namespace SWP391_FinalProject.Repository
             product.StateId = 1;
             db.SaveChanges();
             AddProductConfiguration(model);
-            
+
+        }
+
+        public void UpdateProductItemQuantityByOrderStateId(string proItemId, int Quantity, int OrderStateId)
+        {
+            var proItem = db.ProductItems.Where(p => p.Id == proItemId).FirstOrDefault();
+            if (proItem != null)
+            {
+                if (OrderStateId == 1)
+                {
+                    proItem.Quantity -= Quantity;
+                }
+                else if (OrderStateId == 3)
+                {
+                    proItem.Quantity += Quantity;
+                }
+                db.SaveChanges();
+            }
         }
 
         public void EditProductItem(ProductItemModel model)
@@ -219,7 +237,7 @@ namespace SWP391_FinalProject.Repository
             if (proItem != null)
             {
                 db.ProductItems.Remove(proItem);
-                foreach(var pc in prc)
+                foreach (var pc in prc)
                 {
                     db.ProductConfigurations.Remove(pc);
                 }
@@ -237,13 +255,13 @@ namespace SWP391_FinalProject.Repository
                 Discount = p.Discount
             }).FirstOrDefault();
 
-            return ProductRepository.CalculatePriceAfterDiscount(price.SellingPrice, price.Discount/100);
+            return ProductRepository.CalculatePriceAfterDiscount(price.SellingPrice, price.Discount / 100);
         }
 
         public void Import(string id, int quantity)
         {
             var proItem = db.ProductItems.FirstOrDefault(db => db.Id == id);
-            if(proItem != null)
+            if (proItem != null)
             {
                 proItem.Quantity += quantity;
                 db.SaveChanges();

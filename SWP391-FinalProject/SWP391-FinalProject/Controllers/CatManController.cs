@@ -57,15 +57,20 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddCategory(string Name, string CategoryType)
         {
-
+            if (Regex.IsMatch(Name, @"\d"))
+            {
+                TempData["ErrorMessage"] = "Category name cannot contain numbers.";
+                return View("AddCategory");
+            }
+            if(Name.Length >= 50)
+            {
+                TempData["ErrorMessage"] = "Category name must be less than 50 characters.";
+                return View("AddCategory");
+            }
             Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
             catManRepo.AddCategory(Name, CategoryType);
             TempData["SuccessMessage"] = "Category added successfully.";
-            if(Regex.IsMatch(Name, @"\d"))
-            {
-                TempData["ErrorMessage"] = "Category added fail.";
-                return View("AddCategory");
-            }
+            
 
             // Redirect to the appropriate view or return success message
             return RedirectToAction("Display");

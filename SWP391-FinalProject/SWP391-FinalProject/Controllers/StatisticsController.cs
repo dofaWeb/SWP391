@@ -7,14 +7,18 @@ namespace SWP391_FinalProject.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("OrderStat");
-        }
-
-        public IActionResult OrderStat()
-        {
             StatisticsRepository statRepo = new StatisticsRepository();
             dynamic result = statRepo.GetOrderStat();
             ViewBag.OrderStat = result;
+            var sellingProducts = statRepo.GetBestSellingProducts();
+       
+            var sellingBrands = statRepo.GetBestSellingBrands();
+            var spendingCustomer = statRepo.GetMostSpendingCustomers();
+
+            ViewBag.SellingProducts = sellingProducts;
+            
+            ViewBag.SellingBrands = sellingBrands;
+            ViewBag.SpendingCustomers = spendingCustomer;
             return View();
         }
     }

@@ -53,6 +53,7 @@ namespace SWP391_FinalProject.Controllers
             proItem.Storage = storage;
             proItem.PriceAfterDiscount = ProductRepository.CalculatePriceAfterDiscount(proItem.SellingPrice, proItem.Discount / 100);
             AddToCartCookie(proItem);
+            TempData["AddCartSuccess"] = "Added to the cart successfully";
             return RedirectToAction("ProductDetail", "Pro", new { id = proItem.Product.Id, productItemId = ProductItemId, Price = proItemRepo.GetPriceByProductItemId(ProductItemId) });
         }
 

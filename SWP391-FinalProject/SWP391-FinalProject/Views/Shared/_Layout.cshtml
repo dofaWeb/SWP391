@@ -55,12 +55,27 @@
             <div class="col-md-10">
 
                 <!-- Search Bar -->
+                <!-- Search Bar -->
+                <form asp-controller="Pro" asp-action="SearchedProduct" method="get" class="input-group mb-3">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search products..." aria-label="Search products">
 
-                <form asp-asp-controller="Pro" asp-action="SearchedProduct" method="get" class="input-group mb-3">
-                    <input id="SearchProduct" type="text" name="keyword" class="form-control" placeholder="Search products..." aria-label="Search products" required>
+                    <!-- Dropdown for Sorting by Price, with reduced width -->
+                    <select name="sortByPrice" class="form-control" style="width: 150px; margin-right: 5px;">
+                        <option value="">Sort by Price</option>
+                        <option value="Asc">Ascending</option>
+                        <option value="Desc">Descending</option>
+
+                    </select>
+
+                    <!-- Dropdown for Filtering by Category, with reduced width -->
+                    <select name="sortByCat" class="form-control" style="width: 150px; margin-right: 5px;">
+                        <option value="">Filter by Category</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Phone">Phone</option>
+                    </select>
 
                     <div class="input-group-append">
-                        <button id="SearchButton" class="btn btn-primary" type="submit">Search</button>
+                        <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </form>
 

@@ -3,6 +3,7 @@
   "WorkspaceRootPath": "D:\\SWP391_Final\\SWP391-FinalProject\\",
   "Documents": [
     {
+
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\statistics\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\statistics\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -21,6 +22,7 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\statistics\\orderstat.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\statistics\\orderstat.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +32,9 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+
           "SelectedChildIndex": 12,
+
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,6 +54,7 @@
             },
             {
               "$type": "Bookmark",
+
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
@@ -128,6 +133,7 @@
               "ViewState": "AgIAAFYAAAAAAAAAAAAnwFkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-27T13:04:07.056Z"
+
             }
           ]
         }

@@ -117,6 +117,7 @@
 
                 <input id="CartOption" name="Option" value="@defaultOptionValue" type="hidden" />
                 <input type="hidden" value="@Model.Id" name="ProductId" />
+                <h3 style="color: green">@TempData["AddCartSuccess"]</h3>
                 <input class="btn btn-danger btn-sm" type="submit" value="AddToCart" id="addToCartButton" />
                 <a asp-action="Index" asp-controller="Pro" class="btn btn-secondary btn-sm">Cancel</a>
             </div>

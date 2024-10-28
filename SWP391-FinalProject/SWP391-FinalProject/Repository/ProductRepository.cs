@@ -493,10 +493,27 @@ namespace SWP391_FinalProject.Repository
 
         public static decimal CalculatePriceAfterDiscount(decimal? SellingPrice, decimal? discount)
         {
-            var d = (discount == null) ? 0 : discount;
-            var s = (SellingPrice == null) ? 0 : SellingPrice;
-            return (decimal)(s - (s * d));
+            try
+            {
+                if (SellingPrice < 0)
+                    throw new ArgumentException("Selling price cannot be negative.");
+                if (discount < 0|| discount > 1)
+                {
+                    throw new ArgumentException("Discount must be between 0-100.");
+                }
+                // Set discount to 0 if it's null, and similarly for SellingPrice
+                var d = discount ?? 0;
+                var s = SellingPrice ?? 0;
+
+                return s - (s * d);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw; // Rethrow to allow the calling code or tests to handle it
+            }
         }
+
 
         public decimal? CalculateProfit(decimal? PriceAfterDiscount, decimal ImportPrice)
         {

@@ -2,17 +2,307 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Statistics</h2>
+<h1 class="mt-4">Order Statistics</h1>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="navbar-nav">
-        <a asp-action="OrderStat" asp-controller="Statistics" class="nav-item nav-link text-white" style="background-color: transparent">Order</a>
-        <a href="#" class="nav-item nav-link text-white" style="background-color: transparent">Import Price</a>
-        <a href="#" class="nav-item nav-link text-white" style="background-color: transparent">Selling Price</a>
-        <a href="#" class="nav-item nav-link text-white" style="background-color: transparent">Profit</a>
-    </div>
-</nav>
-
-<div class="container mt-4">
-    @RenderBody() <!-- Placeholder for child page content -->
+<!-- Chart Section for Orders -->
+<div class="chart-container">
+    <canvas id="orderChart" width="300" height="150"></canvas>
 </div>
+
+<!-- Order Statistics Table -->
+<h2 class="mt-4">Order Statistics</h2>
+<table class="table table-bordered mt-3">
+    <thead class="thead-light">
+        <tr>
+            <th>Year</th>
+            <th>Month</th>
+            <th>Total Orders</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in ViewBag.OrderStat)
+        {
+            <tr>
+                <td>@order.Year</td>
+                <td>@order.Month</td>
+                <td>@order.TotalOrder</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Container for Circular Charts -->
+<h2 class="mt-4">Statistics Overview</h2>
+<div class="row">
+    <div class="col-md-4">
+        <h3>Best-Selling Products</h3>
+        <canvas id="bestSellingProductsChart" width="300" height="300"></canvas>
+    </div>
+    <div class="col-md-4">
+        <h3>Best-Selling Brands</h3>
+        <canvas id="bestSellingBrandsChart" width="300" height="300"></canvas>
+    </div>
+    <div class="col-md-4">
+        <h3>Most-Spending Customers</h3>
+        <canvas id="mostSpendingCustomersChart" width="300" height="300"></canvas>
+    </div>
+</div>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Prepare data for the orders chart
+        const orderLabels = [];
+        const orderDataPoints = [];
+
+    @foreach (var order in ViewBag.OrderStat)
+    {
+        <text>
+                    orderLabels.push("@order.Year-@order.Month");
+                    orderDataPoints.push(@order.TotalOrder);
+        </text>
+    }
+
+            // Chart.js configuration for Total Orders
+            const orderCtx = document.getElementById('orderChart').getContext('2d');
+        new Chart(orderCtx, {
+            type: 'line',
+            data: {
+                labels: orderLabels,
+                datasets: [{
+                    label: 'Total Orders',
+                    data: orderDataPoints,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year-Month'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Total Orders'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Prepare data for the best-selling products chart
+        const productLabels = [];
+        const productCounts = [];
+
+    @foreach (var item in ViewBag.SellingProducts)
+    {
+        <text>
+                    productLabels.push("@item.ProductName");
+                    productCounts.push(@item.Count);
+        </text>
+    }
+
+            // Chart.js configuration for Best-Selling Products
+            const productCtx = document.getElementById('bestSellingProductsChart').getContext('2d');
+        new Chart(productCtx, {
+            type: 'doughnut',
+            data: {
+                labels: productLabels,
+                datasets: [{
+                    label: 'Best-Selling Products',
+                    data: productCounts,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Best-Selling Products'
+                    }
+                }
+            }
+        });
+
+        // Prepare data for the best-selling brands chart
+        const brandLabels = [];
+        const brandCounts = [];
+
+    @foreach (var item in ViewBag.SellingBrands)
+    {
+        <text>
+                    brandLabels.push("@item.CategoryName");
+                    brandCounts.push(@item.ProductCount);
+        </text>
+    }
+
+            // Chart.js configuration for Best-Selling Brands
+            const brandCtx = document.getElementById('bestSellingBrandsChart').getContext('2d');
+        new Chart(brandCtx, {
+            type: 'doughnut',
+            data: {
+                labels: brandLabels,
+                datasets: [{
+                    label: 'Best-Selling Brands',
+                    data: brandCounts,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Best-Selling Brands'
+                    }
+                }
+            }
+        });
+
+        // Prepare data for the most-spending customers chart
+        const customerLabels = [];
+        const customerSpending = [];
+
+    @foreach (var item in ViewBag.SpendingCustomers)
+    {
+        <text>
+                    customerLabels.push("@item.UserName");
+                    customerSpending.push(@item.MoneyUsed);
+        </text>
+    }
+
+            // Chart.js configuration for Most-Spending Customers
+            const customerCtx = document.getElementById('mostSpendingCustomersChart').getContext('2d');
+        new Chart(customerCtx, {
+            type: 'doughnut',
+            data: {
+                labels: customerLabels,
+                datasets: [{
+                    label: 'Most-Spending Customers',
+                    data: customerSpending,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label || '';
+                                const value = tooltipItem.raw || 0;
+                                const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(2);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Most-Spending Customers'
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<style>
+    .row {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .chart-container {
+        margin: 10px;
+    }
+</style>

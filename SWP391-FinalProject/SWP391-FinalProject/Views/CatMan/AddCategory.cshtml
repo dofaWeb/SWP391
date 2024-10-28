@@ -47,12 +47,12 @@
     @if (TempData["ErrorMessage"] != null)
     {
         <div class="alert alert-danger" role="alert">
-            @TempData["ErrorMessage"]
+             @Html.Raw(TempData["ErrorMessage"])
         </div>
     }
     <h2>Add New Category</h2>
 
-    <form asp-controller="CatMan" asp-action="AddCategory" method="post" enctype="multipart/form-data">
+    <form asp-controller="CatMan" asp-action="AddCategory" method="post">
         <!-- Category Name -->
         <div class="form-group">
             <label for="categoryName">Category Name:</label>
@@ -62,8 +62,8 @@
         <!-- Category Selection -->
         <div class="form-group">
             <label for="category">Category:</label>
-            <select class="form-control" name="CategoryType" id="category" required>
-                <option value="" disabled selected>Select Category</option>
+            <select class="form-control" name="CategoryType" id="category">
+                <option value="empty" selected>Select Category</option>
                 <option value="laptop">Laptop</option>
                 <option value="phone">Smartphone</option>
             </select>

@@ -36,6 +36,10 @@ namespace SWP391_FinalProject.Controllers
             OrderRepository orderRepository = new OrderRepository();
             orderRepository.UpdateOrderState(OrderStateId, OrderId);
             var username = User.FindFirst(ClaimTypes.Name);
+            UserRepository userRepo = new UserRepository();
+            OrderModel order = orderRepository.GetOrderByOrderId(OrderId);
+            UserModel user = userRepo.GetUserProfileByUserId(order.UserId);
+            userRepo.UpdateUserPoint(user.Account.Username, OrderStateId, order.UsePoint, order.EarnPoint);
             return RedirectToAction("ListOrder", new {Username = username});
         }
 

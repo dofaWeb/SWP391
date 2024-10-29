@@ -19,84 +19,110 @@ namespace SWP391_FinalProject.Repository
 
         public List<Models.ProductModel> GetProductsByKeyword(string keyword, string price, string category, string brand)
         {
-            // Start querying products without keyword filtering
-            var query = from p in db.Products
-                        join c in db.Categories on p.CategoryId equals c.Id
-                        join ps in db.ProductStates on p.StateId equals ps.Id
-                        select new Models.ProductModel
-                        {
-                            Id = p.Id,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Picture = p.Picture,
-                            Quantity = (db.ProductItems
-                                         .Where(pi => pi.ProductId == p.Id)
-                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
-                            CategoryName = c.Name,
-                            CategoryId = c.Id,
-                            ProductState = ps.Name
-                        };
+            // Base SQL query with joins
+            string query = @"SELECT p.Id, p.Name, p.Description, p.Picture, 
+                            COALESCE(SUM(pi.Quantity), 0) AS Quantity,
+                            c.Name AS CategoryName, c.Id AS CategoryId, ps.Name AS ProductState
+                     FROM Product p
+                     JOIN Category c ON p.category_id = c.Id
+                     JOIN Product_State ps ON p.state_id = ps.Id
+                     LEFT JOIN Product_Item pi ON pi.product_id = p.Id
+                     WHERE 1 = 1
+                     ";
 
-            // Check for null or empty keyword and apply filtering only if it's present
+            var parameters = new Dictionary<string, object>();
+
+            // Keyword filtering
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(p => p.Name.Contains(keyword) || p.Name.StartsWith(keyword));
+                query += " AND (p.Name LIKE @keyword OR p.Name LIKE @keywordStart)";
+                parameters.Add("@keyword", $"%{keyword}%");
+                parameters.Add("@keywordStart", $"{keyword}%");
             }
 
-            // Apply category filtering if provided
+            // Category filtering
             if (!string.IsNullOrWhiteSpace(category))
             {
                 if (category.Equals("Laptop", StringComparison.OrdinalIgnoreCase))
                 {
-                    query = query.Where(p => p.CategoryId.StartsWith("B0"));
+                    query += " AND c.Id LIKE 'B0%'";
                 }
                 else if (category.Equals("Phone", StringComparison.OrdinalIgnoreCase))
                 {
-                    query = query.Where(p => p.CategoryId.StartsWith("B1"));
+                    query += " AND c.Id LIKE 'B1%'";
                 }
             }
-            // Áp dụng bộ lọc thương hiệu nếu có
+
+            // Brand filtering
             if (!string.IsNullOrWhiteSpace(brand))
             {
-                query = query.Where(c => c.Name.Contains(brand)); // Tìm kiếm theo thương hiệu
+                query += " AND p.Name LIKE @brand";
+                parameters.Add("@brand", $"%{brand}%");
             }
-            // Execute the query and retrieve the results
-            var result = query.ToList(); // Execute the query
 
-            // Calculate minimum price for each product item
-            foreach (var item in result)
+            query += " GROUP BY p.Id ORDER BY p.Name ASC"; // Group by product and order by name
+
+            // Execute query and populate ProductModel list
+            DataTable productTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+            var result = new List<Models.ProductModel>();
+
+            foreach (DataRow row in productTable.Rows)
             {
-                var minPriceProductItem = db.ProductItems
-                    .Where(pi => pi.ProductId == item.Id && pi.SellingPrice.HasValue)
-                    .Select(pi => new ProductItemModel
-                    {
-                        Discount = pi.Discount,
-                        Id = pi.Id,
-                        SellingPrice = pi.SellingPrice,
-                        PriceAfterDiscount = CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100),
-                        Saving = pi.SellingPrice - CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100)
-                    })
-                    .OrderBy(pi => pi.SellingPrice)
-                    .FirstOrDefault(); // Take the minimum priced product item
+                var product = new Models.ProductModel
+                {
+                    Id = row["Id"].ToString(),
+                    Name = row["Name"].ToString(),
+                    Description = row["Description"].ToString(),
+                    Picture = row["Picture"].ToString(),
+                    Quantity = Convert.ToInt32(row["Quantity"]),
+                    CategoryName = row["CategoryName"].ToString(),
+                    CategoryId = row["CategoryId"].ToString(),
+                    ProductState = row["ProductState"].ToString()
+                };
 
-                item.ProductItem = minPriceProductItem; // Set the minimum price item to ProductModel
+                // Retrieve minimum price for each product
+                string priceQuery = @"SELECT Id, selling_price, discount, 
+	(selling_price - (selling_price * (discount / 100))) AS PriceAfterDiscount
+                              FROM Product_Item 
+                              WHERE product_id = @productId AND selling_price IS NOT NULL
+                              ORDER BY selling_price ASC
+                              LIMIT 1;";
+
+                var priceParams = new Dictionary<string, object> { { "@productId", product.Id } };
+                DataTable priceTable = DataAccess.DataAccess.ExecuteQuery(priceQuery, priceParams);
+
+                if (priceTable.Rows.Count > 0)
+                {
+                    DataRow priceRow = priceTable.Rows[0];
+                    product.ProductItem = new ProductItemModel
+                    {
+                        Id = priceRow["Id"].ToString(),
+                        SellingPrice = Convert.ToDecimal(priceRow["selling_price"]),
+                        Discount = Convert.ToDecimal(priceRow["Discount"]),
+                        PriceAfterDiscount = Convert.ToDecimal(priceRow["PriceAfterDiscount"]),
+                        Saving = Convert.ToDecimal(priceRow["selling_price"]) - Convert.ToDecimal(priceRow["PriceAfterDiscount"])
+                    };
+                }
+
+                result.Add(product);
             }
 
-            // Apply price sorting if provided
+            // Sort results based on price if specified
             if (!string.IsNullOrWhiteSpace(price))
             {
                 if (price.Equals("Asc", StringComparison.OrdinalIgnoreCase))
                 {
-                    result = result.OrderBy(p => p.ProductItem.PriceAfterDiscount).ToList(); // Sort by minimum price ascending
+                    result = result.OrderBy(p => p.ProductItem?.PriceAfterDiscount).ToList();
                 }
                 else if (price.Equals("Desc", StringComparison.OrdinalIgnoreCase))
                 {
-                    result = result.OrderByDescending(p => p.ProductItem.PriceAfterDiscount).ToList(); // Sort by minimum price descending
+                    result = result.OrderByDescending(p => p.ProductItem?.PriceAfterDiscount).ToList();
                 }
             }
 
-            return result; // Return the final list of products
+            return result;
         }
+
 
         public List<Models.ProductModel> GetProductByBrand(string brand)
         {
@@ -354,10 +380,12 @@ namespace SWP391_FinalProject.Repository
 
         public string getNewProductID()
         {
-            string lastId = db.Products
-                     .OrderByDescending(a => a.Id)
-                     .Select(a => a.Id)
-                     .FirstOrDefault();
+            var query = "SELECT ID FROM Product Order By Id DESC LIMIT 1;";
+            DataTable dataTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+
+
+            string lastId = dataTable.Rows[0]["Id"].ToString();
             if (lastId == null)
             {
                 return "P0000001";

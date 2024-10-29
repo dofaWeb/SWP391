@@ -67,7 +67,7 @@ namespace SWP391_FinalProject.Repository
 
             DataTable categoryTable = DataAccess.DataAccess.ExecuteQuery(query);
 
-            foreach(DataRow row in categoryTable.Rows)
+            foreach (DataRow row in categoryTable.Rows)
             {
                 categories.Add(new CategoryModel
                 {
@@ -75,7 +75,7 @@ namespace SWP391_FinalProject.Repository
                     Name = row["Name"].ToString()
                 });
             }
-            
+
             return categories;
         }
         public List<Models.CategoryModel> GetAllCatPhone()
@@ -98,37 +98,42 @@ namespace SWP391_FinalProject.Repository
         }
         public string GenerateCategoryId(string prefix)
         {
-            // Get the number of existing categories with the same prefix to generate unique ID
-            var existingCategories = db.Categories
-                                       .Where(c => c.Id.StartsWith(prefix))
-                                       .OrderByDescending(c => c.Id)
-                                       .FirstOrDefault();
+            // Dynamic query to get the last ID with the specified prefix
+            string query = $"SELECT Id FROM Category WHERE Id LIKE '{prefix}%' ORDER BY Id DESC LIMIT 1;";
+            DataTable existingCategories = DataAccess.DataAccess.ExecuteQuery(query);
 
-            int nextIdNumber = 1; // Default to 1 if there are no existing IDs
+            int nextIdNumber = 1; // Default to 1 if no existing ID
 
-            if (existingCategories != null)
+            if (existingCategories != null && existingCategories.Rows.Count > 0)
             {
-                // Extract the numeric part from the existing category ID
-                string lastId = existingCategories.Id;
-                nextIdNumber = int.Parse(lastId.Substring(2)) + 1;
+                // Retrieve the last ID from the result set
+                string lastId = existingCategories.Rows[0]["Id"].ToString();
+
+                // Extract the numeric part and increment
+                nextIdNumber = int.Parse(lastId.Substring(prefix.Length)) + 1;
             }
 
-            // Generate new ID with format
+            // Generate new ID with the specified format
             return $"{prefix}{nextIdNumber.ToString("D6")}";
         }
+
         public Models.CategoryModel GetCatById(string id)
         {
-            var categoryEntity = db.Categories.FirstOrDefault(c => c.Id == id);
-            if (categoryEntity == null)
+            string query = "SELECT * FROM Category WHERE id = @id";
+            var parameters = new Dictionary<string, object>
             {
-                return null; // Or handle not found scenario appropriately
-            }
+                { "@id", id }
+            };
+            DataTable categoryTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            DataRow row = categoryTable.Rows[0];
             Models.CategoryModel result = new Models.CategoryModel
             {
-                Id = categoryEntity.Id,
-                Name = categoryEntity.Name,
+                Id = row["Id"].ToString(),
+                Name = row["Name"].ToString(),
             };
-            return (result);
+
+            return result;
 
         }
 

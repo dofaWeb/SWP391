@@ -49,12 +49,6 @@
         @TempData["SuccessMessage"]
     </div>
 }
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["ErrorMessage"]
-    </div>
-}
 
 <div class="mb-3">
     <a asp-action="AddCategory" asp-controller="CatMan" class="btn btn-success">Add New Category</a>

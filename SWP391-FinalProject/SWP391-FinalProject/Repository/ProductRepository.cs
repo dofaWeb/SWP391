@@ -452,39 +452,62 @@ namespace SWP391_FinalProject.Repository
 
         public void UpdateProduct(ProductModel model, IFormFile pictureUpload)
         {
-            // Fetch the existing product from the database
-            var existingProduct = db.Products.FirstOrDefault(p => p.Id == model.Id);
-            if (existingProduct == null)
-                throw new Exception("Product not found!");
+            // Check if the product exists in the database
+            string checkQuery = "SELECT COUNT(1) FROM Products WHERE Id = @Id";
+            var checkParameters = new Dictionary<string, object> { { "@Id", model.Id } };
+            DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
 
-            // Update the fields that are allowed to change
-            existingProduct.Name = model.Name;
-            existingProduct.CategoryId = model.CategoryId;
-            existingProduct.Description = model.Description;
-            if (GetProductQuantityById(model.Id) > 0)
+            if (checkResult.Rows[0][0].ToString() == "0")
             {
-                existingProduct.StateId = model.StateId;
+                throw new Exception("Product not found!");
             }
-            else
-                existingProduct.StateId = 3;//out of stock
 
-            // Handle picture upload
+            // Determine the StateId based on product quantity
+            int stateId = GetProductQuantityById(model.Id) > 0 ? model.StateId : 3;
+
+            // Handle picture upload, if provided
+            string picturePath = null;
             if (pictureUpload != null)
             {
-                MyUtil.DeletePicture(existingProduct.Picture);  // Delete old picture
-                existingProduct.Picture = MyUtil.UpLoadPicture(pictureUpload);  // Upload new one
+                // Delete old picture
+                picturePath = MyUtil.UpLoadPicture(pictureUpload);
+                string deleteOldPicturePathQuery = "SELECT Picture FROM Products WHERE Id = @Id";
+                DataTable oldPictureResult = DataAccess.DataAccess.ExecuteQuery(deleteOldPicturePathQuery, checkParameters);
+                string oldPicturePath = oldPictureResult.Rows[0]["Picture"].ToString();
+
+                MyUtil.DeletePicture(oldPicturePath);
             }
 
-            // Save changes to the database
-            using var transaction = db.Database.BeginTransaction();
+            // Prepare SQL update query
+            string updateQuery = @"
+        UPDATE Products
+        SET Name = @Name,
+            CategoryId = @CategoryId,
+            Description = @Description,
+            StateId = @StateId,
+            Picture = COALESCE(@Picture, Picture) -- Only update picture if new picture provided
+        WHERE Id = @Id;";
+
+            // Define parameters for update query
+            var updateParameters = new Dictionary<string, object>
+    {
+        { "@Id", model.Id },
+        { "@Name", model.Name },
+        { "@CategoryId", model.CategoryId },
+        { "@Description", model.Description },
+        { "@StateId", stateId },
+        { "@Picture", picturePath }
+    };
+
+            // Execute the update query within a transaction
+            using var transaction = new System.Transactions.TransactionScope();
             try
             {
-                db.SaveChanges();
-                transaction.Commit();
+                DataAccess.DataAccess.ExecuteNonQuery(updateQuery, updateParameters);
+                transaction.Complete();
             }
             catch (Exception ex)
             {
-                transaction.Rollback();
                 Console.WriteLine(ex.Message);
                 throw;
             }

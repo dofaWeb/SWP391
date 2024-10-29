@@ -27,7 +27,7 @@ namespace SWP391_FinalProject.ViewComponents
                 // Add more cases here for future product types
                 case "GetProductsByKeyword":
                     if(str == "") products = proRepo.GetAllProduct();
-                    else products = proRepo.GetProductsByKeyword(str,ViewBag.sortByPrice,ViewBag.sortByCat);
+                    else products = proRepo.GetProductsByKeyword(str,ViewBag.sortByPrice,ViewBag.sortByCat, ViewBag.sortByBrand);
                     break;
                 case "ProductsByCategory":
                     if (str == "") products = proRepo.GetAllProduct();

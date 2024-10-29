@@ -606,39 +606,82 @@ namespace SWP391_FinalProject.Repository
         }
         public ProductItemModel GetProductDetails(string productId, string selectedRam, string selectedStorage)
         {
+            // SQL Query
+            string query = @"
+        SELECT TOP 1
+            p.Id AS Id,
+            p.Id AS ProductId,
+            p.Name AS ProductName,
+            p.Picture AS ProductPicture,
+            p.Description AS ProductDescription,
+            pi.SellingPrice AS SellingPrice
+        FROM 
+            Products p
+        JOIN 
+            ProductItems pi ON p.Id = pi.ProductId
+        JOIN 
+            ProductConfigurations pc ON pi.Id = pc.ProductItemId
+        JOIN 
+            VariationOptions vo ON pc.VariationOptionId = vo.Id
+        JOIN 
+            Variations va ON vo.VariationId = va.Id
+        WHERE 
+            p.Id = @productId
+            AND EXISTS (
+                SELECT 1
+                FROM ProductConfigurations pc2
+                JOIN VariationOptions vo2 ON pc2.VariationOptionId = vo2.Id
+                JOIN Variations va2 ON vo2.VariationId = va2.Id
+                WHERE pc2.ProductItemId = pi.Id
+                  AND vo2.Value = @selectedRam
+                  AND va2.Name = 'Ram'
+            )
+            AND EXISTS (
+                SELECT 1
+                FROM ProductConfigurations pc3
+                JOIN VariationOptions vo3 ON pc3.VariationOptionId = vo3.Id
+                JOIN Variations va3 ON vo3.VariationId = va3.Id
+                WHERE pc3.ProductItemId = pi.Id
+                  AND vo3.Value = @selectedStorage
+                  AND va3.Name = 'Storage'
+            );";
 
+            // Define parameters
+            var parameters = new Dictionary<string, object>
+    {
+        { "@productId", productId },
+        { "@selectedRam", selectedRam },
+        { "@selectedStorage", selectedStorage }
+    };
+
+            // Execute query and get result
+            DataTable productTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            if (productTable.Rows.Count == 0)
             {
-                var productDetails = (from p in db.Products
-                                      join pi in db.ProductItems on p.Id equals pi.ProductId
-                                      join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
-                                      join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
-                                      join va in db.Variations on vo.VariationId equals va.Id
-                                      where p.Id == productId
-                                      && db.ProductConfigurations.Any(pc2 =>
-                                          pc2.ProductItemId == pi.Id &&
-                                          vo.Value == selectedRam &&
-                                          va.Name == "Ram")
-                                      && db.ProductConfigurations.Any(pc3 =>
-                                          pc3.ProductItemId == pi.Id &&
-                                          vo.Value == selectedStorage &&
-                                          va.Name == "Storage")
-                                      select new ProductItemModel
-                                      {
-                                          Id = p.Id,
-                                          ProductId = p.Id,
-                                          Product = new ProductModel
-                                          {
-                                              Id = p.Id,
-                                              Name = p.Name,
-                                              Picture = p.Picture,
-                                              Description = p.Description
-                                          },
-                                          SellingPrice = pi.SellingPrice
-                                      }).FirstOrDefault();
-
-                return productDetails;
+                return null; // No product found
             }
+
+            DataRow row = productTable.Rows[0];
+
+            // Map result to ProductItemModel
+            var productDetails = new ProductItemModel
+            {
+                Id = row["Id"].ToString(),
+                ProductId = row["ProductId"].ToString(),
+                Product = new ProductModel
+                {
+                    Id = row["Id"].ToString(),
+                    Name = row["ProductName"].ToString(),
+                    Picture = row["ProductPicture"].ToString(),
+                    Description = row["ProductDescription"].ToString()
+                },
+                SellingPrice = Convert.ToDecimal(row["SellingPrice"])
+            };
+
+            return productDetails;
         }
+
         public List<Models.ProductModel> GetProductByBrand4(string brand, string excludeProductId)
         {
             // Check for null or empty brand and return an empty list if so

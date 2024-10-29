@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Xml.Linq;
 using Microsoft.Extensions.Primitives;
+using System.Data;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -217,22 +218,33 @@ namespace SWP391_FinalProject.Repository
 
         public List<OrderModel> GetOrderByUserId(string UserId)
         {
-            var result = from o in db.Orders
-                         join os in db.OrderStates on o.StateId equals os.Id
-                         where o.UserId == UserId
-                         select new OrderModel()
-                         {
-                             Id = o.Id,
-                             UserId = o.UserId,
-                             Addres = o.Address,
-                             StateId = o.StateId,
-                             OrderState = new OrderState() { Name = os.Name },
-                             UsePoint = o.UsePoint,
-                             EarnPoint = o.EarnPoint ?? 0,
-                             Date = o.Date
-                         };
+            string query = "Select o.id as OrderId, o.user_id as UserId, o.address as Address, " +
+               "o.state_id as StateId, os.name as StateName, o.use_point as UsePoint, " +
+               "o.earn_point as EarnPoint, o.date as OrderDate " +
+               "From `Order` o " +
+               "Inner join Order_State os on o.state_id = os.id " +
+               "Where o.user_id = @UserId";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@UserId", UserId }
+            };
+            DataTable orderTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+            List<OrderModel> orderList = new List<OrderModel>();
+            foreach (DataRow row in orderTable.Rows)
+            {
+                orderList.Add(new OrderModel
+                {
+                    Id = row["OrderId"].ToString(),
+                    UserId = row["UserId"].ToString(),
+                    Addres = row["Address"].ToString(),
+                    StateId = int.Parse(row["StateId"].ToString()),
+                    OrderState = new OrderState { Name = row["StateName"].ToString() },
+                    UsePoint = decimal.Parse(row["UsePoint"].ToString()),
+                    EarnPoint = decimal.Parse(row["EarnPoint"].ToString()),
+                    Date = DateTime.Parse(row["OrderDate"].ToString())
+                });
+            }
 
-            List<OrderModel> orderList = result.ToList();
             OrderItemRepository orderItemRepo = new OrderItemRepository();
             List<OrderItemModel> orderItemList = new List<OrderItemModel>();
 

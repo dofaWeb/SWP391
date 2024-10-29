@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.Repository
             db = new DBContext();
         }
 
-        public List<Models.ProductModel> GetProductsByKeyword(string keyword, string price, string category)
+        public List<Models.ProductModel> GetProductsByKeyword(string keyword, string price, string category, string brand)
         {
             // Start querying products without keyword filtering
             var query = from p in db.Products
@@ -54,7 +54,11 @@ namespace SWP391_FinalProject.Repository
                     query = query.Where(p => p.CategoryId.StartsWith("B1"));
                 }
             }
-
+            // Áp dụng bộ lọc thương hiệu nếu có
+            if (!string.IsNullOrWhiteSpace(brand))
+            {
+                query = query.Where(c => c.Name.Contains(brand)); // Tìm kiếm theo thương hiệu
+            }
             // Execute the query and retrieve the results
             var result = query.ToList(); // Execute the query
 

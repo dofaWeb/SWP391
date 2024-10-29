@@ -177,8 +177,8 @@ namespace SWP391_FinalProject.Repository
 
             // Prepare the SQL query for inserting a new account
             string insertAccountQuery = @"
-        INSERT INTO Account (Id, Username, Password, Email, Phone, IsActive, role_id) 
-        VALUES (@Id, @Username, @Password, @Email, @Phone, @IsActive, @role_id);
+        INSERT INTO Account (Id, Username, Password, Email, Phone, is_active, role_id) 
+        VALUES (@Id, @Username, @Password, @Email, @Phone, @is_active, @role_id);
     ";
 
             // Execute the query to insert the new account
@@ -189,20 +189,20 @@ namespace SWP391_FinalProject.Repository
         { "@Password", md5Password },
         { "@Email", model.Email },
         { "@Phone", "" }, // Assuming phone is not provided
-        { "@IsActive", ulong.Parse("1") },
+        { "@is_active", ulong.Parse("1") },
         { "@role_id", "Role0002" }
     });
 
             // Prepare the SQL query for inserting a new staff record
             string insertStaffQuery = @"
-        INSERT INTO Staff (AccountId, Name, Salary) 
-        VALUES (@AccountId, @Name, @Salary);
+        INSERT INTO Staff (account_id, Name, Salary) 
+        VALUES (@account_id, @Name, @Salary);
     ";
 
             // Execute the query to insert the new staff
             var staffResult = DataAccess.DataAccess.ExecuteNonQuery(insertStaffQuery, new Dictionary<string, object>
     {
-        { "@AccountId", id },
+        { "@account_id", id },
         { "@Name", model.Email },
         { "@Salary", 5000000 }
     });
@@ -217,8 +217,8 @@ namespace SWP391_FinalProject.Repository
 
             // Prepare the SQL query for inserting a new account
             string insertAccountQuery = @"
-        INSERT INTO Account (Id, Username, Password, Email, Phone, IsActive, role_id) 
-        VALUES (@Id, @Username, @Password, @Email, @Phone, @IsActive, @role_id);
+        INSERT INTO Account (Id, Username, Password, Email, Phone, is_active, role_id) 
+        VALUES (@Id, @Username, @Password, @Email, @Phone, @is_active, @role_id);
     ";
 
             // Execute the query to insert the new account
@@ -229,20 +229,20 @@ namespace SWP391_FinalProject.Repository
         { "@Password", md5Password },
         { "@Email", model.Email },
         { "@Phone", model.Phone },
-        { "@IsActive", ulong.Parse("1") },
+        { "@is_active", ulong.Parse("1") },
         { "@role_id", "Role0003" }
     });
 
             // Prepare the SQL query for inserting a new user
             string insertUserQuery = @"
        INSERT INTO User (account_id, Name, Point, Province, District, Address) 
-        VALUES (@AccountId, @Name, @Point, @Province, @District, @Address);
+        VALUES (@account_id, @Name, @Point, @Province, @District, @Address);
     ";
 
             // Execute the query to insert the new user
             var userResult = DataAccess.DataAccess.ExecuteNonQuery(insertUserQuery, new Dictionary<string, object>
     {
-        { "@AccountId", id },
+        { "@account_id", id },
         { "@Name", model.Name },
         { "@Point", 0 }, // Initial point value
         { "@Province", model.Province },
@@ -325,7 +325,7 @@ namespace SWP391_FinalProject.Repository
         JOIN 
             Role_Name r ON a.role_id = r.Id
         JOIN 
-            User u ON a.Id = u.AccountId
+            User u ON a.Id = u.account_id
         WHERE 
             a.Username = @Key OR a.Email = @Key;
     ";
@@ -421,14 +421,14 @@ namespace SWP391_FinalProject.Repository
             a.Phone, 
             u.Name, 
             a.role_id, 
-            CASE WHEN a.IsActive = 1 THEN 'Active' ELSE 'Inactive' END AS Status,
+            CASE WHEN a.is_active = 1 THEN 'Active' ELSE 'Inactive' END AS Status,
             r.Name AS RoleName
         FROM 
             Account a
         JOIN 
             Role_Name r ON a.role_id = r.Id
         JOIN 
-            User u ON a.Id = u.AccountId
+            User u ON a.Id = u.account_id
         WHERE 
             a.Username = @Username AND a.Email = @Email;
     ";
@@ -469,7 +469,7 @@ namespace SWP391_FinalProject.Repository
             string query = @"
         UPDATE Account 
         SET Password = @Password 
-        WHERE Id = @AccountId;
+        WHERE Id = @account_id;
     ";
 
             // Hash the new password
@@ -479,7 +479,7 @@ namespace SWP391_FinalProject.Repository
             var rowsAffected = DataAccess.DataAccess.ExecuteNonQuery(query, new Dictionary<string, object>
     {
         { "@Password", mdPassword },
-        { "@AccountId", account.Id }
+        { "@account_id", account.Id }
     });
 
             // Optionally, you can check rowsAffected to ensure the update was successful
@@ -526,23 +526,23 @@ namespace SWP391_FinalProject.Repository
         SET 
             Email = @Email,
             Phone = @Phone,
-            IsActive = @IsActive,
+            is_active = @is_active,
             role_id = @role_id
         WHERE 
-            Id = @AccountId;
+            Id = @account_id;
     ";
 
             // Determine the active status value
-            int isActive = account.Status == "Active" ? 1 : 0;
+            int is_active = account.Status == "Active" ? 1 : 0;
 
             // Execute the query with parameters to update the account details
             var rowsAffected = DataAccess.DataAccess.ExecuteNonQuery(query, new Dictionary<string, object>
     {
         { "@Email", account.Email ?? (object)DBNull.Value }, // Handle nulls
         { "@Phone", account.Phone ?? (object)DBNull.Value }, // Handle nulls
-        { "@IsActive", isActive },
+        { "@is_active", is_active },
         { "@role_id", account.RoleId ?? (object)DBNull.Value }, // Handle nulls
-        { "@AccountId", account.Id }
+        { "@account_id", account.Id }
     });
 
             // Optionally, you can check rowsAffected to ensure the update was successful

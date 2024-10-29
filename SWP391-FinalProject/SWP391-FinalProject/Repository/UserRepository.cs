@@ -42,6 +42,10 @@ namespace SWP391_FinalProject.Repository
                                        District = u.District,
                                        Address = u.Address
                                    }).FirstOrDefault();
+                if (userProfile == null)
+                {
+                    throw new ArgumentException($"User with username '{username}' not found.");
+                }
 
                 return userProfile;
             }

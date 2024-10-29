@@ -63,8 +63,8 @@ namespace SWP391_FinalProject.Controllers
             CategoryRepository catRepo = new CategoryRepository();
 
             ViewBag.NewProductId = proRepo.getNewProductID();
-            //ViewBag.Category = catRepo.GetAllCategory();
-            ViewBag.ProductStates = proRepo.getAllProductState();
+            ViewBag.Category = catRepo.GetAllCategory();
+            ViewBag.ProductStates = proRepo.GetAllProductState();
             ViewBag.Laptops = catRepo.GetAllCatLaps();
             ViewBag.Smartphones = catRepo.GetAllCatPhone();
             return View();
@@ -86,7 +86,7 @@ namespace SWP391_FinalProject.Controllers
             CategoryRepository catRepo = new CategoryRepository();
             var proInfor = proRepo.GetProductById(id);
 
-            var proState = proRepo.getAllProductState();
+            var proState = proRepo.GetAllProductState();
 
             ViewBag.Product = proInfor;
             ViewBag.Laptops = catRepo.GetAllCatLaps();

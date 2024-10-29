@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
 using SWP391_FinalProject.Models;
 using Microsoft.EntityFrameworkCore;  // Ensure you have this namespace
+using SWP391_FinalProject.DataAccess;
+using System.Data;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -26,7 +28,7 @@ namespace SWP391_FinalProject.Repository
 
             try
             {
-               db.Categories.Remove(category);
+                db.Categories.Remove(category);
                 db.SaveChanges();
                 return true; // Return true if deletion is successful
             }
@@ -38,13 +40,24 @@ namespace SWP391_FinalProject.Repository
         }
         public List<Models.CategoryModel> GetAllCategory()
         {
-            var list = db.Categories.Select(p => new Models.CategoryModel
-            {
-                Id = p.Id,
-                Name = p.Name
-            }).ToList();  // Convert IQueryable to List
+            // Define the query to retrieve all categories
+            string query = "SELECT Id, Name FROM Category";
 
-            return list;
+            // Retrieve data from the database using the DataAccessLayer
+            DataTable categoryTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+            // Map the DataTable rows to a list of CategoryModel
+            var categories = new List<Models.CategoryModel>();
+            foreach (DataRow row in categoryTable.Rows)
+            {
+                categories.Add(new Models.CategoryModel
+                {
+                    Id = Convert.ToString(row["Id"]),
+                    Name = row["Name"].ToString()
+                });
+            }
+
+            return categories;
         }
         public List<Models.CategoryModel> GetAllCatLaps()
         {
@@ -54,7 +67,7 @@ namespace SWP391_FinalProject.Repository
                .Select(c => new Models.CategoryModel
                {
                    Id = c.Id,
-                   Name = c.Name                  
+                   Name = c.Name
                })
                .ToList(); // Materialize the query
             return result;
@@ -94,18 +107,18 @@ namespace SWP391_FinalProject.Repository
         }
         public Models.CategoryModel GetCatById(string id)
         {
-            var categoryEntity= db.Categories.FirstOrDefault(c => c.Id == id);
+            var categoryEntity = db.Categories.FirstOrDefault(c => c.Id == id);
             if (categoryEntity == null)
             {
                 return null; // Or handle not found scenario appropriately
             }
             Models.CategoryModel result = new Models.CategoryModel
             {
-                Id=categoryEntity.Id,
+                Id = categoryEntity.Id,
                 Name = categoryEntity.Name,
             };
             return (result);
-            
+
         }
 
         public void AddCategory(string Name, string CategoryType)
@@ -135,20 +148,18 @@ namespace SWP391_FinalProject.Repository
 
         public void EditCategory(CategoryModel category)
         {
-            var categoryEntity = db.Categories.FirstOrDefault(c => c.Id == category.Id);
+            // Define the SQL query to update the category name
+            string query = "UPDATE Category SET Name = @Name WHERE Id = @Id";
 
-            //if (categoryEntity == null)
-            //{
-            //    // Handle case where the category is not found
-            //    return NotFound();
-            //}
-
-            // Update the entity's name
-            categoryEntity.Name = category.Name;
-
-            // Save the updated entity back to the database
-            db.SaveChanges();
+            // Call ExecuteNonQuery in DataAccessLayer and pass the query with parameters
+            var row = DataAccess.DataAccess.ExecuteNonQuery(query, new Dictionary<string, object>
+            {
+                { "@Name", category.Name },
+                { "@Id", category.Id }
+            });
         }
+
     }
 }
+
 

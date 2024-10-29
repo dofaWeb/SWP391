@@ -61,29 +61,40 @@ namespace SWP391_FinalProject.Repository
         }
         public List<Models.CategoryModel> GetAllCatLaps()
         {
-            var category = db.Categories.AsQueryable();
-            List<Models.CategoryModel> result = category
-            .Where(c => c.Id.StartsWith("B0"))
-               .Select(c => new Models.CategoryModel
-               {
-                   Id = c.Id,
-                   Name = c.Name
-               })
-               .ToList(); // Materialize the query
-            return result;
+            var categories = new List<Models.CategoryModel>();
+
+            string query = "SELECT * FROM Category WHERE Id LIKE 'B0%';";
+
+            DataTable categoryTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+            foreach(DataRow row in categoryTable.Rows)
+            {
+                categories.Add(new CategoryModel
+                {
+                    Id = row["Id"].ToString(),
+                    Name = row["Name"].ToString()
+                });
+            }
+            
+            return categories;
         }
         public List<Models.CategoryModel> GetAllCatPhone()
         {
-            var category = db.Categories.AsQueryable();
-            List<Models.CategoryModel> result = category
-            .Where(c => c.Id.StartsWith("B1"))
-               .Select(c => new Models.CategoryModel
-               {
-                   Id = c.Id,
-                   Name = c.Name
-               })
-               .ToList(); // Materialize the query
-            return result;
+            var categories = new List<Models.CategoryModel>();
+
+            string query = "SELECT * FROM Category WHERE Id LIKE 'B1%';";
+
+            DataTable categoryTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+            foreach (DataRow row in categoryTable.Rows)
+            {
+                categories.Add(new CategoryModel
+                {
+                    Id = row["Id"].ToString(),
+                    Name = row["Name"].ToString()
+                });
+            }
+            return categories;
         }
         public string GenerateCategoryId(string prefix)
         {
@@ -134,16 +145,12 @@ namespace SWP391_FinalProject.Repository
                 categoryId = GenerateCategoryId("B1");
             }
 
-            // Create the new category entity
-            var newCategory = new Category
+            string query = "INSERT INTO Category(Id, Name) VALUES(@categoryId, @Name)";
+            var count = DataAccess.DataAccess.ExecuteNonQuery(query, new Dictionary<string, object>
             {
-                Id = categoryId,
-                Name = Name
-            };
-
-            // Save the category to the database
-            db.Categories.Add(newCategory);
-            db.SaveChanges();
+                { "@categoryId", categoryId },
+                { "@Name", Name }
+            });
         }
 
         public void EditCategory(CategoryModel category)

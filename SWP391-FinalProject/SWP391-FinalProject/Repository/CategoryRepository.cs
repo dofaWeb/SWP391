@@ -19,24 +19,18 @@ namespace SWP391_FinalProject.Repository
         }
         public bool DeleteCategory(string categoryId)
         {
-            var category = db.Categories.Find(categoryId);
+            var query = "DELETE FROM Category WHERE Id = @Id";
+            var parameter = new Dictionary<string, object>
+            {
+                { "@Id", categoryId }
+            };
 
-            if (category == null)
+            int row = DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+            if(row == 0)
             {
-                return false; // Return false if category is not found
+                return false;
             }
-
-            try
-            {
-                db.Categories.Remove(category);
-                db.SaveChanges();
-                return true; // Return true if deletion is successful
-            }
-            catch (DbUpdateException)
-            {
-                // Foreign key constraint violation or other issue
-                return false; // Return false if unable to delete
-            }
+            return true;
         }
         public List<Models.CategoryModel> GetAllCategory()
         {
@@ -111,6 +105,10 @@ namespace SWP391_FinalProject.Repository
 
                 // Extract the numeric part and increment
                 nextIdNumber = int.Parse(lastId.Substring(prefix.Length)) + 1;
+            }
+            else
+            {
+                return "B0000001";
             }
 
             // Generate new ID with the specified format

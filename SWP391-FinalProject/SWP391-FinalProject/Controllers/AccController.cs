@@ -86,8 +86,10 @@ namespace SWP391_FinalProject.Controllers
         public async Task<IActionResult> History()
 
         {
-
-            return View();
+            string username = Request.Cookies["Username"];
+            UserRepository userRepo = new UserRepository();
+            string userId = userRepo.GetUserIdByUserName(username);
+            return RedirectToAction("UserOrderHistory", "Order", new { UserId = userId });
         }
 
         public void AddRegisterInfoToCookie(AccountModel model)

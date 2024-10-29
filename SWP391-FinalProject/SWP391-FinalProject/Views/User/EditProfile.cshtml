@@ -44,6 +44,53 @@
             fetchDistricts(provinceId);
         });
     });
+    //---------------------------------------------------
+
+    function validateName() {
+        var nameField = document.getElementById("name");
+        var name = nameField.value;
+        var NameErrorLabel = document.getElementById("nameErrorLabel");
+        var namePattern = /^[A-Za-z\s]+$/;
+        if (!namePattern.test(name)) {
+            NameErrorLabel.textContent = "Name must not contain numbers or special characters.";
+            NameErrorLabel.style.display = "block";
+            return false;
+        } else {
+            NameErrorLabel.style.display = "none";
+            return true;
+        }
+    }
+
+    function validatePhone() {
+        var phoneField = document.getElementById("phone");
+        var phone = phoneField.value;
+        var phonePattern = /^[0-9]{7,11}$/; // validate phone format
+        var PhoneErrorLabel = document.getElementById("phoneErrorLabel");
+        if (!phonePattern.test(phone)) {
+            console.log('Validate Phone if');
+            PhoneErrorLabel.textContent = "Phone number must be numeric and 7 - 11 characters long.";
+            PhoneErrorLabel.style.display = "block";
+
+            return false;
+        } else {
+            PhoneErrorLabel.style.display = "none";
+
+            return true;
+        }
+    }
+    
+    function validate() {
+
+
+        var name = validateName();
+        var phone = validatePhone();
+        var result = phone && name;
+        if (!result) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>
 <head>
     <style>
@@ -103,7 +150,7 @@
 <header class="bg-dark text-white text-center py-4">
     <h1>Edit Profile</h1>
 </header>
-<form asp-action="EditProfile" asp-controller="User" method="post">
+<form asp-action="EditProfile" asp-controller="User" onsubmit="return validate();" method="post">
 
 
     <div class="container mt-4 profile-info">
@@ -118,7 +165,8 @@
 
                 <tr>
                     <th scope="row">Full Name</th>
-                    <td><input type="text" class="form-control" value="@Model.Name" name="Name"></td>
+                    <td><input id="name" type="text" class="form-control" value="@Model.Name" name="Name" required></td>
+                    <label id="nameErrorLabel" style="color: red; display: none;"></label>
                 </tr>
 
                 <tr>
@@ -128,7 +176,8 @@
 
                 <tr>
                     <th scope="row">Phone Number</th>
-                    <td><input type="tel" class="form-control" value="@Model.Account.Phone" name="Account.Phone"></td>
+                    <td><input id="phone" type="tel" class="form-control" value="@Model.Account.Phone" name="Account.Phone" required></td>
+                    <label id="phoneErrorLabel" style="color: red; display: none;"></label>
                 </tr>
 
                 <tr>
@@ -166,9 +215,9 @@
                 <tr>
                     <th>Address:</th>
                     <td>
-                        <input type="text" class="form-control" name="Address" value="@Model.Address" />
+                        <input type="text" class="form-control" name="Address" value="@Model.Address" required/>
                     </td>
-                </tr>>
+                </tr>
 
             </tbody>
         </table>

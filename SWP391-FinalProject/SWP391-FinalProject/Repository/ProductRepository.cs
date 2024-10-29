@@ -4,6 +4,7 @@ using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -380,31 +381,18 @@ namespace SWP391_FinalProject.Repository
             List<Models.ProductStateModel> productStates = new List<Models.ProductStateModel>();
 
             // MySQL query to retrieve all product states
-            string query = "SELECT id, name FROM Product_State;";
-
-            using (MySqlConnection conn = new MySqlConnection("server=mysql-35c69a44-swp391-group3.i.aivencloud.com;Port=25832;database=SWP391;user=avnadmin;password=AVNS_mzCmZ_1hz1gM4yr03o8;sslmode=Required;"))
+            string query = "Select * from Product_State";
+            DataTable categoryTable = DataAccess.DataAccess.ExecuteQuery(query);
+            foreach (DataRow row in categoryTable.Rows)
             {
-                conn.Open();
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                productStates.Add(new Models.ProductStateModel
                 {
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var productState = new Models.ProductStateModel
-                            {
-                                Id = reader.GetInt32("Id"),
-                                Name = reader.GetString("Name")
-                            };
-
-                            productStates.Add(productState);
-                        }
-                    }
-                }
+                    Id = int.Parse(row["Id"].ToString()),
+                    Name = row["Name"].ToString()
+                });
             }
-
             return productStates;
+
         }
 
         public void AddProduct(Models.ProductModel model, IFormFile pictureUpload)

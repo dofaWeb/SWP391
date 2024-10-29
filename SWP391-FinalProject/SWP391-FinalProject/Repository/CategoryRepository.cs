@@ -106,6 +106,10 @@ namespace SWP391_FinalProject.Repository
                 // Extract the numeric part and increment
                 nextIdNumber = int.Parse(lastId.Substring(prefix.Length)) + 1;
             }
+            else
+            {
+                return "B0000001";
+            }
 
             // Generate new ID with the specified format
             return $"{prefix}{nextIdNumber.ToString("D6")}";

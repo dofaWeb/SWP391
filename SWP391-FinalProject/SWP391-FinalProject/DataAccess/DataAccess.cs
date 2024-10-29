@@ -30,6 +30,32 @@ namespace SWP391_FinalProject.DataAccess
             }
         }
 
+        public static DataTable ExecuteQuery(string query, Dictionary<string, object> parameters = null)
+        {
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    // Add parameters if provided
+                    if (parameters != null)
+                    {
+                        foreach (var param in parameters)
+                        {
+                            cmd.Parameters.AddWithValue(param.Key, param.Value);
+                        }
+                    }
+
+                    using (var adapter = new MySqlDataAdapter(cmd))
+                    {
+                        var dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                        return dataTable;
+                    }
+                }
+            }
+        }
+
         // Method to execute an UPDATE, INSERT, or DELETE query and return the number of affected rows
         public static int ExecuteNonQuery(string query, Dictionary<string, object> parameters = null)
         {

@@ -124,9 +124,6 @@ namespace SWP391_FinalProject.Controllers
             }
 
         }
-
-
-
         public IActionResult ReceiveRegisterEmail()
         {
             string cookie = Request.Cookies["RegisterCookie"];
@@ -173,9 +170,6 @@ namespace SWP391_FinalProject.Controllers
             return RedirectToAction("Index", "Pro");
 
         }
-
-
-
         public async Task<IActionResult> LoginByGoogle(string email)
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
@@ -233,7 +227,8 @@ namespace SWP391_FinalProject.Controllers
         public async Task<IActionResult> Login(Models.AccountModel model)
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
-            if (accRepo.Login(model.Username, model.Password))
+            AccountModel acc = accRepo.GetAccountByUsernameAndPassword(model.Username, model.Password);
+            if (acc!=null)
             {
                 var RoleId = accRepo.GetRoleId(model.Username);
                 if (RoleId != "Role0003")

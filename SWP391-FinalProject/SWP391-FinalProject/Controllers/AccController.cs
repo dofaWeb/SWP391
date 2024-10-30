@@ -154,32 +154,33 @@ namespace SWP391_FinalProject.Controllers
                 var email = claimsIdentity.FindFirst(ClaimTypes.Email)?.Value;
                 var name = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 Repository.AccountRepository accRepo = new Repository.AccountRepository();
-                if (accRepo.CheckEmail(email))
+                AccountModel accModel = accRepo.GetAccountByUsernameOrEmail(email);
+                
+                if (accModel==null)
                 {
-                    AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", Province = "", District = "", Address = "" };
+                    AccountModel acc = new AccountModel() { Username = email, Email = email, Name = name, Password = "", Phone = "", Province = "", District = "", Address = "" , RoleId= "Role0003", Status="Active" };
                     accRepo.AddAccount(acc);
-
-                    return await LoginByGoogle(email);
+                    accModel = accRepo.GetAccountByUsernameOrEmail(email);
+                    return await LoginByGoogle(accModel);
                 }
                 else
                 {
-                    return await LoginByGoogle(email);
+                    return await LoginByGoogle(accModel);
 
                 }
             }
             return RedirectToAction("Index", "Pro");
 
         }
-        public async Task<IActionResult> LoginByGoogle(string email)
+        public async Task<IActionResult> LoginByGoogle(AccountModel acc)
         {
             Repository.AccountRepository accRepo = new Repository.AccountRepository();
-            var user = accRepo.GetUserByUsernameOrEmail(email);
-            if (user == null)
+            if (acc.RoleId== "Role0002")
             {
                 ViewBag.Error = "This email has been used for register the staff";
                 return View("Login");
             }
-            if (user.Status == "Inactive")
+            if (acc.Status == "Inactive")
             {
                 ViewBag.Error = "Your account has been ban";
                 return View("Login");
@@ -187,17 +188,16 @@ namespace SWP391_FinalProject.Controllers
             else
             {
                 var claims = new List<Claim> {
-                                new Claim(ClaimTypes.Email, user.Email),
-                                new Claim(ClaimTypes.Name, user.Name),
-                                new Claim(MySetting.CLAIM_CUSTOMERID, user.Id),
-                                new Claim(ClaimTypes.Role, user.RoleId),
-                                new Claim("Username", user.Username)
+                                new Claim(ClaimTypes.Email, acc.Email),
+                                new Claim(MySetting.CLAIM_CUSTOMERID, acc.Id),
+                                new Claim(ClaimTypes.Role, acc.RoleId),
+                                new Claim("Username", acc.Username)
                             };
                 var claimsIdentity = new ClaimsIdentity(claims, "login");
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 await HttpContext.SignInAsync(claimsPrincipal);
-                AddLoginCookie(user.Username);
-                HttpContext.Session.SetString("Username", user.Username);
+                AddLoginCookie(acc.Username);
+                HttpContext.Session.SetString("Username", acc.Username);
                 return RedirectToAction("Index", "Pro");
             }
         }

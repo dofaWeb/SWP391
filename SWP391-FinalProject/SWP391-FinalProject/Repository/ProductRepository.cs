@@ -453,7 +453,7 @@ namespace SWP391_FinalProject.Repository
         public void UpdateProduct(ProductModel model, IFormFile pictureUpload)
         {
             // Check if the product exists in the database
-            string checkQuery = "SELECT COUNT(1) FROM Products WHERE Id = @Id";
+            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product WHERE Id = @Id";
             var checkParameters = new Dictionary<string, object> { { "@Id", model.Id } };
             DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
 

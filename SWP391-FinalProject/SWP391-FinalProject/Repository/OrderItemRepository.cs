@@ -1,5 +1,6 @@
 ﻿using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using System.Data;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -13,24 +14,35 @@ namespace SWP391_FinalProject.Repository
 
         public List<OrderItemModel> GetOrderItemByOrderId(string orderId)
         {
-            var result = from ot in db.OrderItems
-                         join pt in db.ProductItems on ot.ProductItemId equals pt.Id
-                         join p in db.Products on pt.ProductId equals p.Id
-                         where ot.OrderId == orderId
-                         select new OrderItemModel()
-                         {
-                             OrderId = ot.OrderId,
-                             Discount = ot.Discount,
-                             Price = ot.Price,
-                             Quantity = ot.Quantity,
-                             ProductItemId = ot.ProductItemId,
-                             Product = new ProductModel()
-                             {
-                                 Name = p.Name,
-                                 Picture = p.Picture
-                             },
-                         };
-            List<OrderItemModel> orderItemList = result.ToList();
+            string query = "Select ot.order_id as OrderId, ot.discount as Discount, ot.price as Price, ot.quantity as Quantity, " +
+                            "ot.product_item_id as ProductItemId, p.name as Name, p.picture as Picture " +
+                            "From Order_Item ot " +
+                            "Inner join Product_Item pt on ot.product_item_id = pt.id " +
+                            "Inner join Product p on pt.product_id = p.id " +
+                            "where ot.order_id = @OrderId";
+            var parameters = new Dictionary<string, object>
+            {
+                { "@OrderId", orderId }
+            };
+            DataTable orderItemTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+            List<OrderItemModel> orderItemList = new List<OrderItemModel>();
+            foreach (DataRow row in orderItemTable.Rows)
+            {
+                orderItemList.Add(new OrderItemModel()
+                {
+                    OrderId = row["OrderId"].ToString(),
+                    Discount = decimal.Parse(row["Discount"].ToString()),
+                    Price = decimal.Parse(row["Price"].ToString()),
+                    Quantity = int.Parse(row["Quantity"].ToString()),
+                    ProductItemId = row["ProductItemId"].ToString(),
+                    Product = new ProductModel()
+                    {
+                        Name = row["Name"].ToString(),
+                        Picture = row["Picture"].ToString()
+                    }
+                });
+            }
+
             foreach (var item in orderItemList)
             {
                 ProductRepository proRepo = new ProductRepository();

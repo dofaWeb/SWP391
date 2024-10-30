@@ -1,5 +1,11 @@
 ﻿using System.Data;
 using MySql.Data.MySqlClient;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
+using Mysqlx.Crud;
+using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SWP391_FinalProject.DataAccess
 {
@@ -65,19 +71,25 @@ namespace SWP391_FinalProject.DataAccess
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
-                    // Add parameters if provided
+                    // Thêm tham số nếu có
                     if (parameters != null)
                     {
                         foreach (var param in parameters)
                         {
+                            // Kiểm tra nếu giá trị của tham số là null
+                            if (param.Value == null)
+                            {
+                                throw new ArgumentException($"Parameter '{param.Key}' cannot be null.");
+                            }
                             cmd.Parameters.AddWithValue(param.Key, param.Value);
                         }
                     }
 
-                    // Execute the query and return the number of affected rows
+                    // Thực hiện truy vấn và trả về số hàng bị ảnh hưởng
                     return cmd.ExecuteNonQuery();
                 }
             }
         }
+
     }
 }

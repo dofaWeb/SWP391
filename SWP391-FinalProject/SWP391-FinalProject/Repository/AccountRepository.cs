@@ -253,6 +253,31 @@ namespace SWP391_FinalProject.Repository
             // Optionally, you could check accountResult and userResult for success/failure
         }
 
+        public AccountModel GetAccountByUsernameOrEmail(string key)
+        {
+            string query = "Select * From Account " +
+                            "Where username=@Key Or password=@Key";
+            var resultTable = DataAccess.DataAccess.ExecuteQuery(query, new Dictionary<string, object> {
+                {"@Key", key}
+            });
+            AccountModel account = null;
+            if (resultTable != null && resultTable.Rows.Count > 0)
+            {
+                var row = resultTable.Rows[0];
+                account = new AccountModel()
+                {
+                    Id = row["id"].ToString(),
+                    Username = row["username"].ToString(),
+                    Password = row["password"].ToString(), // Consider if you really want to expose the password
+                    Email = row["email"].ToString(),
+                    Phone = row["phone"].ToString(),
+                    RoleId = row["role_id"].ToString(),
+                    Status = ((int.Parse(row["is_active"].ToString())) == 1 ? "Active" : "Inactive"),
+                };
+            }
+            return account;
+        }
+
         public AccountModel GetAccountByUsernameAndPassword(string username, string password)
         {
             string mdPassword = MySetting.GetMd5Hash(password);
@@ -263,7 +288,7 @@ namespace SWP391_FinalProject.Repository
                 {"@Password", mdPassword}
             });
             AccountModel account = null;
-            if (resultTable != null)
+            if (resultTable != null && resultTable.Rows.Count > 0)
             {
                 var row = resultTable.Rows[0];
                 account = new AccountModel()

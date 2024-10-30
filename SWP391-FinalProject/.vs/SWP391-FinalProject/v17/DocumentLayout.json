@@ -1,22 +1,16 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\",
+
+  "WorkspaceRootPath": "D:\\Group Prject\\SWP391-FinalProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\codeathome\\finalprojectswp\\swp391-finalproject\\swp391-finalproject\\repository\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group prject\\swp391-finalproject\\swp391-finalproject\\repository\\comrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\comrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\codeathome\\finalprojectswp\\swp391-finalproject\\swp391-finalproject\\dataaccess\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\dataaccess\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\codeathome\\finalprojectswp\\swp391-finalproject\\swp391-finalproject\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\codeathome\\finalprojectswp\\swp391-finalproject\\swp391-finalproject\\repository\\orderitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\orderitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group prject\\swp391-finalproject\\swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\codeathome\\finalprojectswp\\swp391-finalproject\\swp391-finalproject\\repository\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -29,6 +23,20 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\codeathome\\finalprojectswp\\swp391-finalproject\\swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9AABF71-49B7-4988-9B9E-7EC018BE05EF}|UnitTest\\UnitTest.csproj|d:\\group prject\\swp391-finalproject\\unittest\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9AABF71-49B7-4988-9B9E-7EC018BE05EF}|UnitTest\\UnitTest.csproj|solutionrelative:unittest\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group prject\\swp391-finalproject\\swp391-finalproject\\views\\acc\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\group prject\\swp391-finalproject\\swp391-finalproject\\views\\user\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\user\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+
     }
   ],
   "DocumentGroupContainers": [
@@ -38,38 +46,82 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:16:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\UserRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\UserRepository.cs",
-              "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\UserRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\UserRepository.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAAADAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "D:\\Group Prject\\SWP391-FinalProject\\UnitTest\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "UnitTest\\UnitTest1.cs",
+              "ToolTip": "D:\\Group Prject\\SWP391-FinalProject\\UnitTest\\UnitTest1.cs",
+              "RelativeToolTip": "UnitTest\\UnitTest1.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBMAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T17:25:53.373Z",
+              "WhenOpened": "2024-10-30T01:11:05.019Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RatingRepository.cs",
-              "DocumentMoniker": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\RatingRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\RatingRepository.cs",
-              "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\RatingRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\RatingRepository.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAUwCgAAABPAAAAAAAAAA==",
+              "Title": "ComRepository.cs",
+              "DocumentMoniker": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ComRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ComRepository.cs",
+              "ToolTip": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ComRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\ComRepository.cs",
+              "ViewState": "AgIAAEEBAAAAAAAAAAAwwEUBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-29T09:03:50.148Z",
+              "EditorCaption": ""
+
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "ToolTip": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAvwKYAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-29T02:57:55.764Z",
+
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+
+              "DocumentIndex": 1,
+              "Title": "AccountRepository.cs",
+              "DocumentMoniker": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "ToolTip": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "ViewState": "AgIAAMIBAAAAAAAAAAAowNABAAAAAAAAAAAAAA==",
+
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-29T16:58:42.857Z",
               "EditorCaption": ""
@@ -77,65 +129,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "OrderItemRepository.cs",
-              "DocumentMoniker": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderItemRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\OrderItemRepository.cs",
-              "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderItemRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\OrderItemRepository.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAAwDcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T09:28:56.614Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "OrderRepository.cs",
-              "DocumentMoniker": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "ViewState": "AgIAAOQAAAAAAAAAAAAswOwAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T08:19:05.209Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+
               "Title": "ProductRepository.cs",
-              "DocumentMoniker": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "DocumentMoniker": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
-              "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "ToolTip": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
               "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
-              "ViewState": "AgIAADIBAAAAAAAAAAAwwJQCAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAEsCAAAAAAAAAAASwDQCAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T08:18:37.512Z"
+              "WhenOpened": "2024-10-29T03:03:51.48Z",
+
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+
+              "DocumentIndex": 6,
+              "Title": "ChangePassword.cshtml",
+              "DocumentMoniker": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\ChangePassword.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\User\\ChangePassword.cshtml",
+              "ToolTip": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\ChangePassword.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\User\\ChangePassword.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABMAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-29T08:35:19.653Z"
+
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "AccountRepository.cs",
-              "DocumentMoniker": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAkwGcAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T07:34:09.747Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DataAccess.cs",
-              "DocumentMoniker": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "ToolTip": "D:\\CodeAtHome\\FinalProjectSWP\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAiwFEAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T07:49:48.746Z",
-              "EditorCaption": ""
+
+              "Title": "ResetPassword.cshtml",
+              "DocumentMoniker": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\ResetPassword.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\ResetPassword.cshtml",
+              "ToolTip": "D:\\Group Prject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\ResetPassword.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\ResetPassword.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-29T08:35:50.384Z"
+
             }
           ]
         }

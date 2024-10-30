@@ -114,7 +114,7 @@ namespace SWP391_FinalProject.Repository
                 AvgOrder = totalOrders.ContainsKey(p.AccountId) && totalHoursWorked.ContainsKey(p.AccountId)
                            ? (double)totalOrders[p.AccountId] / (totalHoursWorked[p.AccountId] / 5)
                            : 0,
-                TotalMoneyMade = 20
+                Salary = p.Salary
             }).ToList();
 
             return result;

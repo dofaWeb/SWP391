@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
+using System.Data;
 
 public class ComRepository
 {
@@ -77,224 +78,342 @@ public class ComRepository
     }
 
 
-    public string getNewCommentId()
+    public string GetNewCommentId()
     {
-        string lastId = db.Comments
-                 .OrderByDescending(a => a.Id)
-                 .Select(a => a.Id)
-                 .FirstOrDefault();
-        if (lastId == null)
-        {
-            return "C0000001";
-        }
-        // Tách phần chữ (A) và phần số (0000001)
-        string prefix = lastId.Substring(0, 1); // Lấy ký tự đầu tiên
-        int number = int.Parse(lastId.Substring(1)); // Lấy phần số và chuyển thành số nguyên
+        // Define the prefix for comment IDs
+        string prefix = "C"; // Assuming comment IDs start with "C"
 
-        // Tăng số lên 1
+        // Query to get the last ID from the Comments table ordered by descending ID
+        string query = $"SELECT Id FROM Comment WHERE Id LIKE '{prefix}%' ORDER BY Id DESC LIMIT 1;";
+
+        // Execute the query and get the result
+        DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+        // Default to "C0000001" if no existing ID found
+        if (resultTable.Rows.Count == 0)
+        {
+            return $"{prefix}0000001";
+        }
+
+        // Get the last ID from the result
+        string lastId = resultTable.Rows[0]["Id"].ToString();
+
+        // Extract the numeric part and increment
+        int number = int.Parse(lastId.Substring(prefix.Length));
         int newNumber = number + 1;
 
-        // Tạo ID mới với số đã tăng, định dạng lại với 7 chữ số
+        // Generate new ID formatted to 7 digits
         string newId = $"{prefix}{newNumber:D7}";
 
         return newId;
     }
-    public string getNewReplytId()
-    {
-        string lastId = db.ReplyComments
-                 .OrderByDescending(a => a.Id)
-                 .Select(a => a.Id)
-                 .FirstOrDefault();
-        if (lastId == null)
-        {
-            return "R0000001";
-        }
-        // Tách phần chữ (A) và phần số (0000001)
-        string prefix = lastId.Substring(0, 1); // Lấy ký tự đầu tiên
-        int number = int.Parse(lastId.Substring(1)); // Lấy phần số và chuyển thành số nguyên
 
-        // Tăng số lên 1
+    public string GetNewReplyId()
+    {
+        // Define the prefix for reply IDs
+        string prefix = "R"; // Assuming reply IDs start with "R"
+
+        // Query to get the last ID from the ReplyComments table ordered by descending ID
+        string query = $"SELECT Id FROM  Reply_Comment WHERE Id LIKE '{prefix}%' ORDER BY Id DESC LIMIT 1;";
+
+        // Execute the query and get the result
+        DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+        // Default to "R0000001" if no existing ID found
+        if (resultTable.Rows.Count == 0)
+        {
+            return $"{prefix}0000001";
+        }
+
+        // Get the last ID from the result
+        string lastId = resultTable.Rows[0]["Id"].ToString();
+
+        // Extract the numeric part and increment
+        int number = int.Parse(lastId.Substring(prefix.Length));
         int newNumber = number + 1;
 
-        // Tạo ID mới với số đã tăng, định dạng lại với 7 chữ số
+        // Generate new ID formatted to 7 digits
         string newId = $"{prefix}{newNumber:D7}";
 
         return newId;
     }
+
     public void AddComment(CommentModel model)
     {
-        model.Id=getNewCommentId();
+        // Generate a new comment ID
+        model.Id = GetNewCommentId();
+
+        // Set the current date and time for the comment
         model.Date = DateTime.Now;
-        var newComment = new Entities.Comment
-        {
-            Id=model.Id,
-            ProductId=model.ProductId,
-            UserId=model.UserId,
-            Date=model.Date,
-            Comment1 = model.Comment,
-           
-        };
-        db.Comments.Add(newComment);
-        db.SaveChanges();
+
+        // Prepare the SQL query for inserting a new comment
+        string insertCommentQuery = @"
+        INSERT INTO Comment (Id, product_id, user_id,  date, Comment) 
+        VALUES (@Id, @product_id, @user_id, @Date, @Comment);
+    ";
+
+        // Execute the query to insert the new comment
+        var result = DataAccess.DataAccess.ExecuteNonQuery(insertCommentQuery, new Dictionary<string, object>
+    {
+        { "@Id", model.Id },
+        { "@product_id", model.ProductId },
+        { "@user_id", model.UserId },
+        { "@Date", model.Date },
+        { "@Comment", model.Comment } // Make sure this matches the property in your CommentModel
+    });
+
+        // Optionally, you could check the result for success/failure
     }
+
     public void AddReply(ReplyCommentModel model)
     {
-        model.Id = getNewReplytId();
+        // Generate a new reply ID
+        model.Id = GetNewReplyId();
+
+        // Set the current date and time for the reply
         model.Date = DateTime.Now;
-        var newReply = new Entities.ReplyComment
-        {
-            Id = model.Id,
-            CommentId=model.CommentId,
-            Date = model.Date,
-            Comment = model.Comment,
 
-        };
-        db.ReplyComments.Add(newReply);
-        db.SaveChanges();
-    }
-    public void DeleteComment(string id)
+        // Prepare the SQL query for inserting a new reply
+        string insertReplyQuery = @"
+    INSERT INTO Reply_Comment (Id, comment_id, Date, Comment) 
+    VALUES (@Id, @comment_id, @Date, @Comment);
+";
+
+        // Execute the query to insert the new reply
+        var result = DataAccess.DataAccess.ExecuteNonQuery(insertReplyQuery, new Dictionary<string, object>
     {
-        using (DBContext dbContext = new DBContext())
-        {
-            // Find the comment by ID
-            var comment = dbContext.Comments.Find(id);
-            if (comment != null)
-            {
-                // Remove the comment from the database
-                dbContext.Comments.Remove(comment);
-                dbContext.SaveChanges(); // Save changes to the database
-            }
-           
-     
-        }
+        { "@Id", model.Id },
+        { "@comment_id", model.CommentId }, // Assuming this matches the property in your ReplyCommentModel
+        { "@Date", model.Date },
+        { "@Comment", model.Comment } // Make sure this matches the property in your ReplyCommentModel
+    });
+
+        // Optionally, you could check the result for success/failure
     }
-    public void DeleteReply(string id)
+
+    public void DeleteComment(string commentId)
     {
-        using (DBContext dbContext = new DBContext())
-        {
-            // Find the comment by ID
-            var Reply = dbContext.ReplyComments.Find(id);
-            if (Reply != null)
-            {
-                // Remove the comment from the database
-                dbContext.ReplyComments.Remove(Reply);
-                dbContext.SaveChanges(); // Save changes to the database
-            }
-
-
-        }
-    }
-    public void DeleteAllReply(string CommentId)
+        // Prepare the SQL query for deleting a comment
+        var query = "DELETE FROM Comment WHERE Id = @Id";
+        var parameter = new Dictionary<string, object>
     {
-        using (DBContext dbContext = new DBContext())
-        {
-            // Find all replies related to the comment
-            var replies = dbContext.ReplyComments.Where(r => r.CommentId == CommentId).ToList();
+        { "@Id", commentId }
+    };
 
-            if (replies != null && replies.Count > 0)
-            {
-                // Remove all replies from the database
-                dbContext.ReplyComments.RemoveRange(replies);
-            }
-
-            // Optionally: You can also delete the comment itself here if needed
-            
-
-            dbContext.SaveChanges(); // Save all changes to the database
-        }
+        // Execute the query
+        DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
     }
+
+    public void DeleteReply(string replyId)
+    {
+        // Prepare the SQL query for deleting a reply
+        var query = "DELETE FROM Reply_Comment WHERE Id = @Id";
+        var parameter = new Dictionary<string, object>
+    {
+        { "@Id", replyId }
+    };
+
+        // Execute the query
+        DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+    }
+
+    public void DeleteAllReply(string commentId)
+    {
+        // Prepare the SQL query for deleting all replies related to a specific comment
+        var query = "DELETE FROM Reply_Comment WHERE comment_id = @comment_id";
+        var parameter = new Dictionary<string, object>
+    {
+        { "@comment_id", commentId }
+    };
+
+        // Execute the query
+        DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+    }
+
 
 
     public void UpdateComment(string id, string comment)
     {
-        var existingComment = db.Comments.FirstOrDefault(c => c.Id == id);
-        if (existingComment != null)
+        string querry = "Update Comment SET Comment=@Comment Where Id=@Id";
+        var row = DataAccess.DataAccess.ExecuteNonQuery(querry, new Dictionary<string, object>
         {
-            existingComment.Comment1 = comment; // Assuming Comment1 is the property holding the comment text
-            db.SaveChanges();
-        }
+            { "@Comment",comment},
+            {"@Id",id }
+        });
+          
+      
     }
     public void UpdateReply(string id, string comment)
     {
-        var existingReply = db.ReplyComments.FirstOrDefault(c => c.Id == id);
-        if (existingReply != null)
+          string querry = "Update Reply_Comment SET Comment=@Comment Where Id=@Id";
+        var row = DataAccess.DataAccess.ExecuteNonQuery(querry, new Dictionary<string, object>
         {
-            existingReply.Comment = comment; // Assuming Comment1 is the property holding the comment text
-            db.SaveChanges();
-        }
+            { "@Comment",comment},
+            {"@Id",id }
+        });
     }
     public List<CommentModel> GetCommentsByProductId(string productId)
     {
-        using (DBContext dbContext = new DBContext())
-        {
-            var comments = (from c in dbContext.Comments
-                            join a in dbContext.Accounts on c.UserId equals a.Id
-                            join u in dbContext.Users on c.UserId equals u.AccountId
-                            where c.ProductId == productId
-                            select new CommentModel
-                            {
-                                Id = c.Id,
-                                Comment = c.Comment1,
-                                Date = c.Date,
-                                UserName = a.Username,
-                                FullName = u.Name,
-                                Replies = dbContext.ReplyComments
-                                    .Where(rc => rc.CommentId == c.Id)
-                                    .Select(rc => new ReplyCommentModel
-                                    {
-                                        Id = rc.Id,
-                                        CommentId = rc.CommentId,
-                                        Comment = rc.Comment,
-                                        Date = rc.Date,
-                                    }).ToList() // Fetch the replies for the current comment
-                            }).OrderByDescending(c => c.Date)
-                            .ToList();
+        // SQL query to retrieve comments along with user and reply details
+        string query = @"
+       SELECT 
+            c.Id AS CommentId, 
+            c.Comment AS Comment, 
+            c.Date AS CommentDate, 
+            a.Username AS UserName, 
+            u.Name AS FullName,
+            rc.Id AS ReplyId, 
+            rc.comment_id AS ReplyCommentId, 
+            rc.Comment AS ReplyComment, 
+            rc.Date AS Date
+        FROM 
+            Comment c
+        JOIN 
+            Account a ON c.user_id = a.Id
+        JOIN 
+            User u ON c.user_id = u.account_id
+        LEFT JOIN 
+            Reply_Comment rc ON rc.comment_id = c.Id
+        WHERE 
+            c.product_id = @ProductId
+        ORDER BY 
+            c.Date DESC, rc.Date ASC;";
 
-            return comments;
-        }
-    }
-
-    public List<Models.CommentModel> GetAllComments()
+        // Execute the query and get results into a DataTable
+        var parameters = new Dictionary<string, object>
     {
-        var comments = (from c in db.Comments
-                        join u in db.Users on c.UserId equals u.AccountId
-                       join p in db.Products on c.ProductId equals p.Id
-                     
-                        select new CommentModel
-                        {
-                            Id = c.Id,
-                            Product=new ProductModel
-                            {
-                                Id = p.Id,
-                                Name = p.Name,
-                                Picture = p.Picture,
-                                Description = p.Description,
-                                CategoryId = p.CategoryId,
-                                CategoryName = db.Categories
-                                                   .Where(c => c.Id == p.CategoryId)
-                                                   .Select(c => c.Name).FirstOrDefault(), // Lấy tên danh mục
+        { "@ProductId", productId }
+    };
+        DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
 
-                                StateId = p.StateId,
-                            },
+        // Parse the results into a list of CommentModel objects with nested replies
+        var comments = new List<CommentModel>();
+        var repliesDict = new Dictionary<string, List<ReplyCommentModel>>();
 
-                            Comment = c.Comment1,
-                            Replies = db.ReplyComments
-                                    .Where(rc => rc.CommentId == c.Id)
-                                    .Select(rc => new ReplyCommentModel
-                                    {
-                                        Id = rc.Id,
-                                        CommentId = rc.CommentId,
-                                      Comment=rc.Comment,
-                                        Date = rc.Date,
-                                     
-                                    }).ToList() ,// Convert the replies to a list
-                            Date = c.Date,
-                            UserName = u.Name // Getting the full name of the user directly from the join
-                         
-                        }).OrderByDescending(c => c.Date)
-                        .ToList(); // Convert IQueryable to List
+        foreach (DataRow row in resultTable.Rows)
+        {
+            // Retrieve comment details
+            string commentId = row["CommentId"].ToString();
+            if (!comments.Any(c => c.Id == commentId))
+            {
+                comments.Add(new CommentModel
+                {
+                    Id = commentId,
+                    Comment = row["Comment"].ToString(),
+                    Date = Convert.ToDateTime(row["CommentDate"]),
+                    UserName = row["UserName"].ToString(),
+                    FullName = row["FullName"].ToString(),
+                    Replies = new List<ReplyCommentModel>()
+                });
+            }
+
+            // Retrieve reply details if present
+            if (!row.IsNull("ReplyId"))
+            {
+                var reply = new ReplyCommentModel
+                {
+                    Id = row["ReplyId"].ToString(),
+                    CommentId = row["ReplyCommentId"].ToString(),
+                    Comment = row["ReplyComment"].ToString(),
+                    Date = Convert.ToDateTime(row["Date"])
+                };
+
+                // Add reply to the comment's reply list
+                var parentComment = comments.FirstOrDefault(c => c.Id == commentId);
+                parentComment?.Replies.Add(reply);
+            }
+        }
 
         return comments;
     }
+
+    public List<CommentModel> GetAllComments()
+    {
+        // SQL query to retrieve all comments with user, product, category, and reply details
+        string query = @"
+        SELECT 
+            c.Id AS CommentId, 
+            c.Comment AS CommentText, 
+            c.Date AS CommentDate, 
+            a.Username AS UserName, 
+            u.Name AS FullName, 
+            p.Id AS ProductId,
+            p.Name AS ProductName,
+            p.Picture AS ProductPicture,
+            p.Description AS ProductDescription,
+            cat.Id AS CategoryId,
+            cat.Name AS CategoryName,
+            rc.Id AS ReplyId,
+            rc.comment_id AS ReplyCommentId,
+            rc.Comment AS ReplyText,
+            rc.Date AS ReplyDate
+        FROM 
+            Comment c
+        JOIN 
+            Account a ON c.user_id = a.Id
+        JOIN 
+            User u ON c.user_id = u.account_id
+        JOIN 
+            Product p ON c.product_id = p.Id
+        JOIN 
+            Category cat ON p.category_id = cat.Id
+        LEFT JOIN 
+            Reply_Comment rc ON rc.comment_id = c.Id
+        ORDER BY 
+            c.Date DESC, rc.Date ASC;";
+
+        // Execute the query and get results into a DataTable
+        DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+        // Parse the results into a list of CommentModel objects with nested replies
+        var comments = new List<CommentModel>();
+        var repliesDict = new Dictionary<string, List<ReplyCommentModel>>();
+
+        foreach (DataRow row in resultTable.Rows)
+        {
+            // Retrieve comment details
+            string commentId = row["CommentId"].ToString();
+            if (!comments.Any(c => c.Id == commentId))
+            {
+                comments.Add(new CommentModel
+                {
+                    Id = commentId,
+                    Comment = row["CommentText"].ToString(),
+                    Date = Convert.ToDateTime(row["CommentDate"]),
+                    UserName = row["UserName"].ToString(),
+                    FullName = row["FullName"].ToString(),
+                    Product = new ProductModel
+                    {
+                        Id = row["ProductId"].ToString(),
+                        Name = row["ProductName"].ToString(),
+                        Picture = row["ProductPicture"].ToString(),
+                        Description = row["ProductDescription"].ToString(),
+                        CategoryId = row["CategoryId"].ToString(),
+                        CategoryName = row["CategoryName"].ToString(),
+                    },
+                    Replies = new List<ReplyCommentModel>()
+                });
+            }
+
+            // Retrieve reply details if present
+            if (!row.IsNull("ReplyId"))
+            {
+                var reply = new ReplyCommentModel
+                {
+                    Id = row["ReplyId"].ToString(),
+                    CommentId = row["ReplyCommentId"].ToString(),
+                    Comment = row["ReplyText"].ToString(),
+                    Date = Convert.ToDateTime(row["ReplyDate"])
+                };
+
+                // Add reply to the comment's reply list
+                var parentComment = comments.FirstOrDefault(c => c.Id == commentId);
+                parentComment?.Replies.Add(reply);
+            }
+        }
+
+        return comments;
+    }
+
 }
 

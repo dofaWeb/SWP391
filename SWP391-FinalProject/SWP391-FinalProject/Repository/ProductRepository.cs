@@ -124,85 +124,134 @@ namespace SWP391_FinalProject.Repository
         }
 
 
-        public List<Models.ProductModel> GetProductByBrand(string brand)
+        public List<ProductModel> GetProductByBrand(string brand)
         {
-            // Check for null or empty keyword and return an empty list if so
+            // Check for null or empty brand and return an empty list if so
             if (string.IsNullOrWhiteSpace(brand))
             {
-                return new List<Models.ProductModel>();
+                return new List<ProductModel>();
             }
 
-            var query = from p in db.Products
-                        join c in db.Categories on p.CategoryId equals c.Id
-                        join ps in db.ProductStates on p.StateId equals ps.Id
-                        where c.Name.Contains(brand)
-                        select new Models.ProductModel
-                        {
-                            Id = p.Id,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Picture = p.Picture,
-                            Quantity = (db.ProductItems
-                                         .Where(pi => pi.ProductId == p.Id)
-                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
-                            CategoryName = c.Name,
-                            ProductState = ps.Name
-                        };
+            // Define the SQL query to get products for the specified brand
+            string query = @"
+        SELECT p.Id, 
+       p.Name, 
+       p.Description, 
+       p.Picture, 
+       COALESCE(SUM(pi.quantity), 0) AS TotalQuantity, 
+       c.Name AS CategoryName, 
+       ps.Name AS ProductState
+FROM Product p
+JOIN Category c ON p.category_id = c.Id
+JOIN Product_State ps ON p.state_id = ps.Id
+LEFT JOIN Product_Item pi  ON p.Id = pi.product_id
+WHERE c.Name LIKE CONCAT('%', @brand, '%')
+GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;
+    ";
 
-            var result = query.ToList(); // Execute the query
-            foreach (var item in result)
+            // Set up parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@brand", brand }
+    };
+
+            // Execute the query and retrieve results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Convert the DataTable to a list of ProductModel objects
+            var productList = new List<ProductModel>();
+            foreach (DataRow row in resultTable.Rows)
             {
-                item.ProductItem = GetMinPrice(item.Id);
+                var product = new ProductModel
+                {
+                    Id = row["Id"].ToString(),
+                    Name = row["Name"].ToString(),
+                    Description = row["Description"].ToString(),
+                    Picture = row["Picture"].ToString(),
+                    Quantity = Convert.ToInt32(row["TotalQuantity"]),
+                    CategoryName = row["CategoryName"].ToString(),
+                    ProductState = row["ProductState"].ToString(),
+                    ProductItem = GetMinPrice(row["Id"].ToString()) // Get the minimum-priced item
+                };
 
+                productList.Add(product);
             }
-            return result;
+
+            return productList;
         }
 
-        public List<Models.ProductModel> ProductsByCategory(string type)
+
+        public List<ProductModel> ProductsByCategory(string type)
         {
             // Check for null or empty type and return an empty list if so
             if (string.IsNullOrWhiteSpace(type))
             {
-                return new List<Models.ProductModel>();
+                return new List<ProductModel>();
             }
 
-            string keyword = "";
-            switch (type)
+            // Determine the category keyword based on the type
+            string keyword = type switch
             {
-                case "laptops":
-                    keyword = "B0";
-                    break;
-                case "phones":
-                    keyword = "B1";
-                    break;
-                    // Add more cases as needed
-            }
+                "laptops" => "B0",
+                "phones" => "B1",
+                // Add more cases as needed
+                _ => ""
+            };
 
-            var query = from p in db.Products
-                        join c in db.Categories on p.CategoryId equals c.Id
-                        join ps in db.ProductStates on p.StateId equals ps.Id
-                        where p.CategoryId.StartsWith(keyword)
-                        select new Models.ProductModel
-                        {
-                            Id = p.Id,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Picture = p.Picture,
-                            Quantity = (db.ProductItems
-                                         .Where(pi => pi.ProductId == p.Id)
-                                         .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
-                            CategoryName = c.Name,
-                            ProductState = ps.Name
-                        };
-
-            var result = query.ToList(); // Execute the query
-            foreach (var item in result)
+            // Return an empty list if keyword is still empty
+            if (string.IsNullOrEmpty(keyword))
             {
-                item.ProductItem = GetMinPrice(item.Id);
-
+                return new List<ProductModel>();
             }
-            return result;
+
+            // Define the SQL query to get products by category
+            string query = @"
+        SELECT p.Id, 
+               p.Name, 
+               p.Description, 
+               p.Picture, 
+               COALESCE(SUM(pi.quantity), 0) AS TotalQuantity, 
+               c.Name AS CategoryName, 
+               ps.Name AS ProductState
+        FROM Product p
+        JOIN Category c ON p.category_id = c.Id
+        JOIN Product_State ps ON p.state_id = ps.Id
+        LEFT JOIN Product_Item pi ON p.Id = pi.product_id
+        WHERE p.category_id LIKE CONCAT(@keyword, '%')
+        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name
+    ";
+
+            // Set up parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@keyword", keyword }
+    };
+
+            // Execute the query and retrieve results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Convert the DataTable to a list of ProductModel objects
+            var productList = new List<ProductModel>();
+            foreach (DataRow row in resultTable.Rows)
+            {
+                var product = new ProductModel
+                {
+                    Id = row["Id"].ToString(),
+                    Name = row["Name"].ToString(),
+                    Description = row["Description"].ToString(),
+                    Picture = row["Picture"].ToString(),
+                    Quantity = Convert.ToInt32(row["TotalQuantity"]),
+                    CategoryName = row["CategoryName"].ToString(),
+                    ProductState = row["ProductState"].ToString(),
+                    ProductItem = GetMinPrice(row["Id"].ToString()) // Get the minimum-priced item
+                };
+
+                productList.Add(product);
+            }
+
+            return productList;
         }
+
 
         public decimal? GetPrice(string ram, string storage, string productId)
         {
@@ -255,23 +304,50 @@ namespace SWP391_FinalProject.Repository
 
         public ProductItemModel GetMinPrice(string productId)
         {
-            var minPriceProductItem = (from p in db.Products
-                                       join pi in db.ProductItems on p.Id equals pi.ProductId
-                                       where pi.SellingPrice.HasValue && p.Id == productId
-                                       select new ProductItemModel
-                                       {
-                                           Discount = pi.Discount,
-                                           Id = pi.Id,
-                                           SellingPrice = pi.SellingPrice,
-                                           PriceAfterDiscount = CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100),
-                                           Saving = pi.SellingPrice - CalculatePriceAfterDiscount(pi.SellingPrice, pi.Discount / 100)
+            // Define the SQL query to get the product item with the minimum selling price
+            string query = @"
+        SELECT pi.Id,
+       pi.Discount,
+       pi.selling_price,
+       (pi.selling_price * (1 - pi.Discount / 100)) AS PriceAfterDiscount,
+       (pi.selling_price - (pi.selling_price * (1 - pi.Discount / 100))) AS Saving
+FROM Product_Item pi
+JOIN Product p ON p.Id = pi.product_id
+WHERE pi.selling_price IS NOT NULL 
+  AND p.Id = @productId
+ORDER BY pi.selling_price ASC
+LIMIT 1;
+    ";
 
-                                       })
-                                       .OrderBy(pi => pi.SellingPrice)  // Order by SellingPrice in ascending order
-                                       .FirstOrDefault();               // Take the first item (i.e., the minimum price)
+            // Set up parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@productId", productId }
+    };
+
+            // Execute the query and retrieve the result as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Check if any result was returned
+            if (resultTable.Rows.Count == 0)
+            {
+                return null; // No product item found
+            }
+
+            // Map the first row of the result to ProductItemModel
+            var row = resultTable.Rows[0];
+            ProductItemModel minPriceProductItem = new ProductItemModel
+            {
+                Id = row["Id"].ToString(),
+                Discount = Convert.ToDecimal(row["Discount"]),
+                SellingPrice = Convert.ToDecimal(row["selling_price"]),
+                PriceAfterDiscount = Convert.ToDecimal(row["PriceAfterDiscount"]),
+                Saving = Convert.ToDecimal(row["Saving"])
+            };
 
             return minPriceProductItem;
         }
+
 
         public List<Models.ProductModel> GetTopSellingProduct()
         {

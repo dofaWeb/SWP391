@@ -1,5 +1,6 @@
 {
   "Version": 1,
+
   "WorkspaceRootPath": "D:\\SWP391_Final\\SWP391-FinalProject\\",
   "Documents": [
     {
@@ -17,6 +18,7 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\proman\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\proman\\display.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+
     }
   ],
   "DocumentGroupContainers": [
@@ -26,6 +28,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+
           "SelectedChildIndex": 12,
           "Children": [
             {
@@ -39,6 +42,7 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+
             },
             {
               "$type": "Bookmark",
@@ -46,6 +50,7 @@
             },
             {
               "$type": "Bookmark",
+
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
@@ -63,10 +68,24 @@
             {
               "$type": "Bookmark",
               "Name": "ST:19:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "ToolTip": "D:\\study\\5.FA24\\SWP391\\Final_Project\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBMAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T01:11:05.019Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+
               "Title": "Display.cshtml",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\Display.cshtml",
@@ -75,10 +94,12 @@
               "ViewState": "AgIAAHIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-30T08:07:27.441Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 2,
               "Title": "ProManController.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProManController.cs",
@@ -115,6 +136,7 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-30T00:07:49.181Z",
               "EditorCaption": ""
+
             }
           ]
         }

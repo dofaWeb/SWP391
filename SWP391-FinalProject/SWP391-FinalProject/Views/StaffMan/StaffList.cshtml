@@ -220,11 +220,12 @@
         <input type="text" name="StaffEmail" placeholder="Enter Email" />
         <input type="submit" value="Add" class="btn btn-success" />
     </form>
+    
+    <h1 class="text-center">Staff List</h1>
     <div class="form-group">
         <label for="searchInput">Search Name</label>
         <input type="text" class="form-control" id="searchInput" placeholder="Enter name">
     </div>
-    Staff List
     <table class="StaffList" id="staff-table">
         <thead>
             <tr>
@@ -233,8 +234,8 @@
                 <th>Total Hours Worked</th>
                 <th>Total Orders</th>
                 <th>Avg Orders per Shift</th>
-                <th>Total Money Made</th>
                 <th>Status</th>
+                <th>Salary</th>
             </tr>
         </thead>
         <tbody>
@@ -246,14 +247,67 @@
                     <td>@item.TotalHourWorked</td>
                     <td>@item.TotalOrders</td>
                     <td>@item.AvgOrder</td>
-                    <td>@item.TotalMoneyMade</td>
                     <td>@item.Account.Status</td>
+                    <td>
+                        @item.Salary
+                        <button class="btn btn-success edit-salary-btn"
+                                data-id="@item.Id"
+                                data-salary="@item.Salary"
+                                data-name="@item.Name">
+                            Edit
+                        </button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+<div class="modal fade" id="editSalaryModal" tabindex="-1" role="dialog" aria-labelledby="editSalaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSalaryModalLabel">Edit Salary for <span id="staffName"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editSalaryForm" asp-controller="StaffMan" asp-action="EditSalary">
+                    <div class="form-group">
+                        <label for="salaryInput">Salary</label>
+                        <input type="number" class="form-control" id="salaryInput" name="staffSalary" step="50000" required>
+                    </div>
+                    <input type="hidden" id="staffId" name="staffId">
+                    <input type="submit" value="Save" class="btn btn-success"/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Attach click event to edit buttons
+        document.querySelectorAll(".edit-salary-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                // Get staff details from data attributes
+                const staffId = this.getAttribute("data-id");
+                const currentSalary = this.getAttribute("data-salary");
+                const staffName = this.getAttribute("data-name");
+
+                // Populate modal fields
+                document.getElementById("staffId").value = staffId;
+                document.getElementById("salaryInput").value = currentSalary;
+                document.getElementById("staffName").textContent = staffName;
+
+                // Show the modal
+                $('#editSalaryModal').modal('show');
+            });
+        });
+    });
     // When the edit button is clicked, populate the hidden input with the shift ID
     document.querySelectorAll('.edit-btn').forEach(button => {
         button.addEventListener('click', function () {

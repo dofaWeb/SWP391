@@ -101,19 +101,19 @@ namespace SWP391_FinalProject.Repository
             // Query to check if the product has the first variation option
             string query1 = @"
         SELECT 1 
-        FROM Products p
-        JOIN ProductItems pi ON p.Id = pi.ProductId
-        JOIN ProductConfigurations pc ON pi.Id = pc.ProductItemId
-        WHERE p.Id = @ProductId AND pc.VariationOptionId = @VariationOpId1
+        FROM SWP391.Product p
+        JOIN SWP391.Product_Item pi ON p.Id = pi.product_id
+        JOIN SWP391.Product_Configuration pc ON pi.Id = pc.product_item_id
+        WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId1
         LIMIT 1";
 
             // Query to check if the product has the second variation option
             string query2 = @"
         SELECT 1 
-        FROM Products p
-        JOIN ProductItems pi ON p.Id = pi.ProductId
-        JOIN ProductConfigurations pc ON pi.Id = pc.ProductItemId
-        WHERE p.Id = @ProductId AND pc.VariationOptionId = @VariationOpId2
+        FROM SWP391.Product p
+        JOIN SWP391.Product_Item pi ON p.Id = pi.product_id
+        JOIN SWP391.Product_Configuration pc ON pi.Id = pc.product_item_id
+        WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId2
         LIMIT 1";
 
             // Set up the parameters for each query
@@ -215,7 +215,7 @@ namespace SWP391_FinalProject.Repository
                 quanLogId = StaffManController.GenerateRandomString(8);
                 string checkQuantityLogIdQuery = "SELECT COUNT(1) FROM SWP391.Quantity_Log WHERE Id = @Id";
                 var checkQuantityLogIdParams = new Dictionary<string, object> { { "@Id", quanLogId } };
-                if ((int)DataAccess.DataAccess.ExecuteQuery(checkQuantityLogIdQuery, checkQuantityLogIdParams).Rows[0][0] == 0)
+                if ((long)DataAccess.DataAccess.ExecuteQuery(checkQuantityLogIdQuery, checkQuantityLogIdParams).Rows[0][0] == 0)
                     break;
             } while (true);
 

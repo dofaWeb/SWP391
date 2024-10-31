@@ -384,33 +384,19 @@ namespace SWP391_FinalProject.Repository
 
         public void Delete(string id)
         {
-            // Check if the product item exists
-            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
-            var checkParameters = new Dictionary<string, object> { { "@Id", id } };
-            DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
-
-            if (checkResult.Rows[0][0].ToString() == "0")
+            var proItem = db.ProductItems.FirstOrDefault(db => db.Id == id);
+            var prc = db.ProductConfigurations.Where(p => p.ProductItemId == id).ToList();
+            if (proItem != null)
             {
-                Console.WriteLine("Product item not found!");
-                return;
+                db.ProductItems.Remove(proItem);
+                foreach (var pc in prc)
+                {
+                    db.ProductConfigurations.Remove(pc);
+                }
+                db.SaveChanges();
+                ProductRepository proRepo = new ProductRepository();
+                proRepo.UpdateProductState(proItem.ProductId);
             }
-
-            // Fetch the ProductId associated with the ProductItem to update its state later
-            string getProductIdQuery = "SELECT product_id FROM SWP391.Product_Item WHERE Id = @Id";
-            DataTable productItemTable = DataAccess.DataAccess.ExecuteQuery(getProductIdQuery, checkParameters);
-            string productId = productItemTable.Rows[0]["ProductId"].ToString();
-
-            // Delete related entries from ProductConfigurations
-            string deleteProductConfigurationsQuery = "DELETE FROM ProductConfigurations WHERE ProductItemId = @Id";
-            DataAccess.DataAccess.ExecuteNonQuery(deleteProductConfigurationsQuery, checkParameters);
-
-            // Delete the ProductItem
-            string deleteProductItemQuery = "DELETE FROM SWP391.Product_Item WHERE Id = @Id";
-            DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, checkParameters);
-
-            // Update product state
-            ProductRepository proRepo = new ProductRepository();
-            proRepo.UpdateProductState(productId);
         }
 
 

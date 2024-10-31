@@ -741,34 +741,34 @@ LIMIT 1;
             p.Name AS ProductName,
             p.Picture AS ProductPicture,
             p.Description AS ProductDescription,
-            pi.SellingPrice AS SellingPrice
+            pi.selling_price AS SellingPrice
         FROM 
-            Products p
+            SWP391.Product p
         JOIN 
-            ProductItems pi ON p.Id = pi.ProductId
+            SWP391.Product_Item pi ON p.Id = pi.product_id
         JOIN 
-            ProductConfigurations pc ON pi.Id = pc.ProductItemId
+            SWP391.Product_Configuration pc ON pi.Id = pc.product_item_id
         JOIN 
-            VariationOptions vo ON pc.VariationOptionId = vo.Id
+            SWP391.Variation_Option vo ON pc.variation_option_id = vo.Id
         JOIN 
-            Variations va ON vo.VariationId = va.Id
+            SWP391.Variation va ON vo.variation_id = va.Id
         WHERE 
             p.Id = @productId
             AND EXISTS (
                 SELECT 1
-                FROM ProductConfigurations pc2
-                JOIN VariationOptions vo2 ON pc2.VariationOptionId = vo2.Id
-                JOIN Variations va2 ON vo2.VariationId = va2.Id
-                WHERE pc2.ProductItemId = pi.Id
+                FROM SWP391.Product_Configuration pc2
+                JOIN SWP391.Variation_Option vo2 ON pc2.variation_option_id = vo2.Id
+                JOIN SWP391.Variation va2 ON vo2.variation_id = va2.Id
+                WHERE pc2.product_item_id = pi.Id
                   AND vo2.Value = @selectedRam
                   AND va2.Name = 'Ram'
             )
             AND EXISTS (
                 SELECT 1
-                FROM ProductConfigurations pc3
-                JOIN VariationOptions vo3 ON pc3.VariationOptionId = vo3.Id
-                JOIN Variations va3 ON vo3.VariationId = va3.Id
-                WHERE pc3.ProductItemId = pi.Id
+                FROM SWP391.Product_Configuration pc3
+                JOIN SWP391.Variation_Option vo3 ON pc3.variation_option_id = vo3.Id
+                JOIN SWP391.Variation va3 ON vo3.variation_id = va3.Id
+                WHERE pc3.product_item_id = pi.Id
                   AND vo3.Value = @selectedStorage
                   AND va3.Name = 'Storage'
             );";

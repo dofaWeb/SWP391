@@ -63,8 +63,8 @@
 
 <!-- Order Summary -->
 <div class="order-summary">
-    <p>Total Points Used: @string.Format("{0:N0}",@ViewBag.OrderDetail.EarnPoint)</p>
-    <p>Total Points Earned: @string.Format("{0:N0}",@ViewBag.OrderDetail.UsePoint)</p>
+    <p>Total Points Earned: @string.Format("{0:N0}",@ViewBag.OrderDetail.EarnPoint)</p>
+    <p>Total Points Used: @string.Format("{0:N0}",@ViewBag.OrderDetail.UsePoint)</p>
     <p>Total Amount: @string.Format("{0:N0}",@ViewBag.TotalPrice) VND</p> <!-- This should calculate (total price - points used) -->
 </div>
 

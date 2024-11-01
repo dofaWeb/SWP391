@@ -142,10 +142,10 @@ namespace SWP391_FinalProject.Repository
         {
             // Define the SQL query with JOIN
             string query = @"
-        SELECT pi.Id, pi.SellingPrice, pi.Quantity, pi.Discount, 
+        SELECT pi.Id, pi.selling_price, pi.Quantity, pi.Discount, 
                p.Name AS ProductName, p.Picture, p.Description, p.Id AS ProductId
-        FROM ProductItems pi
-        JOIN Products p ON pi.ProductId = p.Id
+        FROM SWP391.Product_Item pi
+        JOIN SWP391.Product p ON pi.product_id = p.Id
         WHERE pi.Id = @ProductItemId";
 
             // Define the parameter for the query
@@ -155,7 +155,7 @@ namespace SWP391_FinalProject.Repository
     };
 
             // Execute the query
-            DataTable result = DataAccess.ExecuteQuery(query, parameters);
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query, parameters);
 
             // Check if any rows are returned
             if (result.Rows.Count == 0)
@@ -168,7 +168,7 @@ namespace SWP391_FinalProject.Repository
             var productItemModel = new ProductItemModel
             {
                 Id = row["Id"].ToString(),
-                SellingPrice = Convert.ToDecimal(row["SellingPrice"]),
+                SellingPrice = Convert.ToDecimal(row["selling_price"]),
                 Quantity = Convert.ToInt32(row["Quantity"]),
                 Discount = Convert.ToDecimal(row["Discount"]),
                 Product = new ProductModel

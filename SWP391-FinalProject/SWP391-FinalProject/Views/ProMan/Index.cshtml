@@ -81,7 +81,8 @@
     };
 
     // Set up chart labels to match the month order in the imported data
-    var labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.SellingPrices).Select(p => "Month ${ p.Month}")));
+    var labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(((IEnumerable<dynamic>)ViewBag.SellingPrices).Select(p => $"Month {p.Month}")));
+
 
     // Initialize chart
     var adminChart = new Chart(ctx, {

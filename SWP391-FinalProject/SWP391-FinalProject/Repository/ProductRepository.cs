@@ -509,10 +509,10 @@ LIMIT 1;
         {
             // Check the total quantity and the current state in one query
             var query = @"
-        SELECT SUM(pi.Quantity) AS TotalQuantity, p.state_id
+        SELECT IFNULL(SUM(pi.Quantity), 0) AS TotalQuantity, p.state_id
         FROM Product p
         LEFT JOIN Product_Item pi ON p.Id = pi.product_id
-        WHERE p.Id = 'P0000003'
+        WHERE p.Id = @productId
         GROUP BY p.Id";
 
             var parameters = new Dictionary<string, object>
@@ -524,7 +524,7 @@ LIMIT 1;
 
             if (resultTable.Rows.Count > 0)
             {
-                var totalQuantity = resultTable.Rows[0]["TotalQuantity"] as int? ?? 0; // Handle NULLs
+                var totalQuantity = (decimal)resultTable.Rows[0]["TotalQuantity"];
                 var productToUpdate = resultTable.Rows[0]["state_id"] as int?; // Get the current state
 
                 // Update state based on quantity
@@ -720,48 +720,119 @@ LIMIT 1;
 
         public List<string> GetProductItemIdByProductId(string productId)
         {
-            var proItemId = from pi in db.ProductItems
-                            where pi.ProductId == productId
-                            select pi.Id;
-            var result = proItemId.ToList();
+            // Define the SQL query to select ProductItem IDs where ProductId matches
+            string query = "SELECT Id FROM Product_Item WHERE Product_Id = @ProductId";
 
-            return result; // This now matches List<string>
+            // Create a dictionary to hold parameters
+            var parameters = new Dictionary<string, object>
+    {
+        { "@ProductId", productId }
+    };
+
+            // Execute the query and retrieve the results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Convert the DataTable results to a List<string>
+            var result = new List<string>();
+            foreach (DataRow row in resultTable.Rows)
+            {
+                result.Add(row["Id"].ToString());
+            }
+
+            return result;
         }
+
 
 
         public Models.ProductModel GetProductById(string id)
         {
-            var query = from p in db.Products
-                        join c in db.Categories on p.CategoryId equals c.Id
-                        join ps in db.ProductStates on p.StateId equals ps.Id
-                        where p.Id == id
-                        select new Models.ProductModel
-                        {
-                            Id = p.Id,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Picture = p.Picture,
-                            Quantity = (db.ProductItems
-                                        .Where(pi => pi.ProductId == p.Id)
-                                        .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
-                            CategoryName = c.Name,
-                            ProductState = ps.Name,
-                            CategoryId = c.Id
-                        };
-            var product = query.FirstOrDefault();
+            // Define the SQL query to select the product details, including category and product state
+            string query = @"
+        SELECT 
+            p.Id AS ProductId, 
+            p.Name AS ProductName, 
+            p.Description, 
+            p.Picture, 
+            c.Name AS CategoryName, 
+            ps.Name AS ProductState,
+            c.Id AS CategoryId,
+            COALESCE(SUM(pi.Quantity), 0) AS Quantity -- Calculate total quantity or 0 if NULL
+        FROM 
+            Product p
+        JOIN 
+            Category c ON p.Category_Id = c.Id
+        JOIN 
+            Product_State ps ON p.State_Id = ps.Id
+        LEFT JOIN 
+            Product_Item pi ON pi.Product_Id = p.Id
+        WHERE 
+            p.Id = @Id
+        GROUP BY 
+            p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name, c.Id";
+
+            // Create a dictionary to hold the parameter
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Id", id }
+    };
+
+            // Execute the query and retrieve the results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Convert the result to a ProductModel instance
+            if (resultTable.Rows.Count == 0)
+            {
+                return null; // Return null if no product was found
+            }
+
+            DataRow row = resultTable.Rows[0];
+            var product = new Models.ProductModel
+            {
+                Id = row["ProductId"].ToString(),
+                Name = row["ProductName"].ToString(),
+                Description = row["Description"].ToString(),
+                Picture = row["Picture"].ToString(),
+                Quantity = Convert.ToInt32(row["Quantity"]),
+                CategoryName = row["CategoryName"].ToString(),
+                ProductState = row["ProductState"].ToString(),
+                CategoryId = row["CategoryId"].ToString()
+            };
+
             return product;
         }
 
+
         public string GetProductVariationOption(string productItemId, string option)
         {
-            var varianceValue = (from pc in db.ProductConfigurations
-                                 join vo in db.VariationOptions on pc.VariationOptionId equals vo.Id
-                                 join va in db.Variations on vo.VariationId equals va.Id
-                                 where pc.ProductItemId == productItemId && va.Name == option
-                                 select vo.Value).FirstOrDefault();
+            // Define the SQL query to get the variation option value
+            string query = @"
+               SELECT vo.Value
+                FROM Product_Configuration pc
+                JOIN Variation_Option vo ON pc.variation_option_id = vo.Id
+                JOIN Variation va ON vo.variation_id = va.Id
+                WHERE pc.product_item_id = @ProductItemId
+                AND va.Name = @Option
+                LIMIT 1"; // Using LIMIT 1 to ensure a single result
 
-            return varianceValue; // Return empty string if result is null
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@ProductItemId", productItemId },
+        { "@Option", option }
+    };
+
+            // Execute the query and retrieve the result
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Retrieve the value or return an empty string if no result is found
+            if (resultTable.Rows.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            return resultTable.Rows[0]["Value"].ToString();
         }
+
 
         public static decimal CalculatePriceAfterDiscount(decimal? SellingPrice, decimal? discount)
         {
@@ -794,72 +865,149 @@ LIMIT 1;
 
         public List<ProductItemModel> GetProductItem(string productId)
         {
-            var productItems = db.ProductItems.Where(p => p.ProductId == productId).ToList();
-            var result = productItems.Select(p => new ProductItemModel
+            // Query to get product items for a given ProductId
+            string productItemsQuery = @"
+         SELECT Id, Quantity, import_price, selling_price, Discount
+         FROM Product_Item
+         WHERE product_id = @ProductId";
+
+            var parameters = new Dictionary<string, object> { { "@ProductId", productId } };
+            DataTable productItemsTable = DataAccess.DataAccess.ExecuteQuery(productItemsQuery, parameters);
+
+            // Prepare the result list
+            var result = new List<ProductItemModel>();
+
+            foreach (DataRow row in productItemsTable.Rows)
             {
-                Id = p.Id,
-                Quantity = p.Quantity,
-                ImportPrice = p.ImportPrice,
-                SellingPrice = p.SellingPrice,
-                Ram = GetProductVariationOption(p.Id, "Ram"),
-                Storage = GetProductVariationOption(p.Id, "Storage"),
-                Discount = p.Discount,
-                PriceAfterDiscount = CalculatePriceAfterDiscount(p.SellingPrice, p.Discount / 100),
-                Profit = CalculateProfit(CalculatePriceAfterDiscount(p.SellingPrice, p.Discount / 100), p.ImportPrice),
-                ProductId = productId
-            }).ToList();
+                // Get basic fields from ProductItems
+                var productItemId = row["Id"].ToString();
+                int quantity = Convert.ToInt32(row["Quantity"]);
+                decimal importPrice = Convert.ToDecimal(row["import_price"]);
+                decimal sellingPrice = Convert.ToDecimal(row["selling_price"]);
+                decimal discount = Convert.ToDecimal(row["Discount"]);
+
+                // Retrieve the variation options for Ram and Storage
+                string ram = GetProductVariationOption(productItemId, "Ram");
+                string storage = GetProductVariationOption(productItemId, "Storage");
+
+                // Calculate PriceAfterDiscount and Profit
+                decimal priceAfterDiscount = CalculatePriceAfterDiscount(sellingPrice, discount / 100);
+                decimal? profit = CalculateProfit(priceAfterDiscount, importPrice);
+
+                // Create the ProductItemModel and add it to the result list
+                var productItem = new ProductItemModel
+                {
+                    Id = productItemId,
+                    Quantity = quantity,
+                    ImportPrice = importPrice,
+                    SellingPrice = sellingPrice,
+                    Ram = ram,
+                    Storage = storage,
+                    Discount = discount,
+                    PriceAfterDiscount = priceAfterDiscount,
+                    Profit = profit,
+                    ProductId = productId
+                };
+
+                result.Add(productItem);
+            }
 
             return result;
         }
 
-        public string  GetProductIdByProductItemId(string productItemId)
+
+        public string GetProductIdByProductItemId(string productItemId)
         {
-            var productId = from p in db.Products
-                            join pi in db.ProductItems on p.Id equals pi.ProductId
-                            where pi.Id == productItemId
-                            select p.Id;
-            return productId.FirstOrDefault();
+            // SQL query to retrieve ProductId based on ProductItemId
+            string query = @"
+         SELECT p.Id
+        FROM Product p
+        JOIN Product_Item pi ON p.Id = pi.product_id
+        WHERE pi.Id =  @ProductItemId";
+
+            // Define parameter for ProductItemId
+            var parameters = new Dictionary<string, object>
+    {
+        { "@ProductItemId", productItemId }
+    };
+
+            // Execute the query and get the result
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Return the ProductId if found; otherwise, return null
+            return resultTable.Rows.Count > 0 ? resultTable.Rows[0]["Id"].ToString() : null;
         }
+
 
 
         public ProductItemModel GetProductItemById(string productId)
         {
-            // Truy vấn dữ liệu bằng LINQ
-            var productItem = (from p in db.Products
-                               join pi in db.ProductItems on p.Id equals pi.ProductId
+            // Define SQL query to retrieve the product item by productId
+            string query = @"
+        SELECT 
+    pi.Id AS ProductItemId,
+    pi.product_id,
+    pi.Quantity,
+    pi.import_price,
+    pi.selling_price,
+    pi.Discount,
+    p.Id AS ProductId,
+    p.Name AS ProductName,
+    p.Picture,
+    p.Description,
+    p.category_id,
+    c.Name AS CategoryName,
+    p.state_id
+FROM 
+    Product_Item pi
+JOIN 
+    Product p ON pi.product_id = p.Id
+LEFT JOIN 
+    Category c ON p.category_id = c.Id
+WHERE 
+    p.Id = @ProductId
+LIMIT 1;"; // Only get the first matching result
 
-                               // Nếu có bảng Variations
-                               where p.Id == productId
-                               select new ProductItemModel
-                               {
-                                   Id = pi.Id,
-                                   ProductId = pi.ProductId,
-                                   Product = new ProductModel
-                                   {
-                                       Id = p.Id,
-                                       Name = p.Name,
-                                       Picture = p.Picture,
-                                       Description = p.Description,
-                                       CategoryId = p.CategoryId,
-                                       CategoryName = db.Categories
-                                                   .Where(c => c.Id == p.CategoryId)
-                                                   .Select(c => c.Name).FirstOrDefault(), // Lấy tên danh mục
+            // Define the parameter for productId
+            var parameters = new Dictionary<string, object>
+    {
+        { "@ProductId", productId }
+    };
 
-                                       StateId = p.StateId,
-                                       // Convert the result to a list
+            // Execute the query
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
 
-                                   },
+            // Check if a result was returned
+            if (resultTable.Rows.Count == 0)
+            {
+                return null; // No matching product item found
+            }
 
-                                   Quantity = pi.Quantity,
-                                   ImportPrice = pi.ImportPrice,
-                                   SellingPrice = pi.SellingPrice,
-                                   Discount = pi.Discount,
-
-                               }).FirstOrDefault();
+            // Map the result to ProductItemModel
+            DataRow row = resultTable.Rows[0];
+            var productItem = new ProductItemModel
+            {
+                Id = row["ProductItemId"].ToString(),
+                ProductId = row["product_id"].ToString(),
+                Quantity = Convert.ToInt32(row["Quantity"]),
+                ImportPrice = Convert.ToDecimal(row["import_price"]),
+                SellingPrice = Convert.ToDecimal(row["selling_price"]),
+                Discount = Convert.ToDecimal(row["Discount"]),
+                Product = new ProductModel
+                {
+                    Id = row["product_id"].ToString(),
+                    Name = row["ProductName"].ToString(),
+                    Picture = row["Picture"].ToString(),
+                    Description = row["Description"].ToString(),
+                    CategoryId = row["category_id"].ToString(),
+                    CategoryName = row["CategoryName"].ToString(),
+                    StateId = Convert.ToInt32(row["state_id"])
+                }
+            };
 
             return productItem;
-
         }
+
         public ProductItemModel GetProductDetails(string productId, string selectedRam, string selectedStorage)
         {
             // SQL Query
@@ -946,133 +1094,223 @@ LIMIT 1;
                 return new List<Models.ProductModel>();
             }
 
-            // Query to get products by brand, excluding the specified product (with string ID) and limiting the result to 4 items
-            var query = (from p in db.Products
-                         join c in db.Categories on p.CategoryId equals c.Id
-                         join ps in db.ProductStates on p.StateId equals ps.Id
-                         where c.Id.Contains(brand) && p.Id != excludeProductId // Exclude the input product by string ID
-                         select new Models.ProductModel
-                         {
-                             Id = p.Id,
-                             Name = p.Name,
-                             Description = p.Description,
-                             Picture = p.Picture,
-                             Quantity = (db.ProductItems
-                                            .Where(pi => pi.ProductId == p.Id)
-                                            .Sum(pi => (int?)pi.Quantity) ?? 0), // Handle NULL by converting to 0
-                             CategoryName = c.Name,
-                             ProductState = ps.Name
-                         })
-                         .Take(4); // Limit to 4 products
+            // Define SQL query to get products by brand, excluding the specified product, limited to 4 items
+            string query = @"
+                SELECT 
+            p.Id,
+            p.Name,
+            p.Description,
+            p.Picture,
+            c.Name AS CategoryName,
+            ps.Name AS ProductState,
+            COALESCE(SUM(pi.Quantity), 0) AS Quantity
+        FROM 
+            Product p
+        JOIN 
+            Category c ON p.category_id = c.Id
+        JOIN 
+            Product_State ps ON p.state_id = ps.Id
+        LEFT JOIN 
+            Product_Item pi ON pi.product_id = p.Id
+        WHERE 
+            c.Id LIKE CONCAT('%', @Brand, '%') 
+            AND p.Id != @ExcludeProductId
+        GROUP BY 
+            p.Id
+        LIMIT 4";
 
-            var result = query.ToList(); // Execute the query
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Brand", brand },
+        { "@ExcludeProductId", excludeProductId }
+    };
 
-            // Fetch the minimum price for each product
-            foreach (var item in result)
+            // Execute the query
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Map the result to List<ProductModel>
+            var result = new List<Models.ProductModel>();
+            foreach (DataRow row in resultTable.Rows)
             {
-                item.ProductItem = GetMinPrice(item.Id);
+                var product = new Models.ProductModel
+                {
+                    Id = row["Id"].ToString(),
+                    Name = row["Name"].ToString(),
+                    Description = row["Description"].ToString(),
+                    Picture = row["Picture"].ToString(),
+                    Quantity = Convert.ToInt32(row["Quantity"]),
+                    CategoryName = row["CategoryName"].ToString(),
+                    ProductState = row["ProductState"].ToString()
+                };
+
+                // Retrieve minimum price for the product and assign to ProductItem
+                product.ProductItem = GetMinPrice(product.Id);
+
+                result.Add(product);
             }
 
             return result;
         }
+
         public string GetBrandId(string proId)
         {
-            // Find the product by its ID
-            var brandId = db.Products
-                            .Where(p => p.Id == proId)
-                            .Select(p => p.CategoryId) // Assuming CategoryId represents the Brand ID
-                            .FirstOrDefault();
+            // Define SQL query to find the CategoryId (assumed to be BrandId) by ProductId
+            string query = @"
+        SELECT Category_Id 
+        FROM Product 
+        WHERE Id = @ProductId";
 
-            // Return the brand ID (or null if not found)
-            return brandId;
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@ProductId", proId }
+    };
+
+            // Execute the query and get the result as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Check if there is a result and retrieve the CategoryId
+            if (resultTable.Rows.Count > 0)
+            {
+                return resultTable.Rows[0]["Category_Id"].ToString();
+            }
+
+            // Return null if no matching product is found
+            return null;
         }
+
 
         public void Disable(string productId)
         {
-            var product = db.Products.FirstOrDefault(p => p.Id == productId);
-            if (product != null)
+            // SQL query to get the current StateId of the specified product
+            string getStateIdQuery = "SELECT State_Id FROM Product WHERE Id = @ProductId";
+            var parameters = new Dictionary<string, object> { { "@ProductId", productId } };
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(getStateIdQuery, parameters);
+
+            // Check if the product exists
+            if (resultTable.Rows.Count > 0)
             {
-                if (product.StateId != 2)
+                int currentStateId = Convert.ToInt32(resultTable.Rows[0]["State_Id"]);
+
+                if (currentStateId != 2)
                 {
-                    product.StateId = 2;
+                    // Update StateId to 2 if the current state is not 2
+                    string updateStateIdQuery = "UPDATE Product SET State_Id = 2 WHERE Id = @ProductId";
+                    DataAccess.DataAccess.ExecuteNonQuery(updateStateIdQuery, parameters);
                 }
                 else
                 {
+                    // If the StateId is already 2, call the UpdateProductState method
                     UpdateProductState(productId);
                 }
-                db.SaveChanges();
             }
         }
+
 
         public List<ProductLogModel> GetProductLog()
         {
-            var result = db.ProductLogs
-                .Select(p => new ProductLogModel
+            // Define the SQL query to fetch product logs with joins for related logs
+            var query = @"
+           SELECT pl.Id AS LogId,
+               COALESCE(ql.Product_Item_Id, prl.Product_Item_Id, dl.Product_Item_Id) AS ProductItemId,
+               CASE 
+                   WHEN ql.product_item_id IS NOT NULL THEN 'Quantity Change'
+                   WHEN prl.product_item_id IS NOT NULL THEN 'Price Change'
+                   WHEN dl.product_item_id IS NOT NULL THEN 'Discount Change'
+                   ELSE 'Unknown'
+               END AS ActionType,
+               COALESCE(ql.old_quantity, prl.old_price, dl.old_Discount) AS OldValue,
+               COALESCE(ql.new_quantity, prl.new_price, dl.new_discount) AS NewValue,
+               COALESCE(ql.change_timestamp, prl.change_timestamp, dl.change_timestamp) AS ChangeDate
+        FROM Product_Log pl
+        LEFT JOIN Quantity_Log ql ON pl.quantity_log_id = ql.id
+        LEFT JOIN Price_Log prl ON prl.id = pl.price_log_id
+        LEFT JOIN Discount_Log dl ON pl.disocunt_log_id = dl.Id
+        ORDER BY ChangeDate DESC;"; // Order by date
+
+            // Execute the query and map results to ProductLogModel
+            var result = new List<ProductLogModel>();
+            var dataTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                result.Add(new ProductLogModel
                 {
-                    Id = p.Id,
-                    ProductItemId = p.QuantityLog != null ? p.QuantityLog.ProductItemId :
-                                    p.PriceLog != null ? p.PriceLog.ProductItemId :
-                                    p.DisocuntLog != null ? p.DisocuntLog.ProductItemId : null,
-                    ActionType = p.QuantityLog != null ? "Quantity Change" :
-                                 p.PriceLog != null ? "Price Change" :
-                                 p.DisocuntLog != null ? "Discount Change" : "Unknown",
-                    OldValue = p.QuantityLog != null ? p.QuantityLog.OldQuantity.ToString() :
-                                p.PriceLog != null ? p.PriceLog.OldPrice.ToString() :
-                                p.DisocuntLog != null ? p.DisocuntLog.OldDiscount.ToString() : null,
-                    NewValue = p.QuantityLog != null ? p.QuantityLog.NewQuantity.ToString() :
-                                p.PriceLog != null ? p.PriceLog.NewPrice.ToString() :
-                                p.DisocuntLog != null ? p.DisocuntLog.NewDiscount.ToString() : null,
-                    Date = p.QuantityLog != null ? p.QuantityLog.ChangeTimestamp :
-                           p.PriceLog != null ? p.PriceLog.ChangeTimestamp :
-                           p.DisocuntLog != null ? p.DisocuntLog.ChangeTimestamp : DateTime.MinValue
-                }).OrderByDescending(p => p.Date)
-                .ToList();
+                    Id = row["LogId"].ToString(),
+                    ProductItemId = row["ProductItemId"]?.ToString(),
+                    ActionType = row["ActionType"]?.ToString(),
+                    OldValue = row["OldValue"]?.ToString(),
+                    NewValue = row["NewValue"]?.ToString(),
+                    Date = row["ChangeDate"] != DBNull.Value ? Convert.ToDateTime(row["ChangeDate"]) : DateTime.MinValue
+                });
+            }
 
             return result;
         }
-        
 
         public List<ProductLogModel> GetProductLog(string filter)
         {
-            var logs = db.ProductLogs.AsQueryable();
-            switch (filter)
+            // Base SQL query for fetching product logs with necessary joins
+            var query = @"
+        SELECT pl.Id AS LogId,
+               COALESCE(ql.Product_Item_Id, prl.Product_Item_Id, dl.Product_Item_Id) AS ProductItemId,
+               CASE 
+                   WHEN ql.product_item_id IS NOT NULL THEN 'Quantity Change'
+                   WHEN prl.product_item_id IS NOT NULL THEN 'Price Change'
+                   WHEN dl.product_item_id IS NOT NULL THEN 'Discount Change'
+                   ELSE 'Unknown'
+               END AS ActionType,
+               COALESCE(ql.old_quantity, prl.old_price, dl.old_discount) AS OldValue,
+               COALESCE(ql.new_quantity, prl.new_price, dl.new_discount) AS NewValue,
+               COALESCE(ql.change_timestamp, prl.change_timestamp, dl.change_timestamp) AS ChangeDate
+        FROM Product_Log pl
+        LEFT JOIN Quantity_Log ql ON pl.quantity_log_id = ql.id
+        LEFT JOIN Price_Log prl ON prl.id = pl.price_log_id
+        LEFT JOIN Discount_Log dl ON pl.disocunt_log_id = dl.id";
+
+            // Modify the query based on the filter
+            if (!string.IsNullOrEmpty(filter))
             {
-                case "1":
-                    logs = logs.Where(p => p.QuantityLogId != null); // Quantity Change
-                    break;
-                case "2":
-                    logs = logs.Where(p => p.PriceLogId != null); // Price Change
-                    break;
-                case "3":
-                    logs = logs.Where(p => p.DisocuntLogId != null); // Discount Change
-                    break;
-                default:
-                    // If "All" or no filter is selected, return all logs
-                    break;
+                switch (filter)
+                {
+                    case "1": // Quantity Change
+                        query += " WHERE ql.product_item_id IS NOT NULL";
+                        break;
+                    case "2": // Price Change
+                        query += " WHERE prl.product_item_id IS NOT NULL";
+                        break;
+                    case "3": // Discount Change
+                        query += " WHERE dl.product_item_id IS NOT NULL";
+                        break;
+                    default:
+                        // No additional filtering
+                        break;
+                }
             }
-            var result = logs.Select(p => new ProductLogModel
+
+            query += " ORDER BY ChangeDate DESC;"; // Order by date
+
+            // Execute the query and map results to ProductLogModel
+            var result = new List<ProductLogModel>();
+            var dataTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+            foreach (DataRow row in dataTable.Rows)
             {
-                Id = p.Id,
-                ProductItemId = p.QuantityLog != null ? p.QuantityLog.ProductItemId :
-                                    p.PriceLog != null ? p.PriceLog.ProductItemId :
-                                    p.DisocuntLog != null ? p.DisocuntLog.ProductItemId : null,
-                ActionType = p.QuantityLog != null ? "Quantity Change" :
-                                 p.PriceLog != null ? "Price Change" :
-                                 p.DisocuntLog != null ? "Discount Change" : "Unknown",
-                OldValue = p.QuantityLog != null ? p.QuantityLog.OldQuantity.ToString() :
-                                p.PriceLog != null ? p.PriceLog.OldPrice.ToString() :
-                                p.DisocuntLog != null ? p.DisocuntLog.OldDiscount.ToString() : null,
-                NewValue = p.QuantityLog != null ? p.QuantityLog.NewQuantity.ToString() :
-                                p.PriceLog != null ? p.PriceLog.NewPrice.ToString() :
-                                p.DisocuntLog != null ? p.DisocuntLog.NewDiscount.ToString() : null,
-                Date = p.QuantityLog != null ? p.QuantityLog.ChangeTimestamp :
-                           p.PriceLog != null ? p.PriceLog.ChangeTimestamp :
-                           p.DisocuntLog != null ? p.DisocuntLog.ChangeTimestamp : DateTime.MinValue
-            }).OrderByDescending(p => p.Date)
-                .ToList();
+                result.Add(new ProductLogModel
+                {
+                    Id = row["LogId"].ToString(),
+                    ProductItemId = row["ProductItemId"]?.ToString(),
+                    ActionType = row["ActionType"]?.ToString(),
+                    OldValue = row["OldValue"]?.ToString(),
+                    NewValue = row["NewValue"]?.ToString(),
+                    Date = row["ChangeDate"] != DBNull.Value ? Convert.ToDateTime(row["ChangeDate"]) : DateTime.MinValue
+                });
+            }
 
             return result;
         }
+
 
     }
 }

@@ -17,16 +17,28 @@ namespace SWP391_FinalProject.Controllers
 
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int year = 2024)
         {
             StatisticsRepository statisticsRepository = new StatisticsRepository();
-            var stats = statisticsRepository.GetImportPrice();
+            var sellingStat = statisticsRepository.GetSellingPrice(year);
+            var importStat = statisticsRepository.GetImportPrice(year);
+
+            var profitStat = ((IEnumerable<dynamic>)sellingStat).Select((s, index) => new
+            {
+                Month = s.Month,
+                Profit = s.TotalSellingPrice - ((IEnumerable<dynamic>)importStat).ElementAtOrDefault(index)?.TotalImportPrice ?? 0
+            }).ToList();
+
             // Filter based on the year
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             switch (role)
             {
                 case "Role0001":
                 case "Role0002":
+                    ViewBag.SellingPrices = sellingStat;
+                    ViewBag.ImportPrices = importStat;
+                    ViewBag.ProfitStats = profitStat;
+
                     return View();
                   
                 case "Role0003":
@@ -34,15 +46,6 @@ namespace SWP391_FinalProject.Controllers
                     return RedirectToAction("Index", "Pro");
                 
             }
-        }
-
-        // Method to filter the data by the selected year
-        private List<StatisticsModel> GetImportPriceByYear(int year)
-        {
-            StatisticsRepository statisticsRepository = new StatisticsRepository();
-            // Filter based on the year
-            var filteredData = statisticsRepository.GetImportPrice().Where(stat => stat.ChangeDate.Year == year).ToList();
-            return filteredData;
         }
 
         public IActionResult Display()

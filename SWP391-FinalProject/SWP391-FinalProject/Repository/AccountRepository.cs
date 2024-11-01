@@ -11,11 +11,11 @@ namespace SWP391_FinalProject.Repository
 {
     public class AccountRepository
     {
-        private readonly DBContext db;
+        
 
         public AccountRepository()
         {
-            db = new DBContext();
+            
         }
         public string GetNewId()
         {

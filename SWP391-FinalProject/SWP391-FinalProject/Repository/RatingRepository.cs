@@ -6,11 +6,11 @@ namespace SWP391_FinalProject.Repository
 {
     public class RatingRepository
     {
-        private readonly DBContext db;
+       
 
         public RatingRepository()
         {
-            db = new DBContext();
+            
         }
 
         public double GetAverageRating(string productId)

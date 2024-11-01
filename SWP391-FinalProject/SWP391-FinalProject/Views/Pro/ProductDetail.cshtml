@@ -208,6 +208,8 @@ else
             <textarea class="form-control" name="Comment" rows="3" placeholder="Leave a comment..." aria-label="Leave a comment" required></textarea>
 
             <!-- Hidden fields for proId and userId -->
+            <input type="hidden" name="ProductItemId" value="@ViewBag.ProductItemId" />
+            <input type="hidden" name="Price" value="@ViewBag.Price" />
             <input type="hidden" name="ProductId" value="@Model.Id">
             <input type="hidden" name="Username" value="@User.FindFirst("Username")?.Value"> <!-- Assuming user ID is in claims -->
 

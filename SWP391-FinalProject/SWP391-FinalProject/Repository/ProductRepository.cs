@@ -572,7 +572,7 @@ namespace SWP391_FinalProject.Repository
                 var d = discount ?? 0;
                 var s = SellingPrice ?? 0;
 
-                return s - (s * d);
+                return s + (s * d);
             }
             catch (ArgumentException ex)
             {

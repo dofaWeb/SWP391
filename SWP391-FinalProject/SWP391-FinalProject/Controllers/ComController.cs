@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
 
@@ -64,13 +65,13 @@ namespace SWP391_FinalProject.Controllers
             return RedirectToAction("Display");
         }
         [HttpPost]
-        public IActionResult AddComment(CommentModel model,string Username)
+        public IActionResult AddComment(CommentModel model,string Username,string ProductItemId,decimal Price)
         {
             ComRepository comRep = new ComRepository();
             UserRepository userRep = new UserRepository();
             model.UserId = userRep.GetUserIdByUserName(Username);
             comRep.AddComment(model);
-            return RedirectToAction("ProductDetail", "Pro", new { id = model.ProductId });
+            return RedirectToAction("ProductDetail", "Pro", new { id = model.ProductId, productItemId=ProductItemId, Price= Price });
 
         }
         [HttpPost]

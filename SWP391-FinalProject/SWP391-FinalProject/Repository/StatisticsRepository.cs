@@ -1,151 +1,291 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using System.Data;
 
 namespace SWP391_FinalProject.Repository
 {
     public class StatisticsRepository
     {
-        private readonly DBContext db;
         public StatisticsRepository()
         {
-            db = new DBContext();
+
         }
-        public dynamic GetSellingPrice(int year)
+        public List<dynamic> GetSellingPrice(int year)
         {
-            var query = db.Orders
-    .Where(o => o.StateId == 2 && o.Date.Year == year)
-    .Join(db.OrderItems,
-          o => o.Id,
-          oi => oi.OrderId,
-          (o, oi) => new { o, oi })
-    .GroupBy(x => x.o.Date.Month)
-    .Select(g => new
+            string query = @"
+        SELECT MONTH(o.Date) AS Month,
+               SUM(oi.Quantity * oi.price * (1 - oi.Discount / 100)) AS TotalSellingPrice
+        FROM SWP391.Order o
+        JOIN Order_Item oi ON o.Id = oi.Order_Id
+        WHERE o.State_Id = 2 AND YEAR(o.Date) = @year
+        GROUP BY MONTH(o.Date)
+        ORDER BY MONTH(o.Date);";
+
+            var parameters = new Dictionary<string, object>
     {
-        Month = g.Key,
-        TotalSellingPrice = g.Sum(x => x.oi.Quantity * x.oi.Price * (1 - x.oi.Discount / 100))
-    })
-    .OrderBy(result => result.Month)
-    .ToList();
+        { "@year", year }
+    };
 
+            // Execute the query and get results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+            var sellingPrices = new List<dynamic>();
 
-            return query;
+            foreach (DataRow row in resultTable.Rows)
+            {
+                sellingPrices.Add(new
+                {
+                    Month = (int)row["Month"],
+                    TotalSellingPrice = (decimal)row["TotalSellingPrice"]
+                });
+            }
+
+            return sellingPrices;
         }
 
-        public dynamic GetImportPrice(int year)
+
+        public List<dynamic> GetImportPrice(int year)
         {
-            var result = db.QuantityLogs
-    .Where(ql => ql.NewQuantity > ql.OldQuantity && ql.ChangeTimestamp.Year == 2024)
-    .GroupBy(ql => ql.ChangeTimestamp.Month)
-    .Select(g => new
+            // SQL query to get the import price based on the specified year
+            string query = @"
+        SELECT 
+            MONTH(ql.change_timestamp) AS change_month, 
+            SUM((ql.new_quantity - ql.old_quantity) * pi.import_price) AS total_import_price
+        FROM 
+            Quantity_Log ql
+        JOIN 
+            Product_Item pi ON ql.product_item_id = pi.id
+        WHERE 
+            ql.new_quantity > ql.old_quantity AND YEAR(ql.change_timestamp) = @year
+        GROUP BY 
+            change_month
+        ORDER BY 
+            change_month;";
+
+            // Parameters for the query
+            var parameters = new Dictionary<string, object>
     {
-        ChangeMonth = g.Key,
-        TotalImportPrice = g.Sum(ql => (ql.NewQuantity - ql.OldQuantity) * ql.ProductItem.ImportPrice)
-    })
-    .OrderBy(x => x.ChangeMonth)
-    .ToList();
+        { "@year", year }
+    };
 
-            return result;
+            // Execute the query to get the results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+            var importPrices = new List<dynamic>();
+
+            // Process the results into a list of dynamic objects
+            foreach (DataRow row in resultTable.Rows)
+            {
+                importPrices.Add(new
+                {
+                    ChangeMonth = (int)row["change_month"], // Ensure proper casting
+                    TotalImportPrice = (decimal)(row["total_import_price"] != DBNull.Value ? row["total_import_price"] : 0) // Handling NULLs
+                });
+            }
+
+            return importPrices;
         }
 
-        public dynamic GetOrderStat()
+
+        public List<dynamic> GetOrderStat()
         {
-            var result = db.Orders
-                        .Where(o => o.StateId == 2) // Optional: Filter approved orders
-                        .GroupBy(o => new { Year = o.Date.Year, Month = o.Date.Month })
-                        .Select(g => new
-                        {
-                            Year = g.Key.Year,
-                            Month = g.Key.Month,
-                            TotalOrder = g.Sum(o => o.OrderItems.Sum(oi => oi.Quantity))
-                        })
-                        .OrderBy(r => r.Year)
-                        .ThenBy(r => r.Month)
-                        .ToList();
+            // SQL query to get order statistics grouped by year and month
+            string query = @"
+        SELECT 
+            YEAR(o.date) AS Year,
+            MONTH(o.date) AS Month,
+            SUM(oi.quantity) AS TotalOrder
+        FROM 
+            `Order` o
+        JOIN 
+            Order_Item oi ON o.id = oi.order_id
+        WHERE 
+            o.state_id = 2 -- Filter for approved orders
+        GROUP BY 
+            Year, Month
+        ORDER BY 
+            Year, Month;";
 
-            return result;
+            // Execute the query to get the results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+            var orderStats = new List<dynamic>();
+
+            // Process the results into a list of dynamic objects
+            foreach (DataRow row in resultTable.Rows)
+            {
+                orderStats.Add(new
+                {
+                    Year = (int)row["Year"],
+                    Month = (int)row["Month"],
+                    TotalOrder = row["TotalOrder"] != DBNull.Value ? Convert.ToInt32(Convert.ToDecimal(row["TotalOrder"])) : 0 // Handle conversion properly
+                });
+            }
+
+            return orderStats;
         }
+
 
         public dynamic GetBestSellingProducts()
         {
-            var topProducts = (from o in db.Orders
-                               join oi in db.OrderItems on o.Id equals oi.OrderId
-                               join pi in db.ProductItems on oi.ProductItemId equals pi.Id
-                               join p in db.Products on pi.ProductId equals p.Id
-                               where o.StateId == 2
-                               group pi by p.Name into productGroup
-                               select new
-                               {
-                                   ProductName = productGroup.Key,
-                                   Count = productGroup.Count()
-                               })
-                   .OrderByDescending(x => x.Count)
-                   .Take(5)
-                   .ToList();
-            return topProducts;
+            // SQL query to get the best-selling products
+            string query = @"
+        SELECT 
+            p.name AS ProductName,
+            COUNT(*) AS Count
+        FROM 
+            `Order` o
+        JOIN 
+            Order_Item oi ON o.id = oi.order_id
+        JOIN 
+            Product_Item pi ON oi.product_item_id = pi.id
+        JOIN 
+            Product p ON pi.product_id = p.id
+        WHERE 
+            o.state_id = 2
+        GROUP BY 
+            p.name
+        ORDER BY 
+            Count DESC
+        LIMIT 5;";
+
+            // Execute the query to get the results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+            var bestSellingProducts = new List<dynamic>();
+
+            // Process the results into a list of dynamic objects
+            foreach (DataRow row in resultTable.Rows)
+            {
+                bestSellingProducts.Add(new
+                {
+                    ProductName = (string)row["ProductName"],
+                    Count = Convert.ToInt32(row["Count"]) // Convert to int from long
+                });
+            }
+
+            return bestSellingProducts;
         }
+
 
         public dynamic GetMostProfitableProducts()
         {
-            var topProfitableProducts = (from o in db.Orders
-                                         join oi in db.OrderItems on o.Id equals oi.OrderId
-                                         join pi in db.ProductItems on oi.ProductItemId equals pi.Id
-                                         join p in db.Products on pi.ProductId equals p.Id
-                                         where o.StateId == 2
-                                         group new { oi, pi } by p.Name into productGroup
-                                         let totalRevenue = productGroup.Sum(x => x.oi.Quantity * x.oi.Price * (1 - x.oi.Discount / 100))
-                                         let totalImportCost = productGroup.Sum(x => x.pi.ImportPrice) // Changed from Count() to Sum()
-                                         select new
-                                         {
-                                             ProductName = productGroup.Key,
-                                             Profit = totalRevenue - totalImportCost
-                                         })
-                 .OrderByDescending(x => x.Profit)
-                 .Take(5)
-                 .ToList();
+            // SQL query to get the most profitable products
+            string query = @"
+                   SELECT 
+                p.Name AS ProductName,
+                SUM(oi.Quantity * oi.Price * (1 - oi.Discount / 100)) AS TotalRevenue,
+                SUM(oi.Quantity * pi.import_price) AS TotalImportCost,
+                SUM(oi.Quantity * oi.Price * (1 - oi.Discount / 100)) - SUM(oi.Quantity * pi.import_price) AS Profit
+            FROM 
+                `Order` o
+            JOIN 
+                Order_Item oi ON o.Id = oi.Order_Id
+            JOIN 
+                Product_Item pi ON oi.Product_Item_Id = pi.Id
+            JOIN 
+                Product p ON pi.Product_Id = p.Id
+            WHERE 
+                o.State_Id = 2
+            GROUP BY 
+                p.Name
+            ORDER BY 
+                Profit DESC
+            LIMIT 5;";
+
+            // Execute the query and return results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+            var topProfitableProducts = new List<dynamic>();
+
+            foreach (DataRow row in resultTable.Rows)
+            {
+                topProfitableProducts.Add(new
+                {
+                    ProductName = (string)row["ProductName"],
+                    Profit = (decimal)(row["Profit"] != DBNull.Value ? row["Profit"] : 0) // Handle NULLs
+                });
+            }
 
             return topProfitableProducts;
         }
 
+
         public dynamic GetBestSellingBrands()
         {
-            var topCategories = (from o in db.Orders
-                                 join oi in db.OrderItems on o.Id equals oi.OrderId
-                                 join pi in db.ProductItems on oi.ProductItemId equals pi.Id
-                                 join p in db.Products on pi.ProductId equals p.Id
-                                 join c in db.Categories on p.CategoryId equals c.Id
-                                 where o.StateId == 2
-                                 group pi by c.Name into categoryGroup
-                                 select new
-                                 {
-                                     CategoryName = categoryGroup.Key,
-                                     ProductCount = categoryGroup.Count()
-                                 })
-                     .OrderByDescending(x => x.ProductCount)
-                     .Take(5)
-                     .ToList();
+            // SQL query to get the best-selling brands (categories)
+            string query = @"
+    SELECT 
+        c.Name AS CategoryName,
+        COUNT(pi.Id) AS ProductCount
+    FROM 
+        `Order` o
+    JOIN 
+        Order_Item oi ON o.Id = oi.Order_Id
+    JOIN 
+        Product_Item pi ON oi.Product_Item_Id = pi.Id
+    JOIN 
+        Product p ON pi.Product_Id = p.Id
+    JOIN 
+        Category c ON p.Category_Id = c.Id
+    WHERE 
+        o.State_Id = 2
+    GROUP BY 
+        c.Name
+    ORDER BY 
+        ProductCount DESC
+    LIMIT 5;";
+
+            // Execute the query and return results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+            var topCategories = new List<dynamic>();
+
+            foreach (DataRow row in resultTable.Rows)
+            {
+                topCategories.Add(new
+                {
+                    CategoryName = (string)row["CategoryName"],
+                    ProductCount = Convert.ToInt32(row["ProductCount"]) // Handle NULLs
+                });
+            }
+
             return topCategories;
         }
 
+
         public dynamic GetMostSpendingCustomers()
         {
-            var topSpendingUsers = (from o in db.Orders
-                                    join oi in db.OrderItems on o.Id equals oi.OrderId
-                                    join u in db.Users on o.UserId equals u.AccountId
-                                    where o.StateId == 2
-                                    group oi by u.Name into userGroup
-                                    select new
-                                    {
-                                        UserName = userGroup.Key,
-                                        MoneyUsed = userGroup.Sum(x => x.Quantity * x.Price * (1 - x.Discount / 100))
-                                    })
-                        .OrderByDescending(x => x.MoneyUsed)
-                        .Take(5)
-                        .ToList();
+            // SQL query to get the most spending customers
+            string query = @"
+    SELECT 
+        u.Name AS UserName,
+        SUM(oi.Quantity * oi.Price * (1 - oi.Discount / 100)) AS MoneyUsed
+    FROM 
+        `Order` o
+    JOIN 
+        Order_Item oi ON o.Id = oi.Order_Id
+    JOIN 
+        User u ON o.User_Id = u.Account_Id
+    WHERE 
+        o.State_Id = 2
+    GROUP BY 
+        u.Name
+    ORDER BY 
+        MoneyUsed DESC
+    LIMIT 5;";
 
+            // Execute the query and return results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+            var topSpendingUsers = new List<dynamic>();
+
+            foreach (DataRow row in resultTable.Rows)
+            {
+                topSpendingUsers.Add(new
+                {
+                    UserName = (string)row["UserName"],
+                    MoneyUsed = (decimal)(row["MoneyUsed"] != DBNull.Value ? row["MoneyUsed"] : 0) // Handle NULLs
+                });
+            }
 
             return topSpendingUsers;
         }
+
 
     }
 }

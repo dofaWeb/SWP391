@@ -7,6 +7,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using SWP391_FinalProject.Helpers;
+using System.Data;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -21,37 +22,68 @@ namespace SWP391_FinalProject.Repository
 
         public string GetNewId()
         {
-            string lastId = db.StaffShifts
-                     .OrderByDescending(a => a.Id)
-                     .Select(a => a.Id)
-                     .FirstOrDefault();
+            // Query to get the latest ID in descending order
+            string query = "SELECT Id FROM Staff_Shift ORDER BY Id DESC LIMIT 1";
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query);
+
+            // Check if result is empty, meaning no records are found
+            string lastId = result.Rows.Count > 0 ? result.Rows[0]["Id"].ToString() : null;
+
             if (lastId == null)
             {
                 return "S0000001";
             }
-            // Tách phần chữ (A) và phần số (0000001)
-            string prefix = lastId.Substring(0, 1); // Lấy ký tự đầu tiên
-            int number = int.Parse(lastId.Substring(1)); // Lấy phần số và chuyển thành số nguyên
 
-            // Tăng số lên 1
+            // Extract the prefix and number from the last ID
+            string prefix = lastId.Substring(0, 1); // Get the first two characters
+            int number = int.Parse(lastId.Substring(1)); // Parse the numeric part of the ID
+
+            // Increment the number by 1
             int newNumber = number + 1;
 
-            // Tạo ID mới với số đã tăng, định dạng lại với 7 chữ số
+            // Format the new ID with the incremented number
             string newId = $"{prefix}{newNumber:D7}";
 
             return newId;
         }
-
         public dynamic GetStaffSchedule(string staffId)
         {
-            var schedule = db.StaffShifts.Where(p=>p.StaffId == staffId).Select(p=>new ShiftSchdeduleModel
+            // SQL query to retrieve the schedule for the specified staff member
+            string query = @"
+    SELECT 
+        Date,
+        Shift
+    FROM 
+        Staff_Shift
+    WHERE 
+        Staff_Id = @StaffId;";
+
+            // Create a dictionary to pass parameters
+            var parameters = new Dictionary<string, object>
+    {
+        { "@StaffId", staffId }
+    };
+
+            // Execute the query and get the result as a DataTable
+            DataTable scheduleTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Prepare the list to store the schedule results
+            var schedule = new List<ShiftSchdeduleModel>();
+
+            // Convert each DataRow to a ShiftScheduleModel object
+            foreach (DataRow row in scheduleTable.Rows)
             {
-                Date = p.Date,
-                Shift = p.Shift
-            }).ToList();
+                schedule.Add(new ShiftSchdeduleModel
+                {
+                    Date = DateOnly.FromDateTime((DateTime)row["Date"]),  // Convert DateTime to DateOnly
+                    Shift = (string)row["Shift"]
+                });
+
+            }
 
             return schedule;
         }
+
         public int GetTotalHourWorked(string staffId)
         {
             var today = DateOnly.FromDateTime(DateTime.Today);

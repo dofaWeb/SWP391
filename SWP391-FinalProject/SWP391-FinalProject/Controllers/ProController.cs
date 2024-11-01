@@ -6,6 +6,7 @@ using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Filters;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
+using System.Data;
 using System.Security.Claims;
 
 namespace SWP391_FinalProject.Controllers
@@ -131,16 +132,26 @@ namespace SWP391_FinalProject.Controllers
         }
 
         [HttpPost]
-        public void Rating([FromBody] RatingModel Rating)
+        public void Rating([FromBody] RatingModel rating)
         {
-            if (Rating != null)
+            if (rating != null)
             {
+                UserRepository userRepo = new UserRepository();
 
-                ProductRepository productRepo = new ProductRepository();
+                // Suy từ username ra UserId
+                string userId = userRepo.GetUserIdByUserName(rating.Username); // Đổi từ GetUserIdByUsername thành GetUserIdByUserName
+                if (string.IsNullOrEmpty(userId))
+                {
+                    throw new ArgumentException("Invalid username.");
+                }
+
+                rating.UserId = userId; // Gán UserId lấy được vào rating
                 RatingRepository ratingRepo = new RatingRepository();
-                ratingRepo.InsertOrUpdateRating(Rating);
+                ratingRepo.InsertOrUpdateRating(rating);
             }
         }
+
+
     }
 
 }

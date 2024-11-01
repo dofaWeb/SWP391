@@ -11,11 +11,11 @@ namespace SWP391_FinalProject.Repository
 {
     public class CategoryRepository
     {
-        private readonly DBContext db;
+    
 
         public CategoryRepository()
         {
-            db = new DBContext();
+          
         }
         public bool DeleteCategory(string categoryId)
         {

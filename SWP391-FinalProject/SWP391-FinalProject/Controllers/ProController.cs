@@ -71,10 +71,6 @@ namespace SWP391_FinalProject.Controllers
             ViewBag.RelatedProduct = RelatedProduct;
             ViewBag.Comments = comments;
 
-
-
-
-
             Repository.RatingRepository ratingRepo = new Repository.RatingRepository();
             double averageRating = ratingRepo.GetAverageRating(id);  // Get the average rating for the product
             

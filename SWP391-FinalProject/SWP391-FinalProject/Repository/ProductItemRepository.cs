@@ -1,6 +1,7 @@
 ﻿using SWP391_FinalProject.Controllers;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using System.Data;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -14,71 +15,128 @@ namespace SWP391_FinalProject.Repository
 
         public string getNewProductItemID()
         {
-            string lastId = db.ProductItems
-                     .OrderByDescending(a => a.Id)
-                     .Select(a => a.Id)
-                     .FirstOrDefault();
+            // Query to get the latest ID in descending order
+            string query = "SELECT Id FROM SWP391.Product_Item ORDER BY Id DESC LIMIT 1";
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query);
+
+            // Check if result is empty, meaning no records are found
+            string lastId = result.Rows.Count > 0 ? result.Rows[0]["Id"].ToString() : null;
+
             if (lastId == null)
             {
                 return "Pi000001";
             }
-            // Tách phần chữ (A) và phần số (0000001)
-            string prefix = lastId.Substring(0, 2); // Lấy ký tự đầu tiên
-            int number = int.Parse(lastId.Substring(2)); // Lấy phần số và chuyển thành số nguyên
 
-            // Tăng số lên 1
+            // Extract the prefix and number from the last ID
+            string prefix = lastId.Substring(0, 2); // Get the first two characters
+            int number = int.Parse(lastId.Substring(2)); // Parse the numeric part of the ID
+
+            // Increment the number by 1
             int newNumber = number + 1;
 
-            // Tạo ID mới với số đã tăng, định dạng lại với 7 chữ số
+            // Format the new ID with the incremented number
             string newId = $"{prefix}{newNumber:D6}";
 
             return newId;
         }
 
-        public int getNewProducConfigurationID()
+
+        public int getNewProductConfigurationID()
         {
-            int lastId = db.ProductConfigurations
-                     .OrderByDescending(a => a.Id)
-                     .Select(a => a.Id)
-                     .FirstOrDefault();
-            if (lastId == null)
-            {
-                return 1;
-            }
-            lastId++;
-            return lastId;
+            // Query to get the highest Id in the ProductConfigurations table
+            string query = "SELECT MAX(Id) FROM SWP391.Product_Configuration";
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query);
+
+            // Check if result is empty or NULL, meaning no records are found
+            int lastId = result.Rows[0][0] != DBNull.Value ? Convert.ToInt32(result.Rows[0][0]) : 0;
+
+            // Increment the last ID by 1 to get the new ID
+            int newId = lastId + 1;
+
+            return newId;
         }
+
 
         public string GetVariationId(string name)
         {
-            var id = db.Variations.Where(p => p.Name == name).Select(p => p.Id).FirstOrDefault();
-            return id;
+            // Query to get the Id of the Variation based on its Name
+            string query = "SELECT Id FROM SWP391.Variation WHERE Name = @Name LIMIT 1";
+
+            // Set up the parameter for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Name", name }
+    };
+
+            // Execute the query and retrieve the result
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Return the Id if a result is found; otherwise, return null
+            return result.Rows.Count > 0 ? result.Rows[0]["Id"].ToString() : null;
         }
 
-        public string GetVariationOptionId(string value, string varationId)
+
+        public string GetVariationOptionId(string value, string variationId)
         {
-            var id = db.VariationOptions.Where(p => p.Value == value && p.VariationId == varationId).Select(p => p.Id).FirstOrDefault();
-            return id;
+            // Query to get the Id of the VariationOption based on its Value and VariationId
+            string query = "SELECT Id FROM SWP391.Variation_Option WHERE Value = @Value AND variation_id = @VariationId LIMIT 1";
+
+            // Set up the parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Value", value },
+        { "@VariationId", variationId }
+    };
+
+            // Execute the query and retrieve the result
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Return the Id if a result is found; otherwise, return null
+            return result.Rows.Count > 0 ? result.Rows[0]["Id"].ToString() : null;
         }
 
-        public Boolean checkExistVariation(string productId, string variationOpId1, string variationOpId2)
+
+        public bool CheckExistVariation(string productId, string variationOpId1, string variationOpId2)
         {
-            var v1 = (from p in db.Products
-                      join pi in db.ProductItems on p.Id equals pi.ProductId
-                      join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
-                      where p.Id == productId && pc.VariationOptionId == variationOpId1
-                      select p).Any();
-            var v2 = (from p in db.Products
-                      join pi in db.ProductItems on p.Id equals pi.ProductId
-                      join pc in db.ProductConfigurations on pi.Id equals pc.ProductItemId
-                      where p.Id == productId && pc.VariationOptionId == variationOpId2
-                      select p).Any();
-            if (v1 && v2)
-            {
-                return true;
-            }
-            return false;
+            // Query to check if the product has the first variation option
+            string query1 = @"
+        SELECT 1 
+        FROM SWP391.Product p
+        JOIN SWP391.Product_Item pi ON p.Id = pi.product_id
+        JOIN SWP391.Product_Configuration pc ON pi.Id = pc.product_item_id
+        WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId1
+        LIMIT 1";
+
+            // Query to check if the product has the second variation option
+            string query2 = @"
+        SELECT 1 
+        FROM SWP391.Product p
+        JOIN SWP391.Product_Item pi ON p.Id = pi.product_id
+        JOIN SWP391.Product_Configuration pc ON pi.Id = pc.product_item_id
+        WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId2
+        LIMIT 1";
+
+            // Set up the parameters for each query
+            var parameters1 = new Dictionary<string, object>
+    {
+        { "@ProductId", productId },
+        { "@VariationOpId1", variationOpId1 }
+    };
+
+            var parameters2 = new Dictionary<string, object>
+    {
+        { "@ProductId", productId },
+        { "@VariationOpId2", variationOpId2 }
+    };
+
+            // Execute both queries
+            DataTable result1 = DataAccess.DataAccess.ExecuteQuery(query1, parameters1);
+            DataTable result2 = DataAccess.DataAccess.ExecuteQuery(query2, parameters2);
+
+            // Return true if both queries return results, meaning both variation options exist
+            return result1.Rows.Count > 0 && result2.Rows.Count > 0;
         }
+
 
         public ProductItemModel getProductItemByProductItemId(string proItemId)
         {
@@ -108,7 +166,7 @@ namespace SWP391_FinalProject.Repository
             var variation_option_id1 = GetVariationOptionId(model.Ram, GetVariationId("Ram"));
             var variation_option_id2 = GetVariationOptionId(model.Storage, GetVariationId("Storage"));
 
-            if (checkExistVariation(model.ProductId, variation_option_id1, variation_option_id2))
+            if (CheckExistVariation(model.ProductId, variation_option_id1, variation_option_id2))
             {
                 // Retrieve the existing ProductItem from the database
                 var existingProductItem = db.ProductItems.FirstOrDefault(p => p.Id == model.Id);
@@ -124,7 +182,7 @@ namespace SWP391_FinalProject.Repository
             }
             else
             {
-                var id = getNewProducConfigurationID();
+                var id = getNewProductConfigurationID();
 
                 db.ProductConfigurations.Add(new Entities.ProductConfiguration
                 {
@@ -148,87 +206,181 @@ namespace SWP391_FinalProject.Repository
 
         public void InsertQuantityToProductLog(int quantity, string proItemId)
         {
-            var QuanLogid = "";
-            var ProLogid = "";
-            do
-            {
-                QuanLogid = StaffManController.GenerateRandomString(8);
-            } while (db.QuantityLogs.Where(p => p.Id == QuanLogid).Any());
+            // Generate unique IDs for QuantityLog and ProductLog
+            string quanLogId;
+            string proLogId;
 
             do
             {
-                ProLogid = StaffManController.GenerateRandomString(8);
-            } while (db.ProductLogs.Where(p => p.Id == ProLogid).Any());
-            var quanLog = new Entities.QuantityLog
-            {
-                Id = QuanLogid,
-                ProductItemId = proItemId,
-                OldQuantity = 0,
-                NewQuantity = quantity,
-                ChangeTimestamp = DateTime.UtcNow
-            };
+                quanLogId = StaffManController.GenerateRandomString(8);
+                string checkQuantityLogIdQuery = "SELECT COUNT(1) FROM SWP391.Quantity_Log WHERE Id = @Id";
+                var checkQuantityLogIdParams = new Dictionary<string, object> { { "@Id", quanLogId } };
+                if ((long)DataAccess.DataAccess.ExecuteQuery(checkQuantityLogIdQuery, checkQuantityLogIdParams).Rows[0][0] == 0)
+                    break;
+            } while (true);
 
-            db.QuantityLogs.Add(quanLog);
-            db.SaveChanges();
-
-            db.ProductLogs.Add(new Entities.ProductLog
+            do
             {
-                Id = ProLogid,
-                QuantityLogId = QuanLogid,
-                ChangeReasonId = "1"
-            });
-            db.SaveChanges();
+                proLogId = StaffManController.GenerateRandomString(8);
+                string checkProductLogIdQuery = "SELECT COUNT(1) FROM SWP391.Product_Log WHERE Id = @Id";
+                var checkProductLogIdParams = new Dictionary<string, object> { { "@Id", proLogId } };
+                if ((int)DataAccess.DataAccess.ExecuteQuery(checkProductLogIdQuery, checkProductLogIdParams).Rows[0][0] == 0)
+                    break;
+            } while (true);
+
+            // Insert into QuantityLogs
+            string insertQuantityLogQuery = @"
+        INSERT INTO SWP391.Quantity_Log (Id, product_item_id, old_quantity, new_quantity, change_timestamp)
+        VALUES (@Id, @ProductItemId, @OldQuantity, @NewQuantity, @ChangeTimestamp);";
+
+            var quantityLogParams = new Dictionary<string, object>
+    {
+        { "@Id", quanLogId },
+        { "@ProductItemId", proItemId },
+        { "@OldQuantity", 0 },  // Assuming OldQuantity is 0 as per the original code
+        { "@NewQuantity", quantity },
+        { "@ChangeTimestamp", DateTime.UtcNow }
+    };
+
+            DataAccess.DataAccess.ExecuteNonQuery(insertQuantityLogQuery, quantityLogParams);
+
+            // Insert into ProductLogs
+            string insertProductLogQuery = @"
+        INSERT INTO SWP391.Product_Log (Id, quantity_log_id, change_reason_id)
+        VALUES (@Id, @QuantityLogId, @ChangeReasonId);";
+
+            var productLogParams = new Dictionary<string, object>
+    {
+        { "@Id", proLogId },
+        { "@QuantityLogId", quanLogId },
+        { "@ChangeReasonId", "1" }  // Hardcoded as per the original code
+    };
+
+            DataAccess.DataAccess.ExecuteNonQuery(insertProductLogQuery, productLogParams);
         }
+
 
 
         public void AddProductItem(ProductItemModel model)
         {
+            // Generate a new ID for ProductItem
             model.Id = getNewProductItemID();
             model.Discount = 0;
 
-            db.ProductItems.Add(new Entities.ProductItem
-            {
-                Id = model.Id,
-                ProductId = model.ProductId,
-                Quantity = model.Quantity,
-                ImportPrice = model.ImportPrice,
-                SellingPrice = model.SellingPrice,
-                Discount = model.Discount,
-            });
-            var product = db.Products.Where(p => p.Id == model.ProductId && p.StateId != 2).FirstOrDefault();
-            product.StateId = 1;
-            db.SaveChanges();
+            // Insert new ProductItem into the database
+            string insertProductItemQuery = @"
+        INSERT INTO SWP391.Product_Item (Id, product_id, Quantity, import_price, selling_price, Discount)
+        VALUES (@Id, @ProductId, @Quantity, @ImportPrice, @SellingPrice, @Discount);";
+
+            var productItemParameters = new Dictionary<string, object>
+    {
+        { "@Id", model.Id },
+        { "@ProductId", model.ProductId },
+        { "@Quantity", model.Quantity },
+        { "@ImportPrice", model.ImportPrice },
+        { "@SellingPrice", model.SellingPrice },
+        { "@Discount", model.Discount }
+    };
+
+            DataAccess.DataAccess.ExecuteNonQuery(insertProductItemQuery, productItemParameters);
+
+            // Update the Product's StateId if it's not already equal to 2
+            string updateProductStateQuery = @"
+        UPDATE  SWP391.Product
+        SET state_id = 1
+        WHERE Id = @ProductId AND state_id != 2;";
+
+            var productStateParameters = new Dictionary<string, object>
+    {
+        { "@ProductId", model.ProductId }
+    };
+
+            DataAccess.DataAccess.ExecuteNonQuery(updateProductStateQuery, productStateParameters);
+
+            // Call AddProductConfiguration to add product configurations
             AddProductConfiguration(model);
-
         }
 
-        public void UpdateProductItemQuantityByOrderStateId(string proItemId, int Quantity, int OrderStateId)
+
+        public void UpdateProductItemQuantityByOrderStateId(string proItemId, int quantity, int orderStateId)
         {
-            var proItem = db.ProductItems.Where(p => p.Id == proItemId).FirstOrDefault();
-            if (proItem != null)
+            // Check if the product item exists
+            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            var checkParameters = new Dictionary<string, object> { { "@Id", proItemId } };
+            DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
+
+            if (checkResult.Rows[0][0].ToString() == "0")
             {
-                if (OrderStateId == 1)
-                {
-                    proItem.Quantity -= Quantity;
-                }
-                else if (OrderStateId == 3)
-                {
-                    proItem.Quantity += Quantity;
-                }
-                db.SaveChanges();
+                Console.WriteLine("Product item not found!");
+                return;
             }
+
+            // Determine the SQL update query based on OrderStateId
+            string updateQuery;
+            if (orderStateId == 1)
+            {
+                updateQuery = @"
+            UPDATE SWP391.Product_Item
+            SET Quantity = Quantity - @Quantity
+            WHERE Id = @Id;";
+            }
+            else if (orderStateId == 3)
+            {
+                updateQuery = @"
+            UPDATE SWP391.Product_Item
+            SET Quantity = Quantity + @Quantity
+            WHERE Id = @Id;";
+            }
+            else
+            {
+                Console.WriteLine("Invalid OrderStateId provided!");
+                return;
+            }
+
+            // Define parameters for the update query
+            var updateParameters = new Dictionary<string, object>
+    {
+        { "@Id", proItemId },
+        { "@Quantity", quantity }
+    };
+
+            // Execute the update query
+            DataAccess.DataAccess.ExecuteNonQuery(updateQuery, updateParameters);
         }
+
 
         public void EditProductItem(ProductItemModel model)
         {
-            var proItem = db.ProductItems.FirstOrDefault(db => db.Id == model.Id);
-            if (proItem != null)
+            // Check if the product item exists
+            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            var checkParameters = new Dictionary<string, object> { { "@Id", model.Id } };
+            DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
+
+            if (checkResult.Rows[0][0].ToString() == "0")
             {
-                proItem.SellingPrice = model.SellingPrice;
-                proItem.Discount = model.Discount;
-                db.SaveChanges();
+                Console.WriteLine("Product item not found!");
+                return;
             }
+
+            // Update the ProductItem's SellingPrice and Discount
+            string updateQuery = @"
+        UPDATE SWP391.Product_Item
+        SET selling_price = @SellingPrice,
+            Discount = @Discount
+        WHERE Id = @Id;";
+
+            // Define parameters for the update query
+            var updateParameters = new Dictionary<string, object>
+    {
+        { "@Id", model.Id },
+        { "@SellingPrice", model.SellingPrice },
+        { "@Discount", model.Discount }
+    };
+
+            // Execute the update query
+            DataAccess.DataAccess.ExecuteNonQuery(updateQuery, updateParameters);
         }
+
 
         public void Delete(string id)
         {
@@ -247,27 +399,78 @@ namespace SWP391_FinalProject.Repository
             }
         }
 
+
+
         public decimal? GetPriceByProductItemId(string productItemId)
         {
-            var price = db.ProductItems.Where(p => p.Id == productItemId).Select(p => new
-            {
-                SellingPrice = p.SellingPrice,
-                Discount = p.Discount
-            }).FirstOrDefault();
+            // Query to get SellingPrice and Discount for the specified ProductItem
+            string query = @"
+        SELECT selling_price, Discount
+        FROM SWP391.Product_Item
+        WHERE Id = @ProductItemId;";
 
-            return ProductRepository.CalculatePriceAfterDiscount(price.SellingPrice, price.Discount / 100);
+            // Define the parameter for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@ProductItemId", productItemId }
+    };
+
+            // Execute the query
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Check if a result was found
+            if (result.Rows.Count == 0)
+            {
+                Console.WriteLine("Product item not found!");
+                return null;
+            }
+
+            // Get the SellingPrice and Discount values
+            decimal sellingPrice = Convert.ToDecimal(result.Rows[0]["selling_price"]);
+            decimal discount = Convert.ToDecimal(result.Rows[0]["Discount"]) / 100;
+
+            // Calculate the final price after discount
+            return ProductRepository.CalculatePriceAfterDiscount(sellingPrice, discount);
         }
+
 
         public void Import(string id, int quantity)
         {
-            var proItem = db.ProductItems.FirstOrDefault(db => db.Id == id);
-            if (proItem != null)
+            // Check if the product item exists
+            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            var checkParameters = new Dictionary<string, object> { { "@Id", id } };
+            DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
+
+            if (checkResult.Rows[0][0].ToString() == "0")
             {
-                proItem.Quantity += quantity;
-                db.SaveChanges();
+                Console.WriteLine("Product item not found!");
+                return;
             }
+
+            // Update the ProductItem's Quantity
+            string updateQuantityQuery = @"
+        UPDATE SWP391.Product_Item
+        SET Quantity = Quantity + @Quantity
+        WHERE Id = @Id;";
+
+            var updateParameters = new Dictionary<string, object>
+    {
+        { "@Id", id },
+        { "@Quantity", quantity }
+    };
+
+            // Execute the update query
+            DataAccess.DataAccess.ExecuteNonQuery(updateQuantityQuery, updateParameters);
+
+            // Get the ProductId associated with the ProductItem for updating its state
+            string getProductIdQuery = "SELECT product_id FROM SWP391.Product_Item WHERE Id = @Id";
+            DataTable productItemTable = DataAccess.DataAccess.ExecuteQuery(getProductIdQuery, checkParameters);
+            string productId = productItemTable.Rows[0]["product_id"].ToString();
+
+            // Update product state
             ProductRepository proRepo = new ProductRepository();
-            proRepo.UpdateProductState(proItem.ProductId);
+            proRepo.UpdateProductState(productId);
         }
+
     }
 }

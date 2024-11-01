@@ -11,11 +11,10 @@ using System.Data;
 
 public class ComRepository
 {
-    private readonly DBContext db;
 
     public ComRepository()
     {
-        db = new DBContext();
+       
     }
     public List<CommentModel> SearchedComment(string keyword, DateTime? fromDate, DateTime? toDate)
     {

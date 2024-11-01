@@ -7,10 +7,10 @@ namespace SWP391_FinalProject.Repository
 {
     public class ProductItemRepository
     {
-        private readonly DBContext db;
+       
         public ProductItemRepository()
         {
-            db = new DBContext();
+            
         }
 
         public string getNewProductItemID()

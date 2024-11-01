@@ -140,69 +140,99 @@ namespace SWP391_FinalProject.Repository
 
         public ProductItemModel getProductItemByProductItemId(string proItemId)
         {
-            var proItem = from pi in db.ProductItems
-                          join p in db.Products on pi.ProductId equals p.Id
-                          where pi.Id == proItemId
-                          select new ProductItemModel
-                          {
-                              Id = pi.Id,
-                              SellingPrice = pi.SellingPrice,
-                              Quantity = pi.Quantity,
-                              Discount = pi.Discount,
-                              Product = new ProductModel
-                              {
-                                  Name = p.Name,
-                                  Picture = p.Picture,
-                                  Description = p.Description,
-                                  Id = p.Id
-                              }
-                          };
-            var result = proItem.FirstOrDefault();
-            return result;
+            // Define the SQL query with JOIN
+            string query = @"
+        SELECT pi.Id, pi.SellingPrice, pi.Quantity, pi.Discount, 
+               p.Name AS ProductName, p.Picture, p.Description, p.Id AS ProductId
+        FROM ProductItems pi
+        JOIN Products p ON pi.ProductId = p.Id
+        WHERE pi.Id = @ProductItemId";
+
+            // Define the parameter for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@ProductItemId", proItemId }
+    };
+
+            // Execute the query
+            DataTable result = DataAccess.ExecuteQuery(query, parameters);
+
+            // Check if any rows are returned
+            if (result.Rows.Count == 0)
+            {
+                return null; // No matching record found
+            }
+
+            // Map the result to ProductItemModel
+            DataRow row = result.Rows[0];
+            var productItemModel = new ProductItemModel
+            {
+                Id = row["Id"].ToString(),
+                SellingPrice = Convert.ToDecimal(row["SellingPrice"]),
+                Quantity = Convert.ToInt32(row["Quantity"]),
+                Discount = Convert.ToDecimal(row["Discount"]),
+                Product = new ProductModel
+                {
+                    Name = row["ProductName"].ToString(),
+                    Picture = row["Picture"].ToString(),
+                    Description = row["Description"].ToString(),
+                    Id = row["ProductId"].ToString()
+                }
+            };
+
+            return productItemModel;
         }
+
 
         public void AddProductConfiguration(ProductItemModel model)
         {
-            var variation_option_id1 = GetVariationOptionId(model.Ram, GetVariationId("Ram"));
-            var variation_option_id2 = GetVariationOptionId(model.Storage, GetVariationId("Storage"));
+            // Get variation option IDs
+            var variationOptionId1 = GetVariationOptionId(model.Ram, GetVariationId("Ram"));
+            var variationOptionId2 = GetVariationOptionId(model.Storage, GetVariationId("Storage"));
 
-            if (CheckExistVariation(model.ProductId, variation_option_id1, variation_option_id2))
+            // Check if the variation already exists
+            if (CheckExistVariation(model.ProductId, variationOptionId1, variationOptionId2))
             {
-                // Retrieve the existing ProductItem from the database
-                var existingProductItem = db.ProductItems.FirstOrDefault(p => p.Id == model.Id);
-
-                if (existingProductItem != null)
-                {
-                    // Remove the existing entity
-                    db.ProductItems.Remove(existingProductItem);
-                    db.SaveChanges();
-                }
+                // Query to delete the existing ProductItem if the variation exists
+                string deleteProductItemQuery = "DELETE FROM SWP391.Product_Item WHERE Id = @ProductItemId";
+                var deleteParams = new Dictionary<string, object> { { "@ProductItemId", model.Id } };
+                DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, deleteParams);
 
                 return;
             }
             else
             {
-                var id = getNewProductConfigurationID();
+                // Generate a new ID for ProductConfiguration
+                var newId = getNewProductConfigurationID();
 
-                db.ProductConfigurations.Add(new Entities.ProductConfiguration
-                {
-                    Id = id,
-                    ProductItemId = model.Id,
-                    VariationOptionId = variation_option_id1,
-                });
-                db.SaveChanges();
+                // Insert first configuration
+                string insertConfigQuery1 = @"
+            INSERT INTO SWP391.Product_Configuration (Id, product_item_id, variation_option_id)
+            VALUES (@Id, @ProductItemId, @VariationOptionId)";
 
-                id++;
-                db.ProductConfigurations.Add(new Entities.ProductConfiguration
-                {
-                    Id = id,
-                    ProductItemId = model.Id,
-                    VariationOptionId = variation_option_id2,
-                });
-                db.SaveChanges();
+                var insertParams1 = new Dictionary<string, object>
+        {
+            { "@Id", newId },
+            { "@ProductItemId", model.Id },
+            { "@VariationOptionId", variationOptionId1 }
+        };
+                DataAccess.DataAccess.ExecuteNonQuery(insertConfigQuery1, insertParams1);
+
+                // Insert second configuration
+                newId++;  // Increment ID for second configuration
+                var insertParams2 = new Dictionary<string, object>
+        {
+            { "@Id", newId },
+            { "@ProductItemId", model.Id },
+            { "@VariationOptionId", variationOptionId2 }
+        };
+                DataAccess.DataAccess.ExecuteNonQuery(insertConfigQuery1, insertParams2);
+
+                // Insert quantity to ProductLog
                 InsertQuantityToProductLog(model.Quantity, model.Id);
             }
         }
+
 
         public void InsertQuantityToProductLog(int quantity, string proItemId)
         {
@@ -384,20 +414,35 @@ namespace SWP391_FinalProject.Repository
 
         public void Delete(string id)
         {
-            var proItem = db.ProductItems.FirstOrDefault(db => db.Id == id);
-            var prc = db.ProductConfigurations.Where(p => p.ProductItemId == id).ToList();
-            if (proItem != null)
+            // Check if the product item exists
+            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            var checkParameters = new Dictionary<string, object> { { "@Id", id } };
+            DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
+
+            if (checkResult.Rows[0][0].ToString() == "0")
             {
-                db.ProductItems.Remove(proItem);
-                foreach (var pc in prc)
-                {
-                    db.ProductConfigurations.Remove(pc);
-                }
-                db.SaveChanges();
-                ProductRepository proRepo = new ProductRepository();
-                proRepo.UpdateProductState(proItem.ProductId);
+                Console.WriteLine("Product item not found!");
+                return;
             }
+
+            // Fetch the ProductId associated with the ProductItem to update its state later
+            string getProductIdQuery = "SELECT product_id FROM SWP391.Product_Item WHERE Id = @Id";
+            DataTable productItemTable = DataAccess.DataAccess.ExecuteQuery(getProductIdQuery, checkParameters);
+            string productId = productItemTable.Rows[0]["product_id"].ToString();
+
+            // Delete related entries from ProductConfigurations
+            string deleteProductConfigurationsQuery = "DELETE FROM SWP391.Product_Configuration WHERE product_item_id = @Id";
+            DataAccess.DataAccess.ExecuteNonQuery(deleteProductConfigurationsQuery, checkParameters);
+
+            // Delete the ProductItem
+            string deleteProductItemQuery = "DELETE FROM SWP391.Product_Item WHERE Id = @Id";
+            DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, checkParameters);
+
+            // Update product state
+            ProductRepository proRepo = new ProductRepository();
+            proRepo.UpdateProductState(productId);
         }
+
 
 
 

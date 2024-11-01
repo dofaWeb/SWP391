@@ -1,144 +1,260 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using System.Data;
 using System.Security.Principal;
 
 namespace SWP391_FinalProject.Repository
 {
     public class UserRepository
     {
-        DBContext db;
+        
         public UserRepository()
         {
-            db = new DBContext();
+            
         }
         public UserModel GetUserProfileByUsername(string username)
         {
-            using (DBContext dbContext = new DBContext())
-            {
-                // Truy vấn dữ liệu bằng LINQ
-                var userProfile = (from a in dbContext.Accounts
-                                   join u in dbContext.Users on a.Id equals u.AccountId
-                                   where a.Username == username
-                                   select new UserModel
-                                   {
-                                       Account = new AccountModel
-                                       {
-                                           Id = a.Id,
-                                           Username = a.Username,
-                                           Password = a.Password,
-                                           Name = a.Username,
-                                           Email = a.Email,
-                                           Phone = a.Phone,
-                                           Status = (a.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
-                                           RoleId = a.RoleId,
-                                           RoleName = dbContext.RoleNames
-                                                          .Where(r => r.Id == a.RoleId)
-                                                          .Select(r => r.Name).FirstOrDefault(), // Lấy tên vai trò
-                                       },
-                                       Name = u.Name,
-                                       Point = u.Point,
-                                       Province = u.Province,
-                                       District = u.District,
-                                       Address = u.Address
-                                   }).FirstOrDefault();
-                if (userProfile == null)
-                {
-                    throw new ArgumentException($"User with username '{username}' not found.");
-                }
+            // Define the SQL query to fetch user profile details
+            string query = @"
+        SELECT 
+            a.Id AS AccountId,
+            a.Username,
+            a.Password,
+            a.Email,
+            a.Phone,
+            a.is_active,
+            a.role_id,
+            r.Name AS RoleName,
+            u.Name AS UserName,
+            u.Point,
+            u.Province,
+            u.District,
+            u.Address
+        FROM SWP391.Account a
+        JOIN SWP391.User u ON a.Id = u.account_id
+        LEFT JOIN SWP391.Role_Name r ON a.role_id = r.Id
+        WHERE a.Username = @Username";
 
-                return userProfile;
-            }
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Username", username }
+    };
+
+            // Execute the query and get results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            if (resultTable.Rows.Count == 0)
+                throw new ArgumentException($"User with username '{username}' not found.");
+
+            // Map DataTable result to UserModel
+            DataRow row = resultTable.Rows[0];
+            var userProfile = new UserModel
+            {
+                Account = new AccountModel
+                {
+                    Id = row["AccountId"].ToString(),
+                    Username = row["Username"].ToString(),
+                    Password = row["Password"].ToString(),
+                    Name = row["Username"].ToString(),
+                    Email = row["Email"].ToString(),
+                    Phone = row["Phone"].ToString(),
+                    Status = (row["is_active"].ToString() == "1") ? "Active" : "Inactive",
+                    RoleId = row["role_id"].ToString(),
+                    RoleName = row["RoleName"].ToString()
+                },
+                Name = row["UserName"].ToString(),
+                Point = Convert.ToInt32(row["Point"]),
+                Province = row["Province"].ToString(),
+                District = row["District"].ToString(),
+                Address = row["Address"].ToString()
+            };
+
+            return userProfile;
         }
+
 
         public UserModel GetUserProfileByUserId(string userId)
         {
-            using (DBContext dbContext = new DBContext())
-            {
-                // Truy vấn dữ liệu bằng LINQ
-                var userProfile = (from a in dbContext.Accounts
-                                   join u in dbContext.Users on a.Id equals u.AccountId
-                                   where a.Id == userId
-                                   select new UserModel
-                                   {
-                                       Account = new AccountModel
-                                       {
-                                           Id = a.Id,
-                                           Username = a.Username,
-                                           Password = a.Password,
-                                           Name = a.Username,
-                                           Email = a.Email,
-                                           Phone = a.Phone,
-                                           Status = (a.IsActive == ulong.Parse("1")) ? "Active" : "Inactive",
-                                           RoleId = a.RoleId,
-                                           RoleName = dbContext.RoleNames
-                                                          .Where(r => r.Id == a.RoleId)
-                                                          .Select(r => r.Name).FirstOrDefault(), // Lấy tên vai trò
-                                       },
-                                       Name = u.Name,
-                                       Point = u.Point,
-                                       Province = u.Province,
-                                       District = u.District,
-                                       Address = u.Address
-                                   }).FirstOrDefault();
+            // Define the SQL query to fetch user profile details
+            string query = @"
+        SELECT 
+            a.Id AS AccountId,
+            a.Username,
+            a.Password,
+            a.Email,
+            a.Phone,
+            a.is_active,
+            a.role_id,
+            r.Name AS RoleName,
+            u.Name AS UserName,
+            u.Point,
+            u.Province,
+            u.District,
+            u.Address
+        FROM SWP391.Account a
+        JOIN SWP391.User u ON a.Id = u.account_id
+        LEFT JOIN SWP391.Role_Name r ON a.role_id = r.Id
+        WHERE a.Id = @UserId";
 
-                return userProfile;
-            }
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@UserId", userId }
+    };
+
+            // Execute the query and get results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            if (resultTable.Rows.Count == 0)
+                return null; // Return null if no results found
+
+            // Map DataTable result to UserModel
+            DataRow row = resultTable.Rows[0];
+            var userProfile = new UserModel
+            {
+                Account = new AccountModel
+                {
+                    Id = row["AccountId"].ToString(),
+                    Username = row["Username"].ToString(),
+                    Password = row["Password"].ToString(),
+                    Name = row["Username"].ToString(),
+                    Email = row["Email"].ToString(),
+                    Phone = row["Phone"].ToString(),
+                    Status = (row["is_active"].ToString() == "1") ? "Active" : "Inactive",
+                    RoleId = row["role_id"].ToString(),
+                    RoleName = row["RoleName"].ToString()
+                },
+                Name = row["UserName"].ToString(),
+                Point = Convert.ToInt32(row["Point"]),
+                Province = row["Province"].ToString(),
+                District = row["District"].ToString(),
+                Address = row["Address"].ToString()
+            };
+
+            return userProfile;
         }
+
         public string GetUserIdByUserName(string UserName)
         {
-            var UserId = (from a in db.Accounts
-                          where a.Username == UserName
-                          select a.Id).FirstOrDefault();
-            return UserId;
+            // Define the SQL query to get the user ID by username
+            string query = "SELECT Id FROM SWP391.Account WHERE Username = @Username LIMIT 1";
+
+            // Define the parameter for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Username", UserName }
+    };
+
+            // Execute the query
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Check if any rows are returned
+            if (result.Rows.Count == 0)
+            {
+                return null; // No matching record found
+            }
+
+            // Get the user ID from the first row
+            return result.Rows[0]["Id"].ToString();
         }
+
         public void UpdateUser(UserModel User)
         {
+            // Step 1: Get the Account ID, Status, and RoleId by Username or Email
             AccountRepository accRepo = new AccountRepository();
             AccountModel Acc = accRepo.GetUserByUsernameOrEmail(User.Account.Username);
             User.Account.Id = Acc.Id;
             User.Account.Status = Acc.Status;
             User.Account.RoleId = Acc.RoleId;
+
+            // Update account details
             accRepo.UpdateAccount(User.Account);
-            var existingUser = db.Users.FirstOrDefault(u => u.AccountId == User.Account.Id);
-            if (existingUser != null)
-            {
-                // Cập nhật các thuộc tính của tài khoản
-                existingUser.Name = User.Name;
-                existingUser.Province = User.Province;
-                existingUser.District = User.District;
-                existingUser.Address = User.Address;
-                if (User.Point != 0)
-                {
-                    existingUser.Point = User.Point;
-                }
-                db.SaveChanges();
-            }
+
+            // Step 2: Update user details in the Users table
+            string query = @"
+        UPDATE SWP391.User
+        SET Name = @Name,
+            Province = @Province,
+            District = @District,
+            Address = @Address,
+            Point = CASE WHEN @Point = 0 THEN Point ELSE @Point END
+        WHERE account_id = @AccountId";
+
+            // Define the parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Name", User.Name },
+        { "@Province", User.Province },
+        { "@District", User.District },
+        { "@Address", User.Address },
+        { "@Point", User.Point },
+        { "@AccountId", User.Account.Id }
+    };
+
+            // Execute the query to update the Users table
+            DataAccess.DataAccess.ExecuteNonQuery(query, parameters);
         }
 
-        public void UpdateUserPoint(string username, int OrderStateId , decimal? UsePoint, decimal? EarnPoint)
+
+        public void UpdateUserPoint(string username, int OrderStateId, decimal? UsePoint, decimal? EarnPoint)
         {
+            // Step 1: Retrieve the current points of the user by username
             UserRepository userRepo = new UserRepository();
             UserModel user = userRepo.GetUserProfileByUsername(username);
+
+            // Step 2: Calculate the updated points based on OrderStateId
+            int updatedPoints = user.Point;
+
             if (OrderStateId == 1)
             {
-                user.Point -= UsePoint.HasValue ? (int)UsePoint.Value : 0;
-            }else if (OrderStateId == 2)
-            {
-                user.Point += EarnPoint.HasValue ? (int)EarnPoint.Value : 0;
-            }else if (OrderStateId == 3)
-            {
-                user.Point += UsePoint.HasValue ? (int)UsePoint.Value : 0;
+                updatedPoints -= UsePoint.HasValue ? (int)UsePoint.Value : 0;
             }
-            userRepo.UpdateUser(user);
-            db.SaveChanges();
+            else if (OrderStateId == 2)
+            {
+                updatedPoints += EarnPoint.HasValue ? (int)EarnPoint.Value : 0;
+            }
+            else if (OrderStateId == 3)
+            {
+                updatedPoints += UsePoint.HasValue ? (int)UsePoint.Value : 0;
+            }
+
+            // Step 3: SQL query to update points in Users table
+            string query = "UPDATE SWP391.User SET Point = @UpdatedPoints WHERE account_id = @AccountId";
+
+            // Define the parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@UpdatedPoints", updatedPoints },
+        { "@AccountId", user.Account.Id }
+    };
+
+            // Execute the update query
+            DataAccess.DataAccess.ExecuteNonQuery(query, parameters);
         }
+
 
         public void BanUserById(string id)
         {
-            var user = db.Accounts.Where(p => p.Id == id).FirstOrDefault();
-            user.IsActive = (user.IsActive == ulong.Parse("1")) ? ulong.Parse("0") : ulong.Parse("1");
-            db.SaveChanges();
+            // Define the query to toggle the IsActive status
+            string query = @"
+        UPDATE SWP391.Account
+        SET is_active = CASE 
+            WHEN is_active = 1 THEN 0 
+            ELSE 1 
+        END
+        WHERE Id = @UserId";
+
+            // Define the parameter for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@UserId", id }
+    };
+
+            // Execute the update query
+            DataAccess.DataAccess.ExecuteNonQuery(query, parameters);
         }
+
     }
 }

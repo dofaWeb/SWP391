@@ -10,11 +10,11 @@ namespace SWP391_FinalProject.Repository
 {
     public class ProductRepository
     {
-        private readonly DBContext db;
+        
 
         public ProductRepository()
         {
-            db = new DBContext();
+          
         }
 
         public List<Models.ProductModel> GetProductsByKeyword(string keyword, string price, string category, string brand)
@@ -391,90 +391,76 @@ LIMIT 1;
         }
 
 
-        public List<Models.ProductModel> GetTopSellingProduct()
+       public List<Models.ProductModel> GetTopSellingProduct()
+{
+    // Step 1: Get top 4 best-selling products with their details
+    string topProductsQuery = @"
+        SELECT p.Id AS ProductId, 
+               p.Name AS ProductName, 
+               p.Description, 
+               p.Picture, 
+               c.Name AS CategoryName, 
+               ps.Name AS ProductState, 
+               COUNT(oi.order_id) AS TotalPurchases,
+               SUM(pi.Quantity) AS TotalQuantity
+        FROM Product p
+        JOIN Product_Item pi ON p.Id = pi.product_id
+        JOIN Order_Item oi ON pi.Id = oi.product_item_id
+        JOIN SWP391.Order o ON oi.order_id = o.Id  -- Escape 'Order' with backticks
+        JOIN Category c ON p.category_id = c.Id
+        JOIN Product_State ps ON p.state_id = ps.Id
+        WHERE o.state_id = 2 AND p.state_id = 1
+        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name
+        ORDER BY TotalPurchases DESC
+        LIMIT 4";
+
+    // Execute the query to get top products
+    DataTable topProductsTable = DataAccess.DataAccess.ExecuteQuery(topProductsQuery);
+    var productModels = new List<Models.ProductModel>();
+
+    // Convert DataTable to a list of ProductModel
+    foreach (DataRow row in topProductsTable.Rows)
+    {
+        var productModel = new Models.ProductModel
         {
-            // Step 1: Get top 4 best-selling products where the order state is approved (state_id = 2)
-            string topProductsQuery = @"
-            SELECT p.Id AS ProductId, p.Name AS ProductName, COUNT(oi.order_id) AS TotalPurchases
-            FROM Product p
-            JOIN Product_Item pi ON p.Id = pi.product_id
-            JOIN Order_Item oi ON pi.Id = oi.product_item_id
-            JOIN SWP391.Order o ON oi.order_id = o.Id  -- Escape 'Order' with backticks
-            WHERE o.state_id = 2 AND p.state_id = 1
-            GROUP BY p.Id, p.Name
-            ORDER BY TotalPurchases DESC
-            LIMIT 4";
+            Id = (string)row["ProductId"],
+            Name = (string)row["ProductName"],
+            Description = (string)row["Description"],
+            Picture = (string)row["Picture"],
+            Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Handling NULLs
+            CategoryName = (string)row["CategoryName"],
+            ProductState = (string)row["ProductState"]
+        };
 
+        // Step 2: Get the minimum price for each product
+        productModel.ProductItem = GetMinPrice(productModel.Id); // Assuming this method gets the minimum price
 
-            // Execute the query to get top products
-            DataTable topProductsTable = DataAccess.DataAccess.ExecuteQuery(topProductsQuery);
-            var topProducts = new List<dynamic>();
+        // Add the product model to the list
+        productModels.Add(productModel);
+    }
 
-            // Convert DataTable to a list of dynamic objects for easier access
-            foreach (DataRow row in topProductsTable.Rows)
-            {
-                topProducts.Add(new
-                {
-                    ProductId = row["ProductId"],
-                    ProductName = row["ProductName"],
-                    TotalPurchases = row["TotalPurchases"]
-                });
-            }
+    return productModels;
+}
 
-            // Step 2: Get all products and related data (category, state, quantity)
-            var productModels = new List<Models.ProductModel>();
-
-            // Prepare to collect product IDs for the next query
-            var productIds = topProducts.Select(tp => tp.ProductId).ToList();
-
-            if (productIds.Count > 0)
-            {
-                // If productIds are strings, ensure they are correctly quoted for the SQL query
-                string productQuery = @"
-    SELECT p.Id, p.Name, p.Description, p.Picture, c.Name AS CategoryName, ps.Name AS ProductState
-    FROM Product p
-    JOIN Category c ON p.category_id = c.Id
-    JOIN Product_State ps ON p.state_id = ps.Id
-    WHERE p.Id IN ('" + string.Join("', '", productIds) + "')"; // Correctly format the IN clause
-
-                // Execute the query to get product details
-                DataTable productTable = DataAccess.DataAccess.ExecuteQuery(productQuery);
-
-                foreach (DataRow row in productTable.Rows)
-                {
-                    var productModel = new Models.ProductModel
-                    {
-                        Id = (string)row["Id"],
-                        Name = (string)row["Name"],
-                        Description = (string)row["Description"],
-                        Picture = (string)row["Picture"],
-                        Quantity = (db.ProductItems
-                                    .Where(pi => pi.ProductId == (string)row["Id"])
-                                    .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
-                        CategoryName = (string)row["CategoryName"],
-                        ProductState = (string)row["ProductState"]
-                    };
-
-                    // Step 3: Get the minimum price for each product
-                    productModel.ProductItem = GetMinPrice(productModel.Id); // Assuming this method gets the minimum price
-
-                    // Add the product model to the list
-                    productModels.Add(productModel);
-                }
-            }
-
-            return productModels;
-        }
 
 
         public List<Models.ProductModel> GetAllProduct()
         {
-            // SQL query to retrieve all products with their categories and states
+            // SQL query to retrieve all products with their categories, states, total quantity, and minimum price
             string productQuery = @"
-    SELECT p.Id, p.Name, p.Description, p.Picture, c.Name AS CategoryName, ps.Name AS ProductState
-    FROM Product p
-    JOIN Category c ON p.category_id = c.Id
-    JOIN Product_State ps ON p.state_id = ps.Id";
+        SELECT p.Id AS ProductId, 
+               p.Name AS ProductName, 
+               p.Description, 
+               p.Picture, 
+               c.Name AS CategoryName, 
+               ps.Name AS ProductState,
+               COALESCE(SUM(pi.Quantity), 0) AS TotalQuantity,
+               MIN(pi.selling_price) AS MinPrice -- Assuming you have a Price column in Product_Item
+        FROM Product p
+        JOIN Category c ON p.category_id = c.Id
+        JOIN Product_State ps ON p.state_id = ps.Id
+        LEFT JOIN Product_Item pi ON p.Id = pi.product_id -- Use LEFT JOIN to include products with no items
+        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name";
 
             // Execute the query to get product details
             DataTable productTable = DataAccess.DataAccess.ExecuteQuery(productQuery);
@@ -484,19 +470,17 @@ LIMIT 1;
             {
                 var productModel = new Models.ProductModel
                 {
-                    Id = (string)row["Id"],
-                    Name = (string)row["Name"],
+                    Id = (string)row["ProductId"],
+                    Name = (string)row["ProductName"],
                     Description = (string)row["Description"],
                     Picture = (string)row["Picture"],
-                    Quantity = (db.ProductItems
-                                .Where(pi => pi.ProductId == (string)row["Id"])
-                                .Sum(pi => (int?)pi.Quantity) ?? 0), // Handling NULL by converting to 0
+                    Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Convert to int
                     CategoryName = (string)row["CategoryName"],
-                    ProductState = (string)row["ProductState"]
+                    ProductState = (string)row["ProductState"],
                 };
 
-                // Get the minimum price for each product
-                productModel.ProductItem = GetMinPrice(productModel.Id); // Assuming this method gets the minimum price
+
+                productModel.ProductItem = GetMinPrice(productModel.Id);
 
                 // Add the product model to the list
                 productModels.Add(productModel);
@@ -504,6 +488,7 @@ LIMIT 1;
 
             return productModels;
         }
+
 
         public void UpdateProductState(string productId)
         {

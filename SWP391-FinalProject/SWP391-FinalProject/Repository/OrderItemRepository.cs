@@ -6,7 +6,7 @@ namespace SWP391_FinalProject.Repository
 {
     public class OrderItemRepository
     {
-        DBContext db = new DBContext();
+       
         public OrderItemRepository()
         {
 

@@ -256,7 +256,7 @@ namespace SWP391_FinalProject.Repository
         public AccountModel GetAccountByUsernameOrEmail(string key)
         {
             string query = "Select * From Account " +
-                            "Where username=@Key Or password=@Key";
+                            "Where username=@Key Or email=@Key";
             var resultTable = DataAccess.DataAccess.ExecuteQuery(query, new Dictionary<string, object> {
                 {"@Key", key}
             });

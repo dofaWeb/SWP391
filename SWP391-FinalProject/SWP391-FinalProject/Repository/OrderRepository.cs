@@ -165,6 +165,8 @@ namespace SWP391_FinalProject.Repository
 
                         join u in db.Users on o.UserId equals u.Account.Id
                         join ot in db.OrderStates on o.StateId equals ot.Id
+                        join ss in db.StaffShifts on o.StaffShiftId equals ss.Id
+                        join s in db.Staff on ss.StaffId equals s.AccountId
 
                         select new OrderModel
                         {
@@ -176,6 +178,7 @@ namespace SWP391_FinalProject.Repository
                             UsePoint = o.UsePoint,
                             EarnPoint = o.EarnPoint ?? 0,
                             StaffShiftId = o.StaffShiftId,
+                            StaffName = s.Name,
 
                             //Quantity = oi.Quantity,
                             //Price = oi.Price,

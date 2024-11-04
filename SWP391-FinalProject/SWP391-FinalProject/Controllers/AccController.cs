@@ -179,7 +179,7 @@ namespace SWP391_FinalProject.Controllers
             if(user == null)
             {
                 ViewBag.Error = "This email has been used for register the staff";
-                return RedirectToAction("Login");
+                return View("Login");
             }
             if (user.Status == "Inactive")
             {

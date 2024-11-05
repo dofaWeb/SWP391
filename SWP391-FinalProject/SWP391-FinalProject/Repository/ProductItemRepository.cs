@@ -144,7 +144,7 @@ namespace SWP391_FinalProject.Repository
             string query = @"
         SELECT pi.Id, pi.selling_price, pi.Quantity, pi.Discount, 
                p.Name AS ProductName, p.Picture, p.Description, p.Id AS ProductId
-        FROM `Product_Item pi`
+        FROM `Product_Item` pi
         JOIN `Product` p ON pi.product_id = p.Id
         WHERE pi.Id = @ProductItemId";
 

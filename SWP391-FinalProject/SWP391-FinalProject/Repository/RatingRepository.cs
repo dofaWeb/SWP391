@@ -15,9 +15,7 @@ namespace SWP391_FinalProject.Repository
 
         public double GetAverageRating(string productId)
         {
-            string query = "SELECT AVG(CAST(rating AS FLOAT)) AS AverageRating " +  // Sử dụng 'rating' thay cho các tên cột khác
-                           "FROM Rating " +
-                           "WHERE product_id = @ProductId";
+            string query = "SELECT AVG(CAST(rating AS DECIMAL(10, 2))) AS AverageRating FROM Rating WHERE product_id = @ProductId;";
 
             var parameters = new Dictionary<string, object>
             {

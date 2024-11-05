@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.Repository
             string query = @"
         SELECT MONTH(o.Date) AS Month,
                SUM(oi.Quantity * oi.price * (1 - oi.Discount / 100)) AS TotalSellingPrice
-        FROM Order o
+        FROM `Order` o
         JOIN Order_Item oi ON o.Id = oi.Order_Id
         WHERE o.State_Id = 2 AND YEAR(o.Date) = @year
         GROUP BY MONTH(o.Date)

@@ -11,8 +11,9 @@ namespace SWP391_FinalProject.DataAccess
 {
     public class DataAccess
     {
-        private static readonly string _connectionString = "server=mysql-35c69a44-swp391-group3.i.aivencloud.com;Port=25832;database=SWP391;user=avnadmin;password=AVNS_mzCmZ_1hz1gM4yr03o8;sslmode=Required;";
+        //private static readonly string _connectionString = "server=mysql-35c69a44-swp391-group3.i.aivencloud.com;Port=25832;database=SWP391;user=avnadmin;password=AVNS_mzCmZ_1hz1gM4yr03o8;sslmode=Required;";
 
+        private static readonly string _connectionString = "server=127.0.0.1;port=3306;database=swp391_local;user=root;sslmode=None;";
         public DataAccess()
         {
 

@@ -16,7 +16,7 @@ namespace SWP391_FinalProject.Repository
         public string getNewProductItemID()
         {
             // Query to get the latest ID in descending order
-            string query = "SELECT Id FROM SWP391.Product_Item ORDER BY Id DESC LIMIT 1";
+            string query = "SELECT Id FROM `Product_Item` ORDER BY Id DESC LIMIT 1";
             DataTable result = DataAccess.DataAccess.ExecuteQuery(query);
 
             // Check if result is empty, meaning no records are found
@@ -44,7 +44,7 @@ namespace SWP391_FinalProject.Repository
         public int getNewProductConfigurationID()
         {
             // Query to get the highest Id in the ProductConfigurations table
-            string query = "SELECT MAX(Id) FROM SWP391.Product_Configuration";
+            string query = "SELECT MAX(Id) FROM `Product_Configuration`";
             DataTable result = DataAccess.DataAccess.ExecuteQuery(query);
 
             // Check if result is empty or NULL, meaning no records are found
@@ -60,7 +60,7 @@ namespace SWP391_FinalProject.Repository
         public string GetVariationId(string name)
         {
             // Query to get the Id of the Variation based on its Name
-            string query = "SELECT Id FROM SWP391.Variation WHERE Name = @Name LIMIT 1";
+            string query = "SELECT Id FROM `Variation` WHERE Name = @Name LIMIT 1";
 
             // Set up the parameter for the query
             var parameters = new Dictionary<string, object>
@@ -79,7 +79,7 @@ namespace SWP391_FinalProject.Repository
         public string GetVariationOptionId(string value, string variationId)
         {
             // Query to get the Id of the VariationOption based on its Value and VariationId
-            string query = "SELECT Id FROM SWP391.Variation_Option WHERE Value = @Value AND variation_id = @VariationId LIMIT 1";
+            string query = "SELECT Id FROM `Variation_Option` WHERE Value = @Value AND variation_id = @VariationId LIMIT 1";
 
             // Set up the parameters for the query
             var parameters = new Dictionary<string, object>
@@ -144,8 +144,8 @@ namespace SWP391_FinalProject.Repository
             string query = @"
         SELECT pi.Id, pi.selling_price, pi.Quantity, pi.Discount, 
                p.Name AS ProductName, p.Picture, p.Description, p.Id AS ProductId
-        FROM SWP391.Product_Item pi
-        JOIN SWP391.Product p ON pi.product_id = p.Id
+        FROM `Product_Item pi`
+        JOIN `Product` p ON pi.product_id = p.Id
         WHERE pi.Id = @ProductItemId";
 
             // Define the parameter for the query
@@ -194,7 +194,7 @@ namespace SWP391_FinalProject.Repository
             if (CheckExistVariation(model.ProductId, variationOptionId1, variationOptionId2))
             {
                 // Query to delete the existing ProductItem if the variation exists
-                string deleteProductItemQuery = "DELETE FROM SWP391.Product_Item WHERE Id = @ProductItemId";
+                string deleteProductItemQuery = "DELETE FROM `Product_Item` WHERE Id = @ProductItemId";
                 var deleteParams = new Dictionary<string, object> { { "@ProductItemId", model.Id } };
                 DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, deleteParams);
 
@@ -207,7 +207,7 @@ namespace SWP391_FinalProject.Repository
 
                 // Insert first configuration
                 string insertConfigQuery1 = @"
-            INSERT INTO SWP391.Product_Configuration (Id, product_item_id, variation_option_id)
+            INSERT INTO `Product_Configuration` (Id, product_item_id, variation_option_id)
             VALUES (@Id, @ProductItemId, @VariationOptionId)";
 
                 var insertParams1 = new Dictionary<string, object>
@@ -243,7 +243,7 @@ namespace SWP391_FinalProject.Repository
             do
             {
                 quanLogId = StaffManController.GenerateRandomString(8);
-                string checkQuantityLogIdQuery = "SELECT COUNT(1) FROM SWP391.Quantity_Log WHERE Id = @Id";
+                string checkQuantityLogIdQuery = "SELECT COUNT(1) FROM `Quantity_Log` WHERE Id = @Id";
                 var checkQuantityLogIdParams = new Dictionary<string, object> { { "@Id", quanLogId } };
                 if ((long)DataAccess.DataAccess.ExecuteQuery(checkQuantityLogIdQuery, checkQuantityLogIdParams).Rows[0][0] == 0)
                     break;
@@ -252,7 +252,7 @@ namespace SWP391_FinalProject.Repository
             do
             {
                 proLogId = StaffManController.GenerateRandomString(8);
-                string checkProductLogIdQuery = "SELECT COUNT(1) FROM SWP391.Product_Log WHERE Id = @Id";
+                string checkProductLogIdQuery = "SELECT COUNT(1) FROM `Product_Log` WHERE Id = @Id";
                 var checkProductLogIdParams = new Dictionary<string, object> { { "@Id", proLogId } };
                 if ((int)DataAccess.DataAccess.ExecuteQuery(checkProductLogIdQuery, checkProductLogIdParams).Rows[0][0] == 0)
                     break;
@@ -260,7 +260,7 @@ namespace SWP391_FinalProject.Repository
 
             // Insert into QuantityLogs
             string insertQuantityLogQuery = @"
-        INSERT INTO SWP391.Quantity_Log (Id, product_item_id, old_quantity, new_quantity, change_timestamp)
+        INSERT INTO `Quantity_Log` (Id, product_item_id, old_quantity, new_quantity, change_timestamp)
         VALUES (@Id, @ProductItemId, @OldQuantity, @NewQuantity, @ChangeTimestamp);";
 
             var quantityLogParams = new Dictionary<string, object>
@@ -276,7 +276,7 @@ namespace SWP391_FinalProject.Repository
 
             // Insert into ProductLogs
             string insertProductLogQuery = @"
-        INSERT INTO SWP391.Product_Log (Id, quantity_log_id, change_reason_id)
+        INSERT INTO `Product_Log` (Id, quantity_log_id, change_reason_id)
         VALUES (@Id, @QuantityLogId, @ChangeReasonId);";
 
             var productLogParams = new Dictionary<string, object>
@@ -299,7 +299,7 @@ namespace SWP391_FinalProject.Repository
 
             // Insert new ProductItem into the database
             string insertProductItemQuery = @"
-        INSERT INTO SWP391.Product_Item (Id, product_id, Quantity, import_price, selling_price, Discount)
+        INSERT INTO `Product_Item` (Id, product_id, Quantity, import_price, selling_price, Discount)
         VALUES (@Id, @ProductId, @Quantity, @ImportPrice, @SellingPrice, @Discount);";
 
             var productItemParameters = new Dictionary<string, object>
@@ -316,7 +316,7 @@ namespace SWP391_FinalProject.Repository
 
             // Update the Product's StateId if it's not already equal to 2
             string updateProductStateQuery = @"
-        UPDATE  SWP391.Product
+        UPDATE  `Product`
         SET state_id = 1
         WHERE Id = @ProductId AND state_id != 2;";
 
@@ -335,7 +335,7 @@ namespace SWP391_FinalProject.Repository
         public void UpdateProductItemQuantityByOrderStateId(string proItemId, int quantity, int orderStateId)
         {
             // Check if the product item exists
-            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            string checkQuery = "SELECT COUNT(1) FROM `Product_Item` WHERE Id = @Id";
             var checkParameters = new Dictionary<string, object> { { "@Id", proItemId } };
             DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
 
@@ -350,14 +350,14 @@ namespace SWP391_FinalProject.Repository
             if (orderStateId == 1)
             {
                 updateQuery = @"
-            UPDATE SWP391.Product_Item
+            UPDATE `Product_Item`
             SET Quantity = Quantity - @Quantity
             WHERE Id = @Id;";
             }
             else if (orderStateId == 3)
             {
                 updateQuery = @"
-            UPDATE SWP391.Product_Item
+            UPDATE `Product_Item`
             SET Quantity = Quantity + @Quantity
             WHERE Id = @Id;";
             }
@@ -382,7 +382,7 @@ namespace SWP391_FinalProject.Repository
         public void EditProductItem(ProductItemModel model)
         {
             // Check if the product item exists
-            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            string checkQuery = "SELECT COUNT(1) FROM `Product_Item` WHERE Id = @Id";
             var checkParameters = new Dictionary<string, object> { { "@Id", model.Id } };
             DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
 
@@ -394,7 +394,7 @@ namespace SWP391_FinalProject.Repository
 
             // Update the ProductItem's SellingPrice and Discount
             string updateQuery = @"
-        UPDATE SWP391.Product_Item
+        UPDATE Product_Item
         SET selling_price = @SellingPrice,
             Discount = @Discount
         WHERE Id = @Id;";
@@ -415,7 +415,7 @@ namespace SWP391_FinalProject.Repository
         public void Delete(string id)
         {
             // Check if the product item exists
-            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            string checkQuery = "SELECT COUNT(1) FROM Product_Item WHERE Id = @Id";
             var checkParameters = new Dictionary<string, object> { { "@Id", id } };
             DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
 
@@ -426,16 +426,16 @@ namespace SWP391_FinalProject.Repository
             }
 
             // Fetch the ProductId associated with the ProductItem to update its state later
-            string getProductIdQuery = "SELECT product_id FROM SWP391.Product_Item WHERE Id = @Id";
+            string getProductIdQuery = "SELECT product_id FROM Product_Item WHERE Id = @Id";
             DataTable productItemTable = DataAccess.DataAccess.ExecuteQuery(getProductIdQuery, checkParameters);
             string productId = productItemTable.Rows[0]["product_id"].ToString();
 
             // Delete related entries from ProductConfigurations
-            string deleteProductConfigurationsQuery = "DELETE FROM SWP391.Product_Configuration WHERE product_item_id = @Id";
+            string deleteProductConfigurationsQuery = "DELETE FROM Product_Configuration WHERE product_item_id = @Id";
             DataAccess.DataAccess.ExecuteNonQuery(deleteProductConfigurationsQuery, checkParameters);
 
             // Delete the ProductItem
-            string deleteProductItemQuery = "DELETE FROM SWP391.Product_Item WHERE Id = @Id";
+            string deleteProductItemQuery = "DELETE FROM Product_Item WHERE Id = @Id";
             DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, checkParameters);
 
             // Update product state
@@ -451,7 +451,7 @@ namespace SWP391_FinalProject.Repository
             // Query to get SellingPrice and Discount for the specified ProductItem
             string query = @"
         SELECT selling_price, Discount
-        FROM SWP391.Product_Item
+        FROM Product_Item
         WHERE Id = @ProductItemId;";
 
             // Define the parameter for the query
@@ -482,7 +482,7 @@ namespace SWP391_FinalProject.Repository
         public void Import(string id, int quantity)
         {
             // Check if the product item exists
-            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product_Item WHERE Id = @Id";
+            string checkQuery = "SELECT COUNT(1) FROM Product_Item WHERE Id = @Id";
             var checkParameters = new Dictionary<string, object> { { "@Id", id } };
             DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
 
@@ -494,7 +494,7 @@ namespace SWP391_FinalProject.Repository
 
             // Update the ProductItem's Quantity
             string updateQuantityQuery = @"
-        UPDATE SWP391.Product_Item
+        UPDATE Product_Item
         SET Quantity = Quantity + @Quantity
         WHERE Id = @Id;";
 
@@ -508,7 +508,7 @@ namespace SWP391_FinalProject.Repository
             DataAccess.DataAccess.ExecuteNonQuery(updateQuantityQuery, updateParameters);
 
             // Get the ProductId associated with the ProductItem for updating its state
-            string getProductIdQuery = "SELECT product_id FROM SWP391.Product_Item WHERE Id = @Id";
+            string getProductIdQuery = "SELECT product_id FROM Product_Item WHERE Id = @Id";
             DataTable productItemTable = DataAccess.DataAccess.ExecuteQuery(getProductIdQuery, checkParameters);
             string productId = productItemTable.Rows[0]["product_id"].ToString();
 

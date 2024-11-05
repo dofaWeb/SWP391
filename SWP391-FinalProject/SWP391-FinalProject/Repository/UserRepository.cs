@@ -31,9 +31,9 @@ namespace SWP391_FinalProject.Repository
             u.Province,
             u.District,
             u.Address
-        FROM SWP391.Account a
-        JOIN SWP391.User u ON a.Id = u.account_id
-        LEFT JOIN SWP391.Role_Name r ON a.role_id = r.Id
+        FROM Account a
+        JOIN User u ON a.Id = u.account_id
+        LEFT JOIN Role_Name r ON a.role_id = r.Id
         WHERE a.Username = @Username";
 
             // Define parameters for the query
@@ -93,9 +93,9 @@ namespace SWP391_FinalProject.Repository
             u.Province,
             u.District,
             u.Address
-        FROM SWP391.Account a
-        JOIN SWP391.User u ON a.Id = u.account_id
-        LEFT JOIN SWP391.Role_Name r ON a.role_id = r.Id
+        FROM Account a
+        JOIN `User` u ON a.Id = u.account_id
+        LEFT JOIN Role_Name r ON a.role_id = r.Id
         WHERE a.Id = @UserId";
 
             // Define parameters for the query
@@ -139,7 +139,7 @@ namespace SWP391_FinalProject.Repository
         public string GetUserIdByUserName(string UserName)
         {
             // Define the SQL query to get the user ID by username
-            string query = "SELECT Id FROM SWP391.Account WHERE Username = @Username LIMIT 1";
+            string query = "SELECT Id FROM Account WHERE Username = @Username LIMIT 1";
 
             // Define the parameter for the query
             var parameters = new Dictionary<string, object>
@@ -174,7 +174,7 @@ namespace SWP391_FinalProject.Repository
 
             // Step 2: Update user details in the Users table
             string query = @"
-        UPDATE SWP391.User
+        UPDATE `User`
         SET Name = @Name,
             Province = @Province,
             District = @District,
@@ -221,7 +221,7 @@ namespace SWP391_FinalProject.Repository
             }
 
             // Step 3: SQL query to update points in Users table
-            string query = "UPDATE SWP391.User SET Point = @UpdatedPoints WHERE account_id = @AccountId";
+            string query = "UPDATE `User` SET Point = @UpdatedPoints WHERE account_id = @AccountId";
 
             // Define the parameters for the query
             var parameters = new Dictionary<string, object>
@@ -239,7 +239,7 @@ namespace SWP391_FinalProject.Repository
         {
             // Define the query to toggle the IsActive status
             string query = @"
-        UPDATE SWP391.Account
+        UPDATE `Account`
         SET is_active = CASE 
             WHEN is_active = 1 THEN 0 
             ELSE 1 

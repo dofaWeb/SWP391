@@ -406,7 +406,7 @@ LIMIT 1;
         FROM Product p
         JOIN Product_Item pi ON p.Id = pi.product_id
         JOIN Order_Item oi ON pi.Id = oi.product_item_id
-        JOIN SWP391.Order o ON oi.order_id = o.Id  -- Escape 'Order' with backticks
+        JOIN `Order` o ON oi.order_id = o.Id  -- Escape 'Order' with backticks
         JOIN Category c ON p.category_id = c.Id
         JOIN Product_State ps ON p.state_id = ps.Id
         WHERE o.state_id = 2 AND p.state_id = 1
@@ -630,7 +630,7 @@ LIMIT 1;
         public void UpdateProduct(ProductModel model, IFormFile pictureUpload)
         {
             // Check if the product exists in the database
-            string checkQuery = "SELECT COUNT(1) FROM SWP391.Product WHERE Id = @Id";
+            string checkQuery = "SELECT COUNT(1) FROM `Product` WHERE Id = @Id";
             var checkParameters = new Dictionary<string, object> { { "@Id", model.Id } };
             DataTable checkResult = DataAccess.DataAccess.ExecuteQuery(checkQuery, checkParameters);
 
@@ -1005,31 +1005,31 @@ LIMIT 1;"; // Only get the first matching result
             p.Description AS ProductDescription,
             pi.selling_price AS SellingPrice
         FROM 
-            SWP391.Product p
+            Product p
         JOIN 
-            SWP391.Product_Item pi ON p.Id = pi.product_id
+            Product_Item pi ON p.Id = pi.product_id
         JOIN 
-            SWP391.Product_Configuration pc ON pi.Id = pc.product_item_id
+            Product_Configuration pc ON pi.Id = pc.product_item_id
         JOIN 
-            SWP391.Variation_Option vo ON pc.variation_option_id = vo.Id
+            Variation_Option vo ON pc.variation_option_id = vo.Id
         JOIN 
-            SWP391.Variation va ON vo.variation_id = va.Id
+            Variation va ON vo.variation_id = va.Id
         WHERE 
             p.Id = @productId
             AND EXISTS (
                 SELECT 1
-                FROM SWP391.Product_Configuration pc2
-                JOIN SWP391.Variation_Option vo2 ON pc2.variation_option_id = vo2.Id
-                JOIN SWP391.Variation va2 ON vo2.variation_id = va2.Id
+                FROM Product_Configuration pc2
+                JOIN Variation_Option vo2 ON pc2.variation_option_id = vo2.Id
+                JOIN Variation va2 ON vo2.variation_id = va2.Id
                 WHERE pc2.product_item_id = pi.Id
                   AND vo2.Value = @selectedRam
                   AND va2.Name = 'Ram'
             )
             AND EXISTS (
                 SELECT 1
-                FROM SWP391.Product_Configuration pc3
-                JOIN SWP391.Variation_Option vo3 ON pc3.variation_option_id = vo3.Id
-                JOIN SWP391.Variation va3 ON vo3.variation_id = va3.Id
+                FROM Product_Configuration pc3
+                JOIN Variation_Option vo3 ON pc3.variation_option_id = vo3.Id
+                JOIN Variation va3 ON vo3.variation_id = va3.Id
                 WHERE pc3.product_item_id = pi.Id
                   AND vo3.Value = @selectedStorage
                   AND va3.Name = 'Storage'

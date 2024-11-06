@@ -44,13 +44,9 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult EditSalary(string staffId, int staffSalary)
         {
-            string query = "Update Staff SET salary = @salary Where account_Id = @staffId";
-            Dictionary<string,object> parameter = new Dictionary<string, object>
-            {
-                {"@staffId", staffId },
-                {"@salary", staffSalary }
-            };
-            int count = DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+            StaffRepository staffRepository = new StaffRepository();
+            staffRepository.EditSalary(staffId, staffSalary);
+            
             return RedirectToAction("StaffList");
         }
 

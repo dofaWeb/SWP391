@@ -42,6 +42,8 @@
             int index = 1;
             foreach (var order in Model)
             {
+                bool isDisable = false;
+
                 <form asp-controller="OrderMan" asp-action="UpdateState">
 
                 <tr>
@@ -58,79 +60,63 @@
                     <td>
                             @if (User.FindFirst(ClaimTypes.Role).Value == "Role0002" && order.OrderState.Name != "Pending")
                             {
-                            <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()" disabled>
-                                    @foreach (var item in ViewBag.OrderState)
-                                    {
-                                        @if (order.OrderState.Name == item.Name)
-                                        {
-                                        <option value="@item.Id" selected>@item.Name</option>
-                                        }
-                                        else
-                                        {
-                                        <option value="@item.Id">@item.Name</option>
-
-
-                                        }
-                                    }
-                            </select>
-                                }else{
-                                <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()">
-
-                                        @foreach (var item in ViewBag.OrderState)
-                                        {
-                                            @if (order.OrderState.Name == item.Name)
-                                            {
-                                            <option value="@item.Id" selected>@item.Name</option>
-                                            }
-                                            else
-                                            {
-                                            <option value="@item.Id">@item.Name</option>
-
-
-                                            }
-                                        }
-                                </select>
-                                }
-                        </td>
-
-                        <td>
-                            <a asp-controller="OrderMan" asp-action="OrderDetail" asp-route-OrderId="@order.Id" class="btn btn-warning btn-sm">View</a>
-                            <input type="submit" value="Save" class="btn btn-success btn-sm" />
-
-                        </td>
-                    </tr>
-                    </form>
-
-                                index++;
+                                isDisable = true;
                             }
-                }
-                else
-                {
-                <tr>
-                    <td colspan="6" class="text-center">No orders available</td>
-                </tr>
-                }
-            </tbody>
-        </table>
+                        <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()" @(isDisable)? disabled>
+                                @foreach (var item in ViewBag.OrderState)
+                                {
+                                    @if (order.OrderState.Name == item.Name)
+                                    {
+                                    <option value="@item.Id" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                    <option value="@item.Id">@item.Name</option>
 
-        <script>
-            function UpdateState() {
-                var state_id = document.getElementById('OrderStateId').value;
-                var order_id = document.getElementById('')
-                document.getElementById('StateId').value = state_id;
+
+                                    }
+                                }
+                        </select>
+                    </td>
+
+                    <td>
+                        <a asp-controller="OrderMan" asp-action="OrderDetail" asp-route-OrderId="@order.Id" class="btn btn-warning btn-sm">View</a>
+                        <input type="submit" value="Save" class="btn btn-success btn-sm" @(isDisable)? disabled />
+
+                    </td>
+                </tr>
+                </form>
+
+                index++;
             }
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('input', function () {
-                const filter = this.value.toLowerCase();
-                const rows = document.querySelectorAll('tbody tr');
-                rows.forEach(row => {
-                    const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
-                    const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
-                    if (nameCell.includes(filter) || idCell.includes(filter)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            });
-        </script>
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No orders available</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function UpdateState() {
+        var state_id = document.getElementById('OrderStateId').value;
+        var order_id = document.getElementById('')
+        document.getElementById('StateId').value = state_id;
+    }
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
+            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
+            if (nameCell.includes(filter) || idCell.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

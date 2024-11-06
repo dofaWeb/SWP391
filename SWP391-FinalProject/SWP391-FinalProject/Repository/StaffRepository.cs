@@ -84,170 +84,262 @@ namespace SWP391_FinalProject.Repository
             return schedule;
         }
 
-        public int GetTotalHourWorked(string staffId)
-        {
-            var today = DateOnly.FromDateTime(DateTime.Today);
-
-            var totalHoursWorked = db.StaffShifts
-                .Where(shift => shift.Date <= today && shift.StaffId == staffId)
-                .Count();
-
-            return totalHoursWorked * 5;  // If no shifts, it returns 0.
-        }
-
-        public int GetTotalOrder(string staffId)
-        {
-            var result = from ss in db.StaffShifts
-                         join o in db.Orders on ss.Id equals o.StaffShiftId
-                         where ss.StaffId == staffId
-                         select o;
-
-            return result.Count();
-        }
-
         public List<StaffModel> GetAllStaff()
         {
-            var today = DateOnly.FromDateTime(DateTime.Today);
+            // SQL query to get all required data in one call
+            string query = @"
+        SELECT 
+            s.account_Id AS Id,
+            s.Name AS Name,
+            CASE WHEN a.Is_Active = 1 THEN 'Available' ELSE 'Unavailable' END AS Status,
+            IFNULL(hours_worked.HoursWorked, 0) AS TotalHourWorked,
+            IFNULL(order_count.OrderCount, 0) AS TotalOrders,
+            IFNULL(order_count.OrderCount / (hours_worked.HoursWorked / 5), 0) AS AvgOrder,
+            s.Salary AS Salary
+        FROM 
+            Staff s
+        JOIN 
+            Account a ON s.Account_Id = a.Id
+        LEFT JOIN 
+            (SELECT 
+                 staff_id, 
+                 COUNT(*) * 5 AS HoursWorked
+             FROM 
+                 staff_shift
+             WHERE 
+                 Date <= CURDATE()
+             GROUP BY 
+                 staff_id) AS hours_worked ON s.Account_Id = hours_worked.staff_id
+        LEFT JOIN 
+            (SELECT 
+                 ss.staff_id, 
+                 COUNT(o.Id) AS OrderCount
+             FROM 
+                 staff_shift ss
+             JOIN 
+                 `Order` o ON ss.Id = o.staff_shift_id
+             GROUP BY 
+                 ss.staff_id) AS order_count ON s.account_id = order_count.staff_id
+        WHERE 
+            a.Role_Id = 'Role0002';";
 
-            // Batch query: Get total hours worked per staff.
-            var totalHoursWorked = db.StaffShifts
-                .Where(shift => shift.Date <= today)
-                .GroupBy(shift => shift.StaffId)
-                .Select(g => new
-                {
-                    StaffId = g.Key,
-                    HoursWorked = g.Count() * 5  // Each shift is 5 hours.
-                })
-                .ToDictionary(x => x.StaffId, x => x.HoursWorked);
+            // Execute query and get result
+            DataTable staffData = DataAccess.DataAccess.ExecuteQuery(query);
 
-            // Batch query: Get total orders per staff.
-            var totalOrders = db.StaffShifts
-                .Join(db.Orders, ss => ss.Id, o => o.StaffShiftId, (ss, o) => new { ss.StaffId })
-                .GroupBy(x => x.StaffId)
-                .Select(g => new
-                {
-                    StaffId = g.Key,
-                    OrderCount = g.Count()
-                })
-                .ToDictionary(x => x.StaffId, x => x.OrderCount);
-
-            // Create the final list of staff models.
-            var result = db.Staff.Where(p => p.Account.RoleId == "Role0002").Select(p => new StaffModel
+            // Convert DataTable rows to StaffModel objects
+            var result = staffData.AsEnumerable().Select(row => new StaffModel
             {
-                Id = p.AccountId,
-                Name = p.Name,
+                Id = row["Id"].ToString(),
+                Name = row["Name"].ToString(),
                 Account = new AccountModel
                 {
-                    Status = (p.Account.IsActive == ulong.Parse("1")) ? "Available" : "Unavailable"
+                    Status = row["Status"].ToString()
                 },
-                TotalHourWorked = totalHoursWorked.ContainsKey(p.AccountId) ? totalHoursWorked[p.AccountId] : 0,
-                
-                TotalOrders = totalOrders.ContainsKey(p.AccountId) ? totalOrders[p.AccountId] : 0,
-                AvgOrder = totalOrders.ContainsKey(p.AccountId) && totalHoursWorked.ContainsKey(p.AccountId)
-                           ? (double)totalOrders[p.AccountId] / (totalHoursWorked[p.AccountId] / 5)
-                           : 0,
-                Salary = p.Salary
+                TotalHourWorked = Convert.ToInt32(row["TotalHourWorked"]),
+                TotalOrders = Convert.ToInt32(row["TotalOrders"]),
+                AvgOrder = Convert.ToDouble(row["AvgOrder"]),
+                Salary = Convert.ToDouble(row["Salary"])
             }).ToList();
 
             return result;
         }
 
-        public string GetStaffIdByName(string name)
+
+        public void EditSalary(string staffId, int staffSalary)
         {
-            var result = db.Staff.Where(p => p.Name == name).Select(p => p.AccountId).FirstOrDefault();
-            return result;
+            string query = "Update Staff SET salary = @salary Where account_Id = @staffId";
+            Dictionary<string, object> parameter = new Dictionary<string, object>
+            {
+                {"@staffId", staffId },
+                {"@salary", staffSalary }
+            };
+            int count = DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
         }
 
         public void UpdateShift(string shiftId, string staffId)
         {
-            var shift = db.StaffShifts.Where(p => p.Id == shiftId).FirstOrDefault();
-            shift.StaffId = staffId;
-            db.SaveChanges();
+            // Define the MySQL UPDATE query
+            string query = @"
+        UPDATE Staff_Shift 
+        SET staff_Id = @StaffId 
+        WHERE Id = @ShiftId;
+    ";
+
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@StaffId", staffId },
+        { "@ShiftId", shiftId }
+    };
+
+            // Execute the query
+            int count = DataAccess.DataAccess.ExecuteNonQuery(query, parameters);
         }
 
-        
+
+
         public StaffModel GetStaffbyUserName(string userName)
         {
-            var result = (from s in db.Staff
-                          join a in db.Accounts on s.AccountId equals a.Id
-                          where a.Username == userName
-                          select new StaffModel
-                          {
-                              Id = s.AccountId,
-                              Name = s.Name,
-                              Account = new AccountModel
-                              {
-                                  Password = a.Password,
-                                  Email = a.Email,
-                                  RoleId = a.RoleId,
+            // Define the SQL query to get staff details by username
+            string query = @"
+        SELECT 
+            s.Account_Id AS Id,
+            s.Name AS Name,
+            a.Password AS AccountPassword,
+            a.Email AS AccountEmail,
+            a.Role_Id AS AccountRoleId,
+            s.Salary AS Salary
+        FROM 
+            Staff s
+        JOIN 
+            Account a ON s.Account_Id = a.Id
+        WHERE 
+            a.Username = @Username;
+    ";
 
-                              },
-                              Salary = s.Salary
-                          }).FirstOrDefault();
+            // Set up parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@Username", userName }
+    };
 
-            return result;
-        }
-        public void UpdateStaff(Models.StaffModel staff)
-        {
-            var existingStaff = db.Staff.FirstOrDefault(s => s.AccountId == staff.Id);
+            // Execute the query and get the result
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
 
-            if (existingStaff != null)
+            // Check if there is a result
+            if (resultTable.Rows.Count > 0)
             {
-                if (staff.Name != null)
+                DataRow row = resultTable.Rows[0];
+
+                // Map the result to StaffModel
+                var staffModel = new StaffModel
                 {
-                    existingStaff.Name = staff.Name;
-                }
-                if (staff.Account.Password != null)
-                {
-                    AccountRepository accRepo = new AccountRepository();
-                    AccountModel Acc = accRepo.GetStaffByUsernameOrEmail("tek83522@gmail.com");
+                    Id = row["Id"].ToString(),
+                    Name = row["Name"].ToString(),
+                    Account = new AccountModel
+                    {
+                        Password = row["AccountPassword"].ToString(),
+                        Email = row["AccountEmail"].ToString(),
+                        RoleId = row["AccountRoleId"].ToString()
+                    },
+                    Salary = Convert.ToDouble(row["Salary"])
+                };
 
-
-
-
-                    Acc.Password = staff.Account.Password;
-                    accRepo.ResetPassword(Acc);
-
-
-                }
-                db.SaveChanges();
+                return staffModel;
             }
 
-
-        }
-        private DateOnly GetMondayOfWeek(DateOnly date)
-        {
-            int dayOffset = (int)date.DayOfWeek - (int)DayOfWeek.Monday;
-            if (dayOffset < 0) dayOffset += 7;
-            return date.AddDays(-dayOffset);
+            return null; // Return null if no staff is found
         }
 
-        public string GetShiftIdByDateAndShift(DateOnly Date, string shift)
+        public void UpdateStaff(Models.StaffModel staff)
         {
-            var id = db.StaffShifts.Where(p => p.Date == Date && p.Shift == shift).Select(p => p.Id).FirstOrDefault();
-            return id;
+            // Define the SQL query to update the Staff table
+            if (!string.IsNullOrEmpty(staff.Name))
+            {
+                string updateStaffQuery = @"
+            UPDATE Staff
+            SET Name = @Name
+            WHERE Account_Id = @StaffId;
+        ";
+
+                var staffParameters = new Dictionary<string, object>
+        {
+            { "@Name", staff.Name },
+            { "@StaffId", staff.Id }
+        };
+
+                // Execute the query to update the Staff name
+                DataAccess.DataAccess.ExecuteNonQuery(updateStaffQuery, staffParameters);
+            }
+
+            // If there is a password update, handle the Account table
+            if (!string.IsNullOrEmpty(staff.Account.Password))
+            {
+                // Assuming that GetStaffByUsernameOrEmail is used to fetch the staff by email
+                string getAccountIdQuery = @"
+            SELECT Id 
+            FROM Account 
+            WHERE Email = @Email;
+        ";
+
+                var accountParams = new Dictionary<string, object>
+        {
+            { "@Email", staff.Account.Email }
+        };
+
+                DataTable accountIdResult = DataAccess.DataAccess.ExecuteQuery(getAccountIdQuery, accountParams);
+
+                // Check if the account exists
+                if (accountIdResult.Rows.Count > 0)
+                {
+                    string accountId = accountIdResult.Rows[0]["Id"].ToString();
+
+                    // Define the SQL query to update the Account table's password
+                    string updateAccountQuery = @"
+                UPDATE Account
+                SET Password = @Password
+                WHERE Id = @AccountId;
+            ";
+
+                    var accountUpdateParams = new Dictionary<string, object>
+            {
+                { "@Password", staff.Account.Password },
+                { "@AccountId", accountId }
+            };
+
+                    // Execute the query to update the Account password
+                    DataAccess.DataAccess.ExecuteNonQuery(updateAccountQuery, accountUpdateParams);
+                }
+            }
         }
+
+
 
         public List<ShiftSchdeduleModel> GetShiftData(string weekStartDate)
         {
-            var shifts = db.StaffShifts
-                .OrderByDescending(shift => shift.Date) // First order by Date
-                .ThenBy(shift => shift.Shift == "morning" ? 0 : 1) // Sort morning shifts before afternoon
-                .Include(shift => shift.Staff) // Include the Staff relation
-                .Select(shift => new ShiftSchdeduleModel
+            // Define the SQL query to get shift data
+            string query = @"
+        SELECT 
+    ss.Id AS ShiftId,
+    ss.Date AS ShiftDate,
+    ss.Shift AS ShiftType,
+    ss.Staff_Id AS StaffId,
+    s.Name AS StaffName
+FROM 
+    Staff_Shift ss
+LEFT JOIN 
+    Staff s ON ss.Staff_Id = s.Account_Id
+ORDER BY 
+    ss.Date DESC, 
+    CASE WHEN ss.Shift = 'morning' THEN 0 ELSE 1 END;
+    ";
+
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@WeekStartDate", weekStartDate }
+    };
+
+            // Execute the query and retrieve results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Convert the results to a list of ShiftSchdeduleModel
+            var shifts = new List<ShiftSchdeduleModel>();
+            foreach (DataRow row in resultTable.Rows)
+            {
+                shifts.Add(new ShiftSchdeduleModel
                 {
-                    Id = shift.Id,
-                    Date = shift.Date,
-                    Shift = shift.Shift,
-                    StaffId = shift.StaffId,
-                    StaffName = shift.Staff.Name
-                })
-                .ToList();
-
-
+                    Id = row["ShiftId"].ToString(),
+                    Date = DateOnly.FromDateTime(Convert.ToDateTime(row["ShiftDate"])),
+                    Shift = row["ShiftType"].ToString(),
+                    StaffId = row["StaffId"].ToString(),
+                    StaffName = row["StaffName"].ToString()
+                });
+            }
 
             return shifts;
         }
+
 
         public void AddShift(DateOnly date, string staffIdMoring, string staffIdAfternoon)
         {

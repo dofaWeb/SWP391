@@ -23,26 +23,35 @@ namespace SWP391_FinalProject.Repository
 
         public string NewOrderId()
         {
-            string lastId = db.Orders
-                .OrderByDescending(r => r.Id)
-                .Select(r => r.Id)
-                .FirstOrDefault();
-            if (lastId == null)
+            string lastId;
+
+            // SQL query to retrieve the last Order ID, ordered in descending order
+            string query = "SELECT Id FROM Orders ORDER BY Id DESC LIMIT 1";
+
+            // Execute the query and get the result
+            var dataTable = DataAccess.DataAccess.ExecuteQuery(query);
+
+            if (dataTable.Rows.Count == 0 || dataTable.Rows[0]["Id"] == DBNull.Value)
             {
+                // If no records are found, start with "O0000001"
                 return "O0000001";
             }
-            // Tách phần chữ (A) và phần số (0000001)
-            string prefix = lastId.Substring(0, 1); // Lấy ký tự đầu tiên
-            int number = int.Parse(lastId.Substring(1)); // Lấy phần số và chuyển thành số nguyên
 
-            // Tăng số lên 1
+            // Get the last ID as a string
+            lastId = dataTable.Rows[0]["Id"].ToString();
+
+            // Split the prefix and number
+            string prefix = lastId.Substring(0, 1); // Get the first character
+            int number = int.Parse(lastId.Substring(1)); // Convert the rest to an integer
+
+            // Increment the number by 1 and format the new ID with leading zeros
             int newNumber = number + 1;
-
-            // Tạo ID mới với số đã tăng, định dạng lại với 7 chữ số
             string newId = $"{prefix}{newNumber:D7}";
 
             return newId;
         }
+
+
 
         public void InsertOrder(OrderModel Order, string username, decimal? TotalPrice, List<ProductItemModel> listProItem)
         {
@@ -116,105 +125,204 @@ namespace SWP391_FinalProject.Repository
         {
             foreach (ProductItemModel item in listProItem)
             {
-                var newItem = new Entities.OrderItem()
-                {
-                    OrderId = orderID,
-                    ProductItemId = item.Id,
-                    Quantity = item.CartQuantity,
-                    Discount = item.Discount,
-                    Price = item.SellingPrice ?? 0
-                };
-                db.OrderItems.Add(newItem);
-                db.SaveChanges();
-                ProductItemRepository proItemRepo = new ProductItemRepository();
-                proItemRepo.UpdateProductItemQuantityByOrderStateId(newItem.ProductItemId, newItem.Quantity, 1);
+                // 1. Insert OrderItem into OrderItems table
+                string insertQuery = @"
+            INSERT INTO order_item (order_id, product_item_id, Quantity, Discount, Price)
+            VALUES (@OrderId, @ProductItemId, @Quantity, @Discount, @Price)";
+
+                var parameters = new Dictionary<string, object>
+        {
+            { "@OrderId", orderID },
+            { "@ProductItemId", item.Id },
+            { "@Quantity", item.CartQuantity },
+            { "@Discount", item.Discount },
+            { "@Price", item.SellingPrice ?? 0 }
+        };
+
+                // Execute Insert query
+                DataAccess.DataAccess.ExecuteNonQuery(insertQuery, parameters);
+
+                // 2. Update ProductItem Quantity based on the Order state (Assuming state "1" means the order was placed)
+                string updateQuery = @"
+            UPDATE product_item 
+            SET Quantity = Quantity - @Quantity
+            WHERE Id = @ProductItemId";
+
+                var updateParameters = new Dictionary<string, object>
+        {
+            { "@ProductItemId", item.Id },
+            { "@Quantity", item.CartQuantity }
+        };
+
+                // Execute Update query
+                DataAccess.DataAccess.ExecuteNonQuery(updateQuery, updateParameters);
             }
         }
 
 
+
         public List<OrderModel> GetAllStaffOrder(string staffId)
         {
-            var query = from o in db.Orders
+            // SQL query to get orders assigned to a specific staff member
+            string query = @"
+        SELECT 
+            o.Id AS OrderId,
+            o.user_id,
+            o.Address,
+            o.state_id,
+            o.Date,
+            o.use_point,
+            o.earn_point,
+            o.staff_shift_id,
+            u.Name AS UserName,
+            os.Name AS OrderStateName
+        FROM Orders o
+        INNER JOIN user u ON o.user_id = u.account_id
+        INNER JOIN order_state os ON o.state_id = os.Id
+        INNER JOIN staff_shift ss ON o.staff_shift_id = ss.Id
+        WHERE ss.staff_id = @StaffId";
 
-                        join u in db.Users on o.UserId equals u.Account.Id
-                        join ot in db.OrderStates on o.StateId equals ot.Id
-                        join ss in db.StaffShifts on o.StaffShiftId equals ss.Id
-                        where ss.StaffId == staffId
-                        select new OrderModel
-                        {
-                            Id = o.Id,
-                            UserId = o.UserId,
-                            Addres = o.Address,
-                            StateId = o.StateId,
-                            Date = o.Date,
-                            UsePoint = o.UsePoint,
-                            EarnPoint = o.EarnPoint ?? 0,
-                            StaffShiftId = o.StaffShiftId,
+            // Set up parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@StaffId", staffId }
+    };
 
-                            //Quantity = oi.Quantity,
-                            //Price = oi.Price,
-                            //Discount = oi.Discount,
-                            User = new UserModel() { Name = u.Name },
+            // Execute the query and get the results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
 
-                            OrderState = new OrderState() { Name = ot.Name }
+            var orderList = new List<OrderModel>();
 
-                        };
-            var result = query.ToList();
-            return result;
+            foreach (DataRow row in resultTable.Rows)
+            {
+                var order = new OrderModel
+                {
+                    Id = row["OrderId"].ToString(),
+                    UserId = row["user_id"].ToString(),
+                    Addres = row["Address"].ToString(),
+                    StateId = Convert.ToInt32(row["state_id"]),
+                    Date = Convert.ToDateTime(row["Date"]),
+                    UsePoint = Convert.ToDecimal(row["use_point"]),
+                    EarnPoint = row["earn_point"] != DBNull.Value ? Convert.ToDecimal(row["earn_point"]) : 0,
+                    StaffShiftId = row["staff_shift_id"].ToString(),
+
+                    User = new UserModel { Name = row["UserName"].ToString() },
+
+                    OrderState = new OrderState { Name = row["OrderStateName"].ToString() }
+                };
+
+                orderList.Add(order);
+            }
+
+            return orderList;
         }
+
         public List<OrderModel> GetAllOrder()
         {
-            var query = from o in db.Orders
+            // SQL query to get all orders with related information
+            string query = @"
+        SELECT 
+            o.Id AS OrderId,
+            o.user_id,
+            o.Address,
+            o.state_id,
+            o.Date,
+            o.use_point,
+            o.earn_point,
+            o.staff_shift_id,
+            ss.staff_id,
+            s.Name AS StaffName,
+            u.Name AS UserName,
+            os.Name AS OrderStateName
+        FROM `order` o
+        INNER JOIN user u ON o.user_id = u.account_id
+        INNER JOIN order_state os ON o.state_id = os.Id
+        INNER JOIN staff_shift ss ON o.staff_shift_id = ss.Id
+        INNER JOIN Staff s ON ss.staff_id = s.account_id";
 
-                        join u in db.Users on o.UserId equals u.Account.Id
-                        join ot in db.OrderStates on o.StateId equals ot.Id
-                        join ss in db.StaffShifts on o.StaffShiftId equals ss.Id
-                        join s in db.Staff on ss.StaffId equals s.AccountId
+            // Execute the query and get results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, new Dictionary<string, object>());
 
-                        select new OrderModel
-                        {
-                            Id = o.Id,
-                            UserId = o.UserId,
-                            Addres = o.Address,
-                            StateId = o.StateId,
-                            Date = o.Date,
-                            UsePoint = o.UsePoint,
-                            EarnPoint = o.EarnPoint ?? 0,
-                            StaffShiftId = o.StaffShiftId,
-                            StaffName = s.Name,
+            var orderList = new List<OrderModel>();
 
-                            //Quantity = oi.Quantity,
-                            //Price = oi.Price,
-                            //Discount = oi.Discount,
-                            User = new UserModel() { Name = u.Name },
+            foreach (DataRow row in resultTable.Rows)
+            {
+                var order = new OrderModel
+                {
+                    Id = row["OrderId"].ToString(),
+                    UserId = row["user_id"].ToString(),
+                    Addres = row["Address"].ToString(),
+                    StateId = Convert.ToInt32(row["state_id"]),
+                    Date = Convert.ToDateTime(row["Date"]),
+                    UsePoint = Convert.ToDecimal(row["use_point"]),
+                    EarnPoint = row["earn_point"] != DBNull.Value ? Convert.ToDecimal(row["earn_point"]) : 0,
+                    StaffShiftId = row["staff_shift_id"].ToString(),
+                    StaffName = row["StaffName"].ToString(),
 
-                            OrderState = new OrderState() { Name = ot.Name }
+                    User = new UserModel { Name = row["UserName"].ToString() },
 
-                        };
-            var result = query.ToList();
-            return result;
+                    OrderState = new OrderState { Name = row["OrderStateName"].ToString() }
+                };
+
+                orderList.Add(order);
+            }
+
+            return orderList;
         }
 
-        public OrderModel GetOrderByOrderId(string OrderId)
+
+        public OrderModel GetOrderByOrderId(string orderId)
         {
-            var result = from o in db.Orders
-                         join os in db.OrderStates on o.StateId equals os.Id
-                         where o.Id == OrderId
-                         select new OrderModel()
-                         {
-                             Id = o.Id,
-                             UserId = o.UserId,
-                             Addres = o.Address,
-                             StateId = o.StateId,
-                             OrderState = new OrderState() { Name = os.Name },
-                             UsePoint = o.UsePoint,
-                             EarnPoint = o.EarnPoint ?? 0,
-                             Date = o.Date
-                         };
+            // SQL query to get order details by orderId
+            string query = @"
+        SELECT 
+            o.Id,
+            o.user_id,
+            o.Address,
+            o.state_id,
+            os.Name AS OrderStateName,
+            o.use_point ,
+            o.earn_point,
+            o.Date
+        FROM `order` o
+        INNER JOIN order_state os ON o.state_id = os.Id
+        WHERE o.Id = @OrderId";
 
-            OrderModel order = result.FirstOrDefault();
-            return order;
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@OrderId", orderId }
+    };
+
+            // Execute the query and get results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            if (resultTable.Rows.Count > 0)
+            {
+                // Map the result row to OrderModel
+                DataRow row = resultTable.Rows[0];
+
+                var order = new OrderModel
+                {
+                    Id = row["Id"].ToString(),
+                    UserId = row["user_id"].ToString(),
+                    Addres = row["Address"].ToString(),
+                    StateId = Convert.ToInt32(row["state_id"]),
+                    OrderState = new OrderState
+                    {
+                        Name = row["OrderStateName"].ToString()
+                    },
+                    UsePoint = Convert.ToDecimal(row["use_point"]),
+                    EarnPoint = row["earn_point"] != DBNull.Value ? Convert.ToDecimal(row["earn_point"]) : 0,
+                    Date = Convert.ToDateTime(row["Date"])
+                };
+
+                return order;
+            }
+
+            return null;
         }
+
 
         public List<OrderModel> GetOrderByUserId(string UserId)
         {
@@ -259,48 +367,109 @@ namespace SWP391_FinalProject.Repository
 
         public List<OrderState> GetAllOrderState()
         {
-            var query = db.OrderStates.Select(p => new OrderState
+            // Define the SQL query to select all order states
+            string query = "SELECT Id, Name FROM order_state";
+
+            // Execute the query and map results to OrderState model
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query);
+            var listOrderState = new List<OrderState>();
+
+            foreach (DataRow row in resultTable.Rows)
             {
-                Id = p.Id,
-                Name = p.Name,
-            }).ToList();
-            return query;
+                var orderState = new OrderState
+                {
+                    Id = Convert.ToInt32(row["Id"]),
+                    Name = row["Name"].ToString()
+                };
+
+                // Add the order state to the list
+                listOrderState.Add(orderState);
+            }
+
+            return listOrderState;
         }
 
-        public void UpdateOrderState(int orderStateId, string OrderId)
+
+
+        public void UpdateOrderState(int orderStateId, string orderId)
         {
-            var order = db.Orders.Where(p => p.Id == OrderId).FirstOrDefault();
-            order.StateId = orderStateId;
-            db.SaveChanges();
+            // SQL query to update the state of the order
+            string query = @"
+        UPDATE `order` 
+        SET state_id = @OrderStateId 
+        WHERE Id = @OrderId";
 
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@OrderStateId", orderStateId },
+        { "@OrderId", orderId }
+    };
+
+            // Execute the query
+            DataAccess.DataAccess.ExecuteNonQuery(query, parameters);
         }
 
-        public List<OrderItemModel> GetOrderItemByOrderId(string OrderId)
+
+        public List<OrderItemModel> GetOrderItemByOrderId(string orderId)
         {
             ProductRepository proRepo = new ProductRepository();
-            var query = from oi in db.OrderItems
-                        join pi in db.ProductItems on oi.ProductItemId equals pi.Id
-                        join p in db.Products on pi.ProductId equals p.Id
-                        join o in db.Orders on oi.OrderId equals o.Id
-                        where o.Id == OrderId
-                        select new OrderItemModel
-                        {
-                            Product = new ProductModel
-                            {
-                                Picture = p.Picture,
-                                Name = p.Name
-                            },
-                            Ram = proRepo.GetProductVariationOption(pi.Id, "Ram"),
-                            Storage = proRepo.GetProductVariationOption(pi.Id, "Storage"),
-                            Quantity = oi.Quantity,
-                            Price = oi.Price,
-                            Discount = pi.Discount,
 
-                            // Corrected discount calculation
-                            TotalPrice = (oi.Quantity * oi.Price) * (1 - ((pi.Discount ?? 0) / 100)),
-                        };
-            return query.ToList();
+            // SQL query to fetch order items with necessary joins and conditions
+            string query = @"
+        SELECT 
+            p.Picture,
+            p.Name,
+            oi.Quantity,
+            oi.Price,
+            pi.Discount,
+            pi.Id AS ProductItemId
+        FROM order_item oi
+        INNER JOIN product_item pi ON oi.product_item_id = pi.Id
+        INNER JOIN product p ON pi.product_id = p.Id
+        INNER JOIN `order` o ON oi.order_id = o.Id
+        WHERE o.Id = @OrderId";
+
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@OrderId", orderId }
+    };
+
+            // Execute the query and get results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            var orderItems = new List<OrderItemModel>();
+
+            // Map each row in DataTable to OrderItemModel
+            foreach (DataRow row in resultTable.Rows)
+            {
+                var productItemId = row["ProductItemId"].ToString();
+                var discount = row["Discount"] != DBNull.Value ? Convert.ToDecimal(row["Discount"]) : 0;
+
+                var orderItem = new OrderItemModel
+                {
+                    Product = new ProductModel
+                    {
+                        Picture = row["Picture"].ToString(),
+                        Name = row["Name"].ToString()
+                    },
+                    Ram = proRepo.GetProductVariationOption(productItemId, "Ram"),
+                    Storage = proRepo.GetProductVariationOption(productItemId, "Storage"),
+                    Quantity = Convert.ToInt32(row["Quantity"]),
+                    Price = Convert.ToDecimal(row["Price"]),
+                    Discount = discount,
+
+                    // Calculate TotalPrice with discount
+                    TotalPrice = (Convert.ToInt32(row["Quantity"]) * Convert.ToDecimal(row["Price"])) * (1 - (discount / 100))
+                };
+
+                orderItems.Add(orderItem);
+            }
+
+            return orderItems;
         }
+
 
 
         public decimal? GetTotalPrice(List<OrderItemModel> orderItems, OrderModel order)
@@ -317,16 +486,39 @@ namespace SWP391_FinalProject.Repository
         }
 
 
-        public OrderModel GetOrderDetail(string OrderId)
+        public OrderModel GetOrderDetail(string orderId)
         {
-            var order = db.Orders.Where(p => p.Id == OrderId).Select(p => new OrderModel
+            // Define the SQL query to fetch order details
+            string query = @"
+        SELECT 
+            earn_point,
+            use_point
+        FROM `order`
+        WHERE Id = @OrderId";
+
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@OrderId", orderId }
+    };
+
+            // Execute the query and get results as a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            if (resultTable.Rows.Count == 0)
+                throw new ArgumentException($"Order with ID '{orderId}' not found.");
+
+            // Map DataTable result to OrderModel
+            DataRow row = resultTable.Rows[0];
+            var order = new OrderModel
             {
-                EarnPoint = p.EarnPoint,
-                UsePoint = p.UsePoint,
-                TotalPrice = 0
-            }).FirstOrDefault();
+                EarnPoint = row["earn_point"] != DBNull.Value ? Convert.ToDecimal(row["earn_point"]) : 0,
+                UsePoint = row["use_point"] != DBNull.Value ? Convert.ToDecimal(row["use_point"]) : 0,
+                TotalPrice = 0 // Default value
+            };
 
             return order;
         }
+
     }
 }

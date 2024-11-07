@@ -15,9 +15,17 @@ namespace SWP391_FinalProject.Controllers
         {
             return View();
         }
+        [HttpGet]
         public IActionResult Display() {
             Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
             var querry=catManRepo.GetAllCategory();
+            return View(querry);
+        }
+        [HttpPost]
+        public IActionResult Display(string keyword)
+        {
+            Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
+            var querry = catManRepo.GetAllCategoryByKeyword(keyword);
             return View(querry);
         }
         [HttpGet]

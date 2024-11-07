@@ -48,7 +48,7 @@ namespace SWP391_FinalProject.Controllers
                 
             }
         }
-
+        [HttpGet]
         public IActionResult Display()
         {
             ProductRepository proRepo = new ProductRepository();
@@ -157,6 +157,14 @@ namespace SWP391_FinalProject.Controllers
             ProductRepository proRepo = new ProductRepository();
             var result = proRepo.GetProductLog(Filter);
             return View(result);
+        }
+        [HttpPost]
+        public IActionResult Display(string keyword)
+        {
+            ProductRepository proRepo = new ProductRepository();
+            var querry=proRepo.GetAllProductByKeyword(keyword);
+            return View(querry);
+        
         }
     }
 }

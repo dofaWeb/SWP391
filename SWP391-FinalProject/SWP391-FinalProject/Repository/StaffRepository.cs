@@ -143,6 +143,72 @@ namespace SWP391_FinalProject.Repository
 
             return result;
         }
+        public List<StaffModel> GetAllStaffByKeyword(string keyword)
+        {
+            // SQL query to retrieve staff details with filtering by keyword
+            string staffQuery = @"
+    SELECT 
+        s.account_Id AS Id,
+        s.Name AS Name,
+        CASE WHEN a.Is_Active = 1 THEN 'Available' ELSE 'Unavailable' END AS Status,
+        IFNULL(hours_worked.HoursWorked, 0) AS TotalHourWorked,
+        IFNULL(order_count.OrderCount, 0) AS TotalOrders,
+        IFNULL(order_count.OrderCount / (hours_worked.HoursWorked / 5), 0) AS AvgOrder,
+        s.Salary AS Salary
+    FROM 
+        Staff s
+    JOIN 
+        Account a ON s.Account_Id = a.Id
+    LEFT JOIN 
+        (SELECT 
+             staff_id, 
+             COUNT(*) * 5 AS HoursWorked
+         FROM 
+             staff_shift
+         WHERE 
+             Date <= CURDATE()
+         GROUP BY 
+             staff_id) AS hours_worked ON s.Account_Id = hours_worked.staff_id
+    LEFT JOIN 
+        (SELECT 
+             ss.staff_id, 
+             COUNT(o.Id) AS OrderCount
+         FROM 
+             staff_shift ss
+         JOIN 
+             `Order` o ON ss.Id = o.staff_shift_id
+         GROUP BY 
+             ss.staff_id) AS order_count ON s.account_id = order_count.staff_id
+    WHERE 
+        a.Role_Id = 'Role0002' AND 
+        (s.Name LIKE @keyword OR s.account_Id LIKE @keyword);";
+
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@keyword", $"%{keyword}%" }
+    };
+
+            // Execute the query to get staff details
+            DataTable staffData = DataAccess.DataAccess.ExecuteQuery(staffQuery, parameters);
+
+            // Convert DataTable rows to StaffModel objects
+            var result = staffData.AsEnumerable().Select(row => new StaffModel
+            {
+                Id = row["Id"].ToString(),
+                Name = row["Name"].ToString(),
+                Account = new AccountModel
+                {
+                    Status = row["Status"].ToString()
+                },
+                TotalHourWorked = Convert.ToInt32(row["TotalHourWorked"]),
+                TotalOrders = Convert.ToInt32(row["TotalOrders"]),
+                AvgOrder = Convert.ToDouble(row["AvgOrder"]),
+                Salary = Convert.ToDouble(row["Salary"])
+            }).ToList();
+
+            return result;
+        }
 
 
         public void EditSalary(string staffId, int staffSalary)

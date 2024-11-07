@@ -215,17 +215,20 @@
 </div>
 
 <div class="container">
+   
+    <h1 class="text-center">Staff List</h1>
     <form asp-controller="StaffMan" asp-action="CreateAccount" method="post">
         <h4 style="color:red">@TempData["Error"]</h4>
         <input type="text" name="StaffEmail" placeholder="Enter Email" />
         <input type="submit" value="Add" class="btn btn-success" />
     </form>
-    
-    <h1 class="text-center">Staff List</h1>
-    <div class="form-group">
-        <label for="searchInput">Search Name</label>
-        <input type="text" class="form-control" id="searchInput" placeholder="Enter name">
-    </div>
+    <form asp-controller="StaffMan" asp-action="StaffList" method="post" class="input-group mb-3">
+        <input type="text" name="keyword" class="form-control" placeholder="Enter Staff Name or Id..." aria-label="Search staff">
+
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
     <table class="StaffList" id="staff-table">
         <thead>
             <tr>
@@ -316,17 +319,5 @@
         });
     });
 
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const filter = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#staff-table tbody tr');
-        rows.forEach(row => {
-            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
-            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
-            if (nameCell.includes(filter) || idCell.includes(filter)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
+   
 </script>

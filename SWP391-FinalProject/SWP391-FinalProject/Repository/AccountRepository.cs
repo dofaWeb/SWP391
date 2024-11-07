@@ -82,6 +82,54 @@ namespace SWP391_FinalProject.Repository
 
             return accounts;
         }
+        public List<Models.AccountModel> GetAllAccountByKeyword(string keyword)
+        {
+            // SQL query to retrieve account details with filtering by keyword
+            string query = @"
+    SELECT 
+        a.Id, 
+        a.Username, 
+        a.Email, 
+        a.Phone, 
+        CASE WHEN a.is_active = 1 THEN 'Active' ELSE 'Inactive' END AS Status,
+        r.Name AS RoleName
+    FROM 
+        Account a
+    LEFT JOIN 
+        Role_Name r ON a.role_id = r.Id
+    WHERE 
+        a.Username LIKE @keyword OR 
+       
+        a.Id LIKE @keyword;
+    ";
+
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@keyword", $"%{keyword}%" }
+    };
+
+            // Execute the query and store the result in a DataTable
+            DataTable accountTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            // Convert the result into a list of AccountModel objects
+            var accounts = new List<Models.AccountModel>();
+            foreach (DataRow row in accountTable.Rows)
+            {
+                accounts.Add(new Models.AccountModel
+                {
+                    Id = row["Id"].ToString(),
+                    Username = row["Username"].ToString(),
+                    Email = row["Email"].ToString(),
+                    Phone = row["Phone"].ToString(),
+                    Status = row["Status"].ToString(),
+                    RoleName = row["RoleName"].ToString()
+                });
+            }
+
+            return accounts;
+        }
+
 
 
         public Models.AccountModel GetAccountById(string id)

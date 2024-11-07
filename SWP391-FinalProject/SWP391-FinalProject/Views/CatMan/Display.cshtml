@@ -54,10 +54,13 @@
     <a asp-action="AddCategory" asp-controller="CatMan" class="btn btn-success">Add New Category</a>
 </div>
 
-<div class="form-group">
-    <label for="searchInput">Search Category:</label>
-    <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
-</div>
+<form asp-controller="CatMan" asp-action="Display" method="post" class="input-group mb-3">
+    <input type="text" name="keyword" class="form-control" placeholder="Enter category Name or Id..." aria-label="Search product">
+
+    <div class="input-group-append">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
 <table class="table table-bordered">
     <thead class="thead-dark">
         <tr>
@@ -95,18 +98,5 @@
 </table>
 
 <script>
-    // Search functionality
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const filter = this.value.toLowerCase();
-        const rows = document.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
-            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
-            if (nameCell.includes(filter) || idCell.includes(filter)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
+   
 </script>

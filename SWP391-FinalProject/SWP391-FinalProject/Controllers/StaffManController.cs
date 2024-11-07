@@ -13,6 +13,7 @@ namespace SWP391_FinalProject.Controllers
 {
     public class StaffManController : Controller
     {
+        [HttpGet]
         public IActionResult StaffList(string date = "21/10/2024", int? page = 1)
         {
             StaffRepository staffrepo = new StaffRepository();
@@ -34,6 +35,35 @@ namespace SWP391_FinalProject.Controllers
             ViewBag.HasNextPage = pagedShifts.HasNextPage;
 
             ViewBag.StaffList = staff.Where(p=>p.Account.Status== "Available").Select(s => new { s.Id, s.Name }).ToList();
+
+            ViewBag.Shift = pagedShifts; // Pass the paginated list to the view
+
+            ViewBag.shifts = shifts;
+
+            return View(staff); // Render the view
+        }
+        [HttpPost]
+        public IActionResult StaffList(string keyword,string date = "21/10/2024", int? page = 1)
+        {
+            StaffRepository staffrepo = new StaffRepository();
+
+            var staff = staffrepo.GetAllStaffByKeyword(keyword);
+
+            var shifts = staffrepo.GetShiftData(date); // Get shift data
+
+            int pageSize = 5; // Number of items per page
+            int pageNumber = page ?? 1; // Current page number
+
+            // Paginate the shift data
+            var pagedShifts = shifts.AsQueryable().ToPagedList(pageNumber, pageSize);
+
+            // Store pagination information in ViewBag
+            ViewBag.PageCount = pagedShifts.PageCount;
+            ViewBag.PageNumber = pagedShifts.PageNumber;
+            ViewBag.HasPreviousPage = pagedShifts.HasPreviousPage;
+            ViewBag.HasNextPage = pagedShifts.HasNextPage;
+
+            ViewBag.StaffList = staff.Where(p => p.Account.Status == "Available").Select(s => new { s.Id, s.Name }).ToList();
 
             ViewBag.Shift = pagedShifts; // Pass the paginated list to the view
 

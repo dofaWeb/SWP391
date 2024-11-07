@@ -1,5 +1,6 @@
 {
   "Version": 1,
+
   "WorkspaceRootPath": "D:\\SWP391_Final\\SWP391-FinalProject\\",
   "Documents": [
     {
@@ -105,6 +106,7 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\staffman\\stafflist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\staffman\\stafflist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+
     }
   ],
   "DocumentGroupContainers": [
@@ -114,11 +116,13 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+
           "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
+
             },
             {
               "$type": "Bookmark",
@@ -126,7 +130,9 @@
             },
             {
               "$type": "Bookmark",
+
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+
             },
             {
               "$type": "Bookmark",
@@ -134,17 +140,20 @@
             },
             {
               "$type": "Bookmark",
+
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+
             },
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
             },
             {
+
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
@@ -215,10 +224,12 @@
               "ViewState": "AgIAADsAAAAAAAAAAAAgwFwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-31T15:14:45.982Z",
+
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+
               "DocumentIndex": 1,
               "Title": "CategoryRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\CategoryRepository.cs",
@@ -464,10 +475,12 @@
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
               "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
+
               "RelativeToolTip": "SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
-              "ViewState": "AgIAANkAAAAAAAAAAAAiwOMAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAM4AAAAAAAAAAAApwEEBAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-30T09:57:50.874Z"
+              "WhenOpened": "2024-11-07T04:23:54.805Z",
+              "EditorCaption": ""
             }
           ]
         }

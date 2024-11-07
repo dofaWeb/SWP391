@@ -16,11 +16,20 @@ namespace SWP391_FinalProject.Controllers
 
         }
         [Authorize]
+        [HttpGet]
         public IActionResult Display()
 
         {
             AccountRepository AccRepo = new AccountRepository();
             var user = AccRepo.GetAllAccount();
+            return View(user);
+        }
+        [HttpPost]
+        public IActionResult Display(string keyword)
+
+        {
+            AccountRepository AccRepo = new AccountRepository();
+            var user = AccRepo.GetAllAccountByKeyword(keyword);
             return View(user);
         }
         [Authorize]

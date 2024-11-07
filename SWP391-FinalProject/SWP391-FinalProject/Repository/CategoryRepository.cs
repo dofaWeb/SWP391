@@ -53,6 +53,7 @@ namespace SWP391_FinalProject.Repository
 
             return categories;
         }
+
         public List<Models.CategoryModel> GetAllCatLaps()
         {
             var categories = new List<Models.CategoryModel>();
@@ -168,6 +169,40 @@ namespace SWP391_FinalProject.Repository
                 { "@Id", category.Id }
             });
         }
+        public List<Models.CategoryModel> GetAllCategoryByKeyword(string keyword)
+        {
+            // SQL query to retrieve all categories matching the keyword
+            string categoryQuery = @"
+        SELECT Id AS CategoryId, 
+               Name AS CategoryName
+        FROM Category
+        WHERE Name LIKE @keyword OR Id LIKE @keyword";
+
+            // Define the parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@keyword", $"%{keyword}%" }
+    };
+
+            // Execute the query to get category details
+            DataTable categoryTable = DataAccess.DataAccess.ExecuteQuery(categoryQuery, parameters);
+            var categories = new List<Models.CategoryModel>();
+
+            foreach (DataRow row in categoryTable.Rows)
+            {
+                var categoryModel = new Models.CategoryModel
+                {
+                    Id = row["CategoryId"].ToString(),
+                    Name = row["CategoryName"].ToString()
+                };
+
+                // Add the category model to the list
+                categories.Add(categoryModel);
+            }
+
+            return categories;
+        }
+
 
     }
 }

@@ -1,11 +1,58 @@
 {
   "Version": 1,
-
   "WorkspaceRootPath": "D:\\SWP391_Final\\SWP391-FinalProject\\",
   "Documents": [
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\repository\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\orderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\pro\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\pro\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\order\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\order\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\ordermancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\ordermancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\acc\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\acc\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\shared\\_acclayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\shared\\_acclayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\repository\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -20,20 +67,8 @@
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\entities\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\procontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\dataaccess\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\dataaccess\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -64,10 +99,6 @@
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\catcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\repository\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\ratingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -84,20 +115,8 @@
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\orderitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\accountrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\models\\ordermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\models\\ordermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\acc\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\acc\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\models\\accountmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -106,7 +125,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|d:\\swp391_final\\swp391-finalproject\\swp391-finalproject\\views\\staffman\\stafflist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\staffman\\stafflist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-
     }
   ],
   "DocumentGroupContainers": [
@@ -116,13 +134,53 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OrderRepository.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAQwHQAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-31T15:14:45.982Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ProductDetail.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
+              "ViewState": "AgIAAJsAAAAAAAAAAAAAAK0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-05T01:06:03.928Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAYwBAAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-12T13:27:59.89Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
-
             },
             {
               "$type": "Bookmark",
@@ -130,9 +188,7 @@
             },
             {
               "$type": "Bookmark",
-
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-
             },
             {
               "$type": "Bookmark",
@@ -140,20 +196,17 @@
             },
             {
               "$type": "Bookmark",
-
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-
             },
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{e8b06f52-6d01-11d2-aa7d-00c04f990343}"
             },
             {
-
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
@@ -168,6 +221,148 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Program.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Program.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Program.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Program.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAQwFcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T14:53:03.483Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-12T14:49:51.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Checkout.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Order\\Checkout.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Order\\Checkout.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Order\\Checkout.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Order\\Checkout.cshtml",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-12T14:49:25.439Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\OrderController.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAQwCwAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T01:31:52.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProController.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ProController.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\ProController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABcAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T13:11:52.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "OrderManController.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\OrderManController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\OrderManController.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\OrderManController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\OrderManController.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAQwBwAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-12T14:48:39.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AccController.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\AccController.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\AccController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAzwB8AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T12:08:01.902Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\CategoryRepository.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T10:21:22.536Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AccountRepository.cs",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAgwAEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T11:49:53.367Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
+              "ViewState": "AgIAALEAAAAAAAAAAAAgwNMAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-31T00:02:32.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "_AccLayout.cshtml",
+              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
+              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-12T13:31:31.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "ProductItemRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
@@ -179,7 +374,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 24,
               "Title": "RatingRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\RatingRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\RatingRepository.cs",
@@ -191,70 +386,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\OrderController.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\OrderController.cs",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\OrderController.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\OrderController.cs",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T01:31:52.449Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ProController.cs",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ProController.cs",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProController.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\ProController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwDAAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-01T13:11:52.951Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "OrderRepository.cs",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAgwFwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T15:14:45.982Z",
-
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-
-              "DocumentIndex": 1,
-              "Title": "CategoryRepository.cs",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\CategoryRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\CategoryRepository.cs",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\CategoryRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\CategoryRepository.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAQwBwAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T10:21:22.536Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DataAccess.cs",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAcwBEAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T11:43:04.882Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 15,
               "Title": "ProductRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
@@ -266,7 +398,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 16,
               "Title": "Order.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Entities\\Order.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Entities\\Order.cs",
@@ -278,7 +410,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 18,
               "Title": "StaffRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\StaffRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\StaffRepository.cs",
@@ -290,7 +422,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 19,
               "Title": "StaffManController.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\StaffManController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\StaffManController.cs",
@@ -302,7 +434,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 20,
               "Title": "StaffSetting.cshtml",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\StaffMan\\StaffSetting.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\StaffMan\\StaffSetting.cshtml",
@@ -314,7 +446,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\appsettings.json",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\appsettings.json",
@@ -326,7 +458,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 21,
               "Title": "CartController.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\CartController.cs",
@@ -338,7 +470,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 23,
               "Title": "CatController.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CatController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\CatController.cs",
@@ -350,7 +482,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 22,
               "Title": "CatManController.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\CatManController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\CatManController.cs",
@@ -362,19 +494,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "ProductDetail.cshtml",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
-              "RelativeToolTip": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAAAFUBAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-05T01:06:03.928Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 25,
               "Title": "ComRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ComRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ComRepository.cs",
@@ -386,7 +506,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 26,
               "Title": "UserRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\UserRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\UserRepository.cs",
@@ -398,7 +518,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 27,
               "Title": "OrderItemRepository.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderItemRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\OrderItemRepository.cs",
@@ -410,43 +530,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "AccountRepository.cs",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T11:49:53.367Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "AccController.cs",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\AccController.cs",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\AccController.cs",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAIwJwAAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T12:08:01.902Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
-              "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
-              "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-31T00:02:32.207Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 28,
               "Title": "OrderModel.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\OrderModel.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\OrderModel.cs",
@@ -458,7 +542,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 29,
               "Title": "AccountModel.cs",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Models\\AccountModel.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Models\\AccountModel.cs",
@@ -470,17 +554,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 30,
               "Title": "StaffList.cshtml",
               "DocumentMoniker": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
               "ToolTip": "D:\\SWP391_Final\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
-
               "RelativeToolTip": "SWP391-FinalProject\\Views\\StaffMan\\StaffList.cshtml",
-              "ViewState": "AgIAAM4AAAAAAAAAAAApwEEBAAADAAAAAAAAAA==",
+              "ViewState": "AgIAANkAAAAAAAAAAAAiwOMAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-07T04:23:54.805Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-30T09:57:50.874Z"
             }
           ]
         }

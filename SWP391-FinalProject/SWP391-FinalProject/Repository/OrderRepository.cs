@@ -26,7 +26,7 @@ namespace SWP391_FinalProject.Repository
             string lastId;
 
             // SQL query to retrieve the last Order ID, ordered in descending order
-            string query = "SELECT Id FROM Orders ORDER BY Id DESC LIMIT 1";
+            string query = "SELECT Id FROM `order` ORDER BY Id DESC LIMIT 1";
 
             // Execute the query and get the result
             var dataTable = DataAccess.DataAccess.ExecuteQuery(query);

@@ -107,10 +107,16 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult AddProItem(ProductItemModel model)
         {
-
             ProductItemRepository proRepo = new ProductItemRepository();
-            TempData["SuccessMessage"] = "Product item added successfully.";
-            proRepo.AddProductItem(model);
+            if (proRepo.AddProductItem(model))
+            {
+                TempData["SuccessMessage"] = "Option added successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Option added fail due to duplicated!";
+
+            }
             return RedirectToAction("EditProduct", new { id = model.ProductId });
         }
 
@@ -164,7 +170,12 @@ namespace SWP391_FinalProject.Controllers
             ProductRepository proRepo = new ProductRepository();
             var querry=proRepo.GetAllProductByKeyword(keyword);
             return View(querry);
-        
+        }
+
+
+        public IActionResult DeleteProduct(string id)
+        {
+            return RedirectToAction("Display");
         }
     }
 }

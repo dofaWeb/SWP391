@@ -125,7 +125,7 @@
                         var roleClaim = User.FindFirst(ClaimTypes.Role);
                         if (roleClaim.Value == "Role0001")
                         {
-                            <button class="btn btn-danger btn-sm" asp-controller="ProMan" asp-action="DeleteProduct" asp-route-id="@item.Id">Delete</button>
+                            <a class="btn btn-danger btn-sm" asp-controller="ProMan" asp-action="DeleteProduct" asp-route-id="@item.Id">Delete</a>
                         }                       
                     }
                     <a asp-controller="ProMan" asp-action="EditProduct" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>

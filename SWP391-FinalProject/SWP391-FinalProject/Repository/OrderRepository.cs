@@ -23,22 +23,9 @@ namespace SWP391_FinalProject.Repository
 
         public string NewOrderId()
         {
-            string lastId;
+            string lastId = db.Orders.OrderByDescending(p => p.Id).Select(p => p.Id).FirstOrDefault();
 
-            // SQL query to retrieve the last Order ID, ordered in descending order
-            string query = "SELECT Id FROM `order` ORDER BY Id DESC LIMIT 1";
 
-            // Execute the query and get the result
-            var dataTable = DataAccess.DataAccess.ExecuteQuery(query);
-
-            if (dataTable.Rows.Count == 0 || dataTable.Rows[0]["Id"] == DBNull.Value)
-            {
-                // If no records are found, start with "O0000001"
-                return "O0000001";
-            }
-
-            // Get the last ID as a string
-            lastId = dataTable.Rows[0]["Id"].ToString();
 
             // Split the prefix and number
             string prefix = lastId.Substring(0, 1); // Get the first character
@@ -51,10 +38,10 @@ namespace SWP391_FinalProject.Repository
             return newId;
         }
 
-
-
         public void InsertOrder(OrderModel Order, string username, decimal? TotalPrice, List<ProductItemModel> listProItem)
         {
+            string sqlForeignKey = "SET FOREIGN_KEY_CHECKS=0";
+            DataAccess.DataAccess.ExecuteNonQuery(sqlForeignKey);
             int currentHour = DateTime.Now.TimeOfDay.Hours;
 
             List<StaffShiftModel> staffShifts = (from s in db.StaffShifts
@@ -101,7 +88,6 @@ namespace SWP391_FinalProject.Repository
             }
 
             string newId = NewOrderId();
-
             var newOrder = new Entities.Order()
             {
                 Id = newId,
@@ -115,6 +101,8 @@ namespace SWP391_FinalProject.Repository
             };
             db.Orders.Add(newOrder);
             db.SaveChanges();
+            sqlForeignKey = "SET FOREIGN_KEY_CHECKS=1";
+            DataAccess.DataAccess.ExecuteNonQuery(sqlForeignKey);
 
             InsertOrderItem(listProItem, newOrder.Id);
             UserRepository userRepo = new UserRepository();

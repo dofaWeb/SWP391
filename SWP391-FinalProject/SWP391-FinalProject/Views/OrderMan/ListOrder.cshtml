@@ -19,6 +19,7 @@
     var roleId = User.FindFirst(ClaimTypes.Role).Value;
 }
 
+<div style="max-height: 400px; overflow-y: auto;">
 <table class="table table-striped">
     <thead>
         <tr>
@@ -62,7 +63,7 @@
                             {
                                 isDisable = true;
                             }
-                        <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()" @(isDisable)? disabled>
+                        <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()">
                                 @foreach (var item in ViewBag.OrderState)
                                 {
                                     @if (order.OrderState.Name == item.Name)
@@ -81,7 +82,14 @@
 
                     <td>
                         <a asp-controller="OrderMan" asp-action="OrderDetail" asp-route-OrderId="@order.Id" class="btn btn-warning btn-sm">View</a>
-                        <input type="submit" value="Save" class="btn btn-success btn-sm" @(isDisable)? disabled />
+                            @if (isDisable)
+                            {
+                                <input type="submit" value="Save" class="btn btn-success btn-sm" @(isDisable)? disabled />
+                            }
+                            else{
+                            <input type="submit" value="Save" class="btn btn-success btn-sm"/>
+                                
+                                }
 
                     </td>
                 </tr>
@@ -98,6 +106,7 @@
         }
     </tbody>
 </table>
+</div>
 
 <script>
     function UpdateState() {

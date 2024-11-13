@@ -23,7 +23,7 @@ namespace SWP391_FinalProject.Repository
 
         public string NewOrderId()
         {
-            var query = "SELECT ID FROM Product Order By Id DESC LIMIT 1;";
+            var query = "SELECT ID FROM `Order` Order By Id DESC LIMIT 1;";
             DataTable dataTable = DataAccess.DataAccess.ExecuteQuery(query);
 
 
@@ -106,6 +106,8 @@ namespace SWP391_FinalProject.Repository
             InsertOrderItem(listProItem, newOrder.Id);
             UserRepository userRepo = new UserRepository();
             userRepo.UpdateUserPoint(username, newOrder.StateId, newOrder.UsePoint, newOrder.EarnPoint);
+            ProductRepository proRepo = new ProductRepository();
+            proRepo.UpdateProductState(listProItem.Select(p=>p.ProductId).First().ToString());
         }
 
         public void InsertOrderItem(List<ProductItemModel> listProItem, string orderID)
@@ -225,7 +227,8 @@ namespace SWP391_FinalProject.Repository
         INNER JOIN user u ON o.user_id = u.account_id
         INNER JOIN order_state os ON o.state_id = os.Id
         INNER JOIN staff_shift ss ON o.staff_shift_id = ss.Id
-        INNER JOIN Staff s ON ss.staff_id = s.account_id";
+        INNER JOIN Staff s ON ss.staff_id = s.account_id
+        ORDER By o.Date Desc";
 
             // Execute the query and get results as a DataTable
             DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, new Dictionary<string, object>());
@@ -318,7 +321,7 @@ namespace SWP391_FinalProject.Repository
                "o.earn_point as EarnPoint, o.date as OrderDate " +
                "From `Order` o " +
                "Inner join Order_State os on o.state_id = os.id " +
-               "Where o.user_id = @UserId";
+               "Where o.user_id = @UserId Order by o.date DESC";
             var parameters = new Dictionary<string, object>
             {
                 { "@UserId", UserId }

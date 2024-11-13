@@ -23,6 +23,12 @@
     .filter-container {
         margin-bottom: 20px;
     }
+
+    .action-buttons {
+        display: flex;
+        gap: 5px; /* Adjust spacing between buttons */
+        white-space: nowrap; /* Prevent buttons from wrapping */
+    }
 </style>
 <!-- Header -->
 <header class="bg-dark text-white text-center py-4">
@@ -43,66 +49,57 @@
     @{
         var roleClaim = User.FindFirst(ClaimTypes.Role);
     }
-    <table class="table table-bordered" id="userTable">
-        <thead class="thead-dark">
-            <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr data-role="admin">
-                    <td>@item.Id</td>
-                    <td>@item.Username</td>
-                    <td>@item.Email</td>
-                    <td>@item.Phone</td>
-                    <td>@item.RoleName</td>
-                    <td><span class="badge badge-success">@item.Status</span></td>
-                    <td class="action-buttons">
-                        @if (item.RoleName == "User")
-                        {
-                            <a asp-action="ViewDetail" asp-controller="UserMan" asp-route-id="@item.Id" class="btn btn-info btn-sm">View</a>
-                        }
-                        
-                        @if (@item.RoleName != "Admin")
-                        {
-                            @if (roleClaim.Value == "Role0002") //staff
+    <div style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-bordered" id="userTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr data-role="admin">
+                        <td>@item.Id</td>
+                        <td>@item.Username</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.RoleName</td>
+                        <td>
+                            <span class="badge @(item.Status == "Active" ? "badge-success" : "badge-secondary")">
+                                @item.Status
+                            </span>
+                        </td>
+                        <td class="action-buttons">
+                            @if (item.RoleName == "User")
                             {
-                                if (item.RoleName != "Staff")
-                                {
-                                    @if (item.Status == "Active")
-                                    {
-                                        <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Ban</a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">UnBan</a>
-                                    }
-                                }
+                                <a asp-action="ViewDetail" asp-controller="UserMan" asp-route-id="@item.Id" class="btn btn-info btn-sm" aria-label="View User Details">View</a>
                             }
-                            else if (roleClaim.Value == "Role0001") // admin
+
+                            @if (item.RoleName != "Admin" && (roleClaim.Value == "Role0001" || (roleClaim.Value == "Role0002" && item.RoleName != "Staff")))
                             {
-                                @if (item.Status == "Active")
+                                if (item.Status == "Active")
                                 {
-                                    <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Ban</a>
+                                    <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm" aria-label="Ban User">Ban</a>
                                 }
                                 else
                                 {
-                                    <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm">UnBan</a>
+                                    <a asp-controller="UserMan" asp-action="Ban" asp-route-id="@item.Id" class="btn btn-danger btn-sm" aria-label="Unban User">Unban</a>
                                 }
                             }
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
 </div>
 

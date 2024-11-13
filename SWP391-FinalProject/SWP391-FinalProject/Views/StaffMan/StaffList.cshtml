@@ -83,6 +83,7 @@
 <div class="container mt-5">
     <h1 class="text-center">Shift Schedule</h1>
     <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
+    <div style="max-height: 400px; overflow-y: auto;">
     <table class="table table-bordered mt-4">
         <thead class="table-dark">
             <tr>
@@ -117,6 +118,7 @@
             }
         </tbody>
     </table>
+    </div>
 
     <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
         <ul class="pagination">
@@ -229,6 +231,7 @@
             <button class="btn btn-primary" type="submit">Search</button>
         </div>
     </form>
+    <div style="max-height: 400px; overflow-y: auto;">
     <table class="StaffList" id="staff-table">
         <thead>
             <tr>
@@ -264,6 +267,7 @@
             }
         </tbody>
     </table>
+    </div>
 </div>
 
 <div class="modal fade" id="editSalaryModal" tabindex="-1" role="dialog" aria-labelledby="editSalaryModalLabel" aria-hidden="true">

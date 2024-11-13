@@ -279,7 +279,7 @@ else
 <div class="container">
     <h3 class="mt-5">Related Products</h3>
     <div class="row">
-        @await Component.InvokeAsync("ProductCustomer", new { productType = "GetRelatedProduct" })
+        @await Component.InvokeAsync("ProductCustomer", new { productType = "GetRelatedProduct", str=Model.Id })
 
     </div>
 </div>

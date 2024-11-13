@@ -1,14 +1,57 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 }
 @using System.Security.Claims
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Oswald:wght@700&display=swap">
+
+
+
+
+
+<style>
+    .custom-font {
+        font-family: 'Poppins', sans-serif; /* Hoặc 'Roboto' hay 'Montserrat' */
+        font-weight: 400; /* Độ dày trung bình, đủ để nổi bật mà vẫn nhẹ nhàng */
+        font-size: 2.5em; /* Kích thước đủ lớn nhưng không quá phóng đại */
+        color: #ffcc00; /* Màu vàng đậm cho toàn bộ chữ */
+        text-transform: capitalize; /* Viết hoa chữ cái đầu thay vì toàn bộ chữ */
+        letter-spacing: 1px; /* Khoảng cách giữa các chữ nhẹ */
+        transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* Bóng nhẹ cho chữ */
+    }
+
+        /* Hiệu ứng khi di chuột */
+        .custom-font:hover {
+            color: #ff9900; /* Màu vàng sáng hơn khi hover */
+            text-shadow: 4px 4px 25px rgba(0, 0, 0, 0.5), 0 0 30px #ffcc00; /* Bóng đổ mạnh và sáng hơn */
+            transform: scale(1.1); /* Phóng to chữ mạnh hơn khi hover */
+        }
+</style>
+<script>
+    let text = "Electronic Shop";
+    let index = 0;
+    let speed = 100;
+
+    function typeWriter() {
+        if (index < text.length) {
+            document.getElementById("typingText").innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", typeWriter);
+</script>
+
 
 <div class="container px-0">
     <nav class="navbar navbar-light bg-white navbar-expand-xl">
-        <a asp-action="Index" asp-controller="Pro" class="navbar-brand">
-            <h1 class="text-primary display-6">Electronic Shop</h1>
+
+
+        <a asp-action="Index" asp-controller="Pro" class="navbar-brand d-flex align-items-center">
+            <!-- Thêm Logo Tròn ở bên trái -->
+            <img src="/pictures/day.png" alt="Logo" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover; margin-right: 10px;">
+            <h1 id="typingText" class=" display-6 custom-font animate__animated animate__pulse animate__infinite"> </h1>
         </a>
         <button id="collapse" class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarCollapse">
@@ -27,17 +70,17 @@
                 {
                     <a asp-controller="Acc" asp-action="Login" class="nav-item nav-link">Login</a>
                 }
-                    <div class="nav-item dropdown">
-                        <a asp-controller="Pro" asp-action="Index" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Category</a>
-                        <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                            <a a asp-controller="Pro" class="dropdown-item" asp-action="ProductsByCategory" asp-route-type="laptops">Laptop</a>
-                            <a asp-controller="Pro" class="dropdown-item" asp-action="ProductsByCategory" asp-route-type="phones">Phones</a>
-                        </div>
+                <div class="nav-item dropdown">
+                    <a asp-controller="Pro" asp-action="Index" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Category</a>
+                    <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                        <a a asp-controller="Pro" class="dropdown-item" asp-action="ProductsByCategory" asp-route-type="laptops">Laptop</a>
+                        <a asp-controller="Pro" class="dropdown-item" asp-action="ProductsByCategory" asp-route-type="phones">Phones</a>
                     </div>
                 </div>
-                <div class="d-flex m-3 me-0">
-                    <a asp-controller="Cart" asp-action="Index" class="position-relative me-4 my-auto">
-                        @{
+            </div>
+            <div class="d-flex m-3 me-0">
+                <a asp-controller="Cart" asp-action="Index" class="position-relative me-4 my-auto">
+                    @{
                         int CountCart = 0;
                         string CartCookies = Context.Request.Cookies["CartCookie"];
                         if (!string.IsNullOrEmpty(CartCookies))
@@ -72,3 +115,4 @@
         </div>
     </nav>
 </div>
+

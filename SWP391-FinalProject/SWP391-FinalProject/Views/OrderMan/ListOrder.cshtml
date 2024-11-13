@@ -132,24 +132,3 @@
 </table>
 </div>
 
-<script>
-    function UpdateState() {
-        var state_id = document.getElementById('OrderStateId').value;
-        var order_id = document.getElementById('')
-        document.getElementById('StateId').value = state_id;
-    }
-    // Search functionality
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const filter = this.value.toLowerCase();
-        const rows = document.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
-            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
-            if (nameCell.includes(filter) || idCell.includes(filter)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-</script>

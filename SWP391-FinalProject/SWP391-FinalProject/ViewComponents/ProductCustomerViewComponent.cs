@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
+using SWP391_FinalProject.Repository;
+using System.Text.RegularExpressions;
 
 namespace SWP391_FinalProject.ViewComponents
 {
@@ -36,6 +38,15 @@ namespace SWP391_FinalProject.ViewComponents
                 case "GetProductByBrand":
                     if (str == "") products = proRepo.GetAllProduct();
                     else products = proRepo.GetProductByBrand(str);
+                    break;
+                case "GetRelatedProduct":
+                    if (str == "") products = proRepo.GetAllProduct();
+                    else
+                    {
+                        ProductRepository prodp = new ProductRepository();
+                        string branchId = prodp.GetBrandId(str);
+                        products = proRepo.GetProductByBrand4(branchId, str);
+                    }
                     break;
                 default:
                     // Default to "All" if no valid productType is passed

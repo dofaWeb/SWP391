@@ -45,7 +45,7 @@
 <h1>List of Comments</h1>
 
 <!-- Search Bar -->
-<form asp-controller="Com" asp-action="SearchedComment" method="get" class="input-group mb-3">
+<form asp-controller="Com" asp-action="SearchedComment" method="post" class="input-group mb-3">
     <input type="text" name="keyword" class="form-control" placeholder="Enter user's ID or name..." aria-label="Search comment of user">
 
     <!-- Date From -->
@@ -60,84 +60,84 @@
 </form>
 
 <div style="max-height: 400px; overflow-y: auto;">
-<table class="table table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th>ID</th>
-            <th>Product</th>
-            <th>User</th>
-            <th>Comment</th>
-            <th>Date</th>
-            <th>Delete</th>
-            <th>Reply</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table table-bordered">
+        <thead class="thead-dark">
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Product.Name</td>
-                <td>@item.FullName</td>
-                <td>@item.Comment</td>
-                <td>@item.Date</td>
-                <td>
-                    <a asp-action="DeleteCommentAdmin" asp-controller="Com" asp-route-id="@item.Id" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Are you sure you want to delete this Comment?');">Delete</a>
-                </td>
-                <td>
-                    <form asp-controller="Com" asp-action="ReplyToComment" method="post">
-                        <div class="input-group mb-3">
-                            <input type="hidden" name="CommentId" value="@item.Id" />
-                            <textarea class="form-control" name="Comment" rows="2" placeholder="Write a reply..." aria-label="Admin reply"></textarea>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary btn-sm" type="submit">Reply</button>
-                            </div>
-                        </div>
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>Product</th>
+                <th>User</th>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>Delete</th>
+                <th>Reply</th>
             </tr>
-            <!-- Admin Replies -->
-            @if (item.Replies != null && item.Replies.Count > 0)
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
             {
                 <tr>
-                    <td colspan="6">
-                        <div class="replies">
-                            @foreach (var reply in item.Replies)
-                            {
-                                <div class="reply ml-4" id="reply-@reply.Id">
-                                    <p class="reply-text"><strong>Admin:</strong> <span id="comment-text-@reply.Id">@reply.Comment</span></p>
-                                    <p><small>@reply.Date.ToString("g")</small></p>
-
-                                    <!-- Hidden textarea for editing -->
-                                    <form asp-controller="Com" asp-action="UpdateReply" method="post" id="edit-form-@reply.Id" style="display: none;">
-                                        <textarea class="reply-edit" name="Comment" rows="2">@reply.Comment</textarea>
-                                        <input type="hidden" name="id" value="@reply.Id" />
-                                        <button class="btn btn-success btn-sm" type="submit">Save</button>
-                                    </form>
-
-                                    <button class="btn btn-warning btn-sm edit-btn" onclick="editReply('@reply.Id')">Edit</button>
-                                    <a asp-action="DeleteReply" asp-controller="Com" asp-route-id="@reply.Id" class="btn btn-danger btn-sm"
-                                       onclick="return confirm('Are you sure you want to delete this reply?');">Delete</a>
+                    <td>@item.Id</td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.FullName</td>
+                    <td>@item.Comment</td>
+                    <td>@item.Date</td>
+                    <td>
+                        <a asp-action="DeleteCommentAdmin" asp-controller="Com" asp-route-id="@item.Id" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure you want to delete this Comment?');">Delete</a>
+                    </td>
+                    <td>
+                        <form asp-controller="Com" asp-action="ReplyToComment" method="post">
+                            <div class="input-group mb-3">
+                                <input type="hidden" name="CommentId" value="@item.Id" />
+                                <textarea class="form-control" name="Comment" rows="2" placeholder="Write a reply..." aria-label="Admin reply"></textarea>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary btn-sm" type="submit">Reply</button>
                                 </div>
-                            }
-                        </div>
+                            </div>
+                        </form>
                     </td>
                 </tr>
+                <!-- Admin Replies -->
+                @if (item.Replies != null && item.Replies.Count > 0)
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="replies">
+                                @foreach (var reply in item.Replies)
+                                {
+                                    <div class="reply ml-4" id="reply-@reply.Id">
+                                        <p class="reply-text"><strong>Admin:</strong> <span id="comment-text-@reply.Id">@reply.Comment</span></p>
+                                        <p><small>@reply.Date.ToString("g")</small></p>
+
+                                        <!-- Hidden textarea for editing -->
+                                        <form asp-controller="Com" asp-action="UpdateReply" method="post" id="edit-form-@reply.Id" style="display: none;">
+                                            <textarea class="reply-edit" name="Comment" rows="2">@reply.Comment</textarea>
+                                            <input type="hidden" name="id" value="@reply.Id" />
+                                            <button class="btn btn-success btn-sm" type="submit">Save</button>
+                                        </form>
+
+                                        <button class="btn btn-warning btn-sm edit-btn" onclick="editReply('@reply.Id')">Edit</button>
+                                        <a asp-action="DeleteReply" asp-controller="Com" asp-route-id="@reply.Id" class="btn btn-danger btn-sm"
+                                           onclick="return confirm('Are you sure you want to delete this reply?');">Delete</a>
+                                    </div>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </div>
 
 <script>
-            function editReply(replyId) {
-            // Toggle visibility of the edit form
-            var editForm = document.getElementById(`edit-form-${replyId}`);
-            if (editForm.style.display === 'none' || editForm.style.display === '') {
-                editForm.style.display = 'block';
-            } else {
-                editForm.style.display = 'none';
-            }
+    function editReply(replyId) {
+        // Toggle visibility of the edit form
+        var editForm = document.getElementById(`edit-form-${replyId}`);
+        if (editForm.style.display === 'none' || editForm.style.display === '') {
+            editForm.style.display = 'block';
+        } else {
+            editForm.style.display = 'none';
+        }
     }
 </script>

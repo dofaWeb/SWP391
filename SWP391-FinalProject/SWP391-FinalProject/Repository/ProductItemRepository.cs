@@ -194,7 +194,7 @@ namespace SWP391_FinalProject.Repository
         }
 
 
-        public void AddProductConfiguration(ProductItemModel model)
+        public bool AddProductConfiguration(ProductItemModel model)
         {
             // Get variation option IDs
             var variationOptionId1 = GetVariationOptionId(model.Ram, GetVariationId("Ram"));
@@ -210,13 +210,14 @@ namespace SWP391_FinalProject.Repository
                 var deleteParams = new Dictionary<string, object> { { "@ProductItemId", model.Id } };
                 DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, deleteParams);
 
-                return;
+                return false;
             }
             else
             {
                 // Generate a new ID for ProductConfiguration
                 var newId = getNewProductConfigurationID();
-
+                string sqlForeignKey = "SET FOREIGN_KEY_CHECKS=0";
+                DataAccess.DataAccess.ExecuteNonQuery(sqlForeignKey);
                 // Insert first configuration
                 string insertConfigQuery1 = @"
 
@@ -241,9 +242,11 @@ namespace SWP391_FinalProject.Repository
             { "@VariationOptionId", variationOptionId2 }
         };
                 DataAccess.DataAccess.ExecuteNonQuery(insertConfigQuery1, insertParams2);
-
+                sqlForeignKey = "SET FOREIGN_KEY_CHECKS=1";
+                DataAccess.DataAccess.ExecuteNonQuery(sqlForeignKey);
                 // Insert quantity to ProductLog
                 InsertQuantityToProductLog(model.Quantity, model.Id);
+                return true;
             }
         }
 
@@ -313,7 +316,7 @@ namespace SWP391_FinalProject.Repository
 
 
 
-        public void AddProductItem(ProductItemModel model)
+        public bool AddProductItem(ProductItemModel model)
         {
             // Generate a new ID for ProductItem
             model.Id = getNewProductItemID();
@@ -354,7 +357,7 @@ namespace SWP391_FinalProject.Repository
             DataAccess.DataAccess.ExecuteNonQuery(updateProductStateQuery, productStateParameters);
 
             // Call AddProductConfiguration to add product configurations
-            AddProductConfiguration(model);
+            return AddProductConfiguration(model);
         }
 
 

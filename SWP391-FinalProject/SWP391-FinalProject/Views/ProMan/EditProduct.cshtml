@@ -210,6 +210,12 @@
                 @TempData["SuccessMessage"]
             </div>
         }
+        else if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <!-- Table for Product Variations (CRUD) -->
         <table class="table table-bordered mt-4">
             <thead>
@@ -300,13 +306,13 @@
         <!-- Import Price Input -->
         <div class="form-group form-inline">
             <label for="importPrice">Import Price (VND):</label>
-            <input required type="number" name="ImportPrice" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="100000" step="100000">
+            <input required type="number" name="ImportPrice" class="form-control ml-2" id="importPrice" placeholder="Enter price" min="100000" step="100000" max="100000000">
         </div>
 
         <!-- Selling Price Input -->
         <div class="form-group form-inline">
             <label for="sellingPrice">Selling Price (VND):</label>
-            <input type="number" name="SellingPrice" class="form-control ml-2" placeholder="Enter price" min="0" required step="100000" onforminput="100000">
+            <input type="number" name="SellingPrice" class="form-control ml-2" placeholder="Enter price" min="100000" required step="100000" onforminput="100000" max="100000000">
         </div>
         <input type="hidden" name="ProductId" value="@ViewBag.Product.Id" />
 

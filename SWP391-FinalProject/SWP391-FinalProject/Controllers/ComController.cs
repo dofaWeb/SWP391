@@ -17,7 +17,7 @@ namespace SWP391_FinalProject.Controllers
             var querry = comRepo.GetAllComments();
             return View(querry);
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult SearchedComment(string keyword, DateTime? fromDate, DateTime? toDate)
         {
             Repository.ComRepository comRepo = new Repository.ComRepository();

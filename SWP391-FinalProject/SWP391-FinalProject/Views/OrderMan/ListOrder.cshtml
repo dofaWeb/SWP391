@@ -10,10 +10,34 @@
 @using System.Security.Claims
 
 <h2>List Order</h2>
-<div class="form-group">
-    <label for="searchInput">Search Order</label>
-    <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    var UsernameClaim = User.FindFirst(ClaimTypes.Name);
+    <form asp-controller="OrderMan" asp-action="ListOrder" asp-route-Username="@UsernameClaim.Value" method="post" class="input-group mb-3">
+        <input type="text" name="keyword" class="form-control" placeholder="Enter user's ID or name..." aria-label="Search comment of user">
+
+        <!-- Date From -->
+        <input type="date" name="fromDate" class="form-control" aria-label="From date">
+
+
+
+        <!-- Date To -->
+        <input type="date" name="toDate" class="form-control" aria-label="To date">
+        <select name="orderState" class="form-control" style="width: 150px; margin-right: 5px;">
+            <option value=0>Sort by State</option>
+            <option value=1>Pending</option>
+            <option value=2>Approve</option>
+            <option value=3>Reject</option>
+
+        </select>
+
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+}
+
 
 @{
     var roleId = User.FindFirst(ClaimTypes.Role).Value;

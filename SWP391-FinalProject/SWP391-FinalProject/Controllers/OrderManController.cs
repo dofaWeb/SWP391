@@ -10,8 +10,8 @@ namespace SWP391_FinalProject.Controllers
 {
     public class OrderManController : Controller
     {
-        
 
+        [HttpGet]
         public IActionResult ListOrder(string Username)
         {
             AccountRepository accountRepository = new AccountRepository();
@@ -25,6 +25,27 @@ namespace SWP391_FinalProject.Controllers
             else
             {
                 orderList = orderRepo.GetAllStaffOrder(Id);
+            }
+            List<OrderState> orderStates = orderRepo.GetAllOrderState();
+            ViewBag.OrderState = orderStates;
+            return View(orderList);
+        }
+        [HttpPost]
+        public IActionResult ListOrder(string Username,string keyword, DateTime? fromDate, DateTime? toDate, int? orderState)
+        {
+
+
+            AccountRepository accountRepository = new AccountRepository();
+            var Id = accountRepository.GetIdByUsername(Username);
+            Repository.OrderRepository orderRepo = new Repository.OrderRepository();
+            List<OrderModel> orderList;
+            if (Id == "A0000001")
+            {
+                orderList = orderRepo.GetAllOrderWithKeyword(keyword, fromDate,toDate,orderState);
+            }
+            else
+            {
+                orderList = orderRepo.GetAllStaffOrderWithKeyword(Id, keyword,fromDate, toDate, orderState);
             }
             List<OrderState> orderStates = orderRepo.GetAllOrderState();
             ViewBag.OrderState = orderStates;

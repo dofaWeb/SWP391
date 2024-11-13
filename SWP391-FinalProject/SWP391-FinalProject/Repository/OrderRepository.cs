@@ -165,7 +165,7 @@ namespace SWP391_FinalProject.Repository
             o.staff_shift_id,
             u.Name AS UserName,
             os.Name AS OrderStateName
-        FROM Orders o
+        FROM `order` o
         INNER JOIN user u ON o.user_id = u.account_id
         INNER JOIN order_state os ON o.state_id = os.Id
         INNER JOIN staff_shift ss ON o.staff_shift_id = ss.Id
@@ -259,7 +259,175 @@ namespace SWP391_FinalProject.Repository
 
             return orderList;
         }
+        public List<OrderModel> GetAllOrderWithKeyword(string keyword, DateTime? fromDate, DateTime? toDate, int? orderState)
+        {
+            // Base query to select orders with related information
+            string query = @"
+    SELECT 
+        o.Id AS OrderId,
+        o.user_id,
+        o.Address,
+        o.state_id,
+        o.Date,
+        o.use_point,
+        o.earn_point,
+        o.staff_shift_id,
+        ss.staff_id,
+        s.Name AS StaffName,
+        u.Name AS UserName,
+        os.Name AS OrderStateName
+    FROM `order` o
+    INNER JOIN user u ON o.user_id = u.account_id
+    INNER JOIN order_state os ON o.state_id = os.Id
+    INNER JOIN staff_shift ss ON o.staff_shift_id = ss.Id
+    INNER JOIN Staff s ON ss.staff_id = s.account_id
+    WHERE 1 = 1
+    ";
 
+            var parameters = new Dictionary<string, object>();
+
+            // Keyword filtering
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query += " AND (u.Name LIKE @keyword OR u.account_id LIKE @keyword)";
+                parameters.Add("@keyword", $"%{keyword}%");
+            }
+
+            // Date range filtering
+            if (fromDate.HasValue)
+            {
+                query += " AND o.Date >= @fromDate";
+                parameters.Add("@fromDate", fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                query += " AND o.Date <= @toDate";
+                parameters.Add("@toDate", toDate.Value.Date.AddDays(1).AddTicks(-1));
+            }
+
+            // Order state filtering
+            if (orderState.HasValue && orderState.Value > 0)
+            {
+                query += " AND o.state_id = @orderState";
+                parameters.Add("@orderState", orderState.Value);
+            }
+
+            // Order by date descending
+            query += " ORDER BY o.Date DESC;";
+
+            // Execute the query and store results in a DataTable
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            var orderList = new List<OrderModel>();
+
+            // Process the DataTable to build the list of OrderModel objects
+            foreach (DataRow row in resultTable.Rows)
+            {
+                var order = new OrderModel
+                {
+                    Id = row["OrderId"].ToString(),
+                    UserId = row["user_id"].ToString(),
+                    Addres = row["Address"].ToString(),
+                    StateId = Convert.ToInt32(row["state_id"]),
+                    Date = Convert.ToDateTime(row["Date"]),
+                    UsePoint = Convert.ToDecimal(row["use_point"]),
+                    EarnPoint = row["earn_point"] != DBNull.Value ? Convert.ToDecimal(row["earn_point"]) : 0,
+                    StaffShiftId = row["staff_shift_id"].ToString(),
+                    StaffName = row["StaffName"].ToString(),
+                    User = new UserModel { Name = row["UserName"].ToString() },
+                    OrderState = new OrderState { Name = row["OrderStateName"].ToString() }
+                };
+
+                orderList.Add(order);
+            }
+
+            return orderList;
+        }
+
+
+        public List<OrderModel> GetAllStaffOrderWithKeyword(string staffId, string keyword, DateTime? fromDate, DateTime? toDate, int? orderState)
+        {
+            // SQL query to get orders assigned to a specific staff member with dynamic filtering
+            string query = @"
+    SELECT 
+        o.Id AS OrderId,
+        o.user_id,
+        o.Address,
+        o.state_id,
+        o.Date,
+        o.use_point,
+        o.earn_point,
+        o.staff_shift_id,
+        u.Name AS UserName,
+        os.Name AS OrderStateName
+    FROM `order` o
+    INNER JOIN user u ON o.user_id = u.account_id
+    INNER JOIN order_state os ON o.state_id = os.Id
+    INNER JOIN staff_shift ss ON o.staff_shift_id = ss.Id
+    WHERE ss.staff_id = @StaffId";
+
+            // Set up parameters for the query
+            var parameters = new Dictionary<string, object>
+    {
+        { "@StaffId", staffId }
+    };
+
+            // Keyword filtering
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query += " AND (u.Name LIKE @keyword OR u.account_id LIKE @keyword)";
+                parameters.Add("@keyword", $"%{keyword}%");
+            }
+
+            // Date range filtering
+            if (fromDate.HasValue)
+            {
+                query += " AND o.Date >= @fromDate";
+                parameters.Add("@fromDate", fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                query += " AND o.Date <= @toDate";
+                parameters.Add("@toDate", toDate.Value.Date.AddDays(1).AddTicks(-1));
+            }
+
+            // Order state filtering
+            if (orderState.HasValue && orderState.Value > 0)
+            {
+                query += " AND o.state_id = @orderState";
+                parameters.Add("@orderState", orderState.Value);
+            }
+
+            // Order by date descending
+            query += " ORDER BY o.Date DESC;";
+
+            // Execute the query and get the results
+            DataTable resultTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            var orderList = new List<OrderModel>();
+
+            foreach (DataRow row in resultTable.Rows)
+            {
+                var order = new OrderModel
+                {
+                    Id = row["OrderId"].ToString(),
+                    UserId = row["user_id"].ToString(),
+                    Addres = row["Address"].ToString(),
+                    StateId = Convert.ToInt32(row["state_id"]),
+                    Date = Convert.ToDateTime(row["Date"]),
+                    UsePoint = Convert.ToDecimal(row["use_point"]),
+                    EarnPoint = row["earn_point"] != DBNull.Value ? Convert.ToDecimal(row["earn_point"]) : 0,
+                    StaffShiftId = row["staff_shift_id"].ToString(),
+
+                    User = new UserModel { Name = row["UserName"].ToString() },
+                    OrderState = new OrderState { Name = row["OrderStateName"].ToString() }
+                };
+
+                orderList.Add(order);
+            }
+
+            return orderList;
+        }
 
         public OrderModel GetOrderByOrderId(string orderId)
         {

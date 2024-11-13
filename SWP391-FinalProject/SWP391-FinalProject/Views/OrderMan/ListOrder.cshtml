@@ -10,122 +10,126 @@
 @using System.Security.Claims
 
 <h2>List Order</h2>
-<div class="form-group">
-    <label for="searchInput">Search Order</label>
-    <input type="text" class="form-control" id="searchInput" placeholder="Enter category name or ID">
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    var UsernameClaim = User.FindFirst(ClaimTypes.Name);
+    <form asp-controller="OrderMan" asp-action="ListOrder" asp-route-Username="@UsernameClaim.Value" method="post" class="input-group mb-3">
+        <input type="text" name="keyword" class="form-control" placeholder="Enter user's ID or name..." aria-label="Search comment of user">
+
+        <!-- Date From -->
+        <input type="date" name="fromDate" class="form-control" aria-label="From date">
+
+
+
+        <!-- Date To -->
+        <input type="date" name="toDate" class="form-control" aria-label="To date">
+        <select name="orderState" class="form-control" style="width: 150px; margin-right: 5px;">
+            <option value=0>Sort by State</option>
+            <option value=1>Pending</option>
+            <option value=2>Approve</option>
+            <option value=3>Reject</option>
+
+        </select>
+
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+}
+
 
 @{
     var roleId = User.FindFirst(ClaimTypes.Role).Value;
 }
 
 <div style="max-height: 400px; overflow-y: auto;">
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Order Code</th>
-            <th>UserName</th>
-            <th>Order Date</th>
-            <th>Address</th>
-            @if (roleId == "Role0001")
-            {
-                <th>Staff Name</th>
-            }
-            <th>State</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @* Lặp qua danh sách đơn hàng *@
-        @if (Model != null)
-        {
-            int index = 1;
-            foreach (var order in Model)
-            {
-                bool isDisable = false;
-
-                <form asp-controller="OrderMan" asp-action="UpdateState">
-
-                <tr>
-                    <td>@index</td>
-                    <td>@order.Id</td>  @* Sử dụng đúng tên thuộc tính *@
-                    <input type="hidden" name="OrderId" value="@order.Id" /> <!-- Hidden field to pass OrderId -->
-                    <td>@order.User.Name</td>
-                    <td>@order.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
-                    <td>@order.Addres</td>
-                        @if (roleId == "Role0001")
-                        {
-                        <td>@order.StaffName</td>
-                        }
-                    <td>
-                            @if (User.FindFirst(ClaimTypes.Role).Value == "Role0002" && order.OrderState.Name != "Pending")
-                            {
-                                isDisable = true;
-                            }
-                        <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()">
-                                @foreach (var item in ViewBag.OrderState)
-                                {
-                                    @if (order.OrderState.Name == item.Name)
-                                    {
-                                    <option value="@item.Id" selected>@item.Name</option>
-                                    }
-                                    else
-                                    {
-                                    <option value="@item.Id">@item.Name</option>
-
-
-                                    }
-                                }
-                        </select>
-                    </td>
-
-                    <td>
-                        <a asp-controller="OrderMan" asp-action="OrderDetail" asp-route-OrderId="@order.Id" class="btn btn-warning btn-sm">View</a>
-                            @if (isDisable)
-                            {
-                                <input type="submit" value="Save" class="btn btn-success btn-sm" @(isDisable)? disabled />
-                            }
-                            else{
-                            <input type="submit" value="Save" class="btn btn-success btn-sm"/>
-                                
-                                }
-
-                    </td>
-                </tr>
-                </form>
-
-                index++;
-            }
-        }
-        else
-        {
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td colspan="6" class="text-center">No orders available</td>
+                <th>#</th>
+                <th>Order Code</th>
+                <th>UserName</th>
+                <th>Order Date</th>
+                <th>Address</th>
+                @if (roleId == "Role0001")
+                {
+                    <th>Staff Name</th>
+                }
+                <th>State</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @* Lặp qua danh sách đơn hàng *@
+            @if (Model != null)
+            {
+                int index = 1;
+                foreach (var order in Model)
+                {
+                    bool isDisable = false;
+
+                    <form asp-controller="OrderMan" asp-action="UpdateState">
+
+                    <tr>
+                        <td>@index</td>
+                        <td>@order.Id</td>  @* Sử dụng đúng tên thuộc tính *@
+                        <input type="hidden" name="OrderId" value="@order.Id" /> <!-- Hidden field to pass OrderId -->
+                        <td>@order.User.Name</td>
+                        <td>@order.Date.ToString("MM/dd/yyyy hh:mm:ss tt")</td>
+                        <td>@order.Addres</td>
+                            @if (roleId == "Role0001")
+                            {
+                            <td>@order.StaffName</td>
+                            }
+                        <td>
+                                @if (User.FindFirst(ClaimTypes.Role).Value == "Role0002" && order.OrderState.Name != "Pending")
+                                {
+                                    isDisable = true;
+                                }
+                            <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()">
+                                    @foreach (var item in ViewBag.OrderState)
+                                    {
+                                        @if (order.OrderState.Name == item.Name)
+                                        {
+                                        <option value="@item.Id" selected>@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                        <option value="@item.Id">@item.Name</option>
+
+
+                                        }
+                                    }
+                            </select>
+                        </td>
+
+                        <td>
+                            <a asp-controller="OrderMan" asp-action="OrderDetail" asp-route-OrderId="@order.Id" class="btn btn-warning btn-sm">View</a>
+                                @if (isDisable)
+                                {
+                                <input type="submit" value="Save" class="btn btn-success btn-sm" @(isDisable)? disabled />
+                                }
+                                else
+                                {
+                                <input type="submit" value="Save" class="btn btn-success btn-sm" />
+
+                                }
+
+                        </td>
+                    </tr>
+                    </form>
+
+                    index++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">No orders available</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-<script>
-    function UpdateState() {
-        var state_id = document.getElementById('OrderStateId').value;
-        var order_id = document.getElementById('')
-        document.getElementById('StateId').value = state_id;
-    }
-    // Search functionality
-    document.getElementById('searchInput').addEventListener('input', function () {
-        const filter = this.value.toLowerCase();
-        const rows = document.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            const nameCell = row.cells[2].textContent.toLowerCase(); // Updated index for name cell
-            const idCell = row.cells[1].textContent.toLowerCase(); // Updated index for ID cell
-            if (nameCell.includes(filter) || idCell.includes(filter)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-</script>

@@ -17,11 +17,11 @@ namespace SWP391_FinalProject.Controllers
             var querry = comRepo.GetAllComments();
             return View(querry);
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult SearchedComment(string keyword, DateTime? fromDate, DateTime? toDate)
         {
             Repository.ComRepository comRepo = new Repository.ComRepository();
-            var querry = comRepo.SearchedComment(keyword, fromDate,toDate);
+            var querry = comRepo.SearchedComment(keyword, fromDate, toDate);
             return View(querry);
         }
         [HttpGet]
@@ -37,7 +37,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult DeleteReply(string Id)
         {
             Repository.ComRepository comRepo = new Repository.ComRepository();
-           
+
             comRepo.DeleteReply(Id);
 
             return RedirectToAction("Display");
@@ -54,7 +54,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult UpdateComment(string id, string comment)
         {
             Repository.ComRepository comRepo = new Repository.ComRepository();
-            comRepo.UpdateComment(id,comment);
+            comRepo.UpdateComment(id, comment);
             return Ok();
         }
         [HttpPost]
@@ -65,19 +65,20 @@ namespace SWP391_FinalProject.Controllers
             return RedirectToAction("Display");
         }
         [HttpPost]
-        public IActionResult AddComment(CommentModel model,string Username,string ProductItemId,decimal Price)
+        public IActionResult AddComment(CommentModel model, string Username, string ProductItemId, decimal Price)
         {
             ComRepository comRep = new ComRepository();
             UserRepository userRep = new UserRepository();
             model.UserId = userRep.GetUserIdByUserName(Username);
             comRep.AddComment(model);
-            return RedirectToAction("ProductDetail", "Pro", new { id = model.ProductId, productItemId=ProductItemId, Price= Price });
+            return RedirectToAction("ProductDetail", "Pro", new { id = model.ProductId, productItemId = ProductItemId, Price = Price });
 
         }
         [HttpPost]
-        public IActionResult ReplytoComment(string CommentId, ReplyCommentModel model) {
+        public IActionResult ReplytoComment(string CommentId, ReplyCommentModel model)
+        {
             ComRepository comRep = new ComRepository();
-            model.CommentId= CommentId;
+            model.CommentId = CommentId;
             comRep.AddReply(model);
             return RedirectToAction("Display");
         }

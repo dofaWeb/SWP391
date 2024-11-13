@@ -10,8 +10,8 @@ namespace SWP391_FinalProject.Controllers
 {
     public class OrderManController : Controller
     {
-        
 
+        [HttpGet]
         public IActionResult ListOrder(string Username)
         {
             AccountRepository accountRepository = new AccountRepository();
@@ -30,6 +30,27 @@ namespace SWP391_FinalProject.Controllers
             ViewBag.OrderState = orderStates;
             return View(orderList);
         }
+        [HttpPost]
+        public IActionResult ListOrder(string Username, string keyword, DateTime? fromDate, DateTime? toDate, int? orderState)
+        {
+
+
+            AccountRepository accountRepository = new AccountRepository();
+            var Id = accountRepository.GetIdByUsername(Username);
+            Repository.OrderRepository orderRepo = new Repository.OrderRepository();
+            List<OrderModel> orderList;
+            if (Id == "A0000001")
+            {
+                orderList = orderRepo.GetAllOrderWithKeyword(keyword, fromDate, toDate, orderState);
+            }
+            else
+            {
+                orderList = orderRepo.GetAllStaffOrderWithKeyword(Id, keyword, fromDate, toDate, orderState);
+            }
+            List<OrderState> orderStates = orderRepo.GetAllOrderState();
+            ViewBag.OrderState = orderStates;
+            return View(orderList);
+        }
 
         public IActionResult UpdateState(int OrderStateId, string OrderId)
         {
@@ -43,11 +64,11 @@ namespace SWP391_FinalProject.Controllers
             OrderItemRepository orderItemRepo = new OrderItemRepository();
             List<OrderItemModel> orderItemList = orderItemRepo.GetOrderItemByOrderId(order.Id);
             ProductItemRepository proItemRepo = new ProductItemRepository();
-            foreach(var orderItem in orderItemList)
+            foreach (var orderItem in orderItemList)
             {
                 proItemRepo.UpdateProductItemQuantityByOrderStateId(orderItem.ProductItemId, orderItem.Quantity, 3);
             }
-            return RedirectToAction("ListOrder", new {Username = username});
+            return RedirectToAction("ListOrder", new { Username = username });
         }
 
         public IActionResult History()
@@ -56,7 +77,7 @@ namespace SWP391_FinalProject.Controllers
             var OrderHis = orderRepo.GetAllOrder();
             return View(OrderHis);
         }
-       
+
         public IActionResult OrderDetail(string OrderId)
         {
             OrderRepository orderRepository = new OrderRepository();

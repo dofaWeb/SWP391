@@ -1,12 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     Layout = "_AccLayout";
 }
 <script src="/lib/jquery/dist/jquery.min.js"></script> <!-- Ensure jQuery is loaded first -->
 <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+
     function fetchDistricts(provinceID) {
         console.log(provinceID);
 
@@ -21,7 +19,7 @@
                     var data = response.data;
                     var options = '<option value="">Select District</option>';
                     for (var i = 0; i < data.length; i++) {
-                        options += '<option value="' + data[i].full_name_en + '">' + data[i].full_name_en + '</option>'; // Assuming 'id' is the district ID
+                        options += '<option value="' + data[i].full_name_en + '">' + data[i].full_name_en + '</option>';
                     }
                     $('#district').html(options);
                 } else {
@@ -52,9 +50,8 @@
         var confirmPassword = confirmPasswordField.value;
         var passwordErrorLabel = document.getElementById("passwordErrorLabel");
 
-
         if (password !== confirmPassword) {
-            passwordErrorLabel.textContent = "Confirm password doest not match the password.";
+            passwordErrorLabel.textContent = "Confirm password does not match the password.";
             passwordErrorLabel.style.display = "block";
             ViewBagErrorField.style.display = "none";
             return false; // stop form submit
@@ -65,7 +62,7 @@
         return true;
     }
 
-    function validateName(){
+    function validateName() {
         var nameField = document.getElementById("name");
         var name = nameField.value;
         var NameErrorLabel = document.getElementById("nameErrorLabel");
@@ -76,7 +73,7 @@
             NameErrorLabel.style.display = "block";
             ViewBagErrorField.style.display = "none";
             return false;
-        }else{
+        } else {
             NameErrorLabel.style.display = "none";
             ViewBagErrorField.style.display = "none";
             return true;
@@ -88,7 +85,6 @@
         var email = emailField.value;
         var EmailErrorLabel = document.getElementById("emailErrorLabel");
         var ViewBagErrorField = document.getElementById("ViewBagError");
-        // validate email form
         var emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/;
 
         if (!emailPattern.test(email)) {
@@ -110,7 +106,6 @@
         var PhoneErrorLabel = document.getElementById("phoneErrorLabel");
         var ViewBagErrorField = document.getElementById("ViewBagError");
         if (!phonePattern.test(phone)) {
-            console.log('Validate Phone if');
             PhoneErrorLabel.textContent = "Phone number must be numeric and 7 - 11 characters long.";
             PhoneErrorLabel.style.display = "block";
             ViewBagErrorField.style.display = "none";
@@ -142,7 +137,6 @@
     }
 
     function validate() {
-
         var pass = validatePasswordStrength();
         if (pass) {
             var confirmPass = validatePasswords();
@@ -151,80 +145,151 @@
         var email = validateEmail();
         var phone = validatePhone();
         var result = pass && confirmPass && email && phone && name;
-        if (!result) {
-            return false;
-        } else {
-            return true;
-        }
+        return result;
     }
+
 </script>
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <h3>Create an Account</h3>
-            @if (ViewBag.Error != "")
-            {
-                <h4 style="color:red" id="ViewBagError">@Html.Raw(ViewBag.Error)</h4>
-            }
-            <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validate();">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input id="username" type="text" class="form-control" name="Username" placeholder="Enter your username" required>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        background-color: #646D6A; /* Mã màu nền bạn muốn */
+    }
+
+    .bg-image {
+        background-image: url('/pictures/bgg.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        min-height: 100%;
+    }
+
+    .col-md-6 {
+        background-color: #333; /* White background or your preferred color */
+        color: #fff;
+    }
+
+        .col-md-6 h3 {
+            color: #f5e6d5;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+    .btn-register {
+        background-color: #f5a623;
+        color: #fff;
+        font-weight: bold;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+
+        .btn-register:hover {
+            background-color: #e5941e;
+        }
+
+</style>
+<body>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <h4 style="color:red" id="ViewBagError">@Html.Raw(ViewBag.Error)</h4>
+                }
+                <form asp-controller="Acc" asp-action="Register" method="post" onsubmit="return validate();">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="bg-image"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input id="password" type="password" class="form-control" name="Password" placeholder="Create a password" required>
-                            <label id="passwordErrorLabel" style="color: red; display: none;"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPassword">Confirm Password</label>
-                            <input id="confirmPassword" type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm your password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input id="name" type="text" class="form-control" name="Name" placeholder="Enter your name" required>
-                            <label id="nameErrorLabel" style="color: red; display: none;"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input id="email" type="text" class="form-control" name="Email" placeholder="Enter your email" required>
-                            <label id="emailErrorLabel" style="color:red; display:none;"></label>
+
+                        <div class="col-md-6">
+                            <div class="container mt-4">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12">
+                                        <h3>Create an Account</h3>
+                                        @if (ViewBag.Error != "")
+                                        {
+                                            <h4 style="color:red" id="ViewBagError">@Html.Raw(ViewBag.Error)</h4>
+                                        }
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="username">Username</label>
+                                                    <input id="username" type="text" class="form-control" name="Username" placeholder="Enter your username" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input id="password" type="password" class="form-control" name="Password" placeholder="Create a password" required>
+                                                    <label id="passwordErrorLabel" style="color: red; display: none;"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="confirmPassword">Confirm Password</label>
+                                                    <input id="confirmPassword" type="password" class="form-control" name="ConfirmPassword" placeholder="Confirm your password" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="name">Your Name</label>
+                                                    <input id="name" type="text" class="form-control" name="Name" placeholder="Enter your name" required>
+                                                    <label id="nameErrorLabel" style="color: red; display: none;"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input id="email" type="text" class="form-control" name="Email" placeholder="Enter your email" required>
+                                                    <label id="emailErrorLabel" style="color:red; display:none;"></label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="phone">Phone Number</label>
+                                                    <input id="phone" type="tel" class="form-control" name="Phone" placeholder="Enter your phone number" required>
+                                                    <label id="phoneErrorLabel" style="color: red; display: none;"></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="province">Province:</label>
+                                                    <select id="provinces" name="provinces" class="form-control" required>
+                                                        <option value="">Select Province/City</option>
+                                                        @foreach (var item in ViewBag.Provinces)
+                                                        {
+                                                            <option value="@item["id"]">@item["full_name_en"]</option> <!-- Use 'id' for the value and 'name' for display -->
+                                                        }
+                                                    </select>
+                                                    <input type="hidden" id="Province" name="Province" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="district">District:</label>
+                                                    <select id="district" name="District" class="form-control" required>
+                                                        <option value="">Select District</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="address">Address:</label>
+                                                    <input id="address" type="text" name="Address" class="form-control" placeholder="Enter Your Address" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button id="submitButton" type="submit" class="btn-register">Register</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input id="phone" type="tel" class="form-control" name="Phone" placeholder="Enter your phone number" required>
-                            <label id="phoneErrorLabel" style="color: red; display: none;"></label>
-                        </div>
-                        <div class="form-group">
-                            <label for="province">Province:</label>
-                            <select id="provinces" name="provinces" class="form-control" required>
-                                <option value="">Select Province/City</option>
-                                @foreach (var item in ViewBag.Provinces)
-                                {
-                                    <option value="@item["id"]">@item["full_name_en"]</option> <!-- Use 'id' for the value and 'name' for display -->
-                                }
-                            </select>
-                            <input type="hidden" id="Province" name="Province" />
-                        </div>
-                        <div class="form-group">
-                            <label for="district">District:</label>
-                            <select id="district" name="District" class="form-control" required>
-                                <option value="">Select District</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address:</label>
-                            <input id="address" type="text" name="Address" class="form-control" placeholder="Enter Your Address" required/>
-                        </div>
-                    </div>
-                </div>
-                <button id="submitButton" type="submit" class="btn btn-primary btn-block">Register</button>
-            </form>
-            <p class="mt-3 text-center">Already have an account? <a asp-controller="Acc" asp-action="Login">Login here</a>.</p>
+                </form>
+                <p class="mt-3 text-center">Already have an account? <a asp-controller="Acc" asp-action="Login" style="color: #f5a623; text-decoration: none;">Login here</a>.</p>
+
+            </div>
         </div>
     </div>
-</div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+
+
+

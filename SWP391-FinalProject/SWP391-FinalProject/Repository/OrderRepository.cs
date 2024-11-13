@@ -23,9 +23,12 @@ namespace SWP391_FinalProject.Repository
 
         public string NewOrderId()
         {
-            string lastId = db.Orders.OrderByDescending(p => p.Id).Select(p => p.Id).FirstOrDefault();
+            var query = "SELECT ID FROM Product Order By Id DESC LIMIT 1;";
+            DataTable dataTable = DataAccess.DataAccess.ExecuteQuery(query);
 
 
+
+            string lastId = dataTable.Rows[0]["Id"].ToString();
 
             // Split the prefix and number
             string prefix = lastId.Substring(0, 1); // Get the first character
@@ -40,8 +43,6 @@ namespace SWP391_FinalProject.Repository
 
         public void InsertOrder(OrderModel Order, string username, decimal? TotalPrice, List<ProductItemModel> listProItem)
         {
-            string sqlForeignKey = "SET FOREIGN_KEY_CHECKS=0";
-            DataAccess.DataAccess.ExecuteNonQuery(sqlForeignKey);
             int currentHour = DateTime.Now.TimeOfDay.Hours;
 
             List<StaffShiftModel> staffShifts = (from s in db.StaffShifts
@@ -101,8 +102,6 @@ namespace SWP391_FinalProject.Repository
             };
             db.Orders.Add(newOrder);
             db.SaveChanges();
-            sqlForeignKey = "SET FOREIGN_KEY_CHECKS=1";
-            DataAccess.DataAccess.ExecuteNonQuery(sqlForeignKey);
 
             InsertOrderItem(listProItem, newOrder.Id);
             UserRepository userRepo = new UserRepository();

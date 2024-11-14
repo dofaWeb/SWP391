@@ -26,6 +26,19 @@
             text-shadow: 4px 4px 25px rgba(0, 0, 0, 0.5), 0 0 30px #ffcc00; /* Bóng đổ mạnh và sáng hơn */
             transform: scale(1.1); /* Phóng to chữ mạnh hơn khi hover */
         }
+
+
+        /* Override text color */
+        .navbar .nav-link {
+            color: black !important; /* White text */
+        }
+
+            /* Active and hover state for nav links */
+            .navbar .nav-link:hover,
+            .navbar .nav-link.active {
+                color: #ffcc00 !important; /* Yellow for hover/active */
+            }
+
 </style>
 <script>
     let text = "Electronic Shop";
@@ -44,7 +57,7 @@
 </script>
 
 
-<div class="container px-0">
+<div class="container px-0" >
     <nav class="navbar navbar-light bg-white navbar-expand-xl">
 
 
@@ -59,7 +72,6 @@
         </button>
         <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
             <div class="navbar-nav mx-auto">
-                <a asp-controller="Pro" asp-action="Index" class="nav-item nav-link active">Home</a>
                 <a asp-controller="Pro" asp-action="Index" class="nav-item nav-link">Top selling</a>
                 <a asp-controller="Pro" asp-action="Index" class="nav-item nav-link">Shop</a>
                 @if (User.Identity.IsAuthenticated)

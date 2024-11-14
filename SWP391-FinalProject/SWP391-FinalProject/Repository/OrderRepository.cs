@@ -107,7 +107,7 @@ namespace SWP391_FinalProject.Repository
             UserRepository userRepo = new UserRepository();
             userRepo.UpdateUserPoint(username, newOrder.StateId, newOrder.UsePoint, newOrder.EarnPoint);
             ProductRepository proRepo = new ProductRepository();
-            proRepo.UpdateProductState(listProItem.Select(p => p.ProductId).First().ToString());
+            proRepo.UpdateProductState(listProItem.Select(p => p.Product.Id).First().ToString());
         }
 
         public void InsertOrderItem(List<ProductItemModel> listProItem, string orderID)

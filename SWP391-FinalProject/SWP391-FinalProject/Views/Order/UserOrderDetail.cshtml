@@ -51,7 +51,7 @@
                         <p>RAM: @item.Ram</p>
                         <p>Storage: @item.Storage</p>
                     </td>
-                    <td>@string.Format("{0:N0}", @item.Price)</td>
+                    <td>@string.Format("{0:N0}", @item.Price) VND</td>
                     <td>@item.Quantity</td>
                 </tr>
             }
@@ -62,10 +62,10 @@
     }
     <div class="points-summary">
         <h5>Order Summary</h5>
-        <p>Total Amount: @string.Format("{0:N0}", order.TotalPrice)</p>
+        <p>Amount: @string.Format("{0:N0}", order.TotalPrice) VND</p>
         <p>Points Earned: <span class="text-primary">@string.Format("{0:N0}", order.EarnPoint)</span></p>
         <p>Points Used: <span class="text-danger">@string.Format("{0:N0}", order.UsePoint)</span></p>
-        <p>Net Amount after Points: @string.Format("{0:N0}", (order.TotalPrice - order.UsePoint)??0)</p>
+        <p>Net Amount after Points: @string.Format("{0:N0}", (order.TotalPrice - order.UsePoint)??0) VND</p>
     </div>
 
     

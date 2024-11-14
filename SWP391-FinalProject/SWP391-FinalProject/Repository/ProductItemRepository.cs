@@ -449,7 +449,7 @@ namespace SWP391_FinalProject.Repository
         }
 
 
-        public void Delete(string id)
+        public string Delete(string id)
         {
             // Check if the product item exists
             string checkQuery = "SELECT COUNT(1) FROM Product_Item WHERE Id = @Id";
@@ -459,25 +459,40 @@ namespace SWP391_FinalProject.Repository
             if (checkResult.Rows[0][0].ToString() == "0")
             {
                 Console.WriteLine("Product item not found!");
-                return;
+                return "Product item not found";
             }
 
-            // Fetch the ProductId associated with the ProductItem to update its state later
-            string getProductIdQuery = "SELECT product_id FROM Product_Item WHERE Id = @Id";
-            DataTable productItemTable = DataAccess.DataAccess.ExecuteQuery(getProductIdQuery, checkParameters);
-            string productId = productItemTable.Rows[0]["product_id"].ToString();
+            string checkOrder = "SELECT * FROM product_item pi JOIN order_item oi ON pi.id = oi.product_item_id where pi.id = @proItemId";
+            Dictionary<string, object> parameter = new Dictionary<string, object>
+            {
+                { "@proItemId", id }
+            };
+            var check = DataAccess.DataAccess.ExecuteQuery(checkOrder, parameter);
+            if (check.Rows.Count == 0)
+            {
 
-            // Delete related entries from ProductConfigurations
-            string deleteProductConfigurationsQuery = "DELETE FROM Product_Configuration WHERE product_item_id = @Id";
-            DataAccess.DataAccess.ExecuteNonQuery(deleteProductConfigurationsQuery, checkParameters);
+                // Fetch the ProductId associated with the ProductItem to update its state later
+                string getProductIdQuery = "SELECT product_id FROM Product_Item WHERE Id = @Id";
+                DataTable productItemTable = DataAccess.DataAccess.ExecuteQuery(getProductIdQuery, checkParameters);
+                string productId = productItemTable.Rows[0]["product_id"].ToString();
 
-            // Delete the ProductItem
-            string deleteProductItemQuery = "DELETE FROM Product_Item WHERE Id = @Id";
-            DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, checkParameters);
+                // Delete related entries from ProductConfigurations
+                string deleteProductConfigurationsQuery = "DELETE FROM Product_Configuration WHERE product_item_id = @Id";
+                DataAccess.DataAccess.ExecuteNonQuery(deleteProductConfigurationsQuery, checkParameters);
 
-            // Update product state
-            ProductRepository proRepo = new ProductRepository();
-            proRepo.UpdateProductState(productId);
+                // Delete the ProductItem
+                string deleteProductItemQuery = "DELETE FROM Product_Item WHERE Id = @Id";
+                DataAccess.DataAccess.ExecuteNonQuery(deleteProductItemQuery, checkParameters);
+
+                // Update product state
+                ProductRepository proRepo = new ProductRepository();
+                proRepo.UpdateProductState(productId);
+                return "Delete Succesfully";
+            }
+            else
+            {
+                return "Cannot delete this option because it is used by order!";
+            }
         }
 
 

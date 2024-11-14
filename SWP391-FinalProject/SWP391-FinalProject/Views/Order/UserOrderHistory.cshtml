@@ -76,7 +76,7 @@
                 <tr>
                     <td>@order.Date</td>
                     <td class="@order_state">@order.OrderState.Name</td>
-                    <td>@string.Format("{0:N0}", @order.TotalPrice)</td>
+                    <td>@string.Format("{0:N0}", (@order.TotalPrice - @order.UsePoint)) VND</td>
                     <td class="points-earned">@string.Format("{0:N0}", @order.EarnPoint)</td>
                     <td class="points-used">@string.Format("{0:N0}", @order.UsePoint)</td>
                     <td><a asp-action="UserOrderDetail" asp-controller="Order" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a></td>

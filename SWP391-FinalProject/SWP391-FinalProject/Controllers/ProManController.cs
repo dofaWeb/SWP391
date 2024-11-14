@@ -138,7 +138,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult DeleteProductItem(string id, string productId)
         {
             ProductItemRepository proRepo = new ProductItemRepository();
-            proRepo.Delete(id);
+            TempData["Message"] = proRepo.Delete(id);
             return RedirectToAction("EditProduct", new { id = productId });
         }
 

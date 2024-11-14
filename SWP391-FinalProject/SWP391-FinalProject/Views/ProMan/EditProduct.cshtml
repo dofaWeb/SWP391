@@ -216,6 +216,12 @@
                 @TempData["ErrorMessage"]
             </div>
         }
+        else if (TempData["Message"] != null)
+        {
+            <div class="alert alert-info" role="alert">
+                @TempData["Message"]
+            </div>
+        }
         <!-- Table for Product Variations (CRUD) -->
         <table class="table table-bordered mt-4">
             <thead>

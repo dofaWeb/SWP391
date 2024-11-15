@@ -1,4 +1,5 @@
-﻿using SWP391_FinalProject.Controllers;
+﻿using MySqlX.XDevAPI.Common;
+using SWP391_FinalProject.Controllers;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Models;
 using System.Data;
@@ -107,42 +108,32 @@ namespace SWP391_FinalProject.Repository
         public bool CheckExistVariation(string productId, string variationOpId1, string variationOpId2)
         {
             // Query to check if the product has the first variation option
-            string query1 = @"
-        SELECT 1 
-        FROM Product p
-        JOIN Product_Item pi ON p.Id = pi.product_id
-        JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
-        WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId1
-        LIMIT 1";
-
-            // Query to check if the product has the second variation option
-            string query2 = @"
-        SELECT 1 
-        FROM Product p
-        JOIN Product_Item pi ON p.Id = pi.product_id
-        JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
-        WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId2
-        LIMIT 1";
+            string query = @"
+        SELECT pi.id 
+     FROM Product p
+     JOIN Product_Item pi ON p.Id = pi.product_id
+     JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
+     WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId1
+     AND pi.id IN (SELECT pi.id 
+     FROM Product p
+     JOIN Product_Item pi ON p.Id = pi.product_id
+     JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
+     WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId2)";
+    
 
             // Set up the parameters for each query
-            var parameters1 = new Dictionary<string, object>
+            var parameters = new Dictionary<string, object>
     {
         { "@ProductId", productId },
-        { "@VariationOpId1", variationOpId1 }
-    };
-
-            var parameters2 = new Dictionary<string, object>
-    {
-        { "@ProductId", productId },
+        { "@VariationOpId1", variationOpId1 },
         { "@VariationOpId2", variationOpId2 }
     };
 
-            // Execute both queries
-            DataTable result1 = DataAccess.DataAccess.ExecuteQuery(query1, parameters1);
-            DataTable result2 = DataAccess.DataAccess.ExecuteQuery(query2, parameters2);
 
-            // Return true if both queries return results, meaning both variation options exist
-            return result1.Rows.Count > 0 && result2.Rows.Count > 0;
+            // Execute both queries
+            DataTable result = DataAccess.DataAccess.ExecuteQuery(query, parameters);
+
+            return result.Rows.Count > 0;
         }
 
 

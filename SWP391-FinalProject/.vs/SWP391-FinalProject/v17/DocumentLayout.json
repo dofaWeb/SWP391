@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\repository\\productitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\dataaccess\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\dataaccess\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\views\\proman\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\proman\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\repository\\productitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productitemrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\acccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\views\\order\\userorderhistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\order\\userorderhistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\views\\proman\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\views\\proman\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\views\\pro\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -25,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\controllers\\promancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\controllers\\promancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|solutionrelative:swp391-finalproject\\repository\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7FA4DB06-1B64-49A1-B84A-E02916FF92F5}|SWP391-FinalProject\\SWP391-FinalProject.csproj|s:\\fpt university\\3rd year\\5-fa24\\swp391-software development project\\finalproject\\finalproject\\swp391-finalproject\\swp391-finalproject\\views\\order\\userorderdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -102,36 +106,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 10,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DataAccess.cs",
-              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAgwGsAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T13:15:51.441Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ProductItemRepository.cs",
-              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
-              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
-              "ViewState": "AgIAAMkBAAAAAAAAAAAmwNQBAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T13:13:06.854Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
@@ -174,20 +150,48 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "EditProduct.cshtml",
-              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
-              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
-              "RelativeToolTip": "SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
-              "ViewState": "AgIAANYAAAAAAAAAAAAAANwAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T13:18:20.595Z",
+              "DocumentIndex": 0,
+              "Title": "DataAccess.cs",
+              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
+              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\DataAccess\\DataAccess.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\DataAccess\\DataAccess.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAWwBEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-14T13:15:51.441Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
+              "Title": "ProductItemRepository.cs",
+              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
+              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductItemRepository.cs",
+              "ViewState": "AgIAAMQBAAAAAAAAAAD4v9YBAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-14T13:13:06.854Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AccController.cs",
+              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\AccController.cs",
+              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\AccController.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Controllers\\AccController.cs",
+              "ViewState": "AgIAAGYBAAAAAAAAAAAUwOcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T00:58:11.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "UserOrderDetail.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Order\\UserOrderDetail.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Order\\UserOrderDetail.cshtml",
@@ -195,8 +199,7 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Order\\UserOrderDetail.cshtml",
               "ViewState": "AgIAAC8AAAAAAAAAAAAAAEMAAABoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:58:27.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:58:27.041Z"
             },
             {
               "$type": "Document",
@@ -208,12 +211,35 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Order\\UserOrderHistory.cshtml",
               "ViewState": "AgIAAEcAAAAAAAAAAAAAAE4AAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:56:42.185Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:56:42.185Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAmwF0AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-14T12:05:57.335Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EditProduct.cshtml",
+              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
+              "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
+              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
+              "RelativeToolTip": "SWP391-FinalProject\\Views\\ProMan\\EditProduct.cshtml",
+              "ViewState": "AgIAANYAAAAAAAAAAAAAANwAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-14T13:18:20.595Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "OrderRepository.cs",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\OrderRepository.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
@@ -221,25 +247,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Repository\\OrderRepository.cs",
               "ViewState": "AgIAAGAAAAAAAAAAAAAjwG0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T12:49:57.103Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:49:57.103Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ProductRepository.cs",
-              "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
-              "RelativeDocumentMoniker": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
-              "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Repository\\ProductRepository.cs",
-              "RelativeToolTip": "SWP391-FinalProject\\Repository\\ProductRepository.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAUwBQAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T12:05:57.335Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "ProManController.cs",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\ProManController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\ProManController.cs",
@@ -252,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "OrderController.cs",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\OrderController.cs",
@@ -260,12 +272,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\OrderController.cs",
               "ViewState": "AgIAACMAAAAAAAAAAADwvywAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T12:51:56.943Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:51:56.943Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Index.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Cart\\Index.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Cart\\Index.cshtml",
@@ -273,12 +284,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Cart\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:48:21.593Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:48:21.593Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Index.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Cat\\Index.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Cat\\Index.cshtml",
@@ -286,12 +296,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Cat\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:48:16.326Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:48:16.326Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "Index.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
@@ -299,12 +308,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Pro\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:32:28.552Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:32:28.552Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "ProductCustomerViewComponent.cs",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\ViewComponents\\ProductCustomerViewComponent.cs",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\ViewComponents\\ProductCustomerViewComponent.cs",
@@ -312,12 +320,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\ViewComponents\\ProductCustomerViewComponent.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAIAywA8AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T12:29:27.258Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:29:27.258Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "ProductDetail.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
@@ -325,12 +332,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Pro\\ProductDetail.cshtml",
               "ViewState": "AgIAAF0AAAAAAAAAAAAAAGQAAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:27:17.177Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:27:17.177Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Default.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
@@ -338,12 +344,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\Components\\ProductCustomer\\Default.cshtml",
               "ViewState": "AgIAAEgAAAAAAAAAAAAmwE4AAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:13:12.085Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:13:12.085Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Default.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\Category\\Default.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\Components\\Category\\Default.cshtml",
@@ -351,12 +356,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\Components\\Category\\Default.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:12:50.639Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:12:50.639Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\_Layout.cshtml",
@@ -364,12 +368,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\_Layout.cshtml",
               "ViewState": "AgIAABoAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-14T12:08:49.05Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-14T12:08:49.05Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "EditProfile.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\EditProfile.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\User\\EditProfile.cshtml",
@@ -381,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "Profile.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\User\\Profile.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\User\\Profile.cshtml",
@@ -393,7 +396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Default.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
@@ -401,12 +404,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Shared\\Components\\Header\\Default.cshtml",
               "ViewState": "AgIAAEUAAAAAAAAAAAAwwEgAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-13T14:18:01.449Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-13T14:18:01.449Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "_AccLayout.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Shared\\_AccLayout.cshtml",
@@ -418,7 +420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "Register.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
@@ -426,12 +428,11 @@
               "RelativeToolTip": "SWP391-FinalProject\\Views\\Acc\\Register.cshtml",
               "ViewState": "AgIAAAABAAAAAAAAAAAAACIBAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-13T14:01:39.872Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-13T14:01:39.872Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "Login.cshtml",
               "DocumentMoniker": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Views\\Acc\\Login.cshtml",
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Views\\Acc\\Login.cshtml",

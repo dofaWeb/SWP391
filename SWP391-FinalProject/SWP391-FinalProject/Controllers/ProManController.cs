@@ -175,6 +175,15 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult DeleteProduct(string id)
         {
+            ProductRepository proRepo = new ProductRepository();
+            if(proRepo.DeleteProduct(id))
+            {
+                TempData["SuccessMessage"] = "Deleted Successfully";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Cannot delete due to this product has been purchased by customer";
+            }
             return RedirectToAction("Display");
         }
     }

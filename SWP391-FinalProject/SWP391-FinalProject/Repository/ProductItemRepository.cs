@@ -110,24 +110,24 @@ namespace SWP391_FinalProject.Repository
             // Query to check if the product has the first variation option
             string query = @"
         SELECT pi.id 
-     FROM Product p
-     JOIN Product_Item pi ON p.Id = pi.product_id
-     JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
-     WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId1
-     AND pi.id IN (SELECT pi.id 
-     FROM Product p
-     JOIN Product_Item pi ON p.Id = pi.product_id
-     JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
-     WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId2)";
+         FROM Product p
+         JOIN Product_Item pi ON p.Id = pi.product_id
+         JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
+         WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId1
+         AND pi.id IN (SELECT pi.id 
+         FROM Product p
+         JOIN Product_Item pi ON p.Id = pi.product_id
+         JOIN Product_Configuration pc ON pi.Id = pc.product_item_id
+         WHERE p.Id = @ProductId AND pc.variation_option_id = @VariationOpId2)";
     
 
             // Set up the parameters for each query
             var parameters = new Dictionary<string, object>
-    {
-        { "@ProductId", productId },
-        { "@VariationOpId1", variationOpId1 },
-        { "@VariationOpId2", variationOpId2 }
-    };
+            {
+                { "@ProductId", productId },
+                { "@VariationOpId1", variationOpId1 },
+                { "@VariationOpId2", variationOpId2 }
+            };
 
 
             // Execute both queries

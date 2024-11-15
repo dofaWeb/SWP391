@@ -10,11 +10,11 @@ namespace SWP391_FinalProject.Repository
 {
     public class ProductRepository
     {
-        
+
 
         public ProductRepository()
         {
-          
+
         }
 
         public List<Models.ProductModel> GetProductsByKeyword(string keyword, string price, string category, string brand)
@@ -276,8 +276,8 @@ WHERE vo.Value = @ram
   )
 LIMIT 1";  // Limiting to 1 result for FirstOrDefault behavior
 
-                    // Define parameters for the query
-                    var parameters = new Dictionary<string, object>
+            // Define parameters for the query
+            var parameters = new Dictionary<string, object>
             {
                 { "@ram", ram },
                 { "@storage", storage },
@@ -391,10 +391,10 @@ LIMIT 1;
         }
 
 
-       public List<Models.ProductModel> GetTopSellingProduct()
-{
-    // Step 1: Get top 4 best-selling products with their details
-    string topProductsQuery = @"
+        public List<Models.ProductModel> GetTopSellingProduct()
+        {
+            // Step 1: Get top 4 best-selling products with their details
+            string topProductsQuery = @"
         SELECT p.Id AS ProductId, 
                p.Name AS ProductName, 
                p.Description, 
@@ -414,33 +414,33 @@ LIMIT 1;
         ORDER BY TotalPurchases DESC
         LIMIT 4";
 
-    // Execute the query to get top products
-    DataTable topProductsTable = DataAccess.DataAccess.ExecuteQuery(topProductsQuery);
-    var productModels = new List<Models.ProductModel>();
+            // Execute the query to get top products
+            DataTable topProductsTable = DataAccess.DataAccess.ExecuteQuery(topProductsQuery);
+            var productModels = new List<Models.ProductModel>();
 
-    // Convert DataTable to a list of ProductModel
-    foreach (DataRow row in topProductsTable.Rows)
-    {
-        var productModel = new Models.ProductModel
-        {
-            Id = (string)row["ProductId"],
-            Name = (string)row["ProductName"],
-            Description = (string)row["Description"],
-            Picture = (string)row["Picture"],
-            Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Handling NULLs
-            CategoryName = (string)row["CategoryName"],
-            ProductState = (string)row["ProductState"]
-        };
+            // Convert DataTable to a list of ProductModel
+            foreach (DataRow row in topProductsTable.Rows)
+            {
+                var productModel = new Models.ProductModel
+                {
+                    Id = (string)row["ProductId"],
+                    Name = (string)row["ProductName"],
+                    Description = (string)row["Description"],
+                    Picture = (string)row["Picture"],
+                    Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Handling NULLs
+                    CategoryName = (string)row["CategoryName"],
+                    ProductState = (string)row["ProductState"]
+                };
 
-        // Step 2: Get the minimum price for each product
-        productModel.ProductItem = GetMinPrice(productModel.Id); // Assuming this method gets the minimum price
+                // Step 2: Get the minimum price for each product
+                productModel.ProductItem = GetMinPrice(productModel.Id); // Assuming this method gets the minimum price
 
-        // Add the product model to the list
-        productModels.Add(productModel);
-    }
+                // Add the product model to the list
+                productModels.Add(productModel);
+            }
 
-    return productModels;
-}
+            return productModels;
+        }
 
 
 
@@ -559,7 +559,7 @@ LIMIT 1;
 
         public List<Models.ProductStateModel> GetAllProductState()
         {
-            
+
             List<Models.ProductStateModel> productStates = new List<Models.ProductStateModel>();
 
             // MySQL query to retrieve all product states
@@ -826,7 +826,7 @@ LIMIT 1;
             {
                 if (SellingPrice < 0)
                     throw new ArgumentException("Selling price cannot be negative.");
-                if (discount < 0|| discount > 1)
+                if (discount < 0 || discount > 1)
                 {
                     throw new ArgumentException("Discount must be between 0-100.");
                 }
@@ -1315,16 +1315,16 @@ LIMIT 1;"; // Only get the first matching result
         LEFT JOIN Product_Item pi ON p.Id = pi.product_id -- Use LEFT JOIN to include products with no items
         WHERE (p.Name LIKE @keyword OR p.Name LIKE @keywordStart OR p.Id LIKE @keyword OR p.Id LIKE @keywordStart)
         GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name";
-            
-            
-            
+
+
+
             var parameters = new Dictionary<string, object>();
             parameters.Add("@keyword", $"%{keyword}%");
             parameters.Add("@keywordStart", $"{keyword}%");
 
 
             // Execute the query to get product details
-            DataTable productTable = DataAccess.DataAccess.ExecuteQuery(productQuery,parameters);
+            DataTable productTable = DataAccess.DataAccess.ExecuteQuery(productQuery, parameters);
             var productModels = new List<Models.ProductModel>();
 
             foreach (DataRow row in productTable.Rows)
@@ -1348,6 +1348,49 @@ LIMIT 1;"; // Only get the first matching result
             }
 
             return productModels;
+        }
+
+        public bool DeleteProduct(string id)
+        {
+            var proItemList = GetProductItemIdByProductId(id);
+            ProductItemRepository proItemRepo = new ProductItemRepository();
+            var check = false;
+            foreach (var item in proItemList)
+            {
+                //proItemRepo.CheckExistVariation
+                string checkOrder = "SELECT * FROM product_item pi JOIN order_item oi ON pi.id = oi.product_item_id where pi.id = @proItemId";
+                Dictionary<string, object> parameter = new Dictionary<string, object>
+                {
+                    { "@proItemId", item }
+                };
+                check = DataAccess.DataAccess.ExecuteQuery(checkOrder, parameter).Rows.Count == 0 ? false : true ;
+                if (check)
+                    break;
+            }
+
+            if (!check)
+            {
+                string deleteOldPicturePathQuery = "SELECT Picture FROM Product WHERE Id = @Id";
+                var parameter = new Dictionary<string, object>
+                {
+                    { "@Id", id }
+                };
+                DataTable oldPictureResult = DataAccess.DataAccess.ExecuteQuery(deleteOldPicturePathQuery, parameter);
+                string oldPicturePath = oldPictureResult.Rows[0]["Picture"].ToString();
+                MyUtil.DeletePicture(oldPicturePath);
+                string query = "Delete From Product Where id = @productId";
+                 parameter = new Dictionary<string, object>
+                {
+                    { "@productId", id }
+                };
+                DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+                
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

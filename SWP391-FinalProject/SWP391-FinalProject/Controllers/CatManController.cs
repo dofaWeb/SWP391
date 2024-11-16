@@ -87,9 +87,15 @@ namespace SWP391_FinalProject.Controllers
                 return RedirectToAction("AddCategory");
             }
             Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
-            catManRepo.AddCategory(Name, CategoryType);
-            TempData["SuccessMessage"] = "Category added successfully.";
-            TempData["ErrorMessage"] = null;
+            if (catManRepo.AddCategory(Name, CategoryType))
+            {
+                TempData["SuccessMessage"] = "Category added successfully.";
+                TempData["ErrorMessage"] = null;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Cannot add due to duplicated name and type";
+            }
 
             // Redirect to the appropriate view or return success message
             return RedirectToAction("Display");

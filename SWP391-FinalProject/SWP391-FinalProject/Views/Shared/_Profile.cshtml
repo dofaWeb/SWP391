@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SWP391_FinalProject.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    @await Component.InvokeAsync("Header")
+    <!-- Header -->
+    <header class="bg-dark text-white text-center py-4">
+        <h1 class="font-weight-bold">Your Profile</h1>
+    </header>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Profile Header -->
+            <div class="col-md-3 text-center mb-4">
+                <!-- Profile Picture and Name Section -->
+                <div class="profile-header">
+                    <div class="profile-picture">
+                        <img src="~/pictures/bgg.jpg" alt="Profile Picture" class="img-fluid rounded-circle">
+                    </div>
+                    <h3 class="mt-2 font-weight-bold text-primary">@ViewBag.User.Name</h3>
+                    <p class="text-muted">@ViewBag.User.Province</p>
+                </div>
+
+                <!-- Sidebar for Edit Buttons -->
+                <div class="edit-btn">
+                    <a asp-action="Index" asp-controller="Pro" class="btn btn-dark btn-block mb-2">Back To Home</a>
+                    <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-UserId="@ViewBag.User.Account.Id" class="btn btn-info btn-block mb-2">View Order History</a>
+                    <a asp-action="EditProfile" asp-controller="User" asp-route-username="@User.FindFirst("Username")?.Value" class="btn btn-warning btn-block mb-2">Edit Profile</a>
+                    @if (ViewBag.IsLoginWithGoogle == false)
+                    {
+                        <a asp-action="ChangePassword" asp-controller="User" class="btn btn-danger btn-block mb-2">Change Password</a>
+                    }
+                    <a asp-controller="Acc" asp-action="Logout" class="btn btn-secondary btn-block">Logout</a>
+                </div>
+            </div>
+
+            <!-- Profile Information -->
+            <div class="col-md-9 profile-info">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .profile-header {
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background-color: #f0f4f7;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .profile-header .profile-picture img {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border: 4px solid #007bff;
+            }
+
+            .profile-header h3 {
+                color: #333;
+                font-size: 22px;
+                margin-top: 15px;
+                text-transform: uppercase;
+            }
+
+        .edit-btn .btn {
+            width: 100%;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+            .edit-btn .btn:hover {
+                opacity: 0.8;
+            }
+
+        .container {
+            background: linear-gradient(to right, #ffffff, #e9ecef);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-info {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - SWP391_FinalProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+        <p>
+            <a href="#" class="text-white">Privacy Policy</a> |
+            <a href="#" class="text-white">Terms of Service</a>
+        </p>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

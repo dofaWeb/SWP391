@@ -633,7 +633,7 @@ LIMIT 1;
             // Extract the quantity from the result
             if (resultTable.Rows.Count > 0)
             {
-                return resultTable.Rows[0].Field<int?>("TotalQuantity");
+                return int.Parse(resultTable.Rows[0]["TotalQuantity"].ToString());
             }
 
             return null; // Return null if no rows are found
@@ -661,7 +661,7 @@ LIMIT 1;
             {
                 // Upload the new picture
                 picturePath = MyUtil.UpLoadPicture(pictureUpload);
-
+                
                 // Delete old picture
                 string deleteOldPicturePathQuery = "SELECT Picture FROM Product WHERE Id = @Id";
                 DataTable oldPictureResult = DataAccess.DataAccess.ExecuteQuery(deleteOldPicturePathQuery, checkParameters);

@@ -54,12 +54,21 @@ namespace SWP391_FinalProject.Controllers
             Dictionary<string, string> option = new Dictionary<string, string>();
             foreach (var item in proItemId)
             {
-                string ramOption = prodp.GetProductVariationOption(item, "Ram");
-                string storageOption = prodp.GetProductVariationOption(item, "Storage");
-                // Combine RAM and Storage into a single option string
-                string combinedOption = $"RAM: {ramOption} <br/> Storage: {storageOption} ";
-                // Add to dictionary with the combined option as both the key and value (just for consistency)
-                option[item] = combinedOption;
+                string check = "SELECT * FROM Product_Item Where id = @proItemId And quantity > 0";
+                var parameter = new Dictionary<string, object>
+                {
+                    { "@proItemId", item }
+                };
+                var result = DataAccess.DataAccess.ExecuteQuery(check,parameter);
+                if (result.Rows.Count > 0)
+                {
+                    string ramOption = prodp.GetProductVariationOption(item, "Ram");
+                    string storageOption = prodp.GetProductVariationOption(item, "Storage");
+                    // Combine RAM and Storage into a single option string
+                    string combinedOption = $"RAM: {ramOption} <br/> Storage: {storageOption} ";
+                    // Add to dictionary with the combined option as both the key and value (just for consistency)
+                    option[item] = combinedOption;
+                }
             }
             ViewBag.Option = option;
             // Combine the product and comments into a ViewModel

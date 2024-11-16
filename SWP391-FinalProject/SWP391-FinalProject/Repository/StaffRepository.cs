@@ -409,24 +409,28 @@ ORDER BY
 
         public void AddShift(DateOnly date, string staffIdMoring, string staffIdAfternoon)
         {
-            db.StaffShifts.Add(new StaffShift
-            {
-                Id = GetNewId(),
-                Date = date,
-                Shift = "Morning",
-                StaffId = staffIdMoring
-            });
+            string sql = "INSERT INTO Staff_Shift(id, date, shift, staff_id) Values(@Id, @Date, @Shift, @StaffId)";
+            var dateFormatted = date.ToString("yyyy-MM-dd");
 
-            db.SaveChanges();
+            var parameter = new Dictionary<string, object>
+{
+    { "@Id", GetNewId() },
+    { "@Date", dateFormatted },
+    { "@Shift", "Morning" },
+    { "@StaffId", staffIdMoring }
+};
+            DataAccess.DataAccess.ExecuteNonQuery(sql, parameter);
 
-            db.StaffShifts.Add(new StaffShift
+            parameter = new Dictionary<string, object>
             {
-                Id = GetNewId(),
-                Date = date,
-                Shift = "Afternoon",
-                StaffId = staffIdAfternoon
-            });
-            db.SaveChanges();
+                { "@Id", GetNewId() },
+                { "Date", dateFormatted },
+                { "@Shift", "Afternoon" },
+                { "StaffId", staffIdAfternoon }
+            };
+
+            DataAccess.DataAccess.ExecuteNonQuery(sql, parameter);
+
         }
 
     }

@@ -5,6 +5,7 @@ using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using MySql.Data.MySqlClient;
 using System.Data;
+using System.Xml.Linq;
 
 namespace SWP391_FinalProject.Repository
 {
@@ -577,15 +578,23 @@ LIMIT 1;
 
         }
 
-        public void AddProduct(Models.ProductModel model, IFormFile pictureUpload)
+        public bool AddProduct(Models.ProductModel model, IFormFile pictureUpload)
         {
-            // Construct the INSERT query
-            string insertQuery = @"
+            string check = "SELECT * FROM Product Where Name = @Name And category_Id = @Category";
+            var parameter = new Dictionary<string, object> {
+                {"@Name", model.Name },
+                { "@Category", model.CategoryId }
+            };
+            var result = DataAccess.DataAccess.ExecuteQuery(check, parameter);
+            if (result.Rows.Count == 0)
+            {
+                // Construct the INSERT query
+                string insertQuery = @"
         INSERT INTO Product (Id, Name, Category_Id, State_Id, Description, Picture)
         VALUES (@Id, @Name, @CategoryId, @StateId, @Description, @Picture)";
 
-            // Prepare parameters
-            var parameters = new Dictionary<string, object>
+                // Prepare parameters
+                var parameters = new Dictionary<string, object>
     {
         { "@Id", model.Id },
         { "@Name", model.Name },
@@ -595,8 +604,11 @@ LIMIT 1;
         { "@Picture", pictureUpload != null ? MyUtil.UpLoadPicture(pictureUpload) : null }
     };
 
-            // Execute the INSERT query
-            DataAccess.DataAccess.ExecuteNonQuery(insertQuery, parameters);
+                // Execute the INSERT query
+                DataAccess.DataAccess.ExecuteNonQuery(insertQuery, parameters);
+                return true;
+            }
+            return false;
         }
 
 
@@ -1363,7 +1375,7 @@ LIMIT 1;"; // Only get the first matching result
                 {
                     { "@proItemId", item }
                 };
-                check = DataAccess.DataAccess.ExecuteQuery(checkOrder, parameter).Rows.Count == 0 ? false : true ;
+                check = DataAccess.DataAccess.ExecuteQuery(checkOrder, parameter).Rows.Count == 0 ? false : true;
                 if (check)
                     break;
             }
@@ -1379,12 +1391,12 @@ LIMIT 1;"; // Only get the first matching result
                 string oldPicturePath = oldPictureResult.Rows[0]["Picture"].ToString();
                 MyUtil.DeletePicture(oldPicturePath);
                 string query = "Delete From Product Where id = @productId";
-                 parameter = new Dictionary<string, object>
+                parameter = new Dictionary<string, object>
                 {
                     { "@productId", id }
                 };
                 DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
-                
+
                 return true;
             }
             else

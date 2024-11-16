@@ -11,11 +11,11 @@ namespace SWP391_FinalProject.Repository
 {
     public class CategoryRepository
     {
-    
+
 
         public CategoryRepository()
         {
-          
+
         }
         public bool DeleteCategory(string categoryId)
         {
@@ -147,25 +147,36 @@ namespace SWP391_FinalProject.Repository
 
         }
 
-        public void AddCategory(string Name, string CategoryType)
+        public bool AddCategory(string Name, string CategoryType)
         {
-            string categoryId = "";
-            // Determine category ID based on selected CategoryType
-            if (CategoryType == "laptop")
+            var type = (CategoryType == "laptop") ? "B0" : "B1";
+            string check = "SELECT * FROM Category Where Name = @Name And Id Like '" + type + "%'" ;
+            var parameter = new Dictionary<string, object> {
+                {"@Name", Name }
+            };
+            var result = DataAccess.DataAccess.ExecuteQuery(check, parameter);
+            if (result.Rows.Count == 0)
             {
-                categoryId = GenerateCategoryId("B0");
-            }
-            else if (CategoryType == "phone")
-            {
-                categoryId = GenerateCategoryId("B1");
-            }
+                string categoryId = "";
+                // Determine category ID based on selected CategoryType
+                if (CategoryType == "laptop")
+                {
+                    categoryId = GenerateCategoryId("B0");
+                }
+                else if (CategoryType == "phone")
+                {
+                    categoryId = GenerateCategoryId("B1");
+                }
 
-            string query = "INSERT INTO Category(Id, Name) VALUES(@categoryId, @Name)";
-            var count = DataAccess.DataAccess.ExecuteNonQuery(query, new Dictionary<string, object>
+                string query = "INSERT INTO Category(Id, Name) VALUES(@categoryId, @Name)";
+                var count = DataAccess.DataAccess.ExecuteNonQuery(query, new Dictionary<string, object>
             {
                 { "@categoryId", categoryId },
                 { "@Name", Name }
             });
+                return true;
+            }
+            return false;
         }
 
         public void EditCategory(CategoryModel category)

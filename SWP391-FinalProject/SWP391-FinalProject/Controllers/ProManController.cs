@@ -74,8 +74,14 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult AddProduct(Models.ProductModel model, IFormFile pictureUpload)
         {
             ProductRepository proRepo = new ProductRepository();
-            proRepo.AddProduct(model, pictureUpload);
-            TempData["SuccessMessage"] = "Product added successfully.";
+            if (proRepo.AddProduct(model, pictureUpload))
+            {
+                TempData["SuccessMessage"] = "Product added successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Product added fail due to duplicated";
+            }
             return RedirectToAction("Display");
         }
 

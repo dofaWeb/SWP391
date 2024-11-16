@@ -1,9 +1,20 @@
-﻿@*
+﻿@using SWP391_FinalProject.Repository
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model SWP391_FinalProject.Models.UserModel;
 @{
-    Layout = "_AccLayout";
+    UserRepository userRepo = new UserRepository();
+    Layout = "_Profile";
+    string username = User.FindFirst("Username")?.Value;
+    ViewBag.User = userRepo.GetUserProfileByUsername(username);
+    UserModel user = userRepo.GetUserProfileByUsername(username);
+    bool IsLoginWithGoogle = false;
+    if (user.Account.Password.Equals(SWP391_FinalProject.Helpers.MySetting.GetMd5Hash("")))
+    {
+        IsLoginWithGoogle = true;
+    }
+    ViewBag.IsLoginWithGoogle = IsLoginWithGoogle;
 }
 <script src="/lib/jquery/dist/jquery.min.js"></script> <!-- Ensure jQuery is loaded first -->
 <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -92,7 +103,7 @@
         }
     }
 </script>
-<head>
+
     <style>
         .profile-header {
             margin-bottom: 20px;
@@ -144,17 +155,11 @@
             cursor: pointer;
         }
     </style>
-</head>
 
-<!-- Header -->
-<header class="bg-dark text-white text-center py-4">
-    <h1>Edit Profile</h1>
-</header>
 <form asp-action="EditProfile" asp-controller="User" onsubmit="return validate();" method="post">
 
 
     <div class="container mt-4 profile-info">
-        <a asp-action="Profile" asp-controller="User" asp-route-username="@Model.Account.Username" class="btn btn-secondary btn-sm">Back</a>
         <h3>User Information</h3>
         <table class="table table-bordered">
             <tbody>

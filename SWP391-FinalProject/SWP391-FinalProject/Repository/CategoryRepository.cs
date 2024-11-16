@@ -19,18 +19,29 @@ namespace SWP391_FinalProject.Repository
         }
         public bool DeleteCategory(string categoryId)
         {
-            var query = "DELETE FROM Category WHERE Id = @Id";
             var parameter = new Dictionary<string, object>
             {
                 { "@Id", categoryId }
             };
 
-            int row = DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
-            if(row == 0)
+            var check = "SELECT * FROM Category c JOIN Product p ON c.id = p.category_id Where c.id = @Id";
+
+            var result = DataAccess.DataAccess.ExecuteQuery(check, parameter);
+
+            if (result.Rows.Count == 0)
             {
-                return false;
+
+                var query = "DELETE FROM Category WHERE Id = @Id";
+
+
+                int row = DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+                if (row == 0)
+                {
+                    return false;
+                }
+                return true;
             }
-            return true;
+            return false;
         }
         public List<Models.CategoryModel> GetAllCategory()
         {

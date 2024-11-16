@@ -89,7 +89,7 @@ namespace SWP391_FinalProject.Controllers
             Repository.CategoryRepository catManRepo = new Repository.CategoryRepository();
             catManRepo.AddCategory(Name, CategoryType);
             TempData["SuccessMessage"] = "Category added successfully.";
-            
+            TempData["ErrorMessage"] = null;
 
             // Redirect to the appropriate view or return success message
             return RedirectToAction("Display");

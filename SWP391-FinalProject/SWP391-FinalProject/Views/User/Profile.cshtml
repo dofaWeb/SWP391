@@ -1,41 +1,19 @@
-﻿@model SWP391_FinalProject.Models.UserModel
+﻿@using SWP391_FinalProject.Repository
+@model SWP391_FinalProject.Models.UserModel
 @{
-    Layout = "_AccLayout";
+    UserRepository userRepo = new UserRepository();
+    Layout = "_Profile";
+    string username = User.FindFirst("Username")?.Value;
+    ViewBag.User = userRepo.GetUserProfileByUsername(username);
+    UserModel user = userRepo.GetUserProfileByUsername(username);
+    bool IsLoginWithGoogle = false;
+    if (user.Account.Password.Equals(SWP391_FinalProject.Helpers.MySetting.GetMd5Hash("")))
+    {
+        IsLoginWithGoogle = true;
+    }
+    ViewBag.IsLoginWithGoogle = IsLoginWithGoogle;
 }
 
-<!-- Header -->
-<header class="bg-dark text-white text-center py-4">
-    <h1 class="font-weight-bold">Your Profile</h1>
-</header>
-
-<div class="container mt-4">
-    <div class="row">
-        <!-- Profile Header -->
-        <div class="col-md-3 text-center mb-4">
-            <!-- Profile Picture and Name Section -->
-            <div class="profile-header">
-                <div class="profile-picture">
-                    <img src="~/pictures/bgg.jpg" alt="Profile Picture" class="img-fluid rounded-circle">
-                </div>
-                <h3 class="mt-2 font-weight-bold text-primary">@Model.Name</h3>
-                <p class="text-muted">@Model.Province</p>
-            </div>
-
-            <!-- Sidebar for Edit Buttons -->
-            <div class="edit-btn">
-                <a asp-action="Index" asp-controller="Pro" class="btn btn-dark btn-block mb-2">Back To Home</a>
-                <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-UserId="@Model.Account.Id" class="btn btn-info btn-block mb-2">View Order History</a>
-                <a asp-action="EditProfile" asp-controller="User" asp-route-username="@User.FindFirst("Username")?.Value" class="btn btn-warning btn-block mb-2">Edit Profile</a>
-                @if (ViewBag.IsLoginWithGoogle == false)
-                {
-                    <a asp-action="ChangePassword" asp-controller="User" class="btn btn-danger btn-block mb-2">Change Password</a>
-                }
-                <a asp-controller="Acc" asp-action="Logout" class="btn btn-secondary btn-block">Logout</a>
-            </div>
-        </div>
-
-        <!-- Profile Information -->
-        <div class="col-md-9 profile-info">
               <h3 class="font-weight-bold text-dark">User Information</h3>
               <table class="table table-striped table-bordered">
                   <tbody>
@@ -73,48 +51,10 @@
                       </tr>
                   </tbody>
               </table>
-        </div>
-    </div>
-</div>
-
+        
 <style>
     /* Profile Header Styling */
-    .profile-header {
-        padding: 30px;
-        border: 1px solid #ddd;
-        border-radius: 12px;
-        background-color: #f0f4f7;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-        .profile-header .profile-picture img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border: 4px solid #007bff;
-        }
-
-        .profile-header h3 {
-            color: #333;
-            font-size: 22px;
-            margin-top: 15px;
-            text-transform: uppercase;
-        }
-
-    /* Button Styling */
-    .edit-btn .btn {
-        width: 100%;
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 16px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-
-        .edit-btn .btn:hover {
-            opacity: 0.8;
-        }
-
+    
     .btn-dark {
         background-color: #343a40;
     }
@@ -160,20 +100,7 @@
         border: 1px solid #ddd;
     }
 
-    /* Adding some background color to the profile section */
-    .container {
-        background: linear-gradient(to right, #ffffff, #e9ecef);
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .profile-info {
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+    
 
 </style>
 

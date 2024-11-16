@@ -1,8 +1,19 @@
-﻿@*
+﻿@using SWP391_FinalProject.Repository
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    Layout = "_AccLayout";
+    UserRepository userRepo = new UserRepository();
+    Layout = "_Profile";
+    string username = User.FindFirst("Username")?.Value;
+    ViewBag.User = userRepo.GetUserProfileByUsername(username);
+    UserModel user = userRepo.GetUserProfileByUsername(username);
+    bool IsLoginWithGoogle = false;
+    if (user.Account.Password.Equals(SWP391_FinalProject.Helpers.MySetting.GetMd5Hash("")))
+    {
+        IsLoginWithGoogle = true;
+    }
+    ViewBag.IsLoginWithGoogle = IsLoginWithGoogle;
 }
 @model List<SWP391_FinalProject.Models.OrderItemModel>;
 <style>
@@ -18,12 +29,6 @@
         margin-top: 20px;
     }
 </style>
-
-
-<!-- Header -->
-<header class="bg-dark text-white text-center py-4">
-    <h1>Order Detail</h1>
-</header>
 
 <div class="container mt-4">
     <div class="mt-4">

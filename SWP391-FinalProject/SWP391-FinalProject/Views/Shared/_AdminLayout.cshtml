@@ -11,120 +11,217 @@
     <!-- Chart.js for charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            display: flex;
-        }
         /* Sidebar styles */
         .sidebar {
-            width: 250px;
-            background-color: #343a40;
+            width: 240px; /* Đặt chiều rộng cố định cho sidebar */
+            /* background-color: #2d3436; */
+            background-image: url('/pictures/tree.jpg');
             color: white;
-            min-height: 100vh;
-            padding-top: 20px;
+            min-height: 100vh; /* Đặt chiều cao toàn màn hình */
+            padding: 20px 10px;
+            position: fixed; /* Giữ sidebar cố định ở bên trái */
+            left: 0;
+            top: 0;
+            overflow-y: auto; /* Thêm thanh cuộn nếu nội dung vượt quá chiều cao */
+            z-index: 1000; /* Giữ sidebar trên cùng so với các lớp khác */
+            height: 100vh; /* Chiều cao toàn màn hình */
+            
+            scrollbar-width: thin; /* Thu nhỏ thanh cuộn (Firefox) */
+            scrollbar-color: #6c757d #1c1e21; /* Màu thanh cuộn */
         }
+
+            .sidebar::-webkit-scrollbar {
+                width: 8px; /* Độ rộng thanh cuộn (Chrome, Edge) */
+            }
+
+            .sidebar::-webkit-scrollbar-thumb {
+                background-color: #6c757d; /* Màu tay cầm thanh cuộn */
+                border-radius: 4px;
+            }
+            .sidebar .logo {
+                font-size: 24px;
+                font-weight: bold;
+                color: #ffffff;
+                text-align: center;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #444;
+                padding-bottom: 10px;
+            }
 
             .sidebar ul {
                 list-style: none;
-                padding-left: 0;
+                padding: 0;
+                margin: 0;
             }
 
                 .sidebar ul li {
-                    padding: 10px;
+                    padding: 10px 15px;
+                    margin: 5px 0;
+                    display: flex;
+                    justify-content: space-between; /* Căn đều text và mũi tên */
+                    align-items: center;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
                 }
 
                     .sidebar ul li a {
-                        color: white;
-                        text-decoration: none;
+                        color: #f8f9fa; /* Màu trắng nhạt */
+                        text-decoration: none; /* Loại bỏ gạch chân */
+                        font-size: 16px; /* Kích thước chữ */
+                        display: block;
+                        padding: 6px 0px;
+                        padding-left: 12px;
+                        padding-right: 55px;
+                        transition: color 0.3s ease, background-color 0.3s ease;
+                    
                     }
 
                         .sidebar ul li a:hover {
-                            color: #ffdd57;
+                            background-color: rgba(255, 255, 255, 0.1); /* Hiệu ứng nền mờ khi hover */
+                            color: #ffffff; /* Chữ chuyển sang trắng hoàn toàn khi hover */
                         }
 
+                    .sidebar ul li:hover {
+                        background-color: #1e272e;
+                    }
+
+                    .sidebar ul li.active {
+                        background-color: #0984e3;
+                    }
+
+                    .sidebar ul li a:hover {
+                        color: #74b9ff;
+                    }
+
+                /* Section title styles */
+                .sidebar ul .section-title {
+                    font-size: 14px;
+                    color: #b2bec3;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    margin: 15px 0 5px 15px;
+                    pointer-events: none; /* Không cho click */
+                    background-color: transparent !important; /* Loại bỏ hiệu ứng hover */
+                    border: none;
+                }
+
+                .sidebar ul li.section-title {
+                    color: #5bc0de; /* Màu xanh lam nhạt */
+                    font-weight: bold;
+                    font-size: 14px;
+                    margin-top: 20px;
+                    margin-bottom: 8px;
+                    padding-left: 16px;
+                    text-transform: uppercase;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Đường gạch dưới nhạt */
+                }
+
+
+                /* Arrow icon for decoration (normal items only) */
+                .sidebar ul li:not(.section-title)::after {
+                    content: '➔'; /* Mũi tên nhỏ */
+                    font-size: 12px;
+                    color: #b2bec3;
+                    margin-left: 10px;
+                }
+
+                .sidebar ul li a {
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Đổ bóng mờ */
+                }
+
+
+        /* Main content area */
         .content {
-            flex-grow: 1;
-            padding: 20px;
+            margin-left: 240px; /* Dời nội dung chính qua phải, bằng chiều rộng của sidebar */
+            padding: 20px; /* Tạo khoảng cách giữa nội dung và viền màn hình */
+            background-color: #f8f9fa; /* Màu nền sáng cho nội dung chính */
+            min-height: 100vh; /* Đặt chiều cao nội dung chính */
         }
 
-        .chart-container {
-            width: 100%;
-            height: 400px;
-        }
 
-        .filters {
-            margin-bottom: 20px;
-        }
-
-        .totals {
-            margin-top: 20px;
-        }
-
-            .totals div {
-                font-weight: bold;
-                margin-bottom: 10px;
-            }
-
-        .percentage {
-            font-size: 0.9em;
-            margin-left: 10px;
-        }
-
-        .positive {
-            color: blue;
-        }
-
-        .negative {
-            color: red;
-        }
     </style>
 </head>
 <body>
     <!-- Sidebar Menu -->
     <div class="sidebar">
+        <div class="logo">Admin Panel</div> <!-- Tiêu đề sidebar -->
+
         <ul>
+            <!-- Dashboard Section -->
+            <li class="section-title">Dashboard</li>
             @if (User.Identity.IsAuthenticated)
             {
                 var roleClaim = User.FindFirst(ClaimTypes.Role);
                 var UsernameClaim = User.FindFirst(ClaimTypes.Name);
+
                 @if (roleClaim.Value == "Role0001")
                 {
-                    <li><a asp-controller="ProMan" asp-action="Index">Home</a></li>
+                    <li>
+                        <a asp-controller="ProMan" asp-action="Index">Home</a>
+                    </li>
                 }
                 else
                 {
-                    <li><a asp-controller="StaffMan" asp-action="Schedule" asp-route-Username="@UsernameClaim.Value">Home</a></li>
-                }
-                <li><a asp-controller="ProMan" asp-action="Display">Product</a></li>
-                if (roleClaim.Value == "Role0001")
-                {
-                    <li><a asp-controller="CatMan" asp-action="Display">Category</a></li>
+                    <li>
+                        <a asp-controller="StaffMan" asp-action="Schedule" asp-route-Username="@UsernameClaim.Value">Home</a>
+                    </li>
                 }
 
-                <li><a asp-controller="OrderMan" asp-action="ListOrder" asp-route-Username="@UsernameClaim.Value">Order</a></li>
-
-                if (roleClaim.Value == "Role0001")
+                <li>
+                    <a asp-controller="ProMan" asp-action="Display">Product</a>
+                </li>
+                @if (roleClaim.Value == "Role0001")
                 {
-                    <li><a asp-controller="StaffMan" asp-action="StaffList">Staff</a></li>
+                    <li>
+                        <a asp-controller="CatMan" asp-action="Display">Category</a>
+                    </li>
                 }
 
-                <li><a asp-controller="UserMan" asp-action="Display">User</a></li>
-                if (roleClaim.Value == "Role0001")
+                <!-- Management Section -->
+                <li class="section-title">Management</li>
+                <li>
+                    <a asp-controller="OrderMan" asp-action="ListOrder" asp-route-Username="@UsernameClaim.Value">Order</a>
+                </li>
+                @if (roleClaim.Value == "Role0001")
                 {
-                    <li><a asp-controller="Statistics" asp-action="Index">Statistics</a></li>
+                    <li>
+                        <a asp-controller="StaffMan" asp-action="StaffList">Staff</a>
+                    </li>
                 }
-                <li><a asp-controller="Com" asp-action="Display">Comment</a></li>
-                if (roleClaim.Value == "Role0001")
+                <li>
+                    <a asp-controller="UserMan" asp-action="Display">User</a>
+                </li>
+                @if (roleClaim.Value == "Role0001")
                 {
-                    <li><a asp-controller="ProMan" asp-action="ProductLog">Product's Log</a></li>
+                    <li>
+                        <a asp-controller="Statistics" asp-action="Index">Statistics</a>
+                    </li>
                 }
-                if (roleClaim.Value == "Role0002")
+
+                <!-- Others Section -->
+                <li class="section-title">Others</li>
+                <li>
+                    <a asp-controller="Com" asp-action="Display">Comment</a>
+                </li>
+                @if (roleClaim.Value == "Role0001")
                 {
-                    <li><a asp-controller="StaffMan" asp-route-username="@User.FindFirst(ClaimTypes.Name)?.Value" asp-action="StaffSetting">Setting</a></li>
+                    <li>
+                        <a asp-controller="ProMan" asp-action="ProductLog">Product's Log</a>
+                    </li>
                 }
-                <li><a asp-action="Logout" asp-controller="Acc">Log out</a></li>
+                @if (roleClaim.Value == "Role0002")
+                {
+                    <li>
+                        <a asp-controller="StaffMan" asp-route-username="@User.FindFirst(ClaimTypes.Name)?.Value" asp-action="StaffSetting">Setting</a>
+                    </li>
+                }
+                <li>
+                    <a asp-action="Logout" asp-controller="Acc">Log out</a>
+                </li>
             }
         </ul>
     </div>
+
     <!-- Main Content Area -->
     <div class="content">
         @RenderBody()
@@ -135,4 +232,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
+
 </html>

@@ -7,10 +7,13 @@ namespace SWP391_FinalProject.Filters
     {
         public static bool CheckUser(string UserId)
         {
-            UserRepository userRepository = new UserRepository();
-            if (!userRepository.CheckBan(UserId))
+            if (UserId != null)
             {
-                return true;
+                UserRepository userRepository = new UserRepository();
+                if (!userRepository.CheckBan(UserId))
+                {
+                    return true;
+                }
             }
             return false;
         }

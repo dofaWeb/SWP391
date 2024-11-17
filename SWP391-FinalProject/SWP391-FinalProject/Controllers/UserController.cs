@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Newtonsoft.Json;
+using SWP391_FinalProject.Filters;
 using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
@@ -13,6 +14,12 @@ namespace SWP391_FinalProject.Controllers
         [Authorize]
         public async Task<IActionResult> Profile(string username)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             Repository.UserRepository userRepo = new Repository.UserRepository();
             UserModel user = new UserModel();
             user = userRepo.GetUserProfileByUsername(username);
@@ -27,6 +34,12 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public async Task<IActionResult> EditProfile(string username)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             HttpClient client = new HttpClient();
             try
             {
@@ -83,6 +96,12 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult EditProfile(UserModel user)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             UserRepository UserRepo = new UserRepository();
             UserRepo.UpdateUser(user);
 
@@ -91,6 +110,12 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult ChangePassword()
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             return View();
         }
 

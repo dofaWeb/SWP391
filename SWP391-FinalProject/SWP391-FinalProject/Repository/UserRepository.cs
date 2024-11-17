@@ -13,6 +13,20 @@ namespace SWP391_FinalProject.Repository
         {
             
         }
+
+        public bool CheckBan(string UserId)
+        {
+            string query = "SELECT * FROM Account Where is_active = 1 And id = @UserId";
+            var parameter = new Dictionary<string, object>
+            {
+                { "@UserId", UserId }
+            };
+            var result = DataAccess.DataAccess.ExecuteQuery(query, parameter);
+            if (result.Rows.Count > 0)
+                return true;
+            return false;
+        }
+
         public UserModel GetUserProfileByUsername(string username)
         {
             // Define the SQL query to fetch user profile details

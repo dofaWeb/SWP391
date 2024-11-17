@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using SWP391_FinalProject.Entities;
 using SWP391_FinalProject.Filters;
+using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
 using System.Data;
@@ -20,7 +21,6 @@ namespace SWP391_FinalProject.Controllers
 
         }
 
-
         public async Task<IActionResult> Index()
         {
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
@@ -28,15 +28,28 @@ namespace SWP391_FinalProject.Controllers
             {
                 return RedirectToAction("Index", "ProMan");
             }
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             return View();
         }
 
         public async Task<IActionResult> Profile(string username)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
+
             Repository.UserRepository userRepo = new Repository.UserRepository();
             UserModel user = new UserModel();
             user = userRepo.GetUserProfileByUsername(username);
-
+            
             return View(user);
 
         }
@@ -44,6 +57,12 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public async Task<IActionResult> ProductDetail(string id, string productItemId, decimal Price)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             // Initialize repositories
             Repository.ProductRepository prodp = new Repository.ProductRepository();
             // Fetch the product by ID
@@ -118,6 +137,12 @@ namespace SWP391_FinalProject.Controllers
         [HttpGet]
         public IActionResult SearchedProduct(string keyword, string sortByPrice, string sortByCat, string sortByBrand)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             // Use the repository to get products matching the keyword
             //Repository.Product proRepo = new Repository.Product(db);
             //var products = proRepo.GetProductsByKeyword(keyword);

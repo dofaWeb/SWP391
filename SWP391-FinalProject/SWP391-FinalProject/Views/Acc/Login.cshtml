@@ -118,6 +118,10 @@
                     <h2>Welcome back my dear</h2>
                     <form asp-controller="Acc" asp-action="Login" method="POST">
                         <h5 style="color:red">@ViewBag.Error</h5>
+                        @if(TempData["ErrorMessage"] != null)
+                        {
+                            <h5 style="color:red">@TempData["ErrorMessage"]</h5>
+                        }
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" id="username" name="Username" class="form-control" required>

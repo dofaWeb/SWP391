@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SWP391_FinalProject.Entities;
+using SWP391_FinalProject.Filters;
+using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
 
@@ -9,6 +11,12 @@ namespace SWP391_FinalProject.Controllers
     {
         public IActionResult Index()
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             return View();
         }
         public IActionResult Display()

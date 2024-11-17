@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SWP391_FinalProject.Filters;
+using SWP391_FinalProject.Helpers;
 using SWP391_FinalProject.Models;
 using SWP391_FinalProject.Repository;
 
@@ -10,6 +12,12 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult Checkout(int Point, string Username, string Province, string District, string Address)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             OrderModel order = new OrderModel();
             OrderRepository orderRepo = new OrderRepository();
             UserRepository userRepo = new UserRepository();
@@ -49,6 +57,12 @@ namespace SWP391_FinalProject.Controllers
         }
 
         public async Task<IActionResult> ProcessCheckout() {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             string CartCookies = Request.Cookies["CartCookie"];
             if(CartCookies==null || CartCookies.Equals(""))
             {
@@ -141,6 +155,12 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult UserOrderHistory(string UserId)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             OrderRepository orderRepo = new OrderRepository();
             List<OrderModel> orderList = orderRepo.GetOrderByUserId(UserId);
             return View(orderList);
@@ -155,6 +175,12 @@ namespace SWP391_FinalProject.Controllers
 
         public IActionResult UserOrderDetail(string OrderId)
         {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == MySetting.CLAIM_CUSTOMERID)?.Value;
+            if (UserAuthorizationFilter.CheckUser(userId))
+            {
+                TempData["ErrorMessage"] = "Your account has been ban!";
+                return RedirectToAction("Login", "Acc");
+            }
             OrderItemRepository orderItemRepo = new OrderItemRepository();
             List<OrderItemModel> orderItemList = orderItemRepo.GetOrderItemByOrderId(OrderId);
             OrderRepository orderRepo = new OrderRepository();

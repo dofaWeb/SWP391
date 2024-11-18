@@ -87,7 +87,6 @@
     <table class="table table-bordered mt-4">
         <thead class="table-dark">
             <tr>
-                <th>Id</th>
                 <th>Staff Name</th>
                 <th>Date</th>
                 <th>Shift</th>
@@ -97,11 +96,10 @@
         <tbody>
             @foreach (var item in ViewBag.Shift)
             {
-                var isPast = item.Date.ToDateTime(TimeOnly.MinValue) < DateTime.Now.Date;
-
+                    var isPast = item.Date.ToDateTime(TimeOnly.MinValue) <= DateTime.Now.Date;
+                    
 
                 <tr>
-                    <td>@item.Id</td>
                     <td>@item.StaffName</td>
                     <td>@item.Date.ToString("yyyy-MM-dd")</td>
                     <td>@item.Shift</td>
@@ -237,6 +235,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Email</th>
                 <th>Total Hours Worked</th>
                 <th>Total Orders</th>
                 <th>Avg Orders per Shift</th>
@@ -250,6 +249,7 @@
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.Name</td>
+                    <td>@item.Account.Email</td>
                     <td>@item.TotalHourWorked</td>
                     <td>@item.TotalOrders</td>
                     <td>@item.AvgOrder</td>

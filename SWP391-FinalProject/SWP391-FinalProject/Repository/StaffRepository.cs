@@ -91,6 +91,7 @@ namespace SWP391_FinalProject.Repository
         SELECT 
             s.account_Id AS Id,
             s.Name AS Name,
+            a.Email,
             CASE WHEN a.Is_Active = 1 THEN 'Available' ELSE 'Unavailable' END AS Status,
             IFNULL(hours_worked.HoursWorked, 0) AS TotalHourWorked,
             IFNULL(order_count.OrderCount, 0) AS TotalOrders,
@@ -133,7 +134,8 @@ namespace SWP391_FinalProject.Repository
                 Name = row["Name"].ToString(),
                 Account = new AccountModel
                 {
-                    Status = row["Status"].ToString()
+                    Status = row["Status"].ToString(),
+                    Email = row["Email"].ToString()
                 },
                 TotalHourWorked = Convert.ToInt32(row["TotalHourWorked"]),
                 TotalOrders = Convert.ToInt32(row["TotalOrders"]),

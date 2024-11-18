@@ -40,7 +40,6 @@
                 <div class="edit-btn">
                     <a asp-action="Index" asp-controller="Pro" class="btn btn-dark btn-block mb-2">Back To Shop</a>
                     <a asp-action="Profile" asp-controller="User" class="btn btn-primary btn-block mb-2" asp-route-username="@ViewBag.User.Account.Username">Profile</a>
-                    <a asp-action="EditProfile" asp-controller="User" asp-route-username="@User.FindFirst("Username")?.Value" class="btn btn-warning btn-block mb-2">Edit Profile</a>
                     <a asp-action="UserOrderHistory" asp-controller="Order" asp-route-UserId="@ViewBag.User.Account.Id" class="btn btn-info btn-block mb-2">View Order History</a>
                     @if (ViewBag.IsLoginWithGoogle == false)
                     {

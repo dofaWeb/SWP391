@@ -14,13 +14,19 @@
             @if(TempData["Error"] != null){
                 <h4 style="color: red">@Html.Raw(TempData["Error"])</h4>
             }
+            @{
+                var i = 0;
+            }
             @foreach (var item in Model)
             {
                 <div class="cart-item d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <img src="~/pictures/@item.Product.Picture" alt="Product Image" class="fixed-img mr-3">
                         <div>
-                            <span class="text">@item.Product.Name</span><br>
+                            <span class="text">@i. @item.Product.Name</span><br>
+                            @{
+                                i++;
+                            }
                             <span class="text">Ram: @item.Ram</span><br>
                             <span class="text">Storage: @item.Storage</span>
                             <span class="d-flex align-items-center">

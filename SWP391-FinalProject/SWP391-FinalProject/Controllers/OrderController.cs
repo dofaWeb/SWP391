@@ -33,6 +33,7 @@ namespace SWP391_FinalProject.Controllers
             List<ProductItemModel> listProItem = new List<ProductItemModel>();
             bool isReturnCheckout = false;
             List<int> positionOutOfStock = new List<int>();
+            List<int> quantityOutOfStock = new List<int>();
             for (int i = 1; i < sizeOfCookie; i++)
             {
                 string[] eachCookie = tmp[i].Split('/');
@@ -40,10 +41,11 @@ namespace SWP391_FinalProject.Controllers
                 item.Id = eachCookie[0];
                 ProductItemRepository proItemRepo = new ProductItemRepository();
                 var proItem = proItemRepo.getProductItemByProductItemId(item.Id);
-                if (proItem.Quantity <= 0)
+                if (proItem.Quantity <= 0 || proItem.Quantity < int.Parse(eachCookie[5]))
                 {
                     isReturnCheckout = true;
                     positionOutOfStock.Add(i);
+                    quantityOutOfStock.Add(proItem.Quantity);
                 }
                 else
                 {
@@ -66,11 +68,11 @@ namespace SWP391_FinalProject.Controllers
             if (isReturnCheckout)
             {
                 string error = "Our store has just run out of product:<br>";
-                foreach (var position in positionOutOfStock)
+                for (int i = 0; i < positionOutOfStock.Count(); i++)
                 {
-                    error += "Product in " + position + "position<br>";
+                    error += "Product in position " + positionOutOfStock.ElementAt(i) + " we only have " + quantityOutOfStock.ElementAt(i) + " left<br>";
                 }
-                error += "Please remove it and checkout again";
+                error += "Please adjust the quantity";
                 TempData["Error"] = error;
                 return RedirectToAction("Index", "Cart");
             }
@@ -109,6 +111,7 @@ namespace SWP391_FinalProject.Controllers
             List<ProductItemModel> listProItem = new List<ProductItemModel>();
             bool isReturnCheckout = false;
             List<int> positionOutOfStock = new List<int>();
+            List<int> quantityOutOfStock = new List<int>();
             for (int i = 1; i < sizeOfCookie; i++)
             {
                 string[] eachCookie = tmp[i].Split('/');
@@ -117,10 +120,11 @@ namespace SWP391_FinalProject.Controllers
                 ProductItemRepository proItemRepo = new ProductItemRepository();
                 var proItem = proItemRepo.getProductItemByProductItemId(item.Id);
 
-                if (proItem.Quantity <= 0)
+                if (proItem.Quantity <= 0 || proItem.Quantity < int.Parse(eachCookie[5]))
                 {
                     isReturnCheckout = true;
                     positionOutOfStock.Add(i);
+                    quantityOutOfStock.Add(proItem.Quantity);
                 }
                 else
                 {
@@ -143,11 +147,11 @@ namespace SWP391_FinalProject.Controllers
             if (isReturnCheckout)
             {
                 string error = "Our store has just run out of product:<br>";
-                foreach (var position in positionOutOfStock)
+                for (int i = 0; i < positionOutOfStock.Count(); i++)
                 {
-                    error += "Product in " + position + "position<br>";
+                    error += "Product in position " + positionOutOfStock.ElementAt(i) + " we only have " + quantityOutOfStock.ElementAt(i) + " left<br>";
                 }
-                error += "Please remove it and checkout again";
+                error += "Please adjust the quantity";
                 TempData["Error"] = error;
                 return RedirectToAction("Index", "Cart");
             }

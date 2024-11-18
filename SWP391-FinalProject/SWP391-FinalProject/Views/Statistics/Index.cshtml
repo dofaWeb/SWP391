@@ -2,12 +2,32 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1 class="mt-4">Order Statistics</h1>
+<style>
+    .chart-container {
+        margin: 70px 0; /* Increased margin for better spacing */
+        padding: 20px; /* Optional: Add padding for a cleaner look */
+        width: 50%; /* Ensure the chart fills the row */
+        height: 600px; /* Increase height for better visibility */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9f9f9; /* Optional: Add a light background for contrast */
+        border-radius: 8px; /* Optional: Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add subtle shadow */
+    }
+
+    canvas {
+        width: 100% !important; /* Ensure canvas spans the container width */
+        height: auto !important; /* Maintain aspect ratio */
+    }
+</style>
 
 <!-- Chart Section for Orders -->
-<div class="chart-container">
+
+    <h3>Order Trends</h3>
     <canvas id="orderChart" width="300" height="150"></canvas>
-</div>
+
 
 <!-- Order Statistics Table -->
 <h2 class="mt-4">Order Statistics</h2>
@@ -31,21 +51,22 @@
     </tbody>
 </table>
 
-<!-- Container for Circular Charts -->
+<!-- Container for Charts -->
 <h2 class="mt-4">Statistics Overview</h2>
-<div class="row">
-    <div class="col-md-4">
-        <h3>Best-Selling Products</h3>
-        <canvas id="bestSellingProductsChart" width="300" height="300"></canvas>
-    </div>
-    <div class="col-md-4">
-        <h3>Best-Selling Brands</h3>
-        <canvas id="bestSellingBrandsChart" width="300" height="300"></canvas>
-    </div>
-    <div class="col-md-4">
-        <h3>Most-Spending Customers</h3>
-        <canvas id="mostSpendingCustomersChart" width="300" height="300"></canvas>
-    </div>
+
+<div class="chart-container">
+    <h3>Best-Selling Products</h3>
+    <canvas id="bestSellingProductsChart" width="100" height="100"></canvas>
+</div>
+
+<div class="chart-container">
+    <h3>Best-Selling Brands</h3>
+    <canvas id="bestSellingBrandsChart" width="50" height="50"></canvas>
+</div>
+
+<div class="chart-container">
+    <h3>Most-Spending Customers</h3>
+    <canvas id="mostSpendingCustomersChart" width="50" height="50"></canvas>
 </div>
 
 <!-- Chart.js Script -->
@@ -113,51 +134,32 @@
             // Chart.js configuration for Best-Selling Products
             const productCtx = document.getElementById('bestSellingProductsChart').getContext('2d');
         new Chart(productCtx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: productLabels,
                 datasets: [{
                     label: 'Best-Selling Products',
                     data: productCounts,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = tooltipItem.label || '';
-                                const value = tooltipItem.raw || 0;
-                                const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(2);
-                                return `${label}: ${value} (${percentage}%)`;
-                            }
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Products'
                         }
                     },
-                    title: {
-                        display: true,
-                        text: 'Best-Selling Products'
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Units Sold'
+                        },
+                        beginAtZero: true
                     }
                 }
             }
@@ -178,51 +180,32 @@
             // Chart.js configuration for Best-Selling Brands
             const brandCtx = document.getElementById('bestSellingBrandsChart').getContext('2d');
         new Chart(brandCtx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: brandLabels,
                 datasets: [{
                     label: 'Best-Selling Brands',
                     data: brandCounts,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                    ],
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = tooltipItem.label || '';
-                                const value = tooltipItem.raw || 0;
-                                const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(2);
-                                return `${label}: ${value} (${percentage}%)`;
-                            }
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Brands'
                         }
                     },
-                    title: {
-                        display: true,
-                        text: 'Best-Selling Brands'
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Units Sold'
+                        },
+                        beginAtZero: true
                     }
                 }
             }
@@ -243,66 +226,35 @@
             // Chart.js configuration for Most-Spending Customers
             const customerCtx = document.getElementById('mostSpendingCustomersChart').getContext('2d');
         new Chart(customerCtx, {
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: customerLabels,
                 datasets: [{
                     label: 'Most-Spending Customers',
                     data: customerSpending,
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                    ],
+                    backgroundColor: 'rgba(255, 206, 86, 0.6)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = tooltipItem.label || '';
-                                const value = tooltipItem.raw || 0;
-                                const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(2);
-                                return `${label}: ${value} (${percentage}%)`;
-                            }
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Customers'
                         }
                     },
-                    title: {
-                        display: true,
-                        text: 'Most-Spending Customers'
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Amount Spent'
+                        },
+                        beginAtZero: true
                     }
                 }
             }
         });
     });
 </script>
-
-<style>
-    .row {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 20px;
-    }
-
-    .chart-container {
-        margin: 10px;
-    }
-</style>

@@ -33,8 +33,6 @@ namespace SWP391_FinalProject.Controllers
         [HttpPost]
         public IActionResult ListOrder(string Username, string keyword, DateTime? fromDate, DateTime? toDate, int? orderState)
         {
-
-
             AccountRepository accountRepository = new AccountRepository();
             var Id = accountRepository.GetIdByUsername(Username);
             Repository.OrderRepository orderRepo = new Repository.OrderRepository();

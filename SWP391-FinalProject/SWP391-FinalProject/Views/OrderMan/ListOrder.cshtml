@@ -25,9 +25,10 @@
         <input type="date" name="toDate" class="form-control" aria-label="To date">
         <select name="orderState" class="form-control" style="width: 150px; margin-right: 5px;">
             <option value=0>Sort by State</option>
-            <option value=1>Pending</option>
-            <option value=2>Approve</option>
-            <option value=3>Reject</option>
+            @foreach (var item in ViewBag.OrderState)
+            {
+                    <option value="@item.Id">@item.Name</option>
+            }
 
         </select>
 
@@ -68,6 +69,7 @@
                 foreach (var order in Model)
                 {
                     bool isDisable = false;
+                    bool isCancel = false;
 
                     <form asp-controller="OrderMan" asp-action="UpdateState">
 
@@ -87,18 +89,20 @@
                                 {
                                     isDisable = true;
                                 }
-                            <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()">
+                                @if (order.OrderState.Name == "Cancel")
+                                {
+                                    isCancel = true;
+                                }
+                            <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()" @(isCancel || isDisable ? "disabled" : "")>
                                     @foreach (var item in ViewBag.OrderState)
                                     {
-                                        @if (order.OrderState.Name == item.Name)
+                                        if (order.OrderState.Name == item.Name)
                                         {
                                         <option value="@item.Id" selected>@item.Name</option>
                                         }
                                         else
                                         {
                                         <option value="@item.Id">@item.Name</option>
-
-
                                         }
                                     }
                             </select>
@@ -106,17 +110,9 @@
 
                         <td>
                             <a asp-controller="OrderMan" asp-action="OrderDetail" asp-route-OrderId="@order.Id" class="btn btn-warning btn-sm">View</a>
-                                @if (isDisable)
-                                {
-                                <input type="submit" value="Save" class="btn btn-success btn-sm" @(isDisable)? disabled />
-                                }
-                                else
-                                {
-                                <input type="submit" value="Save" class="btn btn-success btn-sm" />
-
-                                }
-
+                            <input type="submit" value="Save" class="btn btn-success btn-sm" @(isCancel || isDisable ? "disabled" : "") />
                         </td>
+
                     </tr>
                     </form>
 

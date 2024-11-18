@@ -229,7 +229,7 @@ namespace SWP391_FinalProject.Repository
             {
                 updatedPoints += EarnPoint.HasValue ? (int)EarnPoint.Value : 0;
             }
-            else if (OrderStateId == 3)
+            else if (OrderStateId == 3 || OrderStateId == 4)
             {
                 updatedPoints += UsePoint.HasValue ? (int)UsePoint.Value : 0;
             }

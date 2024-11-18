@@ -122,8 +122,11 @@ namespace SWP391_FinalProject.Controllers
 
         public string getCartFromCookie()
         {
-
-            string cookie = Request.Cookies["CartCookie"] ?? "";
+            string cookie = "";
+            if (Request?.Cookies != null && Request.Cookies["CartCookie"] != null)
+            {
+                cookie = Request.Cookies["CartCookie"];
+            }
 
             return cookie;
         }

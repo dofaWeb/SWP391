@@ -46,6 +46,41 @@ namespace SWP391_FinalProject.Repository
             string query = "Update `Order` Set state_id = @state Where id = @Id";
             var parameter = new Dictionary<string, object> { { "@state", 4 }, { "@Id", id } };
             DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+
+            //Update ProductItem Quantity
+            OrderItemRepository orderItemRepo = new OrderItemRepository();
+            var listOrderItem = orderItemRepo.GetOrderItemByOrderId(id);
+            var proItemId = "";
+            foreach (var orderItem in listOrderItem)
+            {
+                string updateQuery = @"
+                UPDATE product_item 
+                SET Quantity = Quantity + @Quantity
+                WHERE Id = @ProductItemId";
+
+                var updateParameters = new Dictionary<string, object>
+                {
+                    { "@ProductItemId", orderItem.ProductItemId },
+                    { "@Quantity", orderItem.Quantity }
+                };
+
+                // Execute Update query
+                DataAccess.DataAccess.ExecuteNonQuery(updateQuery, updateParameters);
+                proItemId = orderItem.ProductItemId;
+            }
+
+            //Update Product State
+            ProductItemRepository proItemRepo = new ProductItemRepository();
+            var proItem = proItemRepo.getProductItemByProductItemId(proItemId);
+            ProductRepository proRepo = new ProductRepository();
+            proRepo.UpdateProductState(proItem.Product.Id);
+
+            //Update UserPoint
+            OrderRepository orderRepo = new OrderRepository();
+            var order = orderRepo.GetOrderByOrderId(id);
+            UserRepository userRepo = new UserRepository();
+            var user = userRepo.GetUserProfileByUserId(order.UserId);
+            userRepo.UpdateUserPoint(user.Account.Username, order.StateId, order.UsePoint, order.EarnPoint);
         }
 
         public void InsertOrder(OrderModel Order, string username, decimal? TotalPrice, List<ProductItemModel> listProItem)

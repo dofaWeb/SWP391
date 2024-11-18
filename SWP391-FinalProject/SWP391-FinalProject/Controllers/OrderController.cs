@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Newtonsoft.Json;
 using SWP391_FinalProject.Filters;
 using SWP391_FinalProject.Helpers;
@@ -28,32 +29,59 @@ namespace SWP391_FinalProject.Controllers
             string Resultcookie = Request.Cookies["CartCookie"] ?? "";
             string[] tmp = Resultcookie.Split('=');
             int sizeOfCookie = tmp.Length;
-            decimal? TotalPrice =0;
+            decimal? TotalPrice = 0;
             List<ProductItemModel> listProItem = new List<ProductItemModel>();
+            bool isReturnCheckout = false;
+            List<int> positionOutOfStock = new List<int>();
             for (int i = 1; i < sizeOfCookie; i++)
             {
                 string[] eachCookie = tmp[i].Split('/');
                 ProductItemModel item = new ProductItemModel();
                 item.Id = eachCookie[0];
-                item.Product = new ProductModel();
-                item.Product.Id = eachCookie[1];
-                item.Product.Name = eachCookie[2];
-                item.Product.Picture = eachCookie[3];
-                item.Product.Description = eachCookie[4];
-                item.CartQuantity = int.Parse(eachCookie[5]);
-                item.Quantity = int.Parse(eachCookie[6]);
-                item.SellingPrice = Decimal.Parse(eachCookie[7]);
-                item.Discount = Decimal.Parse(eachCookie[8]);
-                item.PriceAfterDiscount = Decimal.Parse(eachCookie[9]);
-                TotalPrice += item.PriceAfterDiscount;
-                item.Ram = eachCookie[10];
-                item.Storage = eachCookie[11];
-                listProItem.Add(item);
+                ProductItemRepository proItemRepo = new ProductItemRepository();
+                var proItem = proItemRepo.getProductItemByProductItemId(item.Id);
+                if (proItem.Quantity <= 0)
+                {
+                    isReturnCheckout = true;
+                    positionOutOfStock.Add(i);
+                }
+                else
+                {
+                    item.Product = new ProductModel();
+                    item.Product.Id = eachCookie[1];
+                    item.Product.Name = eachCookie[2];
+                    item.Product.Picture = eachCookie[3];
+                    item.Product.Description = eachCookie[4];
+                    item.CartQuantity = int.Parse(eachCookie[5]);
+                    item.Quantity = int.Parse(eachCookie[6]);
+                    item.SellingPrice = Decimal.Parse(eachCookie[7]);
+                    item.Discount = Decimal.Parse(eachCookie[8]);
+                    item.PriceAfterDiscount = Decimal.Parse(eachCookie[9]);
+                    item.Ram = eachCookie[10];
+                    item.Storage = eachCookie[11];
+                    listProItem.Add(item);
+                }
             }
-            orderRepo.InsertOrder(order, Username, TotalPrice, listProItem);
-            Helpers.MailUtil.SendBillEmail(order, Username, TotalPrice, Point, listProItem);
-            Response.Cookies.Delete("CartCookie");
-            return RedirectToAction("Index", "Pro");
+
+            if (isReturnCheckout)
+            {
+                string error = "Our store has just run out of product:<br>";
+                foreach (var position in positionOutOfStock)
+                {
+                    error += "Product in " + position + "position<br>";
+                }
+                error += "Please remove it and checkout again";
+                TempData["Error"] = error;
+                return RedirectToAction("Index", "Cart");
+            }
+            else
+            {
+
+                orderRepo.InsertOrder(order, Username, TotalPrice, listProItem);
+                Helpers.MailUtil.SendBillEmail(order, Username, TotalPrice, Point, listProItem);
+                Response.Cookies.Delete("CartCookie");
+                return RedirectToAction("Index", "Pro");
+            }
         }
 
         public async Task<IActionResult> ProcessCheckout() {
@@ -79,25 +107,51 @@ namespace SWP391_FinalProject.Controllers
             string[] tmp = CartCookies.Split('=');
             int sizeOfCookie = tmp.Length;
             List<ProductItemModel> listProItem = new List<ProductItemModel>();
+            bool isReturnCheckout = false;
+            List<int> positionOutOfStock = new List<int>();
             for (int i = 1; i < sizeOfCookie; i++)
             {
                 string[] eachCookie = tmp[i].Split('/');
                 ProductItemModel item = new ProductItemModel();
                 item.Id = eachCookie[0];
-                item.Product = new ProductModel();
-                item.Product.Id = eachCookie[1];
-                item.Product.Name = eachCookie[2];
-                item.Product.Picture = eachCookie[3];
-                item.Product.Description = eachCookie[4];
-                item.CartQuantity = int.Parse(eachCookie[5]);
-                item.Quantity = int.Parse(eachCookie[6]);
-                item.SellingPrice = Decimal.Parse(eachCookie[7]);
-                item.Discount = Decimal.Parse(eachCookie[8]);
-                item.PriceAfterDiscount = Decimal.Parse(eachCookie[9]);
-                item.Ram = eachCookie[10];
-                item.Storage = eachCookie[11];
-                listProItem.Add(item);
+                ProductItemRepository proItemRepo = new ProductItemRepository();
+                var proItem = proItemRepo.getProductItemByProductItemId(item.Id);
+
+                if (proItem.Quantity <= 0)
+                {
+                    isReturnCheckout = true;
+                    positionOutOfStock.Add(i);
+                }
+                else
+                {
+                    item.Product = new ProductModel();
+                    item.Product.Id = eachCookie[1];
+                    item.Product.Name = eachCookie[2];
+                    item.Product.Picture = eachCookie[3];
+                    item.Product.Description = eachCookie[4];
+                    item.CartQuantity = int.Parse(eachCookie[5]);
+                    item.Quantity = int.Parse(eachCookie[6]);
+                    item.SellingPrice = Decimal.Parse(eachCookie[7]);
+                    item.Discount = Decimal.Parse(eachCookie[8]);
+                    item.PriceAfterDiscount = Decimal.Parse(eachCookie[9]);
+                    item.Ram = eachCookie[10];
+                    item.Storage = eachCookie[11];
+                    listProItem.Add(item);
+                }
+
+                }
+            if (isReturnCheckout)
+            {
+                string error = "Our store has just run out of product:<br>";
+                foreach (var position in positionOutOfStock)
+                {
+                    error += "Product in " + position + "position<br>";
+                }
+                error += "Please remove it and checkout again";
+                TempData["Error"] = error;
+                return RedirectToAction("Index", "Cart");
             }
+
 
             ViewBag.ListProItem = listProItem;
             //-----------------------------------------

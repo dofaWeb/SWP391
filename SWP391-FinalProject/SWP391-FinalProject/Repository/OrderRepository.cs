@@ -66,14 +66,11 @@ namespace SWP391_FinalProject.Repository
 
                 // Execute Update query
                 DataAccess.DataAccess.ExecuteNonQuery(updateQuery, updateParameters);
-                proItemId = orderItem.ProductItemId;
+                ProductItemRepository proItemRepo = new ProductItemRepository();
+                var proItem = proItemRepo.getProductItemByProductItemId(orderItem.ProductItemId);
+                ProductRepository proRepo = new ProductRepository();
+                proRepo.UpdateProductState(proItem.Product.Id);
             }
-
-            //Update Product State
-            ProductItemRepository proItemRepo = new ProductItemRepository();
-            var proItem = proItemRepo.getProductItemByProductItemId(proItemId);
-            ProductRepository proRepo = new ProductRepository();
-            proRepo.UpdateProductState(proItem.Product.Id);
 
             //Update UserPoint
             OrderRepository orderRepo = new OrderRepository();
@@ -148,8 +145,11 @@ namespace SWP391_FinalProject.Repository
             InsertOrderItem(listProItem, newOrder.Id);
             UserRepository userRepo = new UserRepository();
             userRepo.UpdateUserPoint(username, newOrder.StateId, newOrder.UsePoint, newOrder.EarnPoint);
-            ProductRepository proRepo = new ProductRepository();
-            proRepo.UpdateProductState(listProItem.Select(p => p.Product.Id).First().ToString());
+            foreach(var proItem in listProItem)
+            {
+                ProductRepository proRepo = new ProductRepository();
+                proRepo.UpdateProductState(proItem.Product.Id);
+            }
         }
 
         public void InsertOrderItem(List<ProductItemModel> listProItem, string orderID)

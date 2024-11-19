@@ -52,7 +52,7 @@ namespace SWP391_FinalProject.Controllers
         public IActionResult Display()
         {
             ProductRepository proRepo = new ProductRepository();
-            var query = proRepo.GetAllProduct();
+            var query = proRepo.GetAllProductAdmin();
 
             return View(query);
         }

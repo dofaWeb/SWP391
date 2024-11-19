@@ -59,6 +59,7 @@ namespace SWP391_FinalProject.Controllers
                     item.SellingPrice = Decimal.Parse(eachCookie[7]);
                     item.Discount = Decimal.Parse(eachCookie[8]);
                     item.PriceAfterDiscount = Decimal.Parse(eachCookie[9]);
+                    TotalPrice += item.PriceAfterDiscount;
                     item.Ram = eachCookie[10];
                     item.Storage = eachCookie[11];
                     listProItem.Add(item);

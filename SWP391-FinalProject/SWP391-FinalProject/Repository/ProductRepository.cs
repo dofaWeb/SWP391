@@ -1121,13 +1121,16 @@ LIMIT 1;"; // Only get the first matching result
             p.Picture,
             c.Name AS CategoryName,
             ps.Name AS ProductState,
-            COALESCE(SUM(pi.Quantity), 0) AS Quantity
+            COALESCE(SUM(pi.Quantity), 0) AS Quantity,
+            pi.id as proItemId,
+            r.rating
         FROM 
             Product p
         JOIN 
             Category c ON p.category_id = c.Id
         JOIN 
             Product_State ps ON p.state_id = ps.Id
+        Join Rating r On r.product_id = p.id
         LEFT JOIN 
             Product_Item pi ON pi.product_id = p.Id
         WHERE 
@@ -1159,12 +1162,18 @@ LIMIT 1;"; // Only get the first matching result
                     Picture = row["Picture"].ToString(),
                     Quantity = Convert.ToInt32(row["Quantity"]),
                     CategoryName = row["CategoryName"].ToString(),
-                    ProductState = row["ProductState"].ToString()
+                    ProductState = row["ProductState"].ToString(),
+                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"]),
+                    ProductItem = new ProductItemModel
+                    {
+                        Id = row["proItemId"].ToString()
+                    }
                 };
 
                 // Retrieve minimum price for the product and assign to ProductItem
                 product.ProductItem = GetMinPrice(product.Id);
-
+                product.ProductItem.Ram = GetProductVariationOption(product.ProductItem.Id, "Ram");
+                product.ProductItem.Storage = GetProductVariationOption(product.ProductItem.Id, "Storage");
                 result.Add(product);
             }
 

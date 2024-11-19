@@ -96,11 +96,15 @@
                             <select id="OrderStateId" name="OrderStateId" onchange="UpdateState()" @(isCancel || isDisable ? "disabled" : "")>
                                     @foreach (var item in ViewBag.OrderState)
                                     {
-                                        if (order.OrderState.Name == item.Name)
+                                        if(order.OrderState.Name == "Cancel")
                                         {
                                         <option value="@item.Id" selected>@item.Name</option>
                                         }
-                                        else
+                                        else if (order.OrderState.Name == item.Name && item.Name!="Cancel")
+                                        {
+                                        <option value="@item.Id" selected>@item.Name</option>
+                                        }
+                                        else if (item.Name != "Cancel")
                                         {
                                         <option value="@item.Id">@item.Name</option>
                                         }

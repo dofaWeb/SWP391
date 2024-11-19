@@ -56,11 +56,16 @@
     display: block; /* Ensure the title is treated as a block */
 }
 
+    .checked {
+        color: orange;
+    }
+
 @@media (min-width: 768px) {
     .col-md-3 {
         flex: 0 0 25%;
         max-width: 25%;
     }
+
 }
 
 
@@ -82,6 +87,11 @@
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">@item.Name</h5>
+
+                            <div class="rating-container">
+                                <span class="fa fa-star checked">@item.Rating/5</span>
+                            </div>
+
                             <div class="price">
                                 @if (item.ProductItem.Discount != 0)
                                 {

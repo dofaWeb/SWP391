@@ -27,5 +27,7 @@ namespace SWP391_FinalProject.Models
         
         public decimal? Saving { get; set;}
 
+        public int Rating { get; set; }
+
     }
 }

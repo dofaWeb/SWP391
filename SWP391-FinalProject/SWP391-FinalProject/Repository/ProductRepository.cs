@@ -398,6 +398,7 @@ LIMIT 1;
             string topProductsQuery = @"
         SELECT p.Id AS ProductId, 
                p.Name AS ProductName, 
+               r.rating,
                p.Description, 
                p.Picture, 
                c.Name AS CategoryName, 
@@ -410,8 +411,9 @@ LIMIT 1;
         JOIN `Order` o ON oi.order_id = o.Id  -- Escape 'Order' with backticks
         JOIN Category c ON p.category_id = c.Id
         JOIN Product_State ps ON p.state_id = ps.Id
+        Join Rating r On r.product_id = p.id
         WHERE o.state_id = 2 AND p.state_id = 1
-        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name
+        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name, r.rating
         ORDER BY TotalPurchases DESC
         LIMIT 4";
 
@@ -430,7 +432,8 @@ LIMIT 1;
                     Picture = (string)row["Picture"],
                     Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Handling NULLs
                     CategoryName = (string)row["CategoryName"],
-                    ProductState = (string)row["ProductState"]
+                    ProductState = (string)row["ProductState"],
+                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"])
                 };
 
                 // Step 2: Get the minimum price for each product
@@ -450,19 +453,21 @@ LIMIT 1;
             // SQL query to retrieve all products with their categories, states, total quantity, and minimum price
             string productQuery = @"
         SELECT p.Id AS ProductId, 
-               p.Name AS ProductName, 
-               p.Description, 
-               p.Picture, 
-               c.Name AS CategoryName, 
-               ps.Name AS ProductState,
-               COALESCE(SUM(pi.Quantity), 0) AS TotalQuantity,
-               MIN(pi.selling_price) AS MinPrice -- Assuming you have a Price column in Product_Item
-        FROM Product p
-        JOIN Category c ON p.category_id = c.Id
-        JOIN Product_State ps ON p.state_id = ps.Id
-        LEFT JOIN Product_Item pi ON p.Id = pi.product_id -- Use LEFT JOIN to include products with no items
-        
-        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name";
+       p.Name AS ProductName, 
+       r.rating,
+       p.Description, 
+       p.Picture, 
+       c.Name AS CategoryName, 
+       ps.Name AS ProductState,
+       COALESCE(SUM(pi.Quantity), 0) AS TotalQuantity,
+       MIN(pi.selling_price) AS MinPrice -- Assuming you have a Price column in Product_Item
+FROM Product p
+JOIN Category c ON p.category_id = c.Id
+JOIN Product_State ps ON p.state_id = ps.Id
+Join rating r ON r.product_id = p.id
+LEFT JOIN Product_Item pi ON p.Id = pi.product_id -- Use LEFT JOIN to include products with no items
+
+GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name, r.rating;";
 
             // Execute the query to get product details
             DataTable productTable = DataAccess.DataAccess.ExecuteQuery(productQuery);
@@ -479,6 +484,7 @@ LIMIT 1;
                     Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Convert to int
                     CategoryName = (string)row["CategoryName"],
                     ProductState = (string)row["ProductState"],
+                    Rating = (Convert.ToInt32(row["rating"]) == 0 )? 5 : Convert.ToInt32(row["rating"])
                 };
 
 

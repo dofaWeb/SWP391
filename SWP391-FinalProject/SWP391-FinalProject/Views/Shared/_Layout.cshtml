@@ -69,19 +69,15 @@
                     </select>
 
                     <!-- Dropdown for Filtering by Category, with reduced width -->
-                    <select name="sortByCat" class="form-control" style="width: 150px; margin-right: 5px;">
+                    <select id="category" name="sortByCat" class="form-control" style="width: 150px; margin-right: 5px;" onchange="updateBrandOptions()">
                         <option value="">Filter by Category</option>
                         <option value="Laptop">Laptop</option>
                         <option value="Phone">Phone</option>
                     </select>
-                    <select name="sortByBrand" class="form-control" style="width: 150px; margin-right: 5px;">
+
+                    <!-- Dropdown for Filtering by Brand -->
+                    <select id="brand" name="sortByBrand" class="form-control" style="width: 150px; margin-right: 5px;">
                         <option value="">Filter by Brand</option>
-                        <option value="Xiaomi">Xiaomi</option>
-                        <option value="Samsung">Samsung</option>
-                        <option value="Lenovo">Lenovo</option>
-                        <option value="iPhone">iPhone</option>
-                        <option value="HP">HP</option>
-                        <option value="Dell">Dell</option>
                     </select>
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">Search</button>
@@ -98,6 +94,31 @@
             &copy; 2024 - SWP391_FinalProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script>
+        // Object mapping categories to their respective brands
+        const categoryBrands = {
+            Laptop: ["Dell", "HP", "Lenovo"],
+            Phone: ["Samsung", "iPhone", "Xiaomi", "OnePlus"]
+        };
+
+        function updateBrandOptions() {
+            const category = document.getElementById("category").value;
+            const brandSelect = document.getElementById("brand");
+
+            // Clear existing options
+            brandSelect.innerHTML = '<option value="">Filter by Brand</option>';
+
+            // Populate new options based on selected category
+            if (category && categoryBrands[category]) {
+                categoryBrands[category].forEach(brand => {
+                    const option = document.createElement("option");
+                    option.value = brand;
+                    option.textContent = brand;
+                    brandSelect.appendChild(option);
+                });
+            }
+        }
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

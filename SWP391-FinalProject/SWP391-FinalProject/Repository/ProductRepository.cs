@@ -452,7 +452,52 @@ LIMIT 1;
             return productModels;
         }
 
+        public List<ProductModel> GetAllProductAdmin()
+        {
+            // SQL query to retrieve all products with their categories, states, total quantity, and minimum price
+            string productQuery = @"
+        SELECT p.Id AS ProductId, 
+       p.Name AS ProductName, 
+       p.Description, 
+       p.Picture, 
+       c.Name AS CategoryName, 
+       ps.Name AS ProductState,
+       COALESCE(SUM(pi.Quantity), 0) AS TotalQuantity,
+       MIN(pi.selling_price) AS MinPrice -- Assuming you have a Price column in Product_Item
+FROM Product p
+JOIN Category c ON p.category_id = c.Id
+JOIN Product_State ps ON p.state_id = ps.Id
+LEFT JOIN Product_Item pi ON p.Id = pi.product_id -- Use LEFT JOIN to include products with no items
 
+GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;";
+
+            // Execute the query to get product details
+            DataTable productTable = DataAccess.DataAccess.ExecuteQuery(productQuery);
+            var productModels = new List<Models.ProductModel>();
+
+            foreach (DataRow row in productTable.Rows)
+            {
+                var productModel = new Models.ProductModel
+                {
+                    Id = (string)row["ProductId"],
+                    Name = (string)row["ProductName"],
+                    Description = (string)row["Description"],
+                    Picture = (string)row["Picture"],
+                    Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Convert to int
+                    CategoryName = (string)row["CategoryName"],
+                    ProductState = (string)row["ProductState"],
+
+                };
+
+
+                productModel.ProductItem = GetMinPrice(productModel.Id);
+
+                // Add the product model to the list
+                productModels.Add(productModel);
+            }
+
+            return productModels;
+        }
 
         public List<Models.ProductModel> GetAllProduct()
         {

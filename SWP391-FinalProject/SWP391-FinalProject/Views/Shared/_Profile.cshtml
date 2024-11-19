@@ -30,7 +30,7 @@
                 <!-- Profile Picture and Name Section -->
                 <div class="profile-header">
                     <div class="profile-picture">
-                        <img src="~/pictures/bgg.jpg" alt="Profile Picture" class="img-fluid rounded-circle">
+                        <img src="@Url.Content(ViewBag.ProfilePicture)" alt="Profile Picture" class="img-fluid rounded-circle">
                     </div>
                     <h3 class="mt-2 font-weight-bold text-primary">@ViewBag.User.Name</h3>
                     <p class="text-muted">@ViewBag.User.Province</p>

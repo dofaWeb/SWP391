@@ -404,7 +404,8 @@ LIMIT 1;
                c.Name AS CategoryName, 
                ps.Name AS ProductState, 
                COUNT(oi.order_id) AS TotalPurchases,
-               SUM(pi.Quantity) AS TotalQuantity
+               SUM(pi.Quantity) AS TotalQuantity,
+                pi.id as proItemId
         FROM Product p
         JOIN Product_Item pi ON p.Id = pi.product_id
         JOIN Order_Item oi ON pi.Id = oi.product_item_id
@@ -433,12 +434,17 @@ LIMIT 1;
                     Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Handling NULLs
                     CategoryName = (string)row["CategoryName"],
                     ProductState = (string)row["ProductState"],
-                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"])
+                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"]),
+                    ProductItem = new ProductItemModel
+                    {
+                        Id = row["proItemId"].ToString()
+                    }
                 };
 
                 // Step 2: Get the minimum price for each product
                 productModel.ProductItem = GetMinPrice(productModel.Id); // Assuming this method gets the minimum price
-
+                productModel.ProductItem.Ram = GetProductVariationOption(productModel.ProductItem.Id, "Ram");
+                productModel.ProductItem.Storage = GetProductVariationOption(productModel.ProductItem.Id, "Storage");
                 // Add the product model to the list
                 productModels.Add(productModel);
             }
@@ -460,7 +466,8 @@ LIMIT 1;
        c.Name AS CategoryName, 
        ps.Name AS ProductState,
        COALESCE(SUM(pi.Quantity), 0) AS TotalQuantity,
-       MIN(pi.selling_price) AS MinPrice -- Assuming you have a Price column in Product_Item
+       MIN(pi.selling_price) AS MinPrice, -- Assuming you have a Price column in Product_Item
+        pi.id as proItemId
 FROM Product p
 JOIN Category c ON p.category_id = c.Id
 JOIN Product_State ps ON p.state_id = ps.Id
@@ -484,11 +491,18 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name, r.rating;";
                     Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Convert to int
                     CategoryName = (string)row["CategoryName"],
                     ProductState = (string)row["ProductState"],
-                    Rating = (Convert.ToInt32(row["rating"]) == 0 )? 5 : Convert.ToInt32(row["rating"])
+                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"]),
+                    ProductItem = new ProductItemModel
+                    {
+                        Id = row["proItemId"].ToString()
+                    }
                 };
 
 
                 productModel.ProductItem = GetMinPrice(productModel.Id);
+
+                productModel.ProductItem.Ram = GetProductVariationOption(productModel.ProductItem.Id, "Ram");
+                productModel.ProductItem.Storage = GetProductVariationOption(productModel.ProductItem.Id, "Storage");
 
                 // Add the product model to the list
                 productModels.Add(productModel);

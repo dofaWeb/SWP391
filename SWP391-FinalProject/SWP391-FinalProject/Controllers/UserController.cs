@@ -20,6 +20,23 @@ namespace SWP391_FinalProject.Controllers
                 TempData["ErrorMessage"] = "Your account has been ban!";
                 return RedirectToAction("Login", "Acc");
             }
+            //random picture profile
+            var images = new List<string>
+    {
+                "/pictures/bg.jpg",
+                "/pictures/bgg.jpg",
+                "/pictures/day.png",
+                "/pictures/ap1.jpeg",
+                "/pictures/ap2.jpeg",
+                "/pictures/ap3.jpeg",
+                "/pictures/ap4.jpeg",
+                "/pictures/ap5.jpg",
+        
+    };
+
+            var random = new Random();
+            int index = random.Next(images.Count);
+            ViewBag.ProfilePicture = images[index];
             Repository.UserRepository userRepo = new Repository.UserRepository();
             UserModel user = new UserModel();
             user = userRepo.GetUserProfileByUsername(username);

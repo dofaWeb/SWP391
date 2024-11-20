@@ -114,8 +114,8 @@ namespace SWP391_FinalProject.Controllers
             string password = GenerateRandomString(10);
             
             AccountRepository accRepo = new AccountRepository();
-            AccountModel acc = accRepo.GetUserByUsernameOrEmail(StaffEmail);
-            if (acc == null)
+            var check = accRepo.checkExistedAccount(StaffEmail);
+            if (!check)
             {
                 accRepo.AddStaffAccount(new Models.AccountModel
                 {

@@ -404,6 +404,19 @@ namespace SWP391_FinalProject.Repository
             return string.Empty;
         }
 
+        public bool checkExistedAccount(string email)
+        {
+            string query = "SELECT * FROM account Where Email = @Email";
+            var parameter = new Dictionary<string, object>
+            {
+                { "@Email", email }
+            };
+            var result = DataAccess.DataAccess.ExecuteQuery(query, parameter);
+            if (result.Rows.Count > 0)
+                return true;
+            return false;
+        }
+
 
         public Models.AccountModel GetUserByUsernameOrEmail(string key)
         {

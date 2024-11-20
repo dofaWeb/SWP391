@@ -28,7 +28,7 @@ namespace SWP391_FinalProject.Repository
                      JOIN Category c ON p.category_id = c.Id
                      JOIN Product_State ps ON p.state_id = ps.Id
                      LEFT JOIN Product_Item pi ON pi.product_id = p.Id
-                     WHERE 1 = 1
+                     WHERE ps.Name = 'Available'
                      ";
 
             var parameters = new Dictionary<string, object>();
@@ -67,6 +67,8 @@ namespace SWP391_FinalProject.Repository
             DataTable productTable = DataAccess.DataAccess.ExecuteQuery(query, parameters);
             var result = new List<Models.ProductModel>();
 
+            RatingRepository ratingRepository = new RatingRepository();
+
             foreach (DataRow row in productTable.Rows)
             {
                 var product = new Models.ProductModel
@@ -78,7 +80,8 @@ namespace SWP391_FinalProject.Repository
                     Quantity = Convert.ToInt32(row["Quantity"]),
                     CategoryName = row["CategoryName"].ToString(),
                     CategoryId = row["CategoryId"].ToString(),
-                    ProductState = row["ProductState"].ToString()
+                    ProductState = row["ProductState"].ToString(),
+                    Rating = ratingRepository.GetAverageRating(row["Id"].ToString())
                 };
 
                 // Retrieve minimum price for each product
@@ -104,6 +107,8 @@ namespace SWP391_FinalProject.Repository
                         Saving = Convert.ToDecimal(priceRow["selling_price"]) - Convert.ToDecimal(priceRow["PriceAfterDiscount"])
                     };
                 }
+                product.ProductItem.Ram = GetProductVariationOption(product.ProductItem.Id, "Ram");
+                product.ProductItem.Storage = GetProductVariationOption(product.ProductItem.Id, "Storage");
 
                 result.Add(product);
             }
@@ -146,7 +151,7 @@ FROM Product p
 JOIN Category c ON p.category_id = c.Id
 JOIN Product_State ps ON p.state_id = ps.Id
 LEFT JOIN Product_Item pi  ON p.Id = pi.product_id
-WHERE c.Name LIKE CONCAT('%', @brand, '%')
+WHERE c.Name LIKE CONCAT('%', @brand, '%') AND ps.Name = 'Available'
 GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;
     ";
 
@@ -161,6 +166,7 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;
 
             // Convert the DataTable to a list of ProductModel objects
             var productList = new List<ProductModel>();
+            RatingRepository ratingRepository = new RatingRepository();
             foreach (DataRow row in resultTable.Rows)
             {
                 var product = new ProductModel
@@ -172,9 +178,11 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;
                     Quantity = Convert.ToInt32(row["TotalQuantity"]),
                     CategoryName = row["CategoryName"].ToString(),
                     ProductState = row["ProductState"].ToString(),
-                    ProductItem = GetMinPrice(row["Id"].ToString()) // Get the minimum-priced item
+                    ProductItem = GetMinPrice(row["Id"].ToString()), // Get the minimum-priced item
+                    Rating = ratingRepository.GetAverageRating(row["Id"].ToString()),
                 };
-
+                product.ProductItem.Ram = GetProductVariationOption(product.ProductItem.Id, "Ram");
+                product.ProductItem.Storage = GetProductVariationOption(product.ProductItem.Id, "Storage");
                 productList.Add(product);
             }
 
@@ -218,7 +226,7 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;
         JOIN Category c ON p.category_id = c.Id
         JOIN Product_State ps ON p.state_id = ps.Id
         LEFT JOIN Product_Item pi ON p.Id = pi.product_id
-        WHERE p.category_id LIKE CONCAT(@keyword, '%')
+        WHERE p.category_id LIKE CONCAT(@keyword, '%') And ps.Name = 'Available'
         GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name
     ";
 
@@ -233,6 +241,7 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;
 
             // Convert the DataTable to a list of ProductModel objects
             var productList = new List<ProductModel>();
+            RatingRepository ratingRepository = new RatingRepository();
             foreach (DataRow row in resultTable.Rows)
             {
                 var product = new ProductModel
@@ -244,9 +253,11 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;
                     Quantity = Convert.ToInt32(row["TotalQuantity"]),
                     CategoryName = row["CategoryName"].ToString(),
                     ProductState = row["ProductState"].ToString(),
-                    ProductItem = GetMinPrice(row["Id"].ToString()) // Get the minimum-priced item
+                    ProductItem = GetMinPrice(row["Id"].ToString()), // Get the minimum-priced item
+                    Rating = ratingRepository.GetAverageRating(row["Id"].ToString()),
                 };
-
+                product.ProductItem.Ram = GetProductVariationOption(product.ProductItem.Id, "Ram");
+                product.ProductItem.Storage = GetProductVariationOption(product.ProductItem.Id, "Storage");
                 productList.Add(product);
             }
 
@@ -398,7 +409,6 @@ LIMIT 1;
             string topProductsQuery = @"
         SELECT p.Id AS ProductId, 
                p.Name AS ProductName, 
-               r.rating,
                p.Description, 
                p.Picture, 
                c.Name AS CategoryName, 
@@ -414,13 +424,15 @@ LIMIT 1;
         JOIN Product_State ps ON p.state_id = ps.Id
         Join Rating r On r.product_id = p.id
         WHERE o.state_id = 2 AND p.state_id = 1
-        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name, r.rating
+        GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name
         ORDER BY TotalPurchases DESC
         LIMIT 4";
 
             // Execute the query to get top products
             DataTable topProductsTable = DataAccess.DataAccess.ExecuteQuery(topProductsQuery);
             var productModels = new List<Models.ProductModel>();
+
+            RatingRepository ratingRepo = new RatingRepository();
 
             // Convert DataTable to a list of ProductModel
             foreach (DataRow row in topProductsTable.Rows)
@@ -434,7 +446,7 @@ LIMIT 1;
                     Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Handling NULLs
                     CategoryName = (string)row["CategoryName"],
                     ProductState = (string)row["ProductState"],
-                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"]),
+                    Rating = ratingRepo.GetAverageRating((string)row["ProductId"]),
                     ProductItem = new ProductItemModel
                     {
                         Id = row["proItemId"].ToString()
@@ -503,9 +515,8 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;";
         {
             // SQL query to retrieve all products with their categories, states, total quantity, and minimum price
             string productQuery = @"
-        SELECT p.Id AS ProductId, 
+       SELECT p.Id AS ProductId, 
        p.Name AS ProductName, 
-       r.rating,
        p.Description, 
        p.Picture, 
        c.Name AS CategoryName, 
@@ -516,14 +527,17 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;";
 FROM Product p
 JOIN Category c ON p.category_id = c.Id
 JOIN Product_State ps ON p.state_id = ps.Id
-Join rating r ON r.product_id = p.id
 LEFT JOIN Product_Item pi ON p.Id = pi.product_id -- Use LEFT JOIN to include products with no items
+WHERE
+ ps.Name = 'Available'
 
-GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name, r.rating;";
+GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name;";
 
             // Execute the query to get product details
             DataTable productTable = DataAccess.DataAccess.ExecuteQuery(productQuery);
             var productModels = new List<Models.ProductModel>();
+
+            RatingRepository ratingRepo = new RatingRepository();
 
             foreach (DataRow row in productTable.Rows)
             {
@@ -536,7 +550,7 @@ GROUP BY p.Id, p.Name, p.Description, p.Picture, c.Name, ps.Name, r.rating;";
                     Quantity = row["TotalQuantity"] != DBNull.Value ? Convert.ToInt32(row["TotalQuantity"]) : 0, // Convert to int
                     CategoryName = (string)row["CategoryName"],
                     ProductState = (string)row["ProductState"],
-                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"]),
+                    Rating = ratingRepo.GetAverageRating((string)row["ProductId"]),
                     ProductItem = new ProductItemModel
                     {
                         Id = row["proItemId"].ToString()
@@ -1168,7 +1182,6 @@ LIMIT 1;"; // Only get the first matching result
             ps.Name AS ProductState,
             COALESCE(SUM(pi.Quantity), 0) AS Quantity,
             pi.id as proItemId,
-            r.rating
         FROM 
             Product p
         JOIN 
@@ -1197,6 +1210,7 @@ LIMIT 1;"; // Only get the first matching result
 
             // Map the result to List<ProductModel>
             var result = new List<Models.ProductModel>();
+            RatingRepository ratingRepository = new RatingRepository();
             foreach (DataRow row in resultTable.Rows)
             {
                 var product = new Models.ProductModel
@@ -1208,7 +1222,7 @@ LIMIT 1;"; // Only get the first matching result
                     Quantity = Convert.ToInt32(row["Quantity"]),
                     CategoryName = row["CategoryName"].ToString(),
                     ProductState = row["ProductState"].ToString(),
-                    Rating = (Convert.ToInt32(row["rating"]) == 0) ? 5 : Convert.ToInt32(row["rating"]),
+                    Rating = ratingRepository.GetAverageRating(row["Id"].ToString()),
                     ProductItem = new ProductItemModel
                     {
                         Id = row["proItemId"].ToString()

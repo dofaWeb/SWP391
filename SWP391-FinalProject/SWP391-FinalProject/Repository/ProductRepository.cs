@@ -1181,7 +1181,7 @@ LIMIT 1;"; // Only get the first matching result
             c.Name AS CategoryName,
             ps.Name AS ProductState,
             COALESCE(SUM(pi.Quantity), 0) AS Quantity,
-            pi.id as proItemId,
+            pi.id as proItemId
         FROM 
             Product p
         JOIN 

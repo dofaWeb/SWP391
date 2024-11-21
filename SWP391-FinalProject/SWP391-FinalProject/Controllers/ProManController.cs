@@ -53,7 +53,9 @@ namespace SWP391_FinalProject.Controllers
         {
             ProductRepository proRepo = new ProductRepository();
             var query = proRepo.GetAllProductAdmin();
-
+            ViewBag.AvailableCount = query.Count(o => o.ProductState == "Available");
+            ViewBag.UnAvailableCount = query.Count(o => o.ProductState == "Unavailable");
+            ViewBag.OutOfStockCount = query.Count(o => o.ProductState == "Out of Stock");
             return View(query);
         }
         [HttpGet]

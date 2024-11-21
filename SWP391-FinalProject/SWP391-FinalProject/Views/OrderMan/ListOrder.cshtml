@@ -85,7 +85,7 @@
                             <td>@order.StaffName</td>
                             }
                         <td>
-                                @if (User.FindFirst(ClaimTypes.Role).Value == "Role0002" && order.OrderState.Name != "Pending")
+                                @if (order.OrderState.Name != "Pending")
                                 {
                                     isDisable = true;
                                 }

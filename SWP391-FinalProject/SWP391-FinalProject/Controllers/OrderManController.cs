@@ -28,6 +28,10 @@ namespace SWP391_FinalProject.Controllers
             }
             List<OrderState> orderStates = orderRepo.GetAllOrderState();
             ViewBag.OrderState = orderStates;
+            ViewBag.PendingCount = orderList.Count(o => o.OrderState.Name == "Pending");
+            ViewBag.ApproveCount = orderList.Count(o => o.OrderState.Name == "Approve");
+            ViewBag.RejectCount = orderList.Count(o => o.OrderState.Name == "Reject");
+            ViewBag.CancelCount = orderList.Count(o => o.OrderState.Name == "Cancel");
             return View(orderList);
         }
         [HttpPost]
@@ -47,6 +51,10 @@ namespace SWP391_FinalProject.Controllers
             }
             List<OrderState> orderStates = orderRepo.GetAllOrderState();
             ViewBag.OrderState = orderStates;
+            ViewBag.PendingCount = orderList.Count(o => o.OrderState.Name == "Pending");
+            ViewBag.ApproveCount = orderList.Count(o => o.OrderState.Name == "Approve");
+            ViewBag.RejectCount = orderList.Count(o => o.OrderState.Name == "Reject");
+            ViewBag.CancelCount = orderList.Count(o => o.OrderState.Name == "Cancel");
             return View(orderList);
         }
 

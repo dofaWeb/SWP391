@@ -10,6 +10,21 @@
 @using System.Security.Claims
 
 <h2>List Order</h2>
+<div class="row mb-3">
+    <div class="col text-center">
+        <strong>Pending:</strong> @ViewBag.PendingCount
+    </div>
+    <div class="col text-center">
+        <strong>Approve:</strong> @ViewBag.ApproveCount
+    </div>
+    <div class="col text-center">
+        <strong>Reject:</strong> @ViewBag.RejectCount
+    </div>
+    <div class="col text-center">
+        <strong>Cancel:</strong> @ViewBag.CancelCount
+    </div>
+</div>
+
 @if (User.Identity.IsAuthenticated)
 {
     var UsernameClaim = User.FindFirst(ClaimTypes.Name);

@@ -22,6 +22,8 @@ namespace SWP391_FinalProject.Controllers
         {
             AccountRepository AccRepo = new AccountRepository();
             var user = AccRepo.GetAllAccount();
+            ViewBag.StaffCount = user.Count(o => o.RoleName == "Staff");
+            ViewBag.UserCount = user.Count(o => o.RoleName == "User");
             return View(user);
         }
         [HttpPost]

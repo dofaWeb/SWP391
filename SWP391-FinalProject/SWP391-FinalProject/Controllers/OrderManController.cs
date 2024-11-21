@@ -62,9 +62,12 @@ namespace SWP391_FinalProject.Controllers
             OrderItemRepository orderItemRepo = new OrderItemRepository();
             List<OrderItemModel> orderItemList = orderItemRepo.GetOrderItemByOrderId(order.Id);
             ProductItemRepository proItemRepo = new ProductItemRepository();
+            ProductRepository proRepo = new ProductRepository();
             foreach (var orderItem in orderItemList)
             {
                 proItemRepo.UpdateProductItemQuantityByOrderStateId(orderItem.ProductItemId, orderItem.Quantity, 3);
+                var proItem = proItemRepo.getProductItemByProductItemId(orderItem.ProductItemId);
+                proRepo.UpdateProductState(proItem.Product.Id);
             }
             return RedirectToAction("ListOrder", new { Username = username });
         }

@@ -65,7 +65,7 @@ namespace SWP391_FinalProject.Controllers
             ProductRepository proRepo = new ProductRepository();
             foreach (var orderItem in orderItemList)
             {
-                proItemRepo.UpdateProductItemQuantityByOrderStateId(orderItem.ProductItemId, orderItem.Quantity, 3);
+                proItemRepo.UpdateProductItemQuantityByOrderStateId(orderItem.ProductItemId, orderItem.Quantity, OrderStateId);
                 var proItem = proItemRepo.getProductItemByProductItemId(orderItem.ProductItemId);
                 proRepo.UpdateProductState(proItem.Product.Id);
             }

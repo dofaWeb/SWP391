@@ -71,8 +71,7 @@
               "ViewState": "AgIAAJsEAAAAAAAAAAAcwKEEAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-20T02:14:05.412Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -85,8 +84,7 @@
               "ViewState": "AgIAADEAAAAAAAAAAAAUwDoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-19T12:54:33.504Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -138,8 +136,7 @@
               "RelativeToolTip": "SWP391-FinalProject\\Repository\\AccountRepository.cs",
               "ViewState": "AgIAAJYBAAAAAAAAAAAAAJYBAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-20T09:09:55.805Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-20T09:09:55.805Z"
             },
             {
               "$type": "Document",
@@ -149,7 +146,7 @@
               "RelativeDocumentMoniker": "SWP391-FinalProject\\Controllers\\StaffManController.cs",
               "ToolTip": "S:\\FPT University\\3rd year\\5-FA24\\SWP391-Software development project\\FinalProject\\FinalProject\\SWP391-FinalProject\\SWP391-FinalProject\\Controllers\\StaffManController.cs",
               "RelativeToolTip": "SWP391-FinalProject\\Controllers\\StaffManController.cs",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAswHUAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAswHUAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-20T09:09:36.787Z",
               "EditorCaption": ""

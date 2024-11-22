@@ -41,6 +41,13 @@ namespace SWP391_FinalProject.Repository
             return newId;
         }
 
+        public void Cancel(string id)
+        {
+            string query = "Update `Order` Set state_id = @state Where id = @Id";
+            var parameter = new Dictionary<string, object> { { "@state", 4 }, { "@Id", id } };
+            DataAccess.DataAccess.ExecuteNonQuery(query, parameter);
+        }
+
         public void InsertOrder(OrderModel Order, string username, decimal? TotalPrice, List<ProductItemModel> listProItem)
         {
             int currentHour = DateTime.Now.TimeOfDay.Hours;

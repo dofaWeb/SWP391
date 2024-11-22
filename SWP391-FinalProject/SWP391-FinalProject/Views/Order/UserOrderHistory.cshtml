@@ -31,6 +31,10 @@
         color: red;
     }
 
+    .cancel-state {
+        color: gray;
+    }
+
     .points-used {
         color: red;
     }
@@ -70,6 +74,9 @@
                             break;
                         case "Reject":
                             order_state = "rejected-state";
+                        break;
+                    case "Cancel":
+                        order_state = "cancel-state";
                             break;
                     }
                 
@@ -79,7 +86,11 @@
                     <td>@string.Format("{0:N0}", (@order.TotalPrice - @order.UsePoint)) VND</td>
                     <td class="points-earned">@string.Format("{0:N0}", @order.EarnPoint)</td>
                     <td class="points-used">@string.Format("{0:N0}", @order.UsePoint)</td>
-                    <td><a asp-action="UserOrderDetail" asp-controller="Order" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a></td>
+                    <td><a asp-action="UserOrderDetail" asp-controller="Order" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a>
+                        @if(order.OrderState.Name == "Pending") {
+                            <a onclick="return confirm('Are you sure you want to delete this product?')" class="btn btn-danger btn-sm" asp-action="Cancel" asp-controller="Order" asp-route-id="@order.Id" asp-route-user_id="@order.UserId">Cancel</a>
+                        }    
+                    </td>
                 </tr>
             }
         </tbody>

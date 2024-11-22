@@ -146,6 +146,13 @@ namespace SWP391_FinalProject.Controllers
             return View(orderList);
         }
 
+        public IActionResult Cancel(string id, string user_id)
+        {
+            OrderRepository orderRepo = new OrderRepository();
+            orderRepo.Cancel(id);
+            return RedirectToAction("UserOrderHistory", new { UserId = user_id });
+        }
+
         public IActionResult UserOrderDetail(string OrderId)
         {
             OrderItemRepository orderItemRepo = new OrderItemRepository();

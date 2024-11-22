@@ -1,13 +1,21 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using SWP391_FinalProject.Repository
 @{
-    Layout = "_AccLayout";
+    UserRepository userRepo = new UserRepository();
+    Layout = "_Profile";
+    string username = User.FindFirst("Username")?.Value;
+    ViewBag.User = userRepo.GetUserProfileByUsername(username);
+    UserModel user = userRepo.GetUserProfileByUsername(username);
+    bool IsLoginWithGoogle = false;
+    if (user.Account.Password.Equals(SWP391_FinalProject.Helpers.MySetting.GetMd5Hash("")))
+    {
+        IsLoginWithGoogle = true;
+    }
+    ViewBag.IsLoginWithGoogle = IsLoginWithGoogle;
 }
-@model List<SWP391_FinalProject.Models.OrderModel>;
+@model List<SWP391_FinalProject.Models.OrderModel>
 
 <style>
-    .order-header {
+    .order-history-header {
         margin-bottom: 20px;
     }
 
@@ -15,11 +23,7 @@
         margin-bottom: 30px;
     }
 
-    .points-earned {
-        color: blue;
-    }
-
-    .approved-state{
+    .approved-state {
         color: blue;
     }
 
@@ -35,18 +39,16 @@
         color: gray;
     }
 
+    .points-earned {
+        color: blue;
+    }
+
     .points-used {
         color: red;
     }
 </style>
 
-<!-- Header -->
-<header class="bg-dark text-white text-center py-4">
-    <h1>Order History</h1>
-</header>
-
-<div class="container mt-4">
-    <a asp-controller="User" asp-action="Profile" asp-route-username="@User.FindFirst("Username")?.Value" title="View profile" class="btn btn-secondary">Back To Profile</a>
+<div class="order-history-container container mt-4">
     <h3>Your Past Orders</h3>
     <table class="table table-striped">
         <thead>
@@ -62,34 +64,35 @@
         <tbody>
             @foreach (var order in Model)
             {
-                
-                    var order_state = "";
-                    switch (order.OrderState.Name)
-                    {
-                        case "Approve":
-                            order_state = "approved-state";
-                            break;
-                        case "Pending":
-                            order_state = "pending-state";
-                            break;
-                        case "Reject":
-                            order_state = "rejected-state";
+                var order_state = "";
+                switch (order.OrderState.Name)
+                {
+                    case "Approve":
+                        order_state = "approved-state";
+                        break;
+                    case "Pending":
+                        order_state = "pending-state";
+                        break;
+                    case "Reject":
+                        order_state = "rejected-state";
                         break;
                     case "Cancel":
                         order_state = "cancel-state";
-                            break;
-                    }
-                
+                        break;
+                }
+
                 <tr>
                     <td>@order.Date</td>
                     <td class="@order_state">@order.OrderState.Name</td>
                     <td>@string.Format("{0:N0}", (@order.TotalPrice - @order.UsePoint)) VND</td>
                     <td class="points-earned">@string.Format("{0:N0}", @order.EarnPoint)</td>
                     <td class="points-used">@string.Format("{0:N0}", @order.UsePoint)</td>
-                    <td><a asp-action="UserOrderDetail" asp-controller="Order" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a>
-                        @if(order.OrderState.Name == "Pending") {
-                            <a onclick="return confirm('Are you sure you want to delete this product?')" class="btn btn-danger btn-sm" asp-action="Cancel" asp-controller="Order" asp-route-id="@order.Id" asp-route-user_id="@order.UserId">Cancel</a>
-                        }    
+                    <td>
+                        <a asp-action="UserOrderDetail" asp-controller="Order" asp-route-OrderId="@order.Id" class="btn btn-info btn-sm">View Details</a>
+                        @if (order.OrderState.Name == "Pending")
+                        {
+                            <a onclick="return confirm('Are you sure you want to cancel this order?')" class="btn btn-danger btn-sm" asp-action="Cancel" asp-controller="Order" asp-route-id="@order.Id" asp-route-user_id="@order.UserId">Cancel</a>
+                        }
                     </td>
                 </tr>
             }
